@@ -83,7 +83,7 @@ public class DeckHandler extends DatabaseHandler {
 	
 	
 	
-	public List<ListDeck> getDecksBelongingToUser(int userid)  throws Exception {
+	public List<ListItem> getDecksBelongingToUser(int userid)  throws Exception {
 		
 		try {
 			Context initContext = new InitialContext();
@@ -98,10 +98,23 @@ public class DeckHandler extends DatabaseHandler {
 
       		ResultSet rs = ps.executeQuery();
       		
-      		List<ListDeck> decks = new ArrayList<ListDeck>();		
+      		List<ListItem> decks = new ArrayList<ListItem>();		
 			
 			while (rs.next()) {
-				decks.add(new ListDeck(rs.getString(1), rs.getInt(2), 50, rs.getString(3))); //TODO Winrate
+				ListItem li = new ListItem();
+				HashMap sortables = new HashMap();
+				HashMap filterables = new HashMap();
+				
+				li.setDisplayname(rs.getString(1));
+				li.setId(rs.getInt(2));
+				sortables.put("Winrate", 50);
+				filterables.put("Format", rs.getString(3));
+				
+				li.setSortables(sortables);
+				li.setFilterables(filterables);
+				
+				decks.add(li);
+				//decks.add(new ListDeck(rs.getString(1), rs.getInt(2), 50, rs.getString(3))); //TODO Winrate
 			}
 
 			if (rs != null) rs.close();

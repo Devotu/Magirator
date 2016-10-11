@@ -18,7 +18,7 @@
 		<c:set var="goView" value="/DeckView.jsp" scope="request"/>
 		<c:set var="controller" value="/GetDeck" scope="request"/>
 		<c:set var="errorView" value="/ErrorPage.jsp" scope="request"/>
-		<c:set var="listItems" value="${sessionScope.deckList}" scope="request"/>
+		<c:set var="listItems" value="${requestScope.deckList}" scope="request"/>
       		<jsp:include page="/segments/list.jsp"/>
     	</div>
     	<jsp:include page="/segments/ads.jspf"/>

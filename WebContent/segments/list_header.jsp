@@ -31,7 +31,10 @@
 	<!-- Sort -->
 	<div id="sort" class="well collapse">
 		<select id="sortBy">
-			<option>Name</option>
+			<c:forEach items="${requestScope.sortables}" var="sortable">
+				<option>${sortable.value}"</option>					
+			</c:forEach>>
+			<!-- <option>Name</option> -->
 		</select>
 		<button onclick="sort(false)">
 			<span class="glyphicon glyphicon-sort-by-alphabet"></span>

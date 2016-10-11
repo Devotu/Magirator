@@ -35,7 +35,8 @@ public class GetDecksServlet extends HttpServlet {
 		
 		getServletContext().log("-  GetDecks -> Found " + deckList.size() + " decks");
 		
-		session.setAttribute("deckList", deckList.toArray());
+		request.setAttribute("deckList", deckList.toArray());
+		//session.setAttribute("deckList", deckList.toArray());
 
 		getServletContext().log("-- GetDecks -- Done");
 	}
