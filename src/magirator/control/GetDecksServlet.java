@@ -1,19 +1,27 @@
 package magirator.control;
 
-import java.io.*;
-import java.util.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import magirator.model.neo4j.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import magirator.beans.Filterer;
+import magirator.beans.ListContainer;
+import magirator.beans.Sorter;
 import magirator.beans.UserInfo;
-import magirator.beans.ListDeck;
+import magirator.model.neo4j.DeckHandler;
 
 public class GetDecksServlet extends HttpServlet {
 	
 	public synchronized void service(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException, ServletException {
 		getServletContext().log("-- GetDecks --");
 		
-		List deckList = new ArrayList();
+		ListContainer deckList = new ListContainer();
+		//List deckList = new ArrayList();
 		
 		HttpSession session = request.getSession();
 		UserInfo userInfo = (UserInfo)session.getAttribute("userInfo");
@@ -24,7 +32,9 @@ public class GetDecksServlet extends HttpServlet {
 				
 		try {
 			getServletContext().log("-  GetDecks -> Getting decks belonging to user " + userInfo.getId());
-			deckList = deckHandler.getDecksBelongingToUser(userInfo.getId());
+			deckList.setListItems(deckHandler.listDecksBelongingToUser(userInfo.getId()));
+			deckList.setSortOptions(deckHandler.getSortables());
+			deckList.setFilterOptions(deckHandler.getFilterables());
 				
 		} catch (Exception ex) {
 			getServletContext().log("-  GetDecks -- Error -- " + ex.getMessage());
@@ -33,9 +43,11 @@ public class GetDecksServlet extends HttpServlet {
 
 		}
 		
-		getServletContext().log("-  GetDecks -> Found " + deckList.size() + " decks");
+		getServletContext().log("-  GetDecks -> Found " + deckList.getListItems().size() + " decks");
+		getServletContext().log("-  GetDecks -> Nubmer of sort options " + deckList.getSortOptions().length);
+		getServletContext().log("-  GetDecks -> Number of filter options " + deckList.getFilterOptions().size());
 		
-		request.setAttribute("deckList", deckList.toArray());
+		request.setAttribute("deckListContainer", deckList);
 		//session.setAttribute("deckList", deckList.toArray());
 
 		getServletContext().log("-- GetDecks -- Done");

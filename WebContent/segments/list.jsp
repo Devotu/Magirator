@@ -7,7 +7,7 @@
 	<input type="hidden" name="controller" value="${requestScope.controller}">
 	<input type="hidden" name="errorView" value="${requestScope.errorView}">
 	<ul class="list-group sortable">
-		<c:forEach items="${requestScope.listItems}" var="listItem">
+		<c:forEach items="${requestScope.listContainer.listItems}" var="listItem">
 			<button	class="list-group-item filterable
 				<c:forEach items="${listItem.filterables}" var="filterable">
 					${filterable.value}

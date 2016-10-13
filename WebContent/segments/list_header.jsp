@@ -1,4 +1,5 @@
 <%@ page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
@@ -31,9 +32,9 @@
 	<!-- Sort -->
 	<div id="sort" class="well collapse">
 		<select id="sortBy">
-			<c:forEach items="${requestScope.sortables}" var="sortable">
-				<option>${sortable.value}"</option>					
-			</c:forEach>>
+			<c:forEach items="${requestScope.listContainer.sortOptions}" var="sortOption">
+				<option>${sortOption}</option>					
+			</c:forEach>
 			<!-- <option>Name</option> -->
 		</select>
 		<button onclick="sort(false)">
@@ -67,8 +68,14 @@
 
 	<!-- Filter -->
 	<div id="filter" class="well collapse">
-		<select>
-			<option>Format</option>
+		<select onchange="setFilterBy()">
+			<c:forEach items="${requestScope.listContainer.filterOptions}" var="filterOption">
+				<option value="
+					<c:forEach items="${filterOption.value}" var="optionValue">
+						${optionValue}:
+					</c:forEach>
+				">${filterOption.key}</option>					
+			</c:forEach>
 		</select>
 		<select id="filterBy">
 			<option>Standard</option>
@@ -92,6 +99,9 @@
 		}
 		function removeFilter(){
 			$(".filterable").show();
+		}
+		function setFilterBy(){
+			
 		}
 	</script>
 </nav>
