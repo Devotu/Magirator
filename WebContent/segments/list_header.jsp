@@ -68,19 +68,21 @@
 
 	<!-- Filter -->
 	<div id="filter" class="well collapse">
-		<select onchange="setFilterBy()">
+		<select id="filterSelect" onchange="setFilterBy()">
 			<c:forEach items="${requestScope.listContainer.filterOptions}" var="filterOption">
 				<option value="
 					<c:forEach items="${filterOption.value}" var="optionValue">
-						${optionValue}:
+						:${optionValue}
 					</c:forEach>
 				">${filterOption.key}</option>					
 			</c:forEach>
 		</select>
 		<select id="filterBy">
+		<!--
 			<option>Standard</option>
 			<option>Block</option>
 			<option>Pauper</option>
+		-->
 		</select>
 		<button onclick="filter()">
 			<span class="glyphicon glyphicon-filter"></span>
@@ -93,7 +95,6 @@
 	<script>
 		function filter(){
 			var filterValue = "." + $("#filterBy").val();
-			console.log(filterValue);
 			$(".filterable").filter(filterValue).show();
 			$(".filterable").not(filterValue).hide();	
 		}
@@ -101,7 +102,24 @@
 			$(".filterable").show();
 		}
 		function setFilterBy(){
+			var filterValues = $("#filterSelect").val();
+			filterValues = filterValues.split(":");
 			
+			for (i = 0; i < filterValues.length; i++) {
+				filterValues[i] = filterValues[i].trim();
+			}			
+
+			filterValues = filterValues.filter(Boolean);
+			
+			var filterBySelector = $("#filterBy");
+			filterBySelector.find('option').remove();
+			
+			$.each(filterValues, function (i, item) {
+				filterBySelector.append($('<option>', {
+			        value: item,
+			        text: item
+			    }));
+			});
 		}
 	</script>
 </nav>
