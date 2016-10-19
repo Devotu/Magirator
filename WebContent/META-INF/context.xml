@@ -3,7 +3,7 @@
             auth="Container"
             type="javax.sql.DataSource"
             username="neo4j"
-            password="neo"
+            password="neoe4j"
             driverClassName="org.neo4j.jdbc.Driver"
             url="jdbc:neo4j:bolt://localhost"
             maxActive="8"
