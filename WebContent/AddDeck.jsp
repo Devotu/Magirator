@@ -40,11 +40,8 @@
   			<div class="form-group">
     				<label for="theme">Theme:</label>
     				<input type="text" class="form-control" id="theme" name="theme">
-  			</div>  			
-  			<div class="btn-group">
-				<button type="submit" class="btn btn-warning" name="action" value="alt">Cancel</button>
-  				<button type="submit" class="btn btn-success" name="action" value="go">Add</button>
-			</div>
+  			</div>
+  			<jsp:include page="/segments/addcancelbutton.jsp"/>
 		</form>
     </div>
     <jsp:include page="/segments/ads.jspf"/>
