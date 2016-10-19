@@ -22,7 +22,7 @@
 					<button class="btn btn-success">
 						<span type="submit" class="glyphicon glyphicon-plus"></span> Add
 					</button>    			
-					<input type="hidden" name="goView" value="/AddDeck.jsp">
+					<input type="hidden" name="goView" value=${param.addView}>
 					<input type="hidden" name="errorView" value="/ErrorPage.jsp">
 				</form>
 			</li>

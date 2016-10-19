@@ -18,6 +18,7 @@
 			<c:set var="listContainer" value="${requestScope.deckListContainer}" scope="request"/>
 			<jsp:include page="/segments/list_header.jsp">
 				<jsp:param name="header" value="Your decks"/>
+				<jsp:param name="addView" value="/AddDeck.jsp"/>
 			</jsp:include>
       		<jsp:include page="/segments/list.jsp"/>
     	</div>
