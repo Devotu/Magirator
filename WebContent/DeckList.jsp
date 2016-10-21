@@ -4,6 +4,7 @@
 
 <jsp:include page="/segments/headofpage.jspf"/>
 <jsp:include page="/segments/navbar.jsp">
+	<jsp:param name="page" value="Deck list"/>
 	<jsp:param name="eol" value="false"/>
 </jsp:include>
   

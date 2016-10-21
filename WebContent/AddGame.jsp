@@ -3,6 +3,7 @@
 
 <jsp:include page="/segments/headofpage.jspf"/>
 <jsp:include page="/segments/navbar.jsp">
+	<jsp:param name="page" value="Main"/>
 	<jsp:param name="eol" value="true"/>
 </jsp:include>
   

@@ -7,6 +7,7 @@
 <jsp:include page="/segments/basedoc/head_body.jsp"/>
 <jsp:include page="/segments/navbar.jsp">
 	<jsp:param name="eol" value="false"/>
+	<jsp:param name="page" value="Deck ${sessionScope.deck.name}"/>
 </jsp:include>
   
 <div class="container-fluid text-center">    

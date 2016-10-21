@@ -3,6 +3,7 @@
 
 <jsp:include page="/segments/headofpage.jspf"/>
 <jsp:include page="/segments/navbar.jsp">
+	<jsp:param name="page" value="Page"/>
 	<jsp:param name="content" value="main"/>
 </jsp:include>
   
