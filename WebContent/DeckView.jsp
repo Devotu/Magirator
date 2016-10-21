@@ -7,7 +7,7 @@
 <jsp:include page="/segments/basedoc/head_body.jsp"/>
 <jsp:include page="/segments/navbar.jsp">
 	<jsp:param name="eol" value="false"/>
-	<jsp:param name="page" value="Deck ${sessionScope.deck.name}"/>
+	<jsp:param name="page" value="Deck ${requestScope.deck.name}"/>
 </jsp:include>
   
 <div class="container-fluid text-center">    
@@ -15,7 +15,7 @@
 		<div class="col-sm-1 sidenav">
 		</div>
 		<div class="col-sm-9 text-left">
-			<h1>${sessionScope.deck.name}</h1>
+			<h1>${requestScope.deck.name}</h1>
 			<jsp:include page="/segments/tabs.jsp">
 				<jsp:param name="tabItems" value="Info"/>
 				<jsp:param name="tabItems" value="Statistics"/>
@@ -23,7 +23,10 @@
 				<jsp:param name="tabItems" value="Alterations"/>
 			</jsp:include>
 			<jsp:include page="segments/deckview/deckinfo.jsp">
-				<jsp:param name="deck" value="${sessionScope.deck}"/>
+				<jsp:param name="deck" value="${requestScope.deck}"/>
+			</jsp:include>
+			<jsp:include page="segments/deckview/games.jsp">
+				<jsp:param name="deck" value="${requestScope.gameListContainer}"/>
 			</jsp:include>
 		</div>    
 		<jsp:include page="/segments/ads.jspf"/>

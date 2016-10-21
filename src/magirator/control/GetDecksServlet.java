@@ -9,9 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import magirator.beans.Filterer;
 import magirator.beans.ListContainer;
-import magirator.beans.Sorter;
 import magirator.beans.UserInfo;
 import magirator.model.neo4j.DeckHandler;
 

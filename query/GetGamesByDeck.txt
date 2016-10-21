@@ -1,0 +1,1 @@
+MATCH (d:Deck)-[g:Played]->() WHERE id(d) = 5 RETURN g
