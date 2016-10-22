@@ -22,9 +22,11 @@
 				<form>
 					<button class="btn btn-success">
 						<span type="submit" class="glyphicon glyphicon-plus"></span> Add
-					</button>    			
+					</button>
 					<input type="hidden" name="goView" value=${param.addView}>
 					<input type="hidden" name="errorView" value="/ErrorPage.jsp">
+					<input type="hidden" name="addToId" value=${param.addToId}>
+					<input type="hidden" name="controllers" value=${param.controllers}>
 				</form>
 			</li>
 		</ul>

@@ -37,9 +37,9 @@ public class GetDeckServlet extends HttpServlet {
 			getServletContext().log("-  GetDeck -> No deck found");
 		}
 		
-		request.setAttribute("deck", deck);
-		getServletContext().log("-- GetDeck -- response " + request.getAttribute("deck"));
-		
+		HttpSession session = request.getSession();
+		session.setAttribute("deck", deck);
+
 		getServletContext().log("-- GetDeck -- Done");
 	}
 	

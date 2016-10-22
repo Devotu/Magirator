@@ -46,7 +46,7 @@ public class Deck {
 	}
 	
 	//Set
-	public void setDeckId(int deckid) {
+	public void setDeckid(int deckid) {
 		this.deckid = deckid;
 	}
 	
@@ -95,7 +95,7 @@ public class Deck {
 	}
 	
 	//Get
-	public int getDeckId() {
+	public int getDeckid() {
 		return this.deckid;
 	}
 	

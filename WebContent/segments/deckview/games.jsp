@@ -9,7 +9,9 @@
 	<c:set var="listContainer" value="${requestScope.gameListContainer}" scope="request"/>
 	<jsp:include page="/segments/list_header.jsp">
 		<jsp:param name="header" value="Your decks"/>
-		<jsp:param name="addView" value="/AddDeck.jsp"/>
+		<jsp:param name="addView" value="/AddGame.jsp"/>
+		<jsp:param name="addToId" value="${sessionScope.deck.deckid}"/>
+		<jsp:param name="controllers" value="/GetOpponents"/>
 	</jsp:include>
     <jsp:include page="/segments/list.jsp"/>
 </div>
