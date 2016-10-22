@@ -13,9 +13,7 @@ public class MagiratorServlet extends GenericServlet {
 		String altViewName = request.getParameter("altView");
 		String errorViewName = request.getParameter("errorView");
 		
-		if	(controllers[0].contains(",")){
-			controllers = controllers[0].split(",");
-		}
+		
 		
 		String action = request.getParameter("action");
 		if ( action == null ) {
@@ -32,7 +30,11 @@ public class MagiratorServlet extends GenericServlet {
 			if ( action.equals("go") ){
 				if(controllers == null){
 					getServletContext().log("MagiratorServlet -- No controllerss passed ");
-				} else {
+				} else {					
+					if	(controllers[0].contains(",")){
+						controllers = controllers[0].split(",");
+					}
+					
 					for (int i=0; i < controllers.length; i++) {
 						RequestDispatcher d = getServletContext().getRequestDispatcher(controllers[i]);
 						if (d != null) {
