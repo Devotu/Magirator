@@ -7,11 +7,15 @@ public class MagiratorServlet extends GenericServlet {
 	public void service(ServletRequest request, ServletResponse response) throws java.io.IOException, ServletException{
 		getServletContext().log("-- MagiratorServlet --");
 
-		String[] controllers = request.getParameterValues("controller");
+		String[] controllers = request.getParameterValues("controllers");
 		String viewName = request.getParameter("goView");
-		String[] altControllers = request.getParameterValues("altController");
+		String[] altcontrollers = request.getParameterValues("altcontrollers");
 		String altViewName = request.getParameter("altView");
 		String errorViewName = request.getParameter("errorView");
+		
+		if	(controllers[0].contains(",")){
+			controllers = controllers[0].split(",");
+		}
 		
 		String action = request.getParameter("action");
 		if ( action == null ) {
@@ -27,15 +31,15 @@ public class MagiratorServlet extends GenericServlet {
 		try {
 			if ( action.equals("go") ){
 				if(controllers == null){
-					getServletContext().log("MagiratorServlet -- No controllers passed ");
+					getServletContext().log("MagiratorServlet -- No controllerss passed ");
 				} else {
 					for (int i=0; i < controllers.length; i++) {
 						RequestDispatcher d = getServletContext().getRequestDispatcher(controllers[i]);
 						if (d != null) {
-							d.include(request, response);
 							getServletContext().log("MagiratorServlet -- invoking " + controllers[i]);
+							d.include(request, response);
 						} else {
-							getServletContext().log("MagiratorServlet -- No controller named " + controllers[i]);
+							getServletContext().log("MagiratorServlet -- No controllers named " + controllers[i]);
 						}
 					}
 				}			
@@ -47,16 +51,16 @@ public class MagiratorServlet extends GenericServlet {
 				} else { getServletContext().log("MagiratorServlet -- No view named " + viewName); }
 				
 			} else {
-				if(altControllers == null){
-					getServletContext().log("MagiratorServlet -- No altControllers passed ");
+				if(altcontrollers == null){
+					getServletContext().log("MagiratorServlet -- No altcontrollerss passed ");
 				} else {
 					for (int i=0; i < controllers.length; i++) {
-						RequestDispatcher d = getServletContext().getRequestDispatcher(altControllers[i]);
+						RequestDispatcher d = getServletContext().getRequestDispatcher(altcontrollers[i]);
 						if (d != null) {
 							d.include(request, response);
-							getServletContext().log("MagiratorServlet -- invoking altController " + altControllers[i]);
+							getServletContext().log("MagiratorServlet -- invoking altcontrollers " + altcontrollers[i]);
 						} else {
-							getServletContext().log("MagiratorServlet -- No controller named " + altControllers[i]);
+							getServletContext().log("MagiratorServlet -- No controllers named " + altcontrollers[i]);
 						}
 					}
 				}

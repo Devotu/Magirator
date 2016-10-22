@@ -4,7 +4,7 @@
 
 <form action="/Magirator/Magirator" method="post">  				
 	<input type="hidden" name="goView" value="${requestScope.goView}">
-	<input type="hidden" name="controller" value="${requestScope.controller}">
+	<input type="hidden" name="controllers" value="${requestScope.controllers}">
 	<input type="hidden" name="errorView" value="${requestScope.errorView}">
 	<ul class="list-group sortable">
 		<c:forEach items="${requestScope.listContainer.listItems}" var="listItem">

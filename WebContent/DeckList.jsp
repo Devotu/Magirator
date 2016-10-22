@@ -13,9 +13,8 @@
 		<div class="col-sm-2 sidenav">
 		</div>
 		<div class="col-sm-8 text-left">
-			<c:set var="goView" value="/DeckView.jsp" scope="request"/>
-			<c:set var="controller" value="/GetDeck" scope="request"/>			
-			<c:set var="controller" value="/GetGames" scope="request"/>
+			<c:set var="goView" value="/DeckView.jsp" scope="request"/>	
+			<c:set var="controllers" scope="request" value="/GetDeck,/GetGames"/>
 			<c:set var="errorView" value="/ErrorPage.jsp" scope="request"/>
 			<c:set var="listContainer" value="${requestScope.deckListContainer}" scope="request"/>
 			<jsp:include page="/segments/list_header.jsp">
@@ -29,4 +28,3 @@
 </div>
 
 <jsp:include page="/segments/endofpage.jspf"/>
-

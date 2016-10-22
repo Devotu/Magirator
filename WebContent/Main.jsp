@@ -26,7 +26,7 @@
   			</form>
   			<form class="col-sm-4" action="/Magirator/Magirator" method="post">
 				<input type="hidden" name="userid" value="${sessionScope.userid}">
-				<input type="hidden" name="controller" value="/GetDecks">			
+				<input type="hidden" name="controllers" value="/GetDecks">			
 				<input type="hidden" name="goView" value="/DeckList.jsp">
 				<input type="hidden" name="errorView" value="/ErrorPage.jsp">
   				<button type="submit">

@@ -27,7 +27,7 @@
 				<jsp:param name="deck" value="${requestScope.deck}"/>
 			</jsp:include>
 			<jsp:include page="segments/deckview/games.jsp">
-				<jsp:param name="deck" value="${requestScope.gameListContainer}"/>
+				<jsp:param name="games" value="${requestScope.gameListContainer}"/>
 			</jsp:include>
 		</div>    
 		<jsp:include page="/segments/ads.jspf"/>

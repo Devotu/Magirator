@@ -38,7 +38,8 @@ public class GetDeckServlet extends HttpServlet {
 		}
 		
 		request.setAttribute("deck", deck);
-
+		getServletContext().log("-- GetDeck -- response " + request.getAttribute("deck"));
+		
 		getServletContext().log("-- GetDeck -- Done");
 	}
 	

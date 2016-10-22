@@ -14,7 +14,7 @@
     <div class="col-sm-8 text-left">
       <h1>Add Deck</h1>
 	 	<form action="/Magirator/Magirator" method="post">
-			<input type="hidden" name="controller" value="/AddDeck">
+			<input type="hidden" name="controllers" value="/AddDeck">
 			<input type="hidden" name="goView" value="/Main.jsp">
 			<input type="hidden" name="altView" value="/Main.jsp">
 			<input type="hidden" name="errorView" value="/ErrorPage.jsp">
