@@ -17,6 +17,7 @@
 		<div class="col-sm-9 text-left">
 			<h1>${requestScope.deck.name}</h1>
 			<jsp:include page="/segments/tabs.jsp">
+				<jsp:param name="defaultTab" value="Info"/>
 				<jsp:param name="tabItems" value="Info"/>
 				<jsp:param name="tabItems" value="Statistics"/>
 				<jsp:param name="tabItems" value="Games"/>
