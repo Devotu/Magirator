@@ -5,6 +5,7 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import magirator.model.neo4j.*;
+import magirator.beans.GameResult;
 import magirator.beans.UserInfo;
 
 public class AddGameServlet extends HttpServlet {
@@ -13,24 +14,39 @@ public class AddGameServlet extends HttpServlet {
 		getServletContext().log("-- AddGame --");
 		getServletContext().log("-  AddGame -> Collecting data");
 
-		String name = request.getParameter("name");
-		String format = request.getParameter("format");
-		String colors[] = request.getParameterValues("colors");
-		String theme = request.getParameter("theme");
+		int playedDeck = Integer.parseInt(request.getParameter("playedDeck"));
+		int opponentDeck = Integer.parseInt(request.getParameter("opponentDeck"));
+		String comment = request.getParameter("comment");
+		String result = request.getParameter("result");
 
-		for(String c : colors){
-			getServletContext().log("-  AddGame -> has color " + c);
+		getServletContext().log("-  AddGame -> Refining data");
+		
+		List<GameResult> results = new ArrayList<>();
+		GameResult playerResult = new GameResult();
+		playerResult.setDeckId(playedDeck);
+		playerResult.setComment(comment);
+		GameResult opponentResult = new GameResult();
+		opponentResult.setDeckId(opponentDeck);
+		
+		if	("Win".equals(result)){
+			playerResult.setPlace(1);
+			opponentResult.setPlace(2);
+		} else if ("Draw".equals(result)){
+			playerResult.setPlace(0);
+			opponentResult.setPlace(0);
+		} else {
+			playerResult.setPlace(2);
+			opponentResult.setPlace(1);
 		}
 		
-		HttpSession session = request.getSession();
-		UserInfo userInfo = (UserInfo)session.getAttribute("userInfo");;
+		results.add(playerResult);
+		results.add(opponentResult);
 		
-		DeckHandler deckHandler = new DeckHandler();
+		GameHandler gameHandler = new GameHandler();
 				
 		try {
-			getServletContext().log("-  AddGame -> Adding deck");
-			deckHandler.addDeckToUser(userInfo.getId(), name, format, colors, theme);
-			
+			getServletContext().log("-  AddGame -> Adding game");
+			gameHandler.addTwoPlayerGame(results);			
 				
 		} catch (Exception ex) {
 			getServletContext().log("-  AddGame -- Error -- " + ex.getMessage());
