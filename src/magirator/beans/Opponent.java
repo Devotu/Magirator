@@ -8,9 +8,11 @@ public class Opponent {
 	private String name;
 	private int id;
 	private HashMap<String, Integer> decks;
+	private String deckArray;
 		
 	public Opponent() {
 		this.decks = new HashMap<String, Integer>();
+		this.deckArray = "[]";
 	}
 
 	@Override
@@ -50,6 +52,22 @@ public class Opponent {
 	
 	public void addDeck(String name, Integer id){
 		this.decks.put(name, id);
+	}
+
+	public String getDeckArray() {
+		return deckArray;
+	}
+
+	public void setDeckArray(String deckArray) {
+		this.deckArray = deckArray;
+	}
+	
+	public void addDeckString(String name, Integer id){
+		this.deckArray = this.deckArray.substring(0, this.deckArray.length()-1); //Remove end bracket
+		if	(!"[".equals(this.deckArray)){//Array is not empty
+			this.deckArray = this.deckArray += ", "; //Add separator
+		}
+		this.deckArray = this.deckArray += "{\"name\":\"" + name + "\", \"id\":" + id + "}]"; //Add new content
 	}
 
 }

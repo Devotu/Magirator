@@ -47,9 +47,11 @@ public class PlayerHandler extends DatabaseHandler {
 				int idx = opponents.indexOf(o);
 				if	(idx != -1){ //If in list add deck 
 					opponents.get(idx).addDeck(rs.getString("d.name"), rs.getInt("id(d)"));
+					opponents.get(idx).addDeckString(rs.getString("d.name"), rs.getInt("id(d)"));
 				} else { //If not in list, add
 					o.setName(rs.getString("u.name"));
 					o.addDeck(rs.getString("d.name"), rs.getInt("id(d)"));
+					o.addDeckString(rs.getString("d.name"), rs.getInt("id(d)"));
 					opponents.add(o);
 				}
 			}

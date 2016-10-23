@@ -22,15 +22,15 @@
 			
 			<div class="form-group">
 				<label for="opponent">Opponent:</label>
-				<select class="form-control" id="opponents" name="opponent" onchange="setOpponentDecks('${requestScope.opponents}')">
+				<select class="form-control" id="opponents" name="opponent" onchange="setOpponentDecks()">
 					<option value="-1">Select opponent</option>
 	  				<c:forEach items="${requestScope.opponents}" var="opponent">
-						<option value="${opponent.id}">${opponent.name}</option>					
+						<option value="${opponent.id}" data-decks='${opponent.deckArray}'>${opponent.name}</option>					
 					</c:forEach>
   				</select>
 			</div>
 			<div class="form-group">
-				<label for="opponent">Opponent Deck:</label>
+				<label for="decks">Opponent Deck:</label>
   				<select class="form-control" id="decks" name="deck">
 					<option value="-1">Select deck</option>
     				<option value="Top">Top1</option>
@@ -39,27 +39,21 @@
   				</select>
 			</div>
 			<script>
-				function setOpponentDecks(opponents){
-					var opponentId = $("#opponents").val();
-					
+				function setOpponentDecks(){
+					//Remove all current options
 					var decks = $("#decks");
 					decks.find('option').remove();
 					
-					console.log(opponents);
-					$.each(opponents, function (i, item) {
-						console.log(item);
-					});
+					//Get the opponent decks
+					var opponentDecks = $("#opponents").find(':selected').data('decks');
+					console.log(opponentDecks);
 					
-					var opponentDecks = opponents.find(isChosen(opponentId)).decks;
-					
-					function isChosen(iteratorId, chosenId){
-						return iteratorId == chosenId;
-					}
-										
+					//Populate with all the found opponents decks
 					$.each(opponentDecks, function (i, item) {
+						console.log(item);
 						decks.append($('<option>', {
-					        value: item,
-					        text: item
+					        value: item.id,
+					        text: item.name
 					    }));
 					});
 				}
