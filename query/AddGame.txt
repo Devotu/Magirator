@@ -2,4 +2,8 @@ MATCH (d1:Deck), (d2:Deck)
 WHERE id(d1) = 1 AND id(d2) = 5
 CREATE (d1)-[rw:Played {place: 1}]->(g:Game {created: TIMESTAMP()})<-[rl:Played {place:2}]-(d2)
 
+MATCH (d1:Deck), (d2:Deck) 
+WHERE id(d1) = 1 AND id(d2) = 5
+CREATE (d1)-[rw:Played {place: 1, comment:"test"}]->(g:Game {created: TIMESTAMP()})<-[rl:Played {place:2}]-(d2)
+
 

@@ -15,7 +15,9 @@
     <div class="col-sm-8 text-left">
     	<h1>Add Game</h1>      
 		<form action="/Magirator/Magirator" method="post">
-			<input type="hidden" name="controllers" value="/AddGame">
+			<input type="hidden" name="controllers" value="/AddGame,/GetGames">
+			<!-- AddGame --><input type="hidden" name="playedDeck" value="${param.addToId}">
+			<!-- GetGames --><input type="hidden" name="id" value="${param.addToId}">
 			<input type="hidden" name="goView" value="/DeckView.jsp">
 			<input type="hidden" name="altView" value="/DeckView.jsp">
 			<input type="hidden" name="errorView" value="/ErrorPage.jsp">
@@ -31,11 +33,8 @@
 			</div>
 			<div class="form-group">
 				<label for="decks">Opponent Deck:</label>
-  				<select class="form-control" id="decks" name="deck">
+  				<select class="form-control" id="decks" name="opponentDeck">
 					<option value="-1">Select deck</option>
-    				<option value="Top">Top1</option>
-    				<option value="Rick">To2</option>
-    				<option value="Dan">T3</option>
   				</select>
 			</div>
 			<script>
@@ -57,12 +56,11 @@
 					    }));
 					});
 				}
-			</script>			
-
+			</script>
 			
   			<div class="form-group">
     			<label for="comment">Comment:</label>
-    			<input type="text" class="form-control" id="comment" name="theme">
+    			<input type="text" class="form-control" id="comment" name="comment">
   			</div> 
   			
   			<div class="checkbox">
