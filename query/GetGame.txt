@@ -1,0 +1,9 @@
+MATCH (g:Game) WHERE id(g) = ? RETURN g
+
+MATCH (d:Deck)-[p:Played]->(g:Game)
+WHERE id(g) = ?
+RETURN g, d
+
+MATCH (u:User)-->(d:Deck)-[p:Played]->(g:Game)
+WHERE id(g) = ?
+RETURN u, d, g

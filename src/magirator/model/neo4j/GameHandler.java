@@ -27,9 +27,7 @@ public class GameHandler extends DatabaseHandler {
 			Context initContext = new InitialContext();
 			Context webContext = (Context)initContext.lookup("java:/comp/env");
 			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
-			con = ds.getConnection();
-			
-			
+			con = ds.getConnection();			
 
 			String query = "MATCH (d:Deck)-[p:Played]->(g:Game) WHERE id(d) = ? RETURN id(g), p.place, g.created";
 
@@ -110,6 +108,66 @@ public class GameHandler extends DatabaseHandler {
 			throw ex;
 		}
 	}
+	
+	public Game getResultsInGame(int gameid) throws Exception {
+		
+		try {
+			Context initContext = new InitialContext();
+			Context webContext = (Context)initContext.lookup("java:/comp/env");
+			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
+			con = ds.getConnection();			
+
+			String query = 
+					"MATCH (u:User)-->(d:Deck)-[p:Played]->(g:Game)" +
+					"WHERE id(g) = ?" +
+					"RETURN id(u), u.name, id(d), p.comment, id(g), g.created";
+
+      		PreparedStatement ps = con.prepareStatement(query);
+      		ps.setInt(1, gameid);
+
+      		ResultSet rs = ps.executeQuery();
+      		
+      		List<GameResult> results = new ArrayList<GameResult>();
+      		Game game = new Game();
+      		
+      		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+      					
+			while (rs.next()) {				
+				
+				game.setId(rs.getInt("id(g)"));
+				
+				Date date = new Date(rs.getLong("g.created"));
+				game.setDatePlayed(sdf.format(date));
+				
+				GameResult gr = new GameResult();
+				
+				UserInfo ui = new UserInfo();
+				ui.setId(rs.getInt("id(u)"));
+				ui.setName(rs.getString("u.name"));
+				gr.setUser(ui);
+				
+				gr.setComment(rs.getString("p.comment"));
+				
+				gr.setDeckId(rs.getInt("id(d)"));
+				
+				results.add(gr);
+			}
+			
+			game.setResults(results);
+
+			if (rs != null) rs.close();
+			if (st != null) st.close();
+			if (con != null) con.close();
+			
+			return game;
+			
+		} catch (Exception ex){
+			throw ex;
+		}
+	}
+	
+	
+	
 	
 	
 	
@@ -243,5 +301,7 @@ public class GameHandler extends DatabaseHandler {
 		
 		return filterables;
 	}
+
+	
 
 }
