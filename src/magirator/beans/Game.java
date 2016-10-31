@@ -1,18 +1,17 @@
 package magirator.beans;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+import java.util.Map;
 
 public class Game {
 	
 	private int id;
-	private String datePlayed;
-	private List<GameResult> results;
-
-	public Game() {
-		this.results = new ArrayList<GameResult>();
-	}
+	private Date datePlayed;
 	
+	public Game(Map gameMap) {
+		this.datePlayed = (Date)gameMap.get("crated");
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -21,20 +20,11 @@ public class Game {
 		this.id = id;
 	}
 
-	public String getDatePlayed() {
+	public Date getDatePlayed() {
 		return datePlayed;
 	}
 
-	public void setDatePlayed(String datePlayed) {
+	public void setDatePlayed(Date datePlayed) {
 		this.datePlayed = datePlayed;
 	}
-
-	public List<GameResult> getResults() {
-		return results;
-	}
-
-	public void setResults(List<GameResult> results) {
-		this.results = results;
-	}
-
 }

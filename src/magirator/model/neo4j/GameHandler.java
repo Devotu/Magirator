@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.Date;
 
 import javax.sql.*;
+
 import javax.naming.*;
 
 import magirator.beans.*;
@@ -78,6 +79,7 @@ public class GameHandler extends DatabaseHandler {
 		}
 	}
 	
+	/*
 	public void addTwoPlayerGame(List<GameResult> results) throws Exception {
 		
 		try {
@@ -108,8 +110,50 @@ public class GameHandler extends DatabaseHandler {
 			throw ex;
 		}
 	}
+	*/
 	
-	public Game getResultsInGame(int gameid) throws Exception {
+	public void addGame(List<Result> results) throws Exception {
+		
+		try {
+			Context initContext = new InitialContext();
+			Context webContext = (Context)initContext.lookup("java:/comp/env");
+			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
+			con = ds.getConnection();			
+			
+			String query = "CREATE (g:Game) RETURN id(g)";
+			PreparedStatement ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			
+			if	(rs.next()){
+				int gameId = rs.getInt("id(g)");
+				
+				for (Result r : results){
+					query = "MATCH (g:Game), (d:Deck)";
+					query += "WHERE id(g) = ? AND WHERE id(d) = ?";
+					query += "CREATE (d)-[r:Played {place: ?, comment: ?, confirmed:? }]->(g)";					
+					ps = con.prepareStatement(query);
+					
+					ps.setInt(1, gameId);
+					ps.setInt(2, r.getDeck().getDeckid());
+					ps.setInt(3, r.getPlay().getPlace());
+					ps.setString(4, r.getPlay().getComment());
+					ps.setInt(5, r.getPlay().getConfirmed());
+					
+					ps.executeUpdate();						
+				}
+						
+			}
+			
+			if (rs != null) rs.close();
+			if (st != null) st.close();
+			if (con != null) con.close();
+			
+		} catch (Exception ex){
+			throw ex;
+		}
+	}
+	
+	public GameResult getResultsInGame(int gameid) throws Exception {
 		
 		try {
 			Context initContext = new InitialContext();
@@ -117,49 +161,34 @@ public class GameHandler extends DatabaseHandler {
 			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
 			con = ds.getConnection();			
 
-			String query = 
+			String query =
 					"MATCH (u:User)-->(d:Deck)-[p:Played]->(g:Game)" +
 					"WHERE id(g) = ?" +
-					"RETURN id(u), u.name, id(d), p.comment, id(g), g.created";
+					"RETURN PROPERTIES(u), PROPERTIES(d), PROPERTIES(p), PROPERTIES(g)";
 
       		PreparedStatement ps = con.prepareStatement(query);
-      		ps.setInt(1, gameid);
+      		ps.setInt(1, gameid);      		
 
       		ResultSet rs = ps.executeQuery();
       		
-      		List<GameResult> results = new ArrayList<GameResult>();
-      		Game game = new Game();
+      		GameResult gameResult = new GameResult(null, new ArrayList<Result>());
       		
-      		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-      					
-			while (rs.next()) {				
-				
-				game.setId(rs.getInt("id(g)"));
-				
-				Date date = new Date(rs.getLong("g.created"));
-				game.setDatePlayed(sdf.format(date));
-				
-				GameResult gr = new GameResult();
-				
-				UserInfo ui = new UserInfo();
-				ui.setId(rs.getInt("id(u)"));
-				ui.setName(rs.getString("u.name"));
-				gr.setUser(ui);
-				
-				gr.setComment(rs.getString("p.comment"));
-				
-				gr.setDeckId(rs.getInt("id(d)"));
-				
-				results.add(gr);
-			}
-			
-			game.setResults(results);
+      		while (rs.next()) {
+      			if	(gameResult.getGame() == null){
+      				gameResult.setGame(new Game((Map)rs.getObject("PROPERTIES(g)")));
+      			}
+      			Player u = new Player((Map)rs.getObject("PROPERTIES(u)"));
+      			Deck d = new Deck((Map)rs.getObject("PROPERTIES(d)"));
+      			Play p = new Play((Map)rs.getObject("PROPERTIES(p)"));
+      			Result r = new Result(d, p, u);
+      			gameResult.addResult(r);
+      		}
 
 			if (rs != null) rs.close();
 			if (st != null) st.close();
 			if (con != null) con.close();
 			
-			return game;
+			return gameResult;
 			
 		} catch (Exception ex){
 			throw ex;

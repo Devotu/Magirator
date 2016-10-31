@@ -1,6 +1,8 @@
 package magirator.beans;
 
+import java.sql.ResultSet;
 import java.util.Date;
+import java.util.Map;
 
 public class Deck {
 
@@ -17,8 +19,10 @@ public class Deck {
 	private boolean active;
 	private Date created;
 	
+	//TODO remove
 	public Deck (){ }
 	
+	//TODO remove
 	public Deck (int deckid, 
 					String name, 
 					String format, 
@@ -45,6 +49,36 @@ public class Deck {
 		this.created = new Date(created);
 	}
 	
+	public Deck(ResultSet rs) throws Exception {		
+		this.deckid = rs.getInt("id(d)");
+		this.name = rs.getString("d.name");
+		this.format = rs.getString("d.format");
+		this.black = rs.getBoolean("d.black");
+		this.white = rs.getBoolean("d.white");
+		this.red = rs.getBoolean("d.red");
+		this.green = rs.getBoolean("d.green");
+		this.blue = rs.getBoolean("d.blue");
+		this.colorless = rs.getBoolean("d.colorless");
+		this.theme = rs.getString("d.theme");
+		this.active = rs.getBoolean("d.black");
+		this.created = rs.getDate("d.creaded");
+	}
+	
+	public Deck(Map deckMap) throws Exception {		
+		//this.deckid = (int)deckMap.get("id(d)");
+		this.name = (String)deckMap.get("name");
+		this.format = (String)deckMap.get("format");
+		this.black = (boolean)deckMap.get("black");
+		this.white = (boolean)deckMap.get("white");
+		this.red = (boolean)deckMap.get("red");
+		this.green = (boolean)deckMap.get("green");
+		this.blue = (boolean)deckMap.get("blue");
+		this.colorless = (boolean)deckMap.get("colorless");
+		this.theme = (String)deckMap.get("theme");
+		this.active = (boolean)deckMap.get("black");
+		this.created = (Date)deckMap.get("creaded");
+	}
+
 	//Set
 	public void setDeckid(int deckid) {
 		this.deckid = deckid;

@@ -1,48 +1,36 @@
 package magirator.beans;
 
+import java.util.List;
+
 public class GameResult {
 
-	private Deck deck;
-	private UserInfo user;
-	private boolean self;
-	private int deckId;
-	private int place;
-	private String comment;
+	private Game game;
+	private List<Result> results;
 
-	public Deck getDeck() {
-		return deck;
+	public GameResult(Game game, List<Result> results) {
+		super();
+		this.game = game;
+		this.results = results;
 	}
-	public void setDeck(Deck deck) {
-		this.deck = deck;
+	
+	public Game getGame() {
+		return game;
 	}
-	public UserInfo getUser() {
-		return user;
+
+	public void setGame(Game game) {
+		this.game = game;
 	}
-	public void setUser(UserInfo user) {
-		this.user = user;
+
+	public List<Result> getResults() {
+		return results;
 	}
-	public boolean isSelf() {
-		return self;
+
+	public void setResults(List<Result> results) {
+		this.results = results;
 	}
-	public void setSelf(boolean self) {
-		this.self = self;
+	
+	public void addResult(Result result){
+		this.results.add(result);
 	}
-	public int getDeckId() {
-		return deckId;
-	}
-	public void setDeckId(int deckId) {
-		this.deckId = deckId;
-	}	
-	public int getPlace() {
-		return place;
-	}
-	public void setPlace(int place) {
-		this.place = place;
-	}
-	public String getComment() {
-		return comment;
-	}
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
+	
 }

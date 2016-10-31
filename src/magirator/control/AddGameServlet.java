@@ -5,48 +5,60 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import magirator.model.neo4j.*;
-import magirator.beans.GameResult;
-import magirator.beans.UserInfo;
+import magirator.beans.Deck;
+import magirator.beans.Play;
+import magirator.beans.Player;
+import magirator.beans.Result;
 
 public class AddGameServlet extends HttpServlet {
 	
 	public synchronized void service(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException, ServletException {
-		getServletContext().log("-- AddGame --");
-		getServletContext().log("-  AddGame -> Collecting data");
-
-		int playedDeck = Integer.parseInt(request.getParameter("playedDeck"));
-		int opponentDeck = Integer.parseInt(request.getParameter("opponentDeck"));
-		String comment = request.getParameter("comment");
-		String result = request.getParameter("result");
-
-		getServletContext().log("-  AddGame -> Refining data");
 		
-		List<GameResult> results = new ArrayList<>();
-		GameResult playerResult = new GameResult();
-		playerResult.setDeckId(playedDeck);
-		playerResult.setComment(comment);
-		GameResult opponentResult = new GameResult();
-		opponentResult.setDeckId(opponentDeck);
-		
-		if	("Win".equals(result)){
-			playerResult.setPlace(1);
-			opponentResult.setPlace(2);
-		} else if ("Draw".equals(result)){
-			playerResult.setPlace(0);
-			opponentResult.setPlace(0);
-		} else {
-			playerResult.setPlace(2);
-			opponentResult.setPlace(1);
-		}
-		
-		results.add(playerResult);
-		results.add(opponentResult);
-		
-		GameHandler gameHandler = new GameHandler();
-				
 		try {
+			
+			getServletContext().log("-- AddGame --");
+			getServletContext().log("-  AddGame -> Collecting data");
+
+			int playerDeckId = Integer.parseInt(request.getParameter("playedDeck"));
+			int opponentDeckId = Integer.parseInt(request.getParameter("opponentDeck"));
+			String comment = request.getParameter("comment");
+			String result = request.getParameter("result");
+
+			getServletContext().log("-  AddGame -> Refining data");
+			
+			DeckHandler deckHandler = new DeckHandler();
+			Deck playerDeck = deckHandler.getDeckById(playerDeckId);
+			Deck opponentDeck = deckHandler.getDeckById(opponentDeckId);
+			
+			Play playerPlay = null;
+			Play opponentPlay = null;
+			
+			if	("Win".equals(result)){
+				playerPlay = new Play(1, true, comment);
+				opponentPlay = new Play(2, false, "");
+			} else if ("Draw".equals(result)){
+				playerPlay = new Play(0, true, comment);
+				opponentPlay = new Play(0, false, "");
+			} else {
+				playerPlay = new Play(2, true, comment);
+				opponentPlay = new Play(1, false, "");
+			}
+			
+			PlayerHandler playerHandler = new PlayerHandler();
+			Player playerPlayer = (Player) playerHandler.getPlayerByDeck(playerDeckId);
+			Player opponentPlayer = (Player) playerHandler.getPlayerByDeck(opponentDeckId);
+			
+			Result playerResult = new Result(playerDeck, playerPlay, playerPlayer);
+			Result opponentResult = new Result(opponentDeck, opponentPlay, opponentPlayer);
+			
+			List<Result> results = new ArrayList<>();
+			results.add(playerResult);
+			results.add(opponentResult);
+			
+			GameHandler gameHandler = new GameHandler();
+			
 			getServletContext().log("-  AddGame -> Adding game");
-			gameHandler.addTwoPlayerGame(results);			
+			gameHandler.addGame(results);			
 				
 		} catch (Exception ex) {
 			getServletContext().log("-  AddGame -- Error -- " + ex.getMessage());

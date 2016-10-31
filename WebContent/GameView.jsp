@@ -17,84 +17,90 @@
 		</div>
 		<div class="col-sm-9 text-left">
 				<h1>Game</h1>
-				<label for="name">Result:</label>
-				<p>${requestScope.result.result}</p>
+				<label for="name">Date:</label>
+				<p>${requestScope.game.game.datePlayed}</p>
 				<c:forEach items='${requestScope.game.results}' var='result'>
-					<label for="name">Player:</label>
-					<p>${result.user.name}</p>
+					<div class="well">
+						<label for="name">Player:</label>
+						<h3>${result.play.place}</h3><p>${result.player.name}</p>
+						<label for="name">Player colors:</label>
+						<!-- Colors -->
+						<div>
+							 <table>
+					  			<tr>
+					    			<th>
+										<c:choose>
+											<c:when test="${true == result.deck.black}">
+												<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="black"/>
+											</c:when>
+											<c:otherwise>
+												<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="lightgray" stroke-width="4" fill="lightgray"/>
+											</c:otherwise>
+										</c:choose>
+									</th>
+					    			<th>
+										<c:choose>
+											<c:when test="${true == result.deck.white}">
+												<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="white"/>
+											</c:when>
+											<c:otherwise>
+												<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="lightgray" stroke-width="4" fill="lightgray"/>
+											</c:otherwise>
+										</c:choose>
+									</th>
+									<th>
+										<c:choose>
+											<c:when test="${true == result.deck.red}">
+												<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="red"/>
+											</c:when>
+											<c:otherwise>
+												<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="lightgray" stroke-width="4" fill="lightgray"/>
+											</c:otherwise>
+										</c:choose>
+									</th>
+									<th>
+										<c:choose>
+											<c:when test="${true == result.deck.green}">
+												<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="green"/>
+											</c:when>
+											<c:otherwise>
+												<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="lightgray" stroke-width="4" fill="lightgray"/>
+											</c:otherwise>
+										</c:choose>
+									</th>
+									<th>
+										<c:choose>
+											<c:when test="${true == result.deck.blue}">
+												<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="blue"/>
+											</c:when>
+											<c:otherwise>
+												<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="lightgray" stroke-width="4" fill="lightgray"/>
+											</c:otherwise>
+										</c:choose>
+									</th>
+									<th>
+										<c:choose>
+											<c:when test="${true == result.deck.colorless}">
+												<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="lightgray"/>
+											</c:when>
+											<c:otherwise>
+												<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="lightgray" stroke-width="4" fill="lightgray"/>
+											</c:otherwise>
+										</c:choose>
+									</th>
+					  			</tr>
+							</table>
+						</div>
+						<label for="name">Comment:</label>
+						<p>${result.play.comment}</p>
+					</div>
+					
 				</c:forEach>
 				
 
 
-	<label for="name">Player colors:</label>
-	<div>
-		 <table>
-  			<tr>
-    			<th>
-					<c:choose>
-						<c:when test="${true == requestScope.result.opponent.deck.black}">
-							<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="black"/>
-						</c:when>
-						<c:otherwise>
-							<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="lightgray" stroke-width="4" fill="lightgray"/>
-						</c:otherwise>
-					</c:choose>
-				</th>
-    			<th>
-					<c:choose>
-						<c:when test="${true == requestScope.result.opponent.deck.white}">
-							<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="white"/>
-						</c:when>
-						<c:otherwise>
-							<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="lightgray" stroke-width="4" fill="lightgray"/>
-						</c:otherwise>
-					</c:choose>
-				</th>
-				<th>
-					<c:choose>
-						<c:when test="${true == requestScope.result.opponent.deck.red}">
-							<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="red"/>
-						</c:when>
-						<c:otherwise>
-							<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="lightgray" stroke-width="4" fill="lightgray"/>
-						</c:otherwise>
-					</c:choose>
-				</th>
-				<th>
-					<c:choose>
-						<c:when test="${true == deck.green}">
-							<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="green"/>
-						</c:when>
-						<c:otherwise>
-							<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="lightgray" stroke-width="4" fill="lightgray"/>
-						</c:otherwise>
-					</c:choose>
-				</th>
-				<th>
-					<c:choose>
-						<c:when test="${true == requestScope.result.opponent.deck.blue}">
-							<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="blue"/>
-						</c:when>
-						<c:otherwise>
-							<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="lightgray" stroke-width="4" fill="lightgray"/>
-						</c:otherwise>
-					</c:choose>
-				</th>
-				<th>
-					<c:choose>
-						<c:when test="${true == requestScope.result.opponent.deck.colorless}">
-							<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="lightgray"/>
-						</c:when>
-						<c:otherwise>
-							<svg viewBox="0 0 100 100" class="mana-image"><circle cx="50" cy="50" r="40" stroke="lightgray" stroke-width="4" fill="lightgray"/>
-						</c:otherwise>
-					</c:choose>
-				</th>
-  			</tr>
-		</table>
-	</div>
-	<label for="name">Comment:</label>
-	<p>${requestScope.result.comment}</p>
+	
+	
 	</div>    
 		<jsp:include page="/segments/ads.jspf"/>
 	</div>

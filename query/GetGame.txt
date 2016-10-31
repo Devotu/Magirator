@@ -7,3 +7,11 @@ RETURN g, d
 MATCH (u:User)-->(d:Deck)-[p:Played]->(g:Game)
 WHERE id(g) = ?
 RETURN u, d, g
+
+MATCH (u:User)-->(d:Deck)-[p:Played]->(g:Game)
+WHERE id(g) = 28
+RETURN {user :u, deck :d, played:p, game:g}
+
+MATCH (u:User)-->(d:Deck)-[p:Played]->(g:Game)
+WHERE id(g) = 28
+RETURN PROPERTIES(u), PROPERTIES(d), PROPERTIES(p), PROPERTIES(g)

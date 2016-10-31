@@ -1,13 +1,10 @@
 package magirator.control;
 
 import java.io.*;
-import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import magirator.model.neo4j.*;
-import magirator.beans.UserInfo;
 import magirator.beans.Deck;
-import magirator.beans.Game;
 import magirator.beans.GameResult;
 
 public class GetGameServlet extends HttpServlet {
@@ -24,11 +21,11 @@ public class GetGameServlet extends HttpServlet {
 		int deckid = deck.getDeckid();
 		
 		GameHandler gameHandler = new GameHandler();
-		Game game = new Game();
+		GameResult gameResult = null;
 				
 		try {
 			getServletContext().log("-  GetGame -> Getting game " + gameid);
-			game = gameHandler.getResultsInGame(gameid);
+			gameResult = gameHandler.getResultsInGame(gameid);
 				
 		} catch (Exception ex) {
 			getServletContext().log("-  GetGame -- Error -- " + ex.getMessage());
@@ -37,12 +34,12 @@ public class GetGameServlet extends HttpServlet {
 		}		
 		
 		if (deck != null) {
-			getServletContext().log("-  GetGame -> Found a deck");
+			getServletContext().log("-  GetGame -> Found a game");
 		} else {
-			getServletContext().log("-  GetGame -> No deck found");
+			getServletContext().log("-  GetGame -> No game found");
 		}
 		
-		request.setAttribute("game", game);
+		request.setAttribute("game", gameResult);
 
 		getServletContext().log("-- GetGame -- Done");
 	}
