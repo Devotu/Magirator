@@ -58,7 +58,14 @@ public class GameHandler extends DatabaseHandler {
 				String result = "Loss";
 				if (place == 1){
 					result = "Win";
-				}//TODO draw
+					li.setColorCode(5);
+				} else if (place == 0){
+					result = "Draw";
+					li.setColorCode(3);
+				} else {
+					result = "Loss";
+					li.setColorCode(1);
+				}
 				
 				filterables.put("Result", result);
 				
@@ -131,7 +138,8 @@ public class GameHandler extends DatabaseHandler {
 			String query =
 					"MATCH (u:User)-->(d:Deck)-[p:Played]->(g:Game)" +
 					"WHERE id(g) = ?" +
-					"RETURN PROPERTIES(u), PROPERTIES(d), PROPERTIES(p), PROPERTIES(g)";
+					"RETURN PROPERTIES(u), PROPERTIES(d), PROPERTIES(p), PROPERTIES(g)" +
+					"ORDER BY p.place";
 
       		PreparedStatement ps = con.prepareStatement(query);
       		ps.setInt(1, gameid);      		

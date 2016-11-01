@@ -1,3 +1,23 @@
 .mana-image {
     width: 50px;
 }
+
+.color-Bad {
+	background-color: red;
+}
+
+.color-Negative {
+	background-color: orange;
+}
+
+.color-Neutral {
+	background-color: yellow;
+}
+
+.color-Positive {
+	background-color: greenyellow;
+}
+
+.color-Good {
+	background-color: green;
+}

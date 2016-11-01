@@ -10,6 +10,7 @@ public class ListItem {
 	private String displayname;	
 	private HashMap sortables;
 	private HashMap filterables;
+	private int colorCode;
 	
 	public ListItem () { }	
 	
@@ -51,6 +52,14 @@ public class ListItem {
 
 	public void setFilterables(HashMap filterables) {
 		this.filterables = filterables;
+	}
+
+	public int getColorCode() {
+		return colorCode;
+	}
+
+	public void setColorCode(int colorCode) {
+		this.colorCode = colorCode;
 	}
 	
 	

@@ -9,6 +9,15 @@
 	<ul class="list-group sortable">
 		<c:forEach items="${requestScope.listContainer.listItems}" var="listItem">
 			<button	class="list-group-item filterable
+			    <c:choose>
+        			<c:when test="${listItem.colorCode == 0}"></c:when>
+        			<c:when test="${listItem.colorCode == 1}">color-Bad</c:when>
+        			<c:when test="${listItem.colorCode == 2}">color-Negative</c:when>
+        			<c:when test="${listItem.colorCode == 3}">color-Neutral</c:when>
+        			<c:when test="${listItem.colorCode == 4}">color-Positive</c:when>
+        			<c:when test="${listItem.colorCode == 5}">color-Good</c:when>
+        			<c:otherwise>undefined</c:otherwise>
+    			</c:choose>
 				<c:forEach items="${listItem.filterables}" var="filterable">
 					${filterable.value}
 				</c:forEach> sortee" 
