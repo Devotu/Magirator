@@ -79,39 +79,6 @@ public class GameHandler extends DatabaseHandler {
 		}
 	}
 	
-	/*
-	public void addTwoPlayerGame(List<GameResult> results) throws Exception {
-		
-		try {
-			Context initContext = new InitialContext();
-			Context webContext = (Context)initContext.lookup("java:/comp/env");
-			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
-			con = ds.getConnection();
-			
-			String query = "MATCH (d1:Deck), (d2:Deck)";
-			query += "WHERE id(d1) = ? AND id(d2) = ?";
-			query += "CREATE (d1)-[rw:Played {place: ?, comment: ?}]->(g:Game {created: TIMESTAMP()})<-[rl:Played {place:?}]-(d2)";
-
-			PreparedStatement ps = con.prepareStatement(query);
-
-			ps.setInt(1, results.get(0).getDeckId());
-			ps.setInt(2, results.get(1).getDeckId());
-			ps.setInt(3, results.get(0).getPlace());
-			ps.setString(4, results.get(0).getComment());
-			ps.setInt(5, results.get(1).getPlace());
-			
-			ps.executeUpdate();			
-			
-			if (rs != null) rs.close();
-			if (st != null) st.close();
-			if (con != null) con.close();
-			
-		} catch (Exception ex){
-			throw ex;
-		}
-	}
-	*/
-	
 	public void addGame(List<Result> results) throws Exception {
 		
 		try {
@@ -120,7 +87,7 @@ public class GameHandler extends DatabaseHandler {
 			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
 			con = ds.getConnection();			
 			
-			String query = "CREATE (g:Game) RETURN id(g)";
+			String query = "CREATE (g:Game {created: TIMESTAMP()}) RETURN id(g)";
 			PreparedStatement ps = con.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			
@@ -129,7 +96,7 @@ public class GameHandler extends DatabaseHandler {
 				
 				for (Result r : results){
 					query = "MATCH (g:Game), (d:Deck)";
-					query += "WHERE id(g) = ? AND WHERE id(d) = ?";
+					query += "WHERE id(g) = ? AND id(d) = ?";
 					query += "CREATE (d)-[r:Played {place: ?, comment: ?, confirmed:? }]->(g)";					
 					ps = con.prepareStatement(query);
 					
