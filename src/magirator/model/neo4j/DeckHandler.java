@@ -81,8 +81,6 @@ public class DeckHandler extends DatabaseHandler {
 		return parsedColors;
 	}
 	
-	
-	
 	public List<ListItem> listDecksBelongingToUser(int userid)  throws Exception {
 		
 		try {
@@ -91,7 +89,7 @@ public class DeckHandler extends DatabaseHandler {
 			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
 			con = ds.getConnection();
 
-			String query = "MATCH (u:User)-->(d:Deck) WHERE id(u)=? RETURN d.name, id(d), d.format";
+			String query = "MATCH (u:User)-[r:Use]->(d:Deck) WHERE id(u)=? RETURN d.name, id(d), d.format";
 
       		PreparedStatement ps = con.prepareStatement(query);
       		ps.setInt(1, userid);

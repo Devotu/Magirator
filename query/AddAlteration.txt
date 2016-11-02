@@ -1,0 +1,11 @@
+MATCH (u:User) WHERE id(u)=?
+CREATE (d:Deck { name: ?, format: ?, black: ?, white: ?, red: ?, green: ?, blue: ? ,colorless: ?, theme: ?, created: TIMESTAMP(), active:true})
+CREATE (u)-[r:Use]->(d)
+
+MATCH (u:User)-[r:Use]->(d:Deck) WHERE id(d) = ?
+SET d.active = false
+DELETE r
+CREATE (u)-[or:Used]->(d)
+CREATE (c:Deck { name: ?, format: ?, black: ?, white: ?, red: ?, green: ?, blue: ? ,colorless: ?, theme: ?, created: TIMESTAMP(), active:true})
+CREATE (d)-[e:Evolved]->(c)
+CREATE (u)-[nr:Use]->(c)
