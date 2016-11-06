@@ -25,8 +25,8 @@ public class LoginServlet extends HttpServlet {
 			if (userid >= 0) {
 				getServletContext().log("-  Login -> login succeded for user " + userid + "(" + username + ")");
 				HttpSession session = request.getSession();
-				UserInfo userInfo = new UserInfo(username, userid);
-        			session.setAttribute("userInfo", userInfo);
+				Player player = new Player(username, userid);
+        			session.setAttribute("player", player);
 			} else {        			
         			getServletContext().log("-  Login -> login failed, user is: " + userid + "(" + username + ")");
 				viewName = "/Welcome.jsp";

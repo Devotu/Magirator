@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import magirator.beans.Opponent;
-import magirator.beans.UserInfo;
+import magirator.beans.Player;
 import magirator.model.neo4j.PlayerHandler;
 
 public class GetOpponentsServlet extends HttpServlet {
@@ -25,13 +25,13 @@ public class GetOpponentsServlet extends HttpServlet {
 		getServletContext().log("-  GetOpponents -> Collecting data");
 		
 		HttpSession session = request.getSession();
-		UserInfo userInfo = (UserInfo)session.getAttribute("userInfo");
+		Player player = (Player)session.getAttribute("player");
 		
 		PlayerHandler playerHandler = new PlayerHandler();		
 				
 		try {
-			getServletContext().log("-  GetOpponents -> Getting opponents to user " + userInfo.getName() + " (" + userInfo.getId() + ")");
-			opponents = playerHandler.getPlayerOpponents(userInfo.getId());
+			getServletContext().log("-  GetOpponents -> Getting opponents to user " + player.getName() + " (" + player.getId() + ")");
+			opponents = playerHandler.getPlayerOpponents(player.getId());
 				
 		} catch (Exception ex) {
 			getServletContext().log("-  GetOpponents -- Error -- " + ex.getMessage());

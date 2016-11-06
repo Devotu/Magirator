@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import magirator.beans.ListContainer;
-import magirator.beans.UserInfo;
+import magirator.beans.Player;
 import magirator.model.neo4j.DeckHandler;
 
 public class GetDecksServlet extends HttpServlet {
@@ -22,15 +22,15 @@ public class GetDecksServlet extends HttpServlet {
 		//List deckList = new ArrayList();
 		
 		HttpSession session = request.getSession();
-		UserInfo userInfo = (UserInfo)session.getAttribute("userInfo");
+		Player player = (Player)session.getAttribute("player");
 		
 		getServletContext().log("-  GetDecks -> Collecting data");
 		
 		DeckHandler deckHandler = new DeckHandler();
 				
 		try {
-			getServletContext().log("-  GetDecks -> Getting decks belonging to user " + userInfo.getId());
-			deckList.setListItems(deckHandler.listDecksBelongingToUser(userInfo.getId()));
+			getServletContext().log("-  GetDecks -> Getting decks belonging to user " + player.getId());
+			deckList.setListItems(deckHandler.listDecksBelongingToUser(player.getId()));
 			deckList.setSortOptions(deckHandler.getSortables());
 			deckList.setFilterOptions(deckHandler.getFilterables());
 				

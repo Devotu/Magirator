@@ -5,7 +5,7 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import magirator.model.neo4j.*;
-import magirator.beans.UserInfo;
+import magirator.beans.Player;
 
 public class AddDeckServlet extends HttpServlet {
 	
@@ -23,13 +23,13 @@ public class AddDeckServlet extends HttpServlet {
 		}
 		
 		HttpSession session = request.getSession();
-		UserInfo userInfo = (UserInfo)session.getAttribute("userInfo");;
+		Player player = (Player)session.getAttribute("player");;
 		
 		DeckHandler deckHandler = new DeckHandler();
 				
 		try {
 			getServletContext().log("-  AddDeck -> Adding deck");
-			deckHandler.addDeckToUser(userInfo.getId(), name, format, colors, theme);
+			deckHandler.addDeckToUser(player.getId(), name, format, colors, theme);
 			
 				
 		} catch (Exception ex) {

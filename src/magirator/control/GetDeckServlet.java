@@ -5,7 +5,6 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import magirator.model.neo4j.*;
-import magirator.beans.UserInfo;
 import magirator.beans.Deck;
 
 public class GetDeckServlet extends HttpServlet {
