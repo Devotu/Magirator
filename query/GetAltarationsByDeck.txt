@@ -1,0 +1,1 @@
+MATCH p=(d)<-[:Evolved*]-(pd) WHERE id(d)=? WITH DISTINCT pd RETURN PROPERTIES(pd)

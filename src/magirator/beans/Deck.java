@@ -61,7 +61,7 @@ public class Deck {
 		this.colorless = rs.getBoolean("d.colorless");
 		this.theme = rs.getString("d.theme");
 		this.active = rs.getBoolean("d.black");
-		this.created = rs.getDate("d.creaded");
+		this.created = rs.getDate("d.created");
 	}
 	
 	public Deck(Map deckMap) throws Exception {		
@@ -76,7 +76,9 @@ public class Deck {
 		this.colorless = (boolean)deckMap.get("colorless");
 		this.theme = (String)deckMap.get("theme");
 		this.active = (boolean)deckMap.get("black");
-		this.created = (Date)deckMap.get("creaded");
+		
+		long longTime = (Long)deckMap.get("created");
+		this.created = new Date(longTime);
 	}
 
 	//Set
@@ -171,6 +173,10 @@ public class Deck {
 
 	public boolean getActive() {
 		return this.active;
+	}
+	
+	public Date getDateCreated() {
+		return this.created;
 	}
 
 	public String getCreated() {

@@ -1,0 +1,2 @@
+The query is acctually to get two decks, which combines into one alteration.
+MATCH (d)<-[:Evolved]-(pd) WHERE id(d)=? RETURN PROPERTIES(d), PROPERTIES(pd)

@@ -49,6 +49,14 @@
     		<servlet-name>GetGame</servlet-name>
     		<servlet-class>magirator.control.GetGameServlet</servlet-class>
   	</servlet>
+  	<servlet>
+    		<servlet-name>GetAlterations</servlet-name>
+    		<servlet-class>magirator.control.GetAlterationsServlet</servlet-class>
+  	</servlet>
+  	<servlet>
+    		<servlet-name>GetAlteration</servlet-name>
+    		<servlet-class>magirator.control.GetAlterationServlet</servlet-class>
+  	</servlet>
   	
 	<servlet-mapping>
     		<servlet-name>Login</servlet-name>
@@ -89,6 +97,14 @@
 	<servlet-mapping>
     		<servlet-name>GetGame</servlet-name>
     		<url-pattern>/GetGame</url-pattern>
+	</servlet-mapping>
+  	<servlet-mapping>
+    		<servlet-name>GetAlterations</servlet-name>
+    		<url-pattern>/GetAlterations</url-pattern>
+	</servlet-mapping>
+  	<servlet-mapping>
+    		<servlet-name>GetAlteration</servlet-name>
+    		<url-pattern>/GetAlteration</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>

@@ -29,6 +29,9 @@
 			<jsp:include page="segments/deckview/games.jsp">
 				<jsp:param name="games" value="${sessionScope.gameListContainer}"/>
 			</jsp:include>
+			<jsp:include page="segments/deckview/alterations.jsp">
+				<jsp:param name="games" value="${sessionScope.alterationListContainer}"/>
+			</jsp:include>
 		</div>    
 		<jsp:include page="/segments/ads.jspf"/>
 	</div>
