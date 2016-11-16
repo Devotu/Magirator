@@ -138,7 +138,7 @@ public class GameHandler extends DatabaseHandler {
 			String query =
 					"MATCH (u:User)-->(d:Deck)-[p:Played]->(g:Game)" +
 					"WHERE id(g) = ?" +
-					"RETURN PROPERTIES(u), PROPERTIES(d), PROPERTIES(p), PROPERTIES(g)" +
+					"RETURN PROPERTIES(u), id(d), PROPERTIES(d), PROPERTIES(p), PROPERTIES(g)" +
 					"ORDER BY p.place";
 
       		PreparedStatement ps = con.prepareStatement(query);
@@ -153,7 +153,7 @@ public class GameHandler extends DatabaseHandler {
       				gameResult.setGame(new Game((Map)rs.getObject("PROPERTIES(g)")));
       			}
       			Player u = new Player((Map)rs.getObject("PROPERTIES(u)"));
-      			Deck d = new Deck((Map)rs.getObject("PROPERTIES(d)"));
+      			Deck d = new Deck(rs.getInt("id(d)"), (Map)rs.getObject("PROPERTIES(d)"));
       			Play p = new Play((Map)rs.getObject("PROPERTIES(p)"));
       			Result r = new Result(d, p, u);
       			gameResult.addResult(r);

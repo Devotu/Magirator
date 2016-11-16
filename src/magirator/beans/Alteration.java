@@ -1,7 +1,6 @@
 package magirator.beans;
 
 import java.util.Date;
-import java.util.Map;
 
 public class Alteration {
 
@@ -26,30 +25,33 @@ public class Alteration {
 	private String themeIs;
 	
 	private Date altered;
+	private String comment;
 	
-	public Alteration(Map deckWasMap, Map deckIsMap) throws Exception {
+	public Alteration(Deck previousDeck, Deck currentDeck, String comment) throws Exception {
 		
-		this.nameWas = (String)deckWasMap.get("name");
-		this.formatWas = (String)deckWasMap.get("format");
-		this.blackWas = (boolean)deckWasMap.get("black");
-		this.whiteWas = (boolean)deckWasMap.get("white");
-		this.redWas = (boolean)deckWasMap.get("red");
-		this.greenWas = (boolean)deckWasMap.get("green");
-		this.blueWas = (boolean)deckWasMap.get("blue");
-		this.colorlessWas = (boolean)deckWasMap.get("colorless");
-		this.themeWas = (String)deckWasMap.get("theme");
+		this.nameWas = previousDeck.getName();
+		this.formatWas = previousDeck.getFormat();
+		this.blackWas = previousDeck.getBlack();
+		this.whiteWas = previousDeck.getWhite();
+		this.redWas = previousDeck.getRed();
+		this.greenWas = previousDeck.getGreen();
+		this.blueWas = previousDeck.getBlue();
+		this.colorlessWas = previousDeck.getColorless();
+		this.themeWas = previousDeck.getTheme();
 		
-		this.nameIs = (String)deckIsMap.get("name");
-		this.formatIs = (String)deckIsMap.get("format");
-		this.blackIs = (boolean)deckIsMap.get("black");
-		this.whiteIs = (boolean)deckIsMap.get("white");
-		this.redIs = (boolean)deckIsMap.get("red");
-		this.greenIs = (boolean)deckIsMap.get("green");
-		this.blueIs = (boolean)deckIsMap.get("blue");
-		this.colorlessIs = (boolean)deckIsMap.get("colorless");
-		this.themeIs = (String)deckIsMap.get("theme");
+		this.nameIs = currentDeck.getName();
+		this.formatIs = currentDeck.getFormat();
+		this.blackIs = currentDeck.getBlack();
+		this.whiteIs = currentDeck.getWhite();
+		this.redIs = currentDeck.getRed();
+		this.greenIs = currentDeck.getGreen();
+		this.blueIs = currentDeck.getBlue();
+		this.colorlessIs = currentDeck.getColorless();
+		this.themeIs = currentDeck.getTheme();
 		
-		this.altered = (Date)deckIsMap.get("creaded");
+		this.altered = currentDeck.getDateCreated();
+		this.comment = comment;
+		
 	}
 
 	public String getNameWas() {
@@ -202,6 +204,14 @@ public class Alteration {
 
 	public void setAltered(Date altered) {
 		this.altered = altered;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 }

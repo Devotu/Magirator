@@ -1,7 +1,6 @@
 package magirator.model.neo4j;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.sql.*;
 
@@ -28,7 +27,12 @@ public class AlterationHandler extends DatabaseHandler {
 			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
 			con = ds.getConnection();			
 
-			String query = "MATCH p=(d)<-[:Evolved*]-(pd) WHERE id(d)=? WITH DISTINCT pd RETURN PROPERTIES(pd)";
+			String query = ""
+					+ "MATCH dp=(d)<-[r:Evolved*]-() "
+					+ "WHERE id(d)=? "
+					+ "UNWIND nodes(dp) AS nd "
+					+ "OPTIONAL MATCH (nd)<-[e:Evolved]-() "
+					+ "RETURN DISTINCT id(nd), PROPERTIES(nd), PROPERTIES(e)";
 
       		PreparedStatement ps = con.prepareStatement(query);
       		ps.setInt(1, deckId);
@@ -36,13 +40,39 @@ public class AlterationHandler extends DatabaseHandler {
       		ResultSet rs = ps.executeQuery();      		
       		
       		List<ListItem> alterationsList = new ArrayList<ListItem>();
-      		Deck previousDeck = null;
-			
+      		
 			while (rs.next()) {
 				ListItem li = new ListItem();				
 				HashMap sortables = new HashMap();
 				HashMap filterables = new HashMap();
-				Deck deck = new Deck((Map)rs.getObject("PROPERTIES(pd)"));
+				Deck deck = new Deck(rs.getInt("id(nd)"), (Map)rs.getObject("PROPERTIES(nd)"));
+				
+				String displayName = "";
+				
+				if (rs.getObject("PROPERTIES(e)") == null){
+					displayName = "Created " + deck.getTheme();
+				} else {
+					Map evolved = (Map)rs.getObject("PROPERTIES(e)");
+					displayName = evolved.get("comment").toString();
+				}
+				
+				li.setDisplayname(displayName);
+				li.setId(deck.getDeckid());
+				
+				sortables.put("Date", deck.getDateCreated().getTime());
+				
+				li.setSortables(sortables);
+				li.setFilterables(filterables);
+				
+				alterationsList.add(li);
+			}
+			
+			/*
+			while (rs.next()) {
+				ListItem li = new ListItem();				
+				HashMap sortables = new HashMap();
+				HashMap filterables = new HashMap();
+				Deck deck = new Deck((Map)rs.getObject("PROPERTIES(pd)"), rs.getInt("id(pd)"));
 				
 				String displayName = "";
 				
@@ -76,7 +106,7 @@ public class AlterationHandler extends DatabaseHandler {
 				ListItem li = new ListItem();				
 				HashMap sortables = new HashMap();
 				HashMap filterables = new HashMap();
-				Deck deck = new Deck((Map)rs.getObject("PROPERTIES(d)"));
+				Deck deck = new Deck((Map)rs.getObject("PROPERTIES(d)"), deckId);
 				
 				String displayName = "Altered to present ";
 				
@@ -91,6 +121,7 @@ public class AlterationHandler extends DatabaseHandler {
 				
 				alterationsList.add(li);				
 			}
+			*/
 			
 			return alterationsList;
 			
@@ -110,7 +141,7 @@ public class AlterationHandler extends DatabaseHandler {
 			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
 			con = ds.getConnection();			
 
-			String query = "MATCH (d)<-[:Evolved]-(pd) WHERE id(d)=? RETURN PROPERTIES(d), PROPERTIES(pd)";
+			String query = "MATCH (d)<-[e:Evolved]-(pd) WHERE id(d)=? RETURN PROPERTIES(d), id(pd), PROPERTIES(pd), e.comment";
 
       		PreparedStatement ps = con.prepareStatement(query);
       		ps.setInt(1, alterationId);
@@ -120,8 +151,11 @@ public class AlterationHandler extends DatabaseHandler {
       		Alteration alteration = null;
 			
 			if (rs.next()) {
+				Deck currentDeck = new Deck(alterationId, (Map)rs.getObject("PROPERTIES(d)"));
+				Deck previousDeck = new Deck(rs.getInt("id(pd)"), (Map)rs.getObject("PROPERTIES(pd)"));
+				String comment = rs.getString("e.comment");
 				
-				alteration = new Alteration((Map)rs.getObject("PROPERTIES(pd)"), (Map)rs.getObject("PROPERTIES(d)"));
+				alteration = new Alteration(previousDeck, currentDeck, comment);
 			}
 			
 			return alteration;

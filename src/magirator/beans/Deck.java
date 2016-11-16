@@ -64,8 +64,8 @@ public class Deck {
 		this.created = rs.getDate("d.created");
 	}
 	
-	public Deck(Map deckMap) throws Exception {		
-		//this.deckid = (int)deckMap.get("id(d)");
+	public Deck(int id, Map deckMap) throws Exception {
+		this.deckid = id; //Hur får jag med korrekt?
 		this.name = (String)deckMap.get("name");
 		this.format = (String)deckMap.get("format");
 		this.black = (boolean)deckMap.get("black");

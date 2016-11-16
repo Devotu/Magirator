@@ -1,12 +1,10 @@
 package magirator.control;
 
 import java.io.*;
-import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import magirator.model.neo4j.*;
 import magirator.beans.Alteration;
-import magirator.beans.Deck;
 
 public class GetAlterationServlet extends HttpServlet {
 	
