@@ -2,6 +2,11 @@ package magirator.beans;
 
 import java.util.Date;
 
+/**
+ * 
+ * @author ottu
+ * An Alteration is a difference between two decks with a comment.
+ */
 public class Alteration {
 
 	private String nameWas;
@@ -13,6 +18,7 @@ public class Alteration {
 	private boolean blueWas;
 	private boolean colorlessWas;
 	private String themeWas;
+	private int colorPatternWas;
 	
 	private String nameIs;
 	private String formatIs;
@@ -23,11 +29,12 @@ public class Alteration {
 	private boolean blueIs;
 	private boolean colorlessIs;
 	private String themeIs;
+	private int colorPatternIs;
 	
 	private Date altered;
 	private String comment;
 	
-	public Alteration(Deck previousDeck, Deck currentDeck, String comment) throws Exception {
+	public Alteration(Deck previousDeck, Deck currentheck, String comment) throws Exception {
 		
 		this.nameWas = previousDeck.getName();
 		this.formatWas = previousDeck.getFormat();
@@ -38,18 +45,20 @@ public class Alteration {
 		this.blueWas = previousDeck.getBlue();
 		this.colorlessWas = previousDeck.getColorless();
 		this.themeWas = previousDeck.getTheme();
+		this.colorPatternWas = (blackWas? 1:0) + (whiteWas? 2:0) + (redWas? 4:0) + (greenWas? 8:0) + (blueWas? 16:0) + (colorlessWas? 32:0);
 		
-		this.nameIs = currentDeck.getName();
-		this.formatIs = currentDeck.getFormat();
-		this.blackIs = currentDeck.getBlack();
-		this.whiteIs = currentDeck.getWhite();
-		this.redIs = currentDeck.getRed();
-		this.greenIs = currentDeck.getGreen();
-		this.blueIs = currentDeck.getBlue();
-		this.colorlessIs = currentDeck.getColorless();
-		this.themeIs = currentDeck.getTheme();
+		this.nameIs = currentheck.getName();
+		this.formatIs = currentheck.getFormat();
+		this.blackIs = currentheck.getBlack();
+		this.whiteIs = currentheck.getWhite();
+		this.redIs = currentheck.getRed();
+		this.greenIs = currentheck.getGreen();
+		this.blueIs = currentheck.getBlue();
+		this.colorlessIs = currentheck.getColorless();
+		this.themeIs = currentheck.getTheme();
+		this.colorPatternIs = (blackIs? 1:0) + (whiteIs? 2:0) + (redIs? 4:0) + (greenIs? 8:0) + (blueIs? 16:0) + (colorlessIs? 32:0);
 		
-		this.altered = currentDeck.getDateCreated();
+		this.altered = currentheck.getDateCreated();
 		this.comment = comment;
 		
 	}
@@ -118,11 +127,11 @@ public class Alteration {
 		this.colorlessWas = colorlessWas;
 	}
 
-	public String getThemeWas() {
+	public String getthemeWas() {
 		return themeWas;
 	}
 
-	public void setThemeWas(String themeWas) {
+	public void setthemeWas(String themeWas) {
 		this.themeWas = themeWas;
 	}
 
@@ -190,11 +199,11 @@ public class Alteration {
 		this.colorlessIs = colorlessIs;
 	}
 
-	public String getThemeIs() {
+	public String getthemeIs() {
 		return themeIs;
 	}
 
-	public void setThemeIs(String themeIs) {
+	public void setthemeIs(String themeIs) {
 		this.themeIs = themeIs;
 	}
 
@@ -212,6 +221,22 @@ public class Alteration {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public int getColorPatternWas() {
+		return colorPatternWas;
+	}
+
+	public void setColorPatternWas(int colorPatternWas) {
+		this.colorPatternWas = colorPatternWas;
+	}
+
+	public int getColorPatternIs() {
+		return colorPatternIs;
+	}
+
+	public void setColorPatternIs(int colorPatternIs) {
+		this.colorPatternIs = colorPatternIs;
 	}
 
 }
