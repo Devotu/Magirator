@@ -6,13 +6,12 @@ public class MagiratorServlet extends GenericServlet {
 
 	public void service(ServletRequest request, ServletResponse response) throws java.io.IOException, ServletException{
 		getServletContext().log("-- MagiratorServlet --");
-
+		
 		String[] controllers = request.getParameterValues("controllers");
 		String viewName = request.getParameter("goView");
 		String[] altcontrollers = request.getParameterValues("altcontrollers");
 		String altViewName = request.getParameter("altView");
 		String errorViewName = request.getParameter("errorView");
-		
 		
 		
 		String action = request.getParameter("action");
@@ -28,7 +27,7 @@ public class MagiratorServlet extends GenericServlet {
 
 		try {
 			if ( action.equals("go") ){
-				if(controllers == null){
+				if(controllers == null || controllers[0].indexOf("/")<0 ){
 					getServletContext().log("MagiratorServlet -- No controllerss passed ");
 				} else {					
 					if	(controllers[0].contains(",")){

@@ -11,6 +11,7 @@
 		<jsp:param name="header" value="Deck alterations"/>
 		<jsp:param name="addView" value="/AddAlteration.jsp"/>
 		<jsp:param name="addToId" value="${sessionScope.deck.deckid}"/>
+		<jsp:param name="controllers" value=""/>
 	</jsp:include>
     <jsp:include page="/segments/list.jsp"/>
 </div>
