@@ -7,5 +7,5 @@ SET d.active = false
 DELETE r
 CREATE (u)-[or:Used]->(d)
 CREATE (c:Deck { name: ?, format: ?, black: ?, white: ?, red: ?, green: ?, blue: ? ,colorless: ?, theme: ?, created: TIMESTAMP(), active:true})
-CREATE (d)-[e:Evolved]->(c)
+CREATE (d)-[e:Evolved {comment:?}]->(c)
 CREATE (u)-[nr:Use]->(c)

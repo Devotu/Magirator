@@ -30,6 +30,14 @@ $(document).ready(function() {
 		<div class="col-sm-2 sidenav"></div>
 		<div class="col-sm-8 text-left">
 			<h1>Alter deck</h1>
+			<form action="/Magirator/Magirator" method="post">
+				<input type="hidden" name="controllers" value="/AddAlteration,/GetDeck,/GetAlterations,/GetGames">
+				<!-- AddAlteration --><input type="hidden" name="deckId" value="${param.addToId}">
+				<!-- GetAlterations, GetGames, GetDeck --><input type="hidden" name="id" value="${param.addToId}">
+				<input type="hidden" name="goView" value="/DeckView.jsp">
+				<input type="hidden" name="altView" value="/DeckView.jsp">
+				<input type="hidden" name="altcontrollers" value="/GetAlterations,/GetGames">
+				<input type="hidden" name="errorView" value="/ErrorPage.jsp">
 
 			<div>
 				<div class="form-group">
@@ -71,9 +79,6 @@ $(document).ready(function() {
 						<input type="text" class="form-control" id="theme" name="theme" value="${deck.theme}">
 					</div>
 			</div>
-
-
-
 
 			</form>
 		</div>

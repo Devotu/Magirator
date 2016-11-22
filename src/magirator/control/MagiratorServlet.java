@@ -30,6 +30,7 @@ public class MagiratorServlet extends GenericServlet {
 				if(controllers == null || controllers[0].indexOf("/")<0 ){
 					getServletContext().log("MagiratorServlet -- No controllerss passed ");
 				} else {					
+					
 					if	(controllers[0].contains(",")){
 						controllers = controllers[0].split(",");
 					}
@@ -52,14 +53,19 @@ public class MagiratorServlet extends GenericServlet {
 				} else { getServletContext().log("MagiratorServlet -- No view named " + viewName); }
 				
 			} else {
-				if(altcontrollers == null){
+				if(altcontrollers == null || controllers[0].indexOf("/")<0 ){
 					getServletContext().log("MagiratorServlet -- No altcontrollerss passed ");
 				} else {
+					
+					if	(altcontrollers[0].contains(",")){
+						altcontrollers = altcontrollers[0].split(",");
+					}
+					
 					for (int i=0; i < controllers.length; i++) {
 						RequestDispatcher d = getServletContext().getRequestDispatcher(altcontrollers[i]);
 						if (d != null) {
-							d.include(request, response);
 							getServletContext().log("MagiratorServlet -- invoking altcontrollers " + altcontrollers[i]);
+							d.include(request, response);
 						} else {
 							getServletContext().log("MagiratorServlet -- No controllers named " + altcontrollers[i]);
 						}

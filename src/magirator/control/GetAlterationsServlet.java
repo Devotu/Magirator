@@ -21,6 +21,11 @@ public class GetAlterationsServlet extends HttpServlet {
 		
 		int deckid = Integer.parseInt(request.getParameter("id"));
 		
+		//If deck has been altered within the same request
+		if	(request.getAttribute("newDeckId") != null){
+			deckid = (int) request.getAttribute("newDeckId");
+		}
+		
 		AlterationHandler alterationHandler = new AlterationHandler();	
 				
 		try {
