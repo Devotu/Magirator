@@ -20,9 +20,6 @@ public class Deck {
 	private Date created;
 	
 	//TODO remove
-	public Deck (){ }
-	
-	//TODO remove
 	public Deck (int deckid, 
 					String name, 
 					String format, 
@@ -47,21 +44,6 @@ public class Deck {
 		this.theme = theme;
 		this.active = active;
 		this.created = new Date(created);
-	}
-	
-	public Deck(ResultSet rs) throws Exception {		
-		this.deckid = rs.getInt("id(d)");
-		this.name = rs.getString("d.name");
-		this.format = rs.getString("d.format");
-		this.black = rs.getBoolean("d.black");
-		this.white = rs.getBoolean("d.white");
-		this.red = rs.getBoolean("d.red");
-		this.green = rs.getBoolean("d.green");
-		this.blue = rs.getBoolean("d.blue");
-		this.colorless = rs.getBoolean("d.colorless");
-		this.theme = rs.getString("d.theme");
-		this.active = rs.getBoolean("d.black");
-		this.created = rs.getDate("d.created");
 	}
 	
 	public Deck(int id, Map deckMap) throws Exception {

@@ -61,6 +61,14 @@
     		<servlet-name>AddAlteration</servlet-name>
     		<servlet-class>magirator.control.AddAlterationServlet</servlet-class>
   	</servlet>
+	<servlet>
+    		<servlet-name>DeleteDeck</servlet-name>
+    		<servlet-class>magirator.control.DeleteDeckServlet</servlet-class>
+  	</servlet>
+	<servlet>
+    		<servlet-name>ToggleDeck</servlet-name>
+    		<servlet-class>magirator.control.ToggleDeckServlet</servlet-class>
+  	</servlet>
   	
 	<servlet-mapping>
     		<servlet-name>Login</servlet-name>
@@ -113,6 +121,14 @@
   	<servlet-mapping>
     		<servlet-name>AddAlteration</servlet-name>
     		<url-pattern>/AddAlteration</url-pattern>
+	</servlet-mapping>
+  	<servlet-mapping>
+    		<servlet-name>DeleteDeck</servlet-name>
+    		<url-pattern>/DeleteDeck</url-pattern>
+	</servlet-mapping>
+  	<servlet-mapping>
+    		<servlet-name>ToggleDeck</servlet-name>
+    		<url-pattern>/ToggleDeck</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>

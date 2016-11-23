@@ -1,8 +1,38 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
 <div id="Info" class="tabcontent">
 	<h1>Deck info</h1>
+	<div>
+		<form action="/Magirator/Magirator" method="post" onsubmit="return confirm('Do you really want to delete the deck?');">
+			<input type="hidden" name="deckid" value="${deck.deckid}">
+			<input type="hidden" name="controllers" value="/DeleteDeck,/GetDecks">			
+			<input type="hidden" name="goView" value="/DeckList.jsp">
+			<input type="hidden" name="errorView" value="/ErrorPage.jsp">
+			<button type="submit">
+				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+			</button>
+		</form>
+		<form action="/Magirator/Magirator" method="post">
+			<input type="hidden" name="deckid" value="${deck.deckid}">
+			<input type="hidden" name="id" value="${deck.deckid}">
+			<input type="hidden" name="controllers" value="/ToggleDeck,/GetDeck">			
+			<input type="hidden" name="goView" value="/DeckView.jsp">
+			<input type="hidden" name="errorView" value="/ErrorPage.jsp">
+			<button type="submit">
+				<c:choose>
+					<c:when test="${true == deck.active}">
+						<span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose>
+			</button>
+		</form>		
+	</div>
+	
 	<label for="name">Name:</label>
 	<p>${deck.name}</p>
 	<label for="name">Format:</label>

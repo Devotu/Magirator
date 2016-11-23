@@ -46,14 +46,14 @@ public class DeckHandler extends DatabaseHandler {
 			ps.setBoolean(9, colors[5]);//Colorless
 			ps.setString(10, theme);
 			
-			ps.executeUpdate();			
-			
-			if (rs != null) rs.close();
-			if (st != null) st.close();
-			if (con != null) con.close();
+			ps.executeUpdate();
 			
 		} catch (Exception ex){
 			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (st != null) st.close();
+			if (con != null) con.close();
 		}
 	}
 	
@@ -116,14 +116,14 @@ public class DeckHandler extends DatabaseHandler {
 				//decks.add(new ListDeck(rs.getString(1), rs.getInt(2), 50, rs.getString(3))); //TODO Winrate
 			}
 
-			if (rs != null) rs.close();
-			if (st != null) st.close();
-			if (con != null) con.close();
-			
 			return decks;
 			
 		} catch (Exception ex){
 			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (st != null) st.close();
+			if (con != null) con.close();
 		}
 	}
 	
@@ -135,10 +135,9 @@ public class DeckHandler extends DatabaseHandler {
 			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
 			con = ds.getConnection();
 
-			String query = "MATCH (d:Deck) WHERE id(d)=? RETURN id(d), " +  
-			"d.name, d.format, " +
-			"d.black, d.white, d.red, d.green, d.blue, d.colorless, " +
-			"d.theme, d.active, d.created";
+			String query = "MATCH (d:Deck) "
+					+ "WHERE id(d)=? "
+					+ "RETURN id(d), PROPERTIES(d)";
 
       		PreparedStatement ps = con.prepareStatement(query);
       		ps.setInt(1, deckid);
@@ -148,29 +147,17 @@ public class DeckHandler extends DatabaseHandler {
       		Deck deck = null;
 		
 			while (rs.next()) {
-				deck = new Deck(
-					rs.getInt(1), 
-					rs.getString("d.name"), 
-					rs.getString("d.format"), 
-					rs.getBoolean("d.black"), 
-					rs.getBoolean("d.white"), 
-					rs.getBoolean("d.red"), 
-					rs.getBoolean("d.green"), 
-					rs.getBoolean("d.blue"), 
-					rs.getBoolean("d.colorless"),
-					rs.getString("d.theme"),
-					rs.getBoolean("d.active"),
-					rs.getLong("d.created"));
+				deck = new Deck(rs.getInt("id(d)"), (Map)rs.getObject("PROPERTIES(d)"));
 			}
 
-			if (rs != null) rs.close();
-			if (st != null) st.close();
-			if (con != null) con.close();
-			
 			return deck;
 			
 		} catch (Exception ex){
 			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (st != null) st.close();
+			if (con != null) con.close();
 		}
 	}
 	
@@ -191,6 +178,76 @@ public class DeckHandler extends DatabaseHandler {
 		filterables.put("Active", active);
 		
 		return filterables;
+	}
+	
+	public boolean deleteDeck(int deckid)  throws Exception {
+		
+		try {
+			Context initContext = new InitialContext();
+			Context webContext = (Context)initContext.lookup("java:/comp/env");
+			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
+			con = ds.getConnection();
+
+			String query = "MATCH (u:User)-[or:Use]->(d:Deck) "
+					+ "WHERE id(d)=? "
+					+ "DELETE or "
+					+ "CREATE (u)-[nr:Used]->(d) ";
+
+      		PreparedStatement ps = con.prepareStatement(query);
+      		ps.setInt(1, deckid);
+
+      		int updates = ps.executeUpdate();
+
+			if(updates > 0){
+				return true;
+			}
+			
+			return false;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (st != null) st.close();
+			if (con != null) con.close();
+		}
+	}
+	
+	public boolean toggleDeck(int deckid)  throws Exception {
+		
+		try {
+			Context initContext = new InitialContext();
+			Context webContext = (Context)initContext.lookup("java:/comp/env");
+			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
+			con = ds.getConnection();
+
+			String query = "MATCH (d:Deck) "
+					+ "WHERE id(d)=? "
+					+ "SET d.active=("
+					+ "	CASE d.active"
+					+ "		WHEN true THEN false"
+					+ "		ELSE true"
+					+ "	END"
+					+ ")";
+
+      		PreparedStatement ps = con.prepareStatement(query);
+      		ps.setInt(1, deckid);
+
+      		int updates = ps.executeUpdate();
+
+			if(updates > 0){
+				return true;
+			}
+			
+			return false;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (st != null) st.close();
+			if (con != null) con.close();
+		}
 	}
 
 }
