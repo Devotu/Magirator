@@ -2,6 +2,15 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<script>
+	$(function(){
+		console.log("setting filters");
+			setFilterBy();
+			console.log("set filters");
+		}
+	)
+</script>
+
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">

@@ -57,7 +57,7 @@ public class Deck {
 		this.blue = (boolean)deckMap.get("blue");
 		this.colorless = (boolean)deckMap.get("colorless");
 		this.theme = (String)deckMap.get("theme");
-		this.active = (boolean)deckMap.get("black");
+		this.active = (boolean)deckMap.get("active");
 		
 		long longTime = (Long)deckMap.get("created");
 		this.created = new Date(longTime);

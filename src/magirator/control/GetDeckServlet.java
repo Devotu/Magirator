@@ -41,6 +41,7 @@ public class GetDeckServlet extends HttpServlet {
 		}
 		
 		HttpSession session = request.getSession();
+		session.removeAttribute("deck");
 		session.setAttribute("deck", deck);
 
 		getServletContext().log("-- GetDeck -- Done");

@@ -80,7 +80,8 @@ public class DeckHandler extends DatabaseHandler {
 		
 		return parsedColors;
 	}
-	
+
+	//TODO Winrate
 	public List<ListItem> listDecksBelongingToUser(int userid)  throws Exception {
 		
 		try {
@@ -89,7 +90,7 @@ public class DeckHandler extends DatabaseHandler {
 			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
 			con = ds.getConnection();
 
-			String query = "MATCH (u:User)-[r:Use]->(d:Deck) WHERE id(u)=? RETURN d.name, id(d), d.format";
+			String query = "MATCH (u:User)-[r:Use]->(d:Deck) WHERE id(u)=? RETURN d.name, id(d), d.format, d.active";
 
       		PreparedStatement ps = con.prepareStatement(query);
       		ps.setInt(1, userid);
@@ -103,17 +104,17 @@ public class DeckHandler extends DatabaseHandler {
 				HashMap sortables = new HashMap();
 				HashMap filterables = new HashMap();
 				
-				li.setDisplayname(rs.getString(1));
+				li.setDisplayname(rs.getString("d.name"));
 				sortables.put("Name", li.getDisplayname());
-				li.setId(rs.getInt(2));
+				li.setId(rs.getInt("id(d)"));
 				sortables.put("Winrate", 50);
-				filterables.put("Format", rs.getString(3));
+				filterables.put("Active", rs.getBoolean("d.active")? "Active" : "Inactive");
+				filterables.put("Format", rs.getString("d.format"));
 				
 				li.setSortables(sortables);
 				li.setFilterables(filterables);
 				
 				decks.add(li);
-				//decks.add(new ListDeck(rs.getString(1), rs.getInt(2), 50, rs.getString(3))); //TODO Winrate
 			}
 
 			return decks;
@@ -174,7 +175,7 @@ public class DeckHandler extends DatabaseHandler {
 		String[] format = {"Standard", "Block", "Pauper"};
 		filterables.put("Format", format);
 		
-		String[] active = {"Active", "Not Active"};
+		String[] active = {"Active", "Inactive"};
 		filterables.put("Active", active);
 		
 		return filterables;
@@ -223,12 +224,7 @@ public class DeckHandler extends DatabaseHandler {
 
 			String query = "MATCH (d:Deck) "
 					+ "WHERE id(d)=? "
-					+ "SET d.active=("
-					+ "	CASE d.active"
-					+ "		WHEN true THEN false"
-					+ "		ELSE true"
-					+ "	END"
-					+ ")";
+					+ "SET d.active = NOT d.active";
 
       		PreparedStatement ps = con.prepareStatement(query);
       		ps.setInt(1, deckid);
@@ -239,7 +235,7 @@ public class DeckHandler extends DatabaseHandler {
 				return true;
 			}
 			
-			return false;
+			return false;			
 			
 		} catch (Exception ex){
 			throw ex;
