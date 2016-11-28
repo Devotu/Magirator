@@ -3,11 +3,8 @@
 
 <script>
 	$(function() {
-		console.log('Document ready');
-		console.log('default Tab: ${param.defaultTab}');
 		var i, tabcontent, tablinks;
 		var defaultTab = ${param.defaultTab};
-		console.log('default Tab var: ' + defaultTab);
 
 	    // Get all elements with class="tabcontent" and hide them
 	    tabcontent = document.getElementsByClassName("tabcontent");
@@ -20,9 +17,6 @@
 	    for (i = 0; i < tablinks.length; i++) {
 	        tablinks[i].className = tablinks[i].className.replace(" active", "");
 	    }
-
-	    
-	    console.log('id_${param.defaultTab}')
 	    
 	    // Show the current tab, and add an "active" class to the link the requested tab
 	    document.getElementById('${param.defaultTab}').style.display = "inline";
