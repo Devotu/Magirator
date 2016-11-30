@@ -11,7 +11,6 @@
 <script>
 
 	$(function() {
-			console.log("documentr ready");
 			showAddGame();
 		}
 	)
@@ -23,11 +22,9 @@
 		
 		//Get the opponent decks
 		var opponentDecks = $("#opponents").find(':selected').data('decks');
-		console.log(opponentDecks);
 		
 		//Populate with all the found opponents decks
 		$.each(opponentDecks, function (i, item) {
-			console.log(item);
 			decks.append($('<option>', {
 		        value: item.id,
 		        text: item.name
@@ -47,8 +44,32 @@
 		$("#addSpawnForm").hide();
 	}
 	
-	function addOpponent(){
+	function addOpponent(){	
+		$("#idPlayerList").append(
+			'<li class="list-group-item player" value="' + $('#decks :selected').val() + '">' +
+			'	<div>' +
+			'		<h3>' + 
+						$('#opponents :selected').text() +
+			'		</h3>' +
+			'		<p>' + 
+						$('#decks :selected').text() +
+			'		</p>' +
+			'	</div>' +
+			'</li>'			
+		);
+		
+		var players = $(".player").map(
+			function (idx, element){
+				return $(element).val();
+			}
+		).get();
+		
+		console.log(players);
+		
+		$('#idPlayerListArray').val(players);
+		
 	}
+	
 </script>
   
 <div class="container-fluid text-center">    
@@ -56,32 +77,24 @@
     <div class="col-sm-2 sidenav">
     </div>
     <div class="col-sm-8 text-left">
-    	<h1>Add Game</h1>      
-		<form id="idAddGameForm" action="/Magirator/Magirator" method="post">
-			<input type="hidden" name="controllers" value="/AddGame,/GetGames">
-			<!-- AddGame --><input type="hidden" name="playedDeck" value="${param.addToId}">
-			<!-- GetGames --><input type="hidden" name="id" value="${param.addToId}">
-			<input type="hidden" name="goView" value="/DeckView.jsp">
-			<input type="hidden" name="altView" value="/DeckView.jsp">
-				<input type="hidden" name="altcontrollers" value="/GetAlterations,/GetGames">
-			<input type="hidden" name="errorView" value="/ErrorPage.jsp">
-			
+    	<h1>Add Game</h1>      		
+		<div>
 			<div class="form-group">
     			<label for="comment">Comment:</label>
     			<input type="text" class="form-control" id="comment" name="comment">
-  			</div> 
+  			</div>
   			
 			<div class="form-group">
+			  	<button onclick="showAddSpawn()">
+  					<span id="idShowAddOpponent" class="glyphicon glyphicon-plus" aria-hidden="true">Add bot opponent</span>
+  				</button>
 				<label for="opponent">Opponent:</label>
 				<select class="form-control" id="opponents" name="opponent" onchange="setOpponentDecks()">
 					<option value="-1">Select opponent</option>
 	  				<c:forEach items="${requestScope.opponents}" var="opponent">
 						<option value="${opponent.id}" data-decks='${opponent.deckArray}'>${opponent.name}</option>					
 					</c:forEach>
-  				</select>
-  				<button onclick="showAddSpawn()">
-  					<span id="idShowAddOpponent" class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-  				</button>  				
+  				</select>  				
 			</div>
 			
 			<div class="form-group">
@@ -91,13 +104,20 @@
   				</select>
 			</div>
 			
+			<button onclick="addOpponent()">
+  				<span id="idShowAddOpponent" class="glyphicon glyphicon-plus" aria-hidden="true">Add opponent</span>
+  			</button> 
+			
 			<div>
 				<!-- List opponents -->
-				 <ul class="list-group">
-  					<li class="list-group-item">First item</li>
-  					<li class="list-group-item">Second item</li>
-  					<li class="list-group-item">Third item</li>
-				</ul>
+				 <ol id="idPlayerList" class="list-group">
+  					<li class="list-group-item player" value="${param.addToId}">
+  						<div>
+  							<h3>${sessionScope.player.getName()}</h3>
+  							<p>${sessionScope.deck.getName()}</p>
+  						</div>
+					</li>
+				</ol>
 			</div>
   			
   			<div class="checkbox">
@@ -106,8 +126,8 @@
     				<label><input type="checkbox" name="result" value="Draw">Draw</label>
     				<label><input type="checkbox" name="result" value="Loss">Loss</label>
   			</div>
-  			<jsp:include page="/segments/addcancelbutton.jsp"/>
-		</form>
+  			
+		</div>
 		
 		<form id="addSpawnForm" action="">
 			<div class="form-group">
@@ -144,6 +164,21 @@
 					<button type="button" class="btn btn-success" onclick="showAddGame()">Add</button>
 			</div>
 		</form>
+    
+    	<form id="idAddGameForm">
+			<input type="hidden" name="controllers" value="/AddGame,/GetGames">
+			<input type="hidden" name="playedDeck" value="${param.addToId}"> <!-- AddGame -->
+			<input type="hidden" name="id" value="${param.addToId}"> <!-- GetGames -->
+			<input type="hidden" name="goView" value="/DeckView.jsp">
+			<input type="hidden" name="altView" value="/DeckView.jsp">
+			<input type="hidden" name="altcontrollers" value="/GetAlterations,/GetGames">
+			<input type="hidden" name="errorView" value="/ErrorPage.jsp">
+			<input type="hidden" id="idPlayerListArray" name="playerList" value="players[]">
+		
+			<jsp:include page="/segments/addcancelbutton.jsp"/>
+		
+		</form>
+    
     </div>
     <jsp:include page="/segments/ads.jspf"/>
   </div>

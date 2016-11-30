@@ -12,7 +12,7 @@
     <div class="col-sm-1 sidenav">
     </div>
     <div class="col-sm-11 text-left">
-      <h1>Welcome ${sessionScope.userInfo.getName()}</h1>
+      <h1>Welcome ${sessionScope.player.getName()}</h1>
     </div>
     <div class="container">
     	<div class="row">
