@@ -67,7 +67,8 @@ public class PlayerHandler extends DatabaseHandler {
 		}
 	}
 
-	public Object getPlayerByDeck(int deckId) throws Exception {
+	public Player getPlayerByDeck(int deckId) throws Exception {
+		
 		try {
 			Context initContext = new InitialContext();
 			Context webContext = (Context)initContext.lookup("java:/comp/env");

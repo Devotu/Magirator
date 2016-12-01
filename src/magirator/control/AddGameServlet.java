@@ -20,40 +20,42 @@ public class AddGameServlet extends HttpServlet {
 			getServletContext().log("-  AddGame -> Collecting data");
 
 			int playerDeckId = Integer.parseInt(request.getParameter("playedDeck"));
-			int opponentDeckId = Integer.parseInt(request.getParameter("opponentDeck"));
-			String comment = request.getParameter("comment");
-			String result = request.getParameter("result");
+			String deckPlaces =  request.getParameter("deckList");
+			String playerComment = request.getParameter("comment");
+			boolean draw = Boolean.valueOf(request.getParameter("draw"));
 
 			getServletContext().log("-  AddGame -> Refining data");
 			
 			DeckHandler deckHandler = new DeckHandler();
-			Deck playerDeck = deckHandler.getDeckById(playerDeckId);
-			Deck opponentDeck = deckHandler.getDeckById(opponentDeckId);
-			
-			Play playerPlay = null;
-			Play opponentPlay = null;
-			
-			if	("Win".equals(result)){
-				playerPlay = new Play(1, true, comment);
-				opponentPlay = new Play(2, false, "");
-			} else if ("Draw".equals(result)){
-				playerPlay = new Play(0, true, comment);
-				opponentPlay = new Play(0, false, "");
-			} else {
-				playerPlay = new Play(2, true, comment);
-				opponentPlay = new Play(1, false, "");
-			}
-			
 			PlayerHandler playerHandler = new PlayerHandler();
-			Player playerPlayer = (Player) playerHandler.getPlayerByDeck(playerDeckId);
-			Player opponentPlayer = (Player) playerHandler.getPlayerByDeck(opponentDeckId);
-			
-			Result playerResult = new Result(playerDeck, playerPlay, playerPlayer);
-			Result opponentResult = new Result(opponentDeck, opponentPlay, opponentPlayer);
 			
 			List<Result> results = new ArrayList<>();
-			results.add(playerResult);
-			results.add(opponentResult);
+			
+			String[] deckPlaceArray = deckPlaces.split(",");
+			
+			int place = 0;
+			for (String s : deckPlaceArray){
+				
+				if (!draw){
+					place++;
+				}
+				
+				int deckId = Integer.parseInt(s);
+				
+				Deck deck = deckHandler.getDeckById(deckId);
+				
+				String comment = "Not commented";
+				
+				Play play = new Play(place, false, comment);
+				
+				if (deckId == playerDeckId){
+					play.setComment(playerComment);
+					play.setConfirmed(1);
+				}
+				
+				Result r = new Result(deck, play, null);
+				results.add(r);
+			}
 			
 			GameHandler gameHandler = new GameHandler();
 			

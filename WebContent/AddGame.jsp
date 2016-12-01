@@ -78,14 +78,14 @@
     </div>
     <div class="col-sm-8 text-left">
     	<h1>Add Game</h1>      		
-		<div>
+		<form  id="idAddGameForm">
 			<div class="form-group">
     			<label for="comment">Comment:</label>
     			<input type="text" class="form-control" id="comment" name="comment">
   			</div>
   			
 			<div class="form-group">
-			  	<button onclick="showAddSpawn()">
+			  	<button type="button" onclick="showAddSpawn()">
   					<span id="idShowAddOpponent" class="glyphicon glyphicon-plus" aria-hidden="true">Add bot opponent</span>
   				</button>
 				<label for="opponent">Opponent:</label>
@@ -104,9 +104,13 @@
   				</select>
 			</div>
 			
-			<button onclick="addOpponent()">
+			<button type="button" onclick="addOpponent()">
   				<span id="idShowAddOpponent" class="glyphicon glyphicon-plus" aria-hidden="true">Add opponent</span>
   			</button> 
+  			
+  			<div class="checkbox">
+    			<label><input type="checkbox" name="draw" value="Draw">Draw</label>
+  			</div>
 			
 			<div>
 				<!-- List opponents -->
@@ -120,14 +124,19 @@
 				</ol>
 			</div>
   			
-  			<div class="checkbox">
-  				<label for="colors">Win/Draw/Loss:</label>
-    				<label><input type="checkbox" name="result" value="Win">Win</label>
-    				<label><input type="checkbox" name="result" value="Draw">Draw</label>
-    				<label><input type="checkbox" name="result" value="Loss">Loss</label>
-  			</div>
-  			
-		</div>
+
+			<input type="hidden" name="controllers" value="/AddGame,/GetGames">
+			<input type="hidden" name="playedDeck" value="${param.addToId}"> <!-- AddGame -->
+			<input type="hidden" name="id" value="${param.addToId}"> <!-- GetGames -->
+			<input type="hidden" name="goView" value="/DeckView.jsp">
+			<input type="hidden" name="altView" value="/DeckView.jsp">
+			<input type="hidden" name="altcontrollers" value="/GetAlterations,/GetGames">
+			<input type="hidden" name="errorView" value="/ErrorPage.jsp">
+			<input type="hidden" id="idPlayerListArray" name="deckList" value="players[]">
+		
+			<jsp:include page="/segments/addcancelbutton.jsp"/>
+		
+		</form>
 		
 		<form id="addSpawnForm" action="">
 			<div class="form-group">
@@ -165,19 +174,7 @@
 			</div>
 		</form>
     
-    	<form id="idAddGameForm">
-			<input type="hidden" name="controllers" value="/AddGame,/GetGames">
-			<input type="hidden" name="playedDeck" value="${param.addToId}"> <!-- AddGame -->
-			<input type="hidden" name="id" value="${param.addToId}"> <!-- GetGames -->
-			<input type="hidden" name="goView" value="/DeckView.jsp">
-			<input type="hidden" name="altView" value="/DeckView.jsp">
-			<input type="hidden" name="altcontrollers" value="/GetAlterations,/GetGames">
-			<input type="hidden" name="errorView" value="/ErrorPage.jsp">
-			<input type="hidden" id="idPlayerListArray" name="playerList" value="players[]">
-		
-			<jsp:include page="/segments/addcancelbutton.jsp"/>
-		
-		</form>
+
     
     </div>
     <jsp:include page="/segments/ads.jspf"/>
