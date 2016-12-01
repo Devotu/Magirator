@@ -8,10 +8,20 @@
 	<jsp:param name="eol" value="true"/>
 </jsp:include>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
 
 	$(function() {
 			showAddGame();
+			
+			$('#idPlayerList').sortable({
+				 update: function( event, ui ) {
+				 	updatePlayerList();
+				 }
+			});
+			
+    		$('#idPlayerList').disableSelection();
 		}
 	)
 
@@ -58,6 +68,11 @@
 			'</li>'			
 		);
 		
+		updatePlayerList();
+		
+	}
+	
+	function updatePlayerList(){
 		var players = $(".player").map(
 			function (idx, element){
 				return $(element).val();
@@ -67,7 +82,6 @@
 		console.log(players);
 		
 		$('#idPlayerListArray').val(players);
-		
 	}
 	
 </script>
@@ -77,8 +91,19 @@
     <div class="col-sm-2 sidenav">
     </div>
     <div class="col-sm-8 text-left">
+    	
     	<h1>Add Game</h1>      		
+		
 		<form  id="idAddGameForm">
+			<input type="hidden" name="controllers" value="/AddGame,/GetAlterations,/GetGames">
+			<input type="hidden" name="playedDeck" value="${param.addToId}"> <!-- AddGame -->
+			<input type="hidden" name="id" value="${param.addToId}"> <!-- GetGames -->
+			<input type="hidden" name="goView" value="/DeckView.jsp">
+			<input type="hidden" name="altView" value="/DeckView.jsp">
+			<input type="hidden" name="altcontrollers" value="/GetAlterations,/GetGames">
+			<input type="hidden" name="errorView" value="/ErrorPage.jsp">
+			<input type="hidden" id="idPlayerListArray" name="deckList" value="players[]">
+		
 			<div class="form-group">
     			<label for="comment">Comment:</label>
     			<input type="text" class="form-control" id="comment" name="comment">
@@ -109,7 +134,7 @@
   			</button> 
   			
   			<div class="checkbox">
-    			<label><input type="checkbox" name="draw" value="Draw">Draw</label>
+    			<label><input type="checkbox" name="draw" value="true">Draw</label>
   			</div>
 			
 			<div>
@@ -123,16 +148,6 @@
 					</li>
 				</ol>
 			</div>
-  			
-
-			<input type="hidden" name="controllers" value="/AddGame,/GetGames">
-			<input type="hidden" name="playedDeck" value="${param.addToId}"> <!-- AddGame -->
-			<input type="hidden" name="id" value="${param.addToId}"> <!-- GetGames -->
-			<input type="hidden" name="goView" value="/DeckView.jsp">
-			<input type="hidden" name="altView" value="/DeckView.jsp">
-			<input type="hidden" name="altcontrollers" value="/GetAlterations,/GetGames">
-			<input type="hidden" name="errorView" value="/ErrorPage.jsp">
-			<input type="hidden" id="idPlayerListArray" name="deckList" value="players[]">
 		
 			<jsp:include page="/segments/addcancelbutton.jsp"/>
 		
