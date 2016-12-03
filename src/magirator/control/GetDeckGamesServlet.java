@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import magirator.beans.ListContainer;
 import magirator.model.neo4j.GameHandler;
 
-public class GetGamesServlet extends HttpServlet {
+public class GetDeckGamesServlet extends HttpServlet {
 	
 	public synchronized void service(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException, ServletException {
-		getServletContext().log("-- GetGames --");
+		getServletContext().log("-- GetGames (Deck) --");
 		
 		ListContainer gameList = new ListContainer();
 		

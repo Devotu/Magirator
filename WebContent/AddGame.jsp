@@ -95,12 +95,12 @@
     	<h1>Add Game</h1>      		
 		
 		<form  id="idAddGameForm">
-			<input type="hidden" name="controllers" value="/AddGame,/GetAlterations,/GetGames">
+			<input type="hidden" name="controllers" value="/AddGame,/GetAlterations,/GetDeckGames">
 			<input type="hidden" name="playedDeck" value="${param.addToId}"> <!-- AddGame -->
 			<input type="hidden" name="id" value="${param.addToId}"> <!-- GetGames -->
 			<input type="hidden" name="goView" value="/DeckView.jsp">
 			<input type="hidden" name="altView" value="/DeckView.jsp">
-			<input type="hidden" name="altcontrollers" value="/GetAlterations,/GetGames">
+			<input type="hidden" name="altcontrollers" value="/GetAlterations,/GetDeckGames">
 			<input type="hidden" name="errorView" value="/ErrorPage.jsp">
 			<input type="hidden" id="idPlayerListArray" name="deckList" value="players[]">
 		

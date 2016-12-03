@@ -12,7 +12,7 @@ public class ListItem {
 	private HashMap filterables;
 	private int colorCode;
 	
-	public ListItem () { }	
+	public ListItem () { }
 	
 	public int getId() {
 		return id;

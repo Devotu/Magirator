@@ -1,0 +1,6 @@
+MATCH (u:User)
+WHERE id(u) = ?
+MATCH (u)-[:Use]->(d:Deck)
+MATCH (d)-[p:Played]->(:Game)
+WHERE p.confirmed = 0
+RETURN p

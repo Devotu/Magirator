@@ -35,9 +35,13 @@
   				</button>  				
   			</form>
   			<form class="col-sm-4" action="/Magirator/Magirator" method="post">
+  				<input type="hidden" name="userid" value="${sessionScope.userid}">
+				<input type="hidden" name="controllers" value="/GetUserGames">			
+				<input type="hidden" name="goView" value="/DeckList.jsp">
+				<input type="hidden" name="errorView" value="/ErrorPage.jsp">
   				<button type="submit">
-    				<h1>Statistics</h1>
-    				<p>View your statistics.</p>
+    				<h1>Confirm Games</h1>
+    				<p>Confirm games played against your decks.</p>
   				</button>  				
   			</form>
 		</div>

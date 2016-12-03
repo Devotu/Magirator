@@ -14,7 +14,7 @@
 		</div>
 		<div class="col-sm-8 text-left">
 			<c:set var="goView" value="/DeckView.jsp" scope="request"/>	
-			<c:set var="controllers" scope="request" value="/GetDeck,/GetDeckGames,/GetAlterations"/>
+			<c:set var="controllers" scope="request" value="/GetDeck,/GetGames,/GetAlterations"/>
 			<c:set var="errorView" value="/ErrorPage.jsp" scope="request"/>
 			<c:set var="listContainer" value="${requestScope.deckListContainer}" scope="request"/>
 			<jsp:include page="/segments/list_header.jsp">

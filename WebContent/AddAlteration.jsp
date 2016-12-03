@@ -31,12 +31,12 @@ $(document).ready(function() {
 		<div class="col-sm-8 text-left">
 			<h1>Alter deck</h1>
 			<form action="/Magirator/Magirator" method="post">
-				<input type="hidden" name="controllers" value="/AddAlteration,/GetDeck,/GetAlterations,/GetGames">
+				<input type="hidden" name="controllers" value="/AddAlteration,/GetDeck,/GetAlterations,/GetDeckGames">
 				<!-- AddAlteration --><input type="hidden" name="deckId" value="${param.addToId}">
 				<!-- GetAlterations, GetGames, GetDeck --><input type="hidden" name="id" value="${param.addToId}">
 				<input type="hidden" name="goView" value="/DeckView.jsp">
 				<input type="hidden" name="altView" value="/DeckView.jsp">
-				<input type="hidden" name="altcontrollers" value="/GetDeck,/GetAlterations,/GetGames">
+				<input type="hidden" name="altcontrollers" value="/GetDeck,/GetAlterations,/GetDeckGames">
 				<input type="hidden" name="errorView" value="/ErrorPage.jsp">
 
 			<div>

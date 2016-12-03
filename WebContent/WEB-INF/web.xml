@@ -30,7 +30,7 @@
     		<servlet-class>magirator.control.GetDeckServlet</servlet-class>
   	</servlet>
   	<servlet>
-    		<servlet-name>GetGamesServlet</servlet-name>
+    		<servlet-name>GetDeckGamesServlet</servlet-name>
     		<servlet-class>magirator.control.GetGamesServlet</servlet-class>
   	</servlet>
   	<servlet>
@@ -69,6 +69,10 @@
     		<servlet-name>ToggleDeck</servlet-name>
     		<servlet-class>magirator.control.ToggleDeckServlet</servlet-class>
   	</servlet>
+  	<servlet>
+    		<servlet-name>GetUserGamesServlet</servlet-name>
+    		<servlet-class>magirator.control.GetUserGamesServlet</servlet-class>
+  	</servlet>
   	
 	<servlet-mapping>
     		<servlet-name>Login</servlet-name>
@@ -95,8 +99,8 @@
     		<url-pattern>/Signup</url-pattern>
 	</servlet-mapping>
   	<servlet-mapping>
-    		<servlet-name>GetGamesServlet</servlet-name>
-    		<url-pattern>/GetGames</url-pattern>
+    		<servlet-name>GetDeckGamesServlet</servlet-name>
+    		<url-pattern>/GetDeckGames</url-pattern>
 	</servlet-mapping>
   	<servlet-mapping>
     		<servlet-name>GetOpponentsServlet</servlet-name>
@@ -129,6 +133,10 @@
   	<servlet-mapping>
     		<servlet-name>ToggleDeck</servlet-name>
     		<url-pattern>/ToggleDeck</url-pattern>
+	</servlet-mapping>
+  	<servlet-mapping>
+    		<servlet-name>GetUserGamesServlet</servlet-name>
+    		<url-pattern>/GetUserGames</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>
