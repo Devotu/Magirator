@@ -170,12 +170,12 @@ public class GameHandler extends DatabaseHandler {
 			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
 			con = ds.getConnection();			
 
-			String query = "MATCH (u:User)"
-					+ "WHERE id(u) = ?"
-					+ "MATCH (u)-[:Use]->(d:Deck)"
-					+ "MATCH (d)-[p:Played]->(g:Game)"
-					+ "WHERE p.confirmed = 0"
-					+ "RETURN id(p), p.place, g.created";
+			String query = "MATCH (u:User) "
+					+ "WHERE id(u) = ? "
+					+ "MATCH (u)-[:Use]->(d:Deck) "
+					+ "MATCH (d)-[p:Played]->(g:Game) "
+					+ "WHERE p.confirmed = 0 "
+					+ "RETURN id(g), p.place, g.created ";
 
 
       		PreparedStatement ps = con.prepareStatement(query);
@@ -194,7 +194,7 @@ public class GameHandler extends DatabaseHandler {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 				
 				li.setDisplayname(sdf.format(date));
-				li.setId(rs.getInt("id(p)"));
+				li.setId(rs.getInt("id(g)"));
 				
 				int place = rs.getInt("p.place");
 				

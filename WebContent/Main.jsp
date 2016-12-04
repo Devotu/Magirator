@@ -25,7 +25,6 @@
   				</button>  				
   			</form>
   			<form class="col-sm-4" action="/Magirator/Magirator" method="post">
-				<input type="hidden" name="userid" value="${sessionScope.userid}">
 				<input type="hidden" name="controllers" value="/GetDecks">			
 				<input type="hidden" name="goView" value="/DeckList.jsp">
 				<input type="hidden" name="errorView" value="/ErrorPage.jsp">
@@ -35,9 +34,9 @@
   				</button>  				
   			</form>
   			<form class="col-sm-4" action="/Magirator/Magirator" method="post">
-  				<input type="hidden" name="userid" value="${sessionScope.userid}">
+				<input type="hidden" name="confimedStatus" value="-1">
 				<input type="hidden" name="controllers" value="/GetUserGames">			
-				<input type="hidden" name="goView" value="/DeckList.jsp">
+				<input type="hidden" name="goView" value="/ConfirmGameList.jsp">
 				<input type="hidden" name="errorView" value="/ErrorPage.jsp">
   				<button type="submit">
     				<h1>Confirm Games</h1>

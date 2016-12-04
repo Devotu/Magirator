@@ -7,7 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import magirator.beans.ListContainer;
+import magirator.beans.Player;
 import magirator.model.neo4j.GameHandler;
 
 public class GetUserGamesServlet extends HttpServlet {
@@ -19,7 +22,8 @@ public class GetUserGamesServlet extends HttpServlet {
 		
 		getServletContext().log("-  GetGames -> Collecting data");
 		
-		int playerId = Integer.parseInt(request.getParameter("id"));
+		HttpSession session = request.getSession();
+		Player player = (Player) session.getAttribute("player");
 		
 		/**
 		 * -1 = only unconfirmed
@@ -29,7 +33,7 @@ public class GetUserGamesServlet extends HttpServlet {
 		int confimedStatus; 
 		
 		if (request.getParameter("confimedStatus") != null){
-			confimedStatus = Integer.parseInt(request.getParameter("returnConfirmed"));
+			confimedStatus = Integer.parseInt(request.getParameter("confimedStatus"));
 		} else {
 			confimedStatus = 0;
 		}
@@ -38,8 +42,8 @@ public class GetUserGamesServlet extends HttpServlet {
 		
 		if (confimedStatus == -1){ //Get all unconfirmed
 			try {
-				getServletContext().log("-  GetGames -> Getting games belonging to user " + playerId);
-				gameList.setListItems(gameHandler.listPlayerGamesNotConfirmed(playerId));
+				getServletContext().log("-  GetGames -> Getting games belonging to user " + player.getId());
+				gameList.setListItems(gameHandler.listPlayerGamesNotConfirmed(player.getId()));
 				gameList.setSortOptions(gameHandler.getSortables());
 				gameList.setFilterOptions(gameHandler.getFilterables());
 					

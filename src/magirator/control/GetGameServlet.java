@@ -18,7 +18,6 @@ public class GetGameServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		Deck deck = (Deck)session.getAttribute("deck");
-		int deckid = deck.getDeckid();
 		
 		GameHandler gameHandler = new GameHandler();
 		GameResult gameResult = null;
