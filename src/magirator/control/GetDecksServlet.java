@@ -46,7 +46,6 @@ public class GetDecksServlet extends HttpServlet {
 		getServletContext().log("-  GetDecks -> Number of filter options " + deckList.getFilterOptions().size());
 		
 		request.setAttribute("deckListContainer", deckList);
-		//session.setAttribute("deckList", deckList.toArray());
 
 		getServletContext().log("-- GetDecks -- Done");
 	}

@@ -20,7 +20,7 @@
 			<c:set var="errorView" value="/ErrorPage.jsp" scope="request"/>
 			<c:set var="listContainer" value="${requestScope.gameListContainer}" scope="request"/>
 			<jsp:include page="/segments/list_header.jsp">
-				<jsp:param name="header" value="Your decks"/>
+				<jsp:param name="header" value="Your unconfirmed games"/>
 				<jsp:param name="addView" value="/AddDeck.jsp"/>
 			</jsp:include>
       		<jsp:include page="/segments/list.jsp"/>

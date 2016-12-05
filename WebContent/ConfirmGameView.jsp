@@ -17,13 +17,14 @@
 		</div>
 		<div class="col-sm-9 text-left">
 				<h1>Confirm Game</h1>
-				<label for="name">Date:</label>
+				<label for="date">Date:</label>
 				<p>${requestScope.game.game.datePlayed}</p>
 				<c:forEach items='${requestScope.game.results}' var='result'>
 					<div class="well">
+						<h3>${result.play.place}</h3>
 						<label for="name">Player:</label>
-						<h3>${result.play.place}</h3><p>${result.player.name}</p>
-						<label for="name">Player colors:</label>
+						<p>${result.player.name}</p>
+						<label for="colors">Player colors:</label>
 						<!-- Colors -->
 						<div>
 							 <table>
@@ -91,15 +92,36 @@
 					  			</tr>
 							</table>
 						</div>
-						<label for="name">Comment:</label>
-						<p>${result.play.comment}</p>
+						
+						<div>
+							<label for="comment">Comment:</label>							
+							<c:choose>
+    							<c:when test="${result.player.id == sessionScope.player.id}">
+    								<form action="/Magirator/Magirator" method="post">
+										<input type="hidden" name="playId" value="${result.play.id}"><!-- ConfirmGame -->
+										<input type="hidden" name="confimedStatus" value="-1"><!-- GetUserGames (unconfirmed games) -->
+										<input type="hidden" name="controllers" value="/ConfirmGame,/GetUserGames">			
+										<input type="hidden" name="goView" value="/ConfirmGameList.jsp">
+										<input type="hidden" name="altView" value="/ConfirmGameList.jsp">
+										<input type="hidden" name="altcontrollers" value="/ConfirmGame,/GetUserGames">		
+										<input type="hidden" name="errorView" value="/ErrorPage.jsp">    								
+										
+    									<input id="comment" type="text" name="comment"> 
+    									<div class="btn-group">
+											<button type="submit" class="btn btn-warning" name="action" value="alt">Reject</button>
+											<button type="submit" class="btn btn-success" name="action" value="go">Confirm</button>
+										</div>
+									</form>								
+    							</c:when>    
+    							<c:otherwise>  									
+									<p id="comment">${result.play.comment}</p>
+    							</c:otherwise>
+							</c:choose>
+						</div>
+
 					</div>
 					
 				</c:forEach>
-				
-
-
-	
 	
 	</div>    
 		<jsp:include page="/segments/ads.jspf"/>

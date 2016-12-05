@@ -75,7 +75,7 @@ public class PlayerHandler extends DatabaseHandler {
 			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
 			con = ds.getConnection();
 
-			String query = "MATCH (u:User)-->(d:Deck) WHERE id(d) = ? RETURN PROPERTIES(u)";
+			String query = "MATCH (u:User)-->(d:Deck) WHERE id(d) = ? RETURN id(u), PROPERTIES(u)";
 
       		PreparedStatement ps = con.prepareStatement(query);
       		ps.setInt(1, deckId);
@@ -85,7 +85,7 @@ public class PlayerHandler extends DatabaseHandler {
       		Player player = null;
 		
 			if (rs.next()) {
-				player = new Player((Map)rs.getObject("PROPERTIES(u)"));
+				player = new Player(rs.getInt("id(u)"), (Map)rs.getObject("PROPERTIES(u)"));
 			}
 			
 			return player;

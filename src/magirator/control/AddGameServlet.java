@@ -46,7 +46,7 @@ public class AddGameServlet extends HttpServlet {
 				
 				String comment = "Not commented";
 				
-				Play play = new Play(place, false, comment);
+				Play play = new Play(0, place, false, comment);
 				
 				if (deckId == playerDeckId){
 					play.setComment(playerComment);

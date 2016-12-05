@@ -129,7 +129,7 @@ public class GameHandler extends DatabaseHandler {
 			String query =
 					"MATCH (u:User)-->(d:Deck)-[p:Played]->(g:Game)" +
 					"WHERE id(g) = ?" +
-					"RETURN PROPERTIES(u), id(d), PROPERTIES(d), PROPERTIES(p), PROPERTIES(g)" +
+					"RETURN id(u), PROPERTIES(u), id(d), PROPERTIES(d), id(p), PROPERTIES(p), PROPERTIES(g)" +
 					"ORDER BY p.place";
 
       		PreparedStatement ps = con.prepareStatement(query);
@@ -143,9 +143,9 @@ public class GameHandler extends DatabaseHandler {
       			if	(gameResult.getGame() == null){
       				gameResult.setGame(new Game((Map)rs.getObject("PROPERTIES(g)")));
       			}
-      			Player u = new Player((Map)rs.getObject("PROPERTIES(u)"));
+      			Player u = new Player(rs.getInt("id(u)"), (Map)rs.getObject("PROPERTIES(u)"));
       			Deck d = new Deck(rs.getInt("id(d)"), (Map)rs.getObject("PROPERTIES(d)"));
-      			Play p = new Play((Map)rs.getObject("PROPERTIES(p)"));
+      			Play p = new Play(rs.getInt("id(p)"), (Map)rs.getObject("PROPERTIES(p)"));
       			Result r = new Result(d, p, u);
       			gameResult.addResult(r);
       		}
@@ -259,6 +259,37 @@ public class GameHandler extends DatabaseHandler {
 		filterables.put("Result", result);
 		
 		return filterables;
-}
+	}
+	
+	public void confirmGame(int playId, boolean confirm, String comment) throws Exception{
+		
+		try {
+			Context initContext = new InitialContext();
+			Context webContext = (Context)initContext.lookup("java:/comp/env");
+			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
+			con = ds.getConnection();			
+			
+			String query = "MATCH (d:Deck)-[p:Played]->(g:Game) "
+					+ "WHERE id(p)=? "
+					+ "SET p.confirmed=?, p.comment=?";
+			
+			PreparedStatement ps = con.prepareStatement(query);
+      		
+			ps.setInt(1, playId);
+			ps.setInt(2, confirm ? 1 : -1);
+			ps.setString(3, comment);
+			
+			ps.executeUpdate();
+			
+			if (rs != null) rs.close();
+			if (st != null) st.close();
+			if (con != null) con.close();
+			
+		} catch (Exception ex){
+			throw ex;
+		}
+		
+		
+	}
 
 }

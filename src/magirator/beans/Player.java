@@ -7,9 +7,9 @@ public class Player {
 	private String name;
 	private int id;
 
-	public Player(Map playerMap) {
+	public Player(int id, Map playerMap) {
+		this.id = id;
 		this.name = (String) playerMap.get("name");
-		this.name = (String) playerMap.get("id");
 	}
 
 	public Player(String name, int id) {

@@ -4,7 +4,6 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import magirator.model.neo4j.*;
-import magirator.beans.Deck;
 import magirator.beans.GameResult;
 
 public class GetGameServlet extends HttpServlet {
@@ -15,9 +14,6 @@ public class GetGameServlet extends HttpServlet {
 		getServletContext().log("-  GetGame -> Collecting data for game " + request.getParameter("id"));
 		
 		int gameid = Integer.parseInt(request.getParameter("id"));
-		
-		HttpSession session = request.getSession();
-		Deck deck = (Deck)session.getAttribute("deck");
 		
 		GameHandler gameHandler = new GameHandler();
 		GameResult gameResult = null;
@@ -32,7 +28,7 @@ public class GetGameServlet extends HttpServlet {
 			throw new ServletException("Something databazy went wrong");
 		}		
 		
-		if (deck != null) {
+		if (gameResult != null) {
 			getServletContext().log("-  GetGame -> Found a game");
 		} else {
 			getServletContext().log("-  GetGame -> No game found");
