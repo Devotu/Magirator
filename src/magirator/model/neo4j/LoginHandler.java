@@ -1,11 +1,8 @@
 package magirator.model.neo4j;
 
 import java.sql.*;
-import java.util.*;
 import javax.sql.*;
 import javax.naming.*;
-
-import java.io.*;
 
 public class LoginHandler {
 	

@@ -74,7 +74,7 @@
 		</div>
 		<!--Signup-->
 		<div id="signupForm" class="col-sm-8 text-left" style="display: none">
-			<form action="#" method="post">
+			<form action="/Magirator/Signup" method="post">
 				<input type="hidden" name="goView" value="/Welcome.jsp">
 				<input type="hidden" name="errorView" value="/ErrorPage.jsp">
 				<div id="pwdMatchAlert" class="alert alert-warning" role="alert" style="display: none">Passwords does not match</div>
