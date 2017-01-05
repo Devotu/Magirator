@@ -1,5 +1,8 @@
 package magirator.control;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import magirator.model.neo4j.*;
@@ -31,14 +34,6 @@ public class LoginServlet extends HttpServlet {
         			getServletContext().log("-  Login -> login failed, user is: " + userid + "(" + username + ")");
 				viewName = "/Welcome.jsp";
 			}
-				
-		} catch (Exception ex) {
-			getServletContext().log("-  Login -- Error -- " + ex.getMessage());
-			throw new ServletException("Something databazy went wrong");
-
-		}
-		
-		try {
 			
 			RequestDispatcher d = getServletContext().getRequestDispatcher(viewName);
 
@@ -48,8 +43,16 @@ public class LoginServlet extends HttpServlet {
 			} else {
 				getServletContext().log("-  Login -> No view named " + viewName);
 			}
+			
 		} catch (Exception ex) {
-			request.setAttribute("exception", ex.toString());
+			
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			ex.printStackTrace(pw);
+			String prettyException = "<br>" + sw.toString();
+			prettyException = prettyException.replace("\n", "<br>");
+			
+			request.setAttribute("exception", prettyException);
 
 			RequestDispatcher d = getServletContext().getRequestDispatcher(errorViewName);
 

@@ -14,7 +14,7 @@
 		<div class="col-sm-11 text-left">
 			<h1>Error</h1>
 			Unfortunately something went wrong.
-			This to be specific: ${param.exception}
+			This to be specific: ${requestScope.exception}
 		</div>
 	</div>
 </div>

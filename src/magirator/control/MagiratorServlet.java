@@ -1,5 +1,8 @@
 package magirator.control;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import javax.servlet.*;
 
 public class MagiratorServlet extends GenericServlet {
@@ -79,7 +82,14 @@ public class MagiratorServlet extends GenericServlet {
 			}
 
 		} catch (Exception ex) {
-			request.setAttribute("exception", ex.toString());
+			
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			ex.printStackTrace(pw);
+			String prettyException = "<br>" + sw.toString();
+			prettyException = prettyException.replace("\n", "<br>");
+			
+			request.setAttribute("exception", prettyException);
 			getServletContext().log("MagiratorServlet -- This is the error " + ex.toString());
 
 			RequestDispatcher d = getServletContext().getRequestDispatcher(errorViewName);
