@@ -148,7 +148,8 @@
 	</servlet-mapping>
 	
 	<welcome-file-list>
-    	<welcome-file>Welcome.jsp</welcome-file>
+		<welcome-file>App.html</welcome-file>
+    	<!-- <welcome-file>Welcome.jsp</welcome-file> -->
 	</welcome-file-list>
 	
 	<resource-ref>
