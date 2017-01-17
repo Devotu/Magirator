@@ -7,9 +7,9 @@ import java.util.Date;
 
 import javax.sql.*;
 
-import javax.naming.*;
+import magirator.objects.*;
 
-import magirator.beans.*;
+import javax.naming.*;
 
 public class GameHandler extends DatabaseHandler {
 	

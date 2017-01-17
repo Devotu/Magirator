@@ -4,9 +4,10 @@ import java.sql.*;
 import java.util.*;
 
 import javax.sql.*;
-import javax.naming.*;
 
-import magirator.beans.*;
+import magirator.objects.*;
+
+import javax.naming.*;
 
 public class PlayerHandler extends DatabaseHandler {
 	

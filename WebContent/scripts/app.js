@@ -8,7 +8,7 @@ mApp.config(function($routeProvider) {
 
 	// route for the home page
 	.when('/', {
-		templateUrl : 'pages/home.html',
+		templateUrl : 'pages/welcome.html',
 		controller : 'mainController'
 	})
 

@@ -77,6 +77,10 @@
     		<servlet-name>ConfirmGameServlet</servlet-name>
     		<servlet-class>magirator.control.ConfirmGameServlet</servlet-class>
   	</servlet>
+  	<servlet>
+    		<servlet-name>GetDecksJson</servlet-name>
+    		<servlet-class>magirator.control.GetDecksServletJson</servlet-class>
+  	</servlet>
   	
 	<servlet-mapping>
     		<servlet-name>Login</servlet-name>
@@ -146,10 +150,13 @@
     		<servlet-name>ConfirmGameServlet</servlet-name>
     		<url-pattern>/ConfirmGame</url-pattern>
 	</servlet-mapping>
+  	<servlet-mapping>
+    		<servlet-name>GetDecksJson</servlet-name>
+    		<url-pattern>/GetDecksJson</url-pattern>
+	</servlet-mapping>  	
 	
 	<welcome-file-list>
-		<welcome-file>App.html</welcome-file>
-    	<!-- <welcome-file>Welcome.jsp</welcome-file> -->
+    	<welcome-file>App.html</welcome-file>
 	</welcome-file-list>
 	
 	<resource-ref>
