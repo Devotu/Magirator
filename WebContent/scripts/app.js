@@ -22,6 +22,11 @@ mApp.config(function($routeProvider) {
 	.when('/contact', {
 		templateUrl : 'pages/contact.html',
 		controller : 'contactController'
+	})
+
+	.when('/adddeck', {
+		templateUrl : 'pages/adddeck.html',
+		controller : 'addDeckController'
 	});
 });
 
@@ -37,4 +42,20 @@ mApp.controller('aboutController', function($scope) {
 
 mApp.controller('contactController', function($scope) {
 	$scope.message = 'Contact us! JK. This is just a demo.';
+});
+
+mApp.controller('addDeckController', function($scope, $http) {
+	
+	console.log("adding deck");
+	
+	var req = {
+			 method: 'POST',
+			 url: '/Magirator/AddDeck',
+			 headers: {
+			   'Content-Type': 'application/json'
+			 },
+			 data: { deck: 'test' }
+			}
+
+	$http(req).then(function(){$scope.message = 'Success'}, function(){$scope.message = 'Failure'});
 });

@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.google.gson.Gson;
 
 import magirator.model.neo4j.DatabaseParams;
@@ -24,17 +25,17 @@ import magirator.support.ErrorHandler;
 import magirator.support.ParameterHelper;
 
 /**
- * Servlet implementation class GetPlayerDecks
+ * Servlet implementation class GetDecks
  */
-@WebServlet(description = "Fetch all decks beloning to a Player", urlPatterns = { "/GetPlayerDecks" })
-public class GetPlayerDecks extends HttpServlet {
+@WebServlet(description = "Get all decks belonging to the current user", urlPatterns = { "/GetDecks" })
+public class GetDecks extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+       
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		
+
 		getServletContext().log("-- GetDecks --");
 		getServletContext().log("-  GetDecks -> Collecting data");
 				
@@ -92,7 +93,6 @@ public class GetPlayerDecks extends HttpServlet {
 
 		getServletContext().log("-- GetDecks -- Done");
 	}
-	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
