@@ -1,0 +1,22 @@
+package magirator.objects;
+
+import com.google.gson.JsonObject;
+
+public class Example {
+
+	private String text;
+	
+	public Example(JsonObject json) {
+		
+		this.text = json.get("test").toString();
+	}
+	
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+}

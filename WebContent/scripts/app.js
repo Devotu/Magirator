@@ -1,6 +1,6 @@
 // create the module and name it scotchApp
 // also include ngRoute for all our routing needs
-var mApp = angular.module('mApp', [ 'ngRoute' ]);
+var mApp = angular.module('magiratorApp', [ 'ngRoute' ]);
 
 // configure our routes
 mApp.config(function($routeProvider) {
@@ -46,16 +46,17 @@ mApp.controller('contactController', function($scope) {
 
 mApp.controller('addDeckController', function($scope, $http) {
 	
-	console.log("adding deck");
-	
-	var req = {
-			 method: 'POST',
-			 url: '/Magirator/AddDeck',
-			 headers: {
-			   'Content-Type': 'application/json'
-			 },
-			 data: { deck: 'test' }
-			}
+	$scope.addDeck = function(){
+		var req = {
+				method: 'POST',
+				url: '/Magirator/AddDeck',
+				headers: {
+				   'Content-Type': 'application/json'
+				},
+				data: JSON.stringify({ 'test': 'texten' })
+		}
 
-	$http(req).then(function(){$scope.message = 'Success'}, function(){$scope.message = 'Failure'});
+		$http(req).then(function(response){$scope.result = response.data}, function(){$scope.result = 'Failure'});
+	};
+
 });
