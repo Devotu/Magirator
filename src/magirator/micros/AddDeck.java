@@ -19,6 +19,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import magirator.model.neo4j.DeckHandler;
 import magirator.objects.Player;
@@ -70,17 +73,17 @@ public class AddDeck extends HttpServlet {
 		catch (Exception e) 
 		{ /*report an error*/ }
 
-		JSONObject jsonObject = null;
+		JsonObject data = null;
 		
-		try {
-			jsonObject =  HTTP.toJSONObject(sb.toString());			
-		} 
-		catch (JSONException e) {
-		    // crash and burn
-			throw new IOException("Error parsing JSON request string");
-		}
+		JsonParser parser = new JsonParser();
 
-		String json = ParameterHelper.returnParameter(req, "deck");
+		data = (JsonObject) parser.parse(sb.toString());
+		
+		res.setContentType("text/plain");
+		res.setCharacterEncoding("UTF-8");
+		res.getWriter().write("you sent me: " + data.get("deck"));
+		
+
 
 		/*
 		for(String c : colors){
