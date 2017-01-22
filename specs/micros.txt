@@ -8,6 +8,8 @@ GetDeck
 UpdateDeck
 DeleteDeck
 
+GetFormats
+
 GetGames
 AddGame
 GetGame

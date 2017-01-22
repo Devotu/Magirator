@@ -24,8 +24,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import magirator.model.neo4j.DeckHandler;
+import magirator.objects.Deck;
 import magirator.objects.Example;
 import magirator.objects.Player;
+import magirator.support.ErrorHandler;
 import magirator.support.ParameterHelper;
 
 /**
@@ -72,7 +74,9 @@ public class AddDeck extends HttpServlet {
 		    	sb.append(line);
 		} 
 		catch (Exception e) 
-		{ /*report an error*/ }
+		{ 
+			res.getWriter().write( ErrorHandler.printStackTrace(e) );
+		}
 
 		JsonObject data = null;
 		
@@ -80,7 +84,9 @@ public class AddDeck extends HttpServlet {
 
 		data = (JsonObject) parser.parse(sb.toString());
 		
-		Example e = new Example(data);
+		//Example e = new Example(data);
+		
+		Deck deck = new Deck(data);
 		
 		res.setContentType("text/plain");
 		res.setCharacterEncoding("UTF-8");

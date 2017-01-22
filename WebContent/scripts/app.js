@@ -47,13 +47,20 @@ mApp.controller('contactController', function($scope) {
 mApp.controller('addDeckController', function($scope, $http) {
 	
 	$scope.addDeck = function(){
+		$scope.result = "Waiting for response";
 		var req = {
 				method: 'POST',
 				url: '/Magirator/AddDeck',
 				headers: {
 				   'Content-Type': 'application/json'
 				},
-				data: JSON.stringify({ 'test': 'texten' })
+				data: { 
+					'name': $scope.name,
+					'format': $scope.format,
+					'colors': $scope.colors,
+					'theme': $scope.theme,
+					'created': Date.now()
+				}
 		}
 
 		$http(req).then(function(response){$scope.result = response.data}, function(){$scope.result = 'Failure'});

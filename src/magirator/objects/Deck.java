@@ -4,6 +4,10 @@ import java.sql.ResultSet;
 import java.util.Date;
 import java.util.Map;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 public class Deck {
 
 	private int deckid;
@@ -60,6 +64,28 @@ public class Deck {
 		this.active = (boolean)deckMap.get("active");
 		
 		long longTime = (Long)deckMap.get("created");
+		this.created = new Date(longTime);
+	}
+	
+	
+
+	public Deck(JsonObject deck) {
+		this.deckid = (int) (deck.has("id") ? deck.get("id").getAsNumber() : 0);
+		this.name = deck.get("name").getAsString();
+		this.format = deck.get("format").getAsString();
+		this.theme = deck.get("theme").getAsString();
+		this.active = (boolean) (deck.has("active") ? deck.get("active").getAsBoolean() : true );
+		
+		JsonObject colors = deck.get("colors").getAsJsonObject();
+		
+		if (colors.has("black")){ this.black = true; };
+		if (colors.has("white")){ this.white = true; };
+		if (colors.has("red")){ this.red = true; };
+		if (colors.has("green")){ this.green = true; };
+		if (colors.has("blue")){ this.blue = true; };
+		if (colors.has("colorless")){ this.colorless = true; };
+		
+		long longTime = deck.get("created").getAsLong();
 		this.created = new Date(longTime);
 	}
 

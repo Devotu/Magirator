@@ -8,7 +8,7 @@ public class Example {
 	
 	public Example(JsonObject json) {
 		
-		this.text = json.get("test").toString();
+		this.text = json.get("test").getAsString();
 	}
 	
 	public String getText() {
