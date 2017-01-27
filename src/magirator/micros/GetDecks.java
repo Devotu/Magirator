@@ -20,8 +20,8 @@ import com.google.gson.Gson;
 
 import magirator.model.neo4j.DatabaseParams;
 import magirator.objects.Deck;
-import magirator.support.DatabaseHelper;
-import magirator.support.ErrorHandler;
+import magirator.support.Database;
+import magirator.support.Error;
 import magirator.support.ParameterHelper;
 
 /**
@@ -52,7 +52,7 @@ public class GetDecks extends HttpServlet {
 		ResultSet rs = null;
 		
 		try {
-			con = DatabaseHelper.getConnection();
+			con = Database.getConnection();
 
 			String query = "MATCH (u:User)-[r:Use]->(d:Deck) WHERE id(u)=? RETURN id(d), PROPERTIES(d)";
 
@@ -76,7 +76,7 @@ public class GetDecks extends HttpServlet {
             res.getWriter().write(returnJson);
 			
 		} catch (Exception e){			
-			res.getWriter().write( ErrorHandler.printStackTrace(e) );
+			res.getWriter().write( Error.printStackTrace(e) );
 			
 		} finally {
 			
@@ -87,7 +87,7 @@ public class GetDecks extends HttpServlet {
 				if (con != null) con.close();
 				
 			} catch (SQLException e) {
-				res.getWriter().write( ErrorHandler.printStackTrace(e) );
+				res.getWriter().write( Error.printStackTrace(e) );
 			}
 		}
 

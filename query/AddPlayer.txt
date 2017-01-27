@@ -1,0 +1,2 @@
+MATCH (u:User) WHERE id(u) = 0 CREATE (u)-[c:Created {created: TIMESTAMP()}]->(p:Player { name: "Ottoman", dci: "XQ234M4S765" }) RETURN id(p)
+CREATE (u:User {name:"Kent", password:"Kenta"})-[c:Created {created: TIMESTAMP()}]->(p:Player { name: "Kentoman", dci: "PR3T3NDER23" }) RETURN id(p)

@@ -22,7 +22,7 @@ import com.google.gson.JsonParser;
 
 import magirator.model.neo4j.DatabaseParams;
 import magirator.objects.Deck;
-import magirator.support.ErrorHandler;
+import magirator.support.Error;
 
 /**
  * Servlet implementation class AddDeck
@@ -47,7 +47,7 @@ public class AddDeck extends HttpServlet {
 		} 
 		catch (Exception e) 
 		{ 
-			res.getWriter().write( ErrorHandler.printStackTrace(e) );
+			res.getWriter().write( Error.printStackTrace(e) );
 		}
 
 		JsonObject data = null;
@@ -89,14 +89,14 @@ public class AddDeck extends HttpServlet {
 			ps.executeUpdate();
 			
 		} catch (Exception e){
-			res.getWriter().write( ErrorHandler.printStackTrace(e) );
+			res.getWriter().write( Error.printStackTrace(e) );
 		} finally {
 			try {
 				if (rs != null) rs.close();
 				if (st != null) st.close();
 				if (con != null) con.close();
 			} catch (SQLException e) {
-				res.getWriter().write( ErrorHandler.printStackTrace(e) );
+				res.getWriter().write( Error.printStackTrace(e) );
 			}
 		}
 

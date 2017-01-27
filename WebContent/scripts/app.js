@@ -9,7 +9,12 @@ mApp.config(function($routeProvider) {
 	// route for the home page
 	.when('/', {
 		templateUrl : 'pages/welcome.html',
-		controller : 'mainController'
+		controller : 'loginController'
+	})	
+
+	.when('/signup', {
+		templateUrl : 'pages/signup.html',
+		controller : 'signupController'
 	})
 
 	// route for the about page
@@ -87,3 +92,75 @@ mApp.controller('addDeckController', function($scope, $http) {
 	};
 
 });
+
+mApp.controller('loginController', function($scope, $http, $location) {
+	
+	//Login
+	$scope.login = function(){
+		$scope.result = "Waiting for response";
+		var loginReq = {
+				method: 'POST',
+				url: '/Magirator/Login',
+				headers: {
+				   'Content-Type': 'application/json'
+				},
+				data: { 
+					'username': $scope.username,
+					'password': $scope.password
+				}
+		}
+
+		$http(loginReq).then(function(response){
+			$scope.result = response.data
+			}, 
+			function(){
+				$scope.result = 'Failure'
+			});
+	};
+	
+    $scope.goSignup = function() {
+        $location.url('/signup');
+    };
+});
+
+mApp.controller('signupController', function($scope, $http, $location) {
+	
+	//TODO password validation
+	
+	//Sign up
+	$scope.signup = function(){
+		$scope.result = "Waiting for response";
+		var signupReq = {
+				method: 'POST',
+				url: '/Magirator/Signup',
+				headers: {
+				   'Content-Type': 'application/json'
+				},
+				data: { 
+					'username': $scope.username,
+					'password1': $scope.password1,
+					'password2': $scope.password2,
+					'playername': $scope.playername
+				}
+		}
+
+		$http(signupReq).then(function(response){
+				console.log(response.data);
+				
+				console.log(response.data.result);
+			
+				if (response.data.result == "success"){
+					$location.url('/');				
+				} else {				
+					$scope.result = response.data;
+				}
+			}, 
+			function(){
+				$scope.result = 'Failure'
+			});
+	};
+});
+
+
+
+
