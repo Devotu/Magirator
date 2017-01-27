@@ -2,7 +2,11 @@ package magirator.micros;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -11,24 +15,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
-import org.json.HTTP;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import magirator.model.neo4j.DeckHandler;
+import magirator.model.neo4j.DatabaseParams;
 import magirator.objects.Deck;
-import magirator.objects.Example;
-import magirator.objects.Player;
 import magirator.support.ErrorHandler;
-import magirator.support.ParameterHelper;
 
 /**
  * Servlet implementation class AddDeck
@@ -36,27 +30,6 @@ import magirator.support.ParameterHelper;
 @WebServlet(description = "Add a new deck to the current user", urlPatterns = { "/AddDeck" })
 public class AddDeck extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AddDeck() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		
-		getServletContext().log("-- AddDeck --");
-		getServletContext().log("-  AddDeck -> Collecting data");
-
-		String json = ParameterHelper.returnParameter(req, "deck");
-		
-		getServletContext().log("-- AddDeck -- Done");
-	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -64,7 +37,6 @@ public class AddDeck extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		getServletContext().log("-- AddDeck --");
-		getServletContext().log("-  AddDeck -> Collecting data");
 		
 		StringBuffer sb = new StringBuffer();
 		String line = null;
@@ -84,40 +56,12 @@ public class AddDeck extends HttpServlet {
 
 		data = (JsonObject) parser.parse(sb.toString());
 		
-		//Example e = new Example(data);
-		
 		Deck deck = new Deck(data);
 		
-		res.setContentType("text/plain");
-		res.setCharacterEncoding("UTF-8");
-		res.getWriter().write("Sucess!");
-		
-
-
-		/*
-		for(String c : colors){
-			getServletContext().log("-  AddDeck -> has color " + c);
-		}
-		
-		HttpSession session = request.getSession();
-		Player player = (Player)session.getAttribute("player");;
-		
-		DeckHandler deckHandler = new DeckHandler();
-				
-		try {
-			getServletContext().log("-  AddDeck -> Adding deck");
-			deckHandler.addDeckToUser(player.getId(), name, format, colors, theme);
-			
-				
-		} catch (Exception ex) {
-			getServletContext().log("-  AddDeck -- Error -- " + ex.getMessage());
-			getServletContext().log(getStackTrace(ex));
-			throw new ServletException("Something databazy went wrong");
-
-		}
-		
-		
-		boolean[] colors = this.parseColors(scolors);
+		DatabaseParams dp = null;
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
 		
 		try {
 			Context initContext = new InitialContext();
@@ -131,27 +75,34 @@ public class AddDeck extends HttpServlet {
 
 			PreparedStatement ps = con.prepareStatement(query);
 
-			ps.setInt(1, userid);
-			ps.setString(2, name);
-			ps.setString(3, format);
-			ps.setBoolean(4, colors[0]);//Black
-			ps.setBoolean(5, colors[1]);//White
-			ps.setBoolean(6, colors[2]);//Red
-			ps.setBoolean(7, colors[3]);//Green
-			ps.setBoolean(8, colors[4]);//Blue
-			ps.setBoolean(9, colors[5]);//Colorless
-			ps.setString(10, theme);
+			ps.setInt(1, 0);
+			ps.setString(2, deck.getName());
+			ps.setString(3, deck.getFormat());
+			ps.setBoolean(4, deck.getBlack());
+			ps.setBoolean(5, deck.getWhite());
+			ps.setBoolean(6, deck.getRed());
+			ps.setBoolean(7, deck.getGreen());
+			ps.setBoolean(8, deck.getBlue());
+			ps.setBoolean(9, deck.getColorless());
+			ps.setString(10, deck.getTheme());
 			
 			ps.executeUpdate();
 			
-		} catch (Exception ex){
-			throw ex;
+		} catch (Exception e){
+			res.getWriter().write( ErrorHandler.printStackTrace(e) );
 		} finally {
-			if (rs != null) rs.close();
-			if (st != null) st.close();
-			if (con != null) con.close();
+			try {
+				if (rs != null) rs.close();
+				if (st != null) st.close();
+				if (con != null) con.close();
+			} catch (SQLException e) {
+				res.getWriter().write( ErrorHandler.printStackTrace(e) );
+			}
 		}
-		*/
+
+		res.setContentType("text/plain");
+		res.setCharacterEncoding("UTF-8");
+		res.getWriter().write("Sucess!");
 
 		getServletContext().log("-- AddDeck -- Done");
 	}

@@ -13,11 +13,7 @@
 					</div>
 					<div class="form-group">
 						<label for="format">Format:</label> 
-						<select ng-model="format" class="form-control">
-							<option value="Standard">Standard</option>
-							<option value="Block">Block</option>
-							<option value="Pauper">Pauper</option>
-						</select>
+						<select ng-options="format for format in formats" ng-model="format" class="form-control"></select>
 					</div>
 					<div class=".checkbox-inline">
 						<label><input type="checkbox" ng-model="colors.black">Black</label>
@@ -33,15 +29,6 @@
 					</div>
 					<button type="submit">Add Deck</button>
 				</form>
-
-				<div ng-controller="addDeckController">
-					<form ng-submit="addDeck()">
-						<input ng-model="newdeck" />
-						<button type="submit">Send</button>
-					</form>
-					<p>Message from servlet: {{ result }}
-				</div>
-
 			</div>
 
 			<div class="col-sm-4"></div>

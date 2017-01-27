@@ -45,10 +45,25 @@ mApp.controller('contactController', function($scope) {
 });
 
 mApp.controller('addDeckController', function($scope, $http) {
-	
+	    
+	//Get formats
+    var getFormatsReq = {
+    		method: 'POST',
+    		url: '/Magirator/GetFormats'
+    }
+    
+    $http(getFormatsReq).then(function(response){
+    	$scope.formats = response.data;
+    	$scope.format = $scope.formats[0];
+    	}, 
+    	function(){
+    		$scope.result = 'Failure'
+    	});
+
+	//Add deck
 	$scope.addDeck = function(){
 		$scope.result = "Waiting for response";
-		var req = {
+		var addDeckReq = {
 				method: 'POST',
 				url: '/Magirator/AddDeck',
 				headers: {
@@ -63,7 +78,12 @@ mApp.controller('addDeckController', function($scope, $http) {
 				}
 		}
 
-		$http(req).then(function(response){$scope.result = response.data}, function(){$scope.result = 'Failure'});
+		$http(addDeckReq).then(function(response){
+			$scope.result = response.data
+			}, 
+			function(){
+				$scope.result = 'Failure'
+			});
 	};
 
 });
