@@ -97,7 +97,9 @@ mApp.controller('loginController', function($scope, $http, $location) {
 	
 	//Login
 	$scope.login = function(){
+		
 		$scope.result = "Waiting for response";
+		
 		var loginReq = {
 				method: 'POST',
 				url: '/Magirator/Login',
@@ -125,11 +127,11 @@ mApp.controller('loginController', function($scope, $http, $location) {
 
 mApp.controller('signupController', function($scope, $http, $location) {
 	
-	//TODO password validation
-	
 	//Sign up
 	$scope.signup = function(){
+		
 		$scope.result = "Waiting for response";
+		
 		var signupReq = {
 				method: 'POST',
 				url: '/Magirator/Signup',
@@ -143,21 +145,23 @@ mApp.controller('signupController', function($scope, $http, $location) {
 					'playername': $scope.playername
 				}
 		}
+		
+		if( $scope.password1 === $scope.password2 ){
 
-		$http(signupReq).then(function(response){
-				console.log(response.data);
+			$http(signupReq).then(function(response){
 				
-				console.log(response.data.result);
-			
-				if (response.data.result == "success"){
-					$location.url('/');				
-				} else {				
-					$scope.result = response.data;
-				}
-			}, 
-			function(){
-				$scope.result = 'Failure'
-			});
+					$scope.result = response.data.result;
+				
+					if (response.data.result == "success"){
+						$location.url('/');				
+					}
+				}, 
+				function(){
+					$scope.result = 'Request failure';
+			});		
+		} else {
+			$scope.result = 'Passwords does not match';
+		}
 	};
 });
 

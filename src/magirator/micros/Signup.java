@@ -5,26 +5,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Map;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.sql.DataSource;
-
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-
-import magirator.model.neo4j.DatabaseParams;
-import magirator.objects.Player;
 import magirator.support.Database;
 import magirator.support.Error;
 import magirator.support.Json;
@@ -41,12 +28,17 @@ public class Signup extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		getServletContext().log("-- Signup --");
+		
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
 		try {
 			con = Database.getConnection();
+			
+			JsonObject result = new JsonObject();
+			result.addProperty("result", "Username already in use");
 			
 			JsonObject signupRequest = Json.parseRequestData(request);
 			String username = Json.getString(signupRequest, "username", "");
@@ -56,36 +48,48 @@ public class Signup extends HttpServlet {
 			ps = con.prepareStatement(query);
 			ps.setString(1, username);
 
-			rs = ps.executeQuery();
+			rs = ps.executeQuery(); ps.close();
+
 			
-			if (!rs.next()){ //Namnet är redan i användning
-				//TODO kontrollera playername också
-				//TODO return hint
-				
-				String password = Json.getString(signupRequest, "password2", "");
+			if (!rs.next()){ rs.close(); //Namnet är inte i användning
+				result.addProperty("result", "Player name already in use");				
+
 				String playername = Json.getString(signupRequest, "playername", "");			
 				
-				query = "CREATE (u:User {name:?, password:?})-[c:Created {created: TIMESTAMP()}]->(p:Player { name: ? }) RETURN id(p), PROPERTIES(p)";
-				
-				ps = con.prepareStatement(query);
+				query = "MATCH (p:Player) WHERE p.name = ? RETURN id(p)";
 
-				ps.setString(1, username);
-				ps.setString(2, password);
-				ps.setString(3, playername);
-			
-				rs = ps.executeQuery();
+				ps = con.prepareStatement(query);
+				ps.setString(1, playername);
+
+				rs = ps.executeQuery(); ps.close();
 				
-				JsonObject result = new JsonObject();
-				result.addProperty("result", "failure");
-				
-				if (rs.next()){ //Success
+				if (!rs.next()){ rs.close(); //Playername är inte i användning
+				result.addProperty("result", "Error adding user and player");
 					
-					result.addProperty("result", "success");					
-				}
+					String password = Json.getString(signupRequest, "password2", "");		
+					
+					query = "CREATE (u:User {name:?, password:?})-[c:Created {created: TIMESTAMP()}]->(p:Player { name: ? }) RETURN id(p), PROPERTIES(p)";
+					
+					ps = con.prepareStatement(query);
+
+					ps.setString(1, username);
+					ps.setString(2, password);
+					ps.setString(3, playername);
 				
-		        response.setContentType("application/json");
-		        response.getWriter().write(result.toString());
+					rs = ps.executeQuery(); ps.close();
+					
+					if (rs.next()){ rs.close(); //Success
+						
+						result.addProperty("result", "success");					
+					}					
+
+				}
+						        
 			}
+			
+	        response.setContentType("application/json");
+	        response.getWriter().write(result.toString());
+	        
 		} catch (NamingException e) {
 			response.getWriter().write( Error.printStackTrace(e) );
 		} catch (SQLException e) {
@@ -99,6 +103,8 @@ public class Signup extends HttpServlet {
 				response.getWriter().write( Error.printStackTrace(e) );
 			}
 		}
+		
+		getServletContext().log("-- Signup Done --");
 	}
 
 }
