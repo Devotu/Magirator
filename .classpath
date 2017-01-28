@@ -9,8 +9,9 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry exported="true" kind="lib" path="/home/ottu/Workspace/jars/jstl-1.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="/home/ottu/Workspace/jars/neo4j-jdbc-3.0.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="/home/ottu/Workspace/jars/servlet-api.jar"/>
 	<classpathentry exported="true" kind="lib" path="/home/ottu/Workspace/jars/java-json.jar"/>
+	<classpathentry exported="true" kind="lib" path="/home/ottu/Workspace/jars/neo4j-jdbc-driver-3.0.1.jar"/>
+	<classpathentry kind="lib" path="/home/ottu/Workspace/jars/gson-2.8.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

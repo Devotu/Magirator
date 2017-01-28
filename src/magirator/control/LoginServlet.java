@@ -6,7 +6,7 @@ import java.io.StringWriter;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import magirator.model.neo4j.*;
-import magirator.beans.*;
+import magirator.objects.*;
 
 public class LoginServlet extends HttpServlet {
 	

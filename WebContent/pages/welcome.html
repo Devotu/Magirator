@@ -1,0 +1,32 @@
+
+<div class="jumbotron text-center">
+
+	<div class="container-fluid text-center">
+		<div class="row content">
+		
+			<div class="col-sm-4"></div>
+
+			<div class="col-sm-4">
+				<!--Signin-->
+				<div id="signinForm">
+					<h1 id="title">Welcome</h1>
+					
+					<form ng-submit="login()">
+					
+						<div class="form-group">
+							<label for="username">Name:</label> 
+							<input ng-model="username" type="text" class="form-control" autofocus>
+							<label for="password">Password:</label> 
+							<input ng-model="password" type="password" class="form-control">
+						</div>
+					
+						<button type="submit">Login</button><button ng-click="goSignup()">Signup</button>
+					</form>
+				</div>
+			</div>
+
+			<div class="col-sm-4"></div>
+
+		</div>
+	</div>
+</div>

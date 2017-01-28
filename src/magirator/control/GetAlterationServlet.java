@@ -4,7 +4,7 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import magirator.model.neo4j.*;
-import magirator.beans.Alteration;
+import magirator.objects.Alteration;
 
 public class GetAlterationServlet extends HttpServlet {
 	

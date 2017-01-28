@@ -4,9 +4,9 @@ import java.sql.*;
 import java.util.*;
 import javax.sql.*;
 
-import javax.naming.*;
+import magirator.objects.*;
 
-import magirator.beans.*;
+import javax.naming.*;
 
 public class AlterationHandler extends DatabaseHandler {
 	

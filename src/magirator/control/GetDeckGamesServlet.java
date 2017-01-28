@@ -7,8 +7,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import magirator.beans.ListContainer;
+
 import magirator.model.neo4j.GameHandler;
+import magirator.objects.ListContainer;
 
 public class GetDeckGamesServlet extends HttpServlet {
 	

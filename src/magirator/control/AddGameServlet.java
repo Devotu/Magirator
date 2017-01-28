@@ -5,10 +5,10 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import magirator.model.neo4j.*;
-import magirator.beans.Deck;
-import magirator.beans.Play;
-import magirator.beans.Player;
-import magirator.beans.Result;
+import magirator.objects.Deck;
+import magirator.objects.Play;
+import magirator.objects.Player;
+import magirator.objects.Result;
 
 public class AddGameServlet extends HttpServlet {
 	
