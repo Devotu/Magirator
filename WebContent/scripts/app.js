@@ -113,10 +113,10 @@ mApp.controller('loginController', function($scope, $http, $location) {
 		}
 
 		$http(loginReq).then(function(response){
-			$scope.result = response.data
+			$scope.result = response.data.result;
 			}, 
 			function(){
-				$scope.result = 'Failure'
+				$scope.result = 'Failure';
 			});
 	};
 	

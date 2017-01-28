@@ -68,7 +68,9 @@ public class Signup extends HttpServlet {
 					
 					String password = Json.getString(signupRequest, "password2", "");		
 					
-					query = "CREATE (u:User {name:?, password:?})-[c:Created {created: TIMESTAMP()}]->(p:Player { name: ? }) RETURN id(p), PROPERTIES(p)";
+					query = "CREATE (u:User {name:?, password:?})-[c:Created {created: TIMESTAMP()}]->(p:Player { name: ? }) "
+							+ "CREATE (u)-[i:Is]->(p)"
+							+ "RETURN id(p)";
 					
 					ps = con.prepareStatement(query);
 
