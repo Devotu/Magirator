@@ -145,18 +145,15 @@ mApp.controller('signupController', function($scope, $http, $location) {
 		}
 
 		$http(signupReq).then(function(response){
-				console.log(response.data);
-				
-				console.log(response.data.result);
+			
+				$scope.result = response.data.result;
 			
 				if (response.data.result == "success"){
 					$location.url('/');				
-				} else {				
-					$scope.result = response.data;
 				}
 			}, 
 			function(){
-				$scope.result = 'Failure'
+				$scope.result = 'General failure'
 			});
 	};
 });
