@@ -37,14 +37,8 @@ public class GetDecks extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		getServletContext().log("-- GetDecks --");
-		getServletContext().log("-  GetDecks -> Collecting data");
-				
-		//HttpSession session = request.getSession();
-		//Player player = (Player)session.getAttribute("player");
 		
 		int playerId = ParameterHelper.returnParameter(req, "playerId", 0);
-		
-		getServletContext().log("-  GetDecks -> Finding decks");
 		
 		DatabaseParams dp = null;
 		Connection con = null;
@@ -60,16 +54,12 @@ public class GetDecks extends HttpServlet {
       		ps.setInt(1, playerId);
 
       		rs = ps.executeQuery();
-      		
-    		getServletContext().log("-  GetDecks -> Extracting decks");
     		
       		List<Deck> decks = new ArrayList<Deck>();
 			
 			while (rs.next()) {				
 				decks.add(new Deck(rs.getInt("id(d)"), (Map)rs.getObject("PROPERTIES(d)")));
-			}			
-
-			getServletContext().log("-  GetDecks -> Serving decks");
+			}
 			
             String returnJson = new Gson().toJson(decks);
             res.setContentType("application/json");

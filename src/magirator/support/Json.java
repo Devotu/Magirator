@@ -20,8 +20,6 @@ public class Json {
 	    while ((line = reader.readLine()) != null)
 	    	sb.append(line);
 
-		JsonObject data = null;
-		
 		JsonParser parser = new JsonParser();
 
 		return (JsonObject) parser.parse(sb.toString());

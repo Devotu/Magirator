@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import magirator.objects.Player;
 import magirator.support.Database;
@@ -73,8 +75,8 @@ public class Login extends HttpServlet {
 					
 					HttpSession session = request.getSession();
         			session.setAttribute("player", player);
-					
-					result.addProperty("result", "success");
+        			
+					result.addProperty("result", "Success");
 				}
 			}
 			

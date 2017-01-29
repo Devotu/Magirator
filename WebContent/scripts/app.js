@@ -8,9 +8,14 @@ mApp.config(function($routeProvider) {
 
 	// route for the home page
 	.when('/', {
-		templateUrl : 'pages/welcome.html',
+		templateUrl : 'pages/login.html',
 		controller : 'loginController'
-	})	
+	})
+	
+	.when('/login', {
+		templateUrl : 'pages/login.html',
+		controller : 'loginController'
+	})
 
 	.when('/signup', {
 		templateUrl : 'pages/signup.html',
@@ -32,6 +37,11 @@ mApp.config(function($routeProvider) {
 	.when('/adddeck', {
 		templateUrl : 'pages/adddeck.html',
 		controller : 'addDeckController'
+	})
+	
+	.when('/dashboard', {
+		templateUrl : 'pages/dashboard.html',
+		controller : 'dashboardController'
 	});
 });
 
@@ -114,6 +124,11 @@ mApp.controller('loginController', function($scope, $http, $location) {
 
 		$http(loginReq).then(function(response){
 			$scope.result = response.data.result;
+			
+			if (response.data.result == "Success"){
+				$location.url('/dashboard');		
+			}
+			
 			}, 
 			function(){
 				$scope.result = 'Failure';
@@ -152,7 +167,7 @@ mApp.controller('signupController', function($scope, $http, $location) {
 				
 					$scope.result = response.data.result;
 				
-					if (response.data.result == "success"){
+					if (response.data.result == "Success"){
 						$location.url('/');				
 					}
 				}, 
@@ -163,6 +178,31 @@ mApp.controller('signupController', function($scope, $http, $location) {
 			$scope.result = 'Passwords does not match';
 		}
 	};
+});
+
+mApp.controller('dashboardController', function($scope, $http) {
+	
+	$scope.result = "Waiting for response";
+	
+	//Get updated info
+    var getUpdatesReq = {
+    		method: 'POST',
+    		url: '/Magirator/GetDashboard'
+    }
+    
+    $http(getUpdatesReq).then(function(response){
+    	
+		$scope.result = response.data.result;
+		
+		if (response.data.result == "Success"){
+			var player = JSON.parse(response.data.player);
+			$scope.playername = player.name;	
+		}
+    	
+    	}, 
+    	function(){
+    		$scope.result = 'Failure'
+    	});
 });
 
 

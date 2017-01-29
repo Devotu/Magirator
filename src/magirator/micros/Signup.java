@@ -68,7 +68,7 @@ public class Signup extends HttpServlet {
 					
 					String password = Json.getString(signupRequest, "password2", "");		
 					
-					query = "CREATE (u:User {name:?, password:?})-[c:Created {created: TIMESTAMP()}]->(p:Player { name: ? }) "
+					query = "CREATE (u:User {name:?, password:?, created: TIMESTAMP()})-[c:Created {created: TIMESTAMP()}]->(p:Player { name: ? }) "
 							+ "CREATE (u)-[i:Is]->(p)"
 							+ "RETURN id(p)";
 					
@@ -82,7 +82,7 @@ public class Signup extends HttpServlet {
 					
 					if (rs.next()){ rs.close(); //Success
 						
-						result.addProperty("result", "success");					
+						result.addProperty("result", "Success");					
 					}					
 
 				}
