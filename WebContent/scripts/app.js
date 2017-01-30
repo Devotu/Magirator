@@ -1,9 +1,9 @@
 // create the module and name it scotchApp
 // also include ngRoute for all our routing needs
-var mApp = angular.module('magiratorApp', [ 'ngRoute' ]);
+var ratorApp = angular.module('magiratorApp', [ 'ngRoute' ]);
 
 // configure our routes
-mApp.config(function($routeProvider) {
+ratorApp.config(function($routeProvider) {
 	$routeProvider
 
 	// route for the home page
@@ -45,65 +45,110 @@ mApp.config(function($routeProvider) {
 	});
 });
 
+
+
+ratorApp.factory('playerService', function($http){
+	
+	return {		
+		getPlayer: function(){			
+			return $http.post('/Magirator/GetPlayer').then(function(response){
+				if (response.data.player != "null"){
+					console.log("Logged in as " + JSON.parse( response.data.player ).name );
+				} else {
+					console.log("Not logged in");
+				}
+				return response.data;
+			});
+		}
+	}
+});
+
+ratorApp.factory('requestService', function(){
+	
+	return {
+		buildRequest : function(endpoint, data) {
+		return {
+			method: 'POST',
+			url: '/Magirator/' + endpoint,
+			headers: {
+			   'Content-Type': 'application/json'
+			}, 
+			data: data
+			}
+		}
+	}
+});
+
+
 // create the controller and inject Angular's $scope
-mApp.controller('mainController', function($scope) {
+ratorApp.controller('mainController', function($scope) {
 	// create a message to display in our view
 	$scope.message = 'Everyone come and see how good I look!';
 });
 
-mApp.controller('aboutController', function($scope) {
+ratorApp.controller('aboutController', function($scope) {
 	$scope.message = 'Look! I am an about page.';
 });
 
-mApp.controller('contactController', function($scope) {
+ratorApp.controller('contactController', function($scope) {
 	$scope.message = 'Contact us! JK. This is just a demo.';
 });
 
-mApp.controller('addDeckController', function($scope, $http) {
-	    
-	//Get formats
-    var getFormatsReq = {
-    		method: 'POST',
-    		url: '/Magirator/GetFormats'
-    }
+ratorApp.controller('addDeckController', function($scope, $http, $location, playerService, requestService) {
     
-    $http(getFormatsReq).then(function(response){
-    	$scope.formats = response.data;
-    	$scope.format = $scope.formats[0];
-    	}, 
-    	function(){
-    		$scope.result = 'Failure'
-    	});
+	playerService.getPlayer().then(function(data){
+		
+		if (data.result == "Success"){
+			
+			$scope.player = JSON.parse(data.player);
+			
+			//Get formats
+		    var getFormatsReq = {
+		    		method: 'POST',
+		    		url: '/Magirator/GetFormats'
+		    }
+		    
+		    $http(getFormatsReq).then(function(response){
+		    	$scope.formats = response.data;
+		    	$scope.format = $scope.formats[0];
+		    	}, 
+		    	function(){
+		    		$scope.result += "Could not get formats";
+		    	});
 
-	//Add deck
-	$scope.addDeck = function(){
-		$scope.result = "Waiting for response";
-		var addDeckReq = {
-				method: 'POST',
-				url: '/Magirator/AddDeck',
-				headers: {
-				   'Content-Type': 'application/json'
-				},
-				data: { 
-					'name': $scope.name,
-					'format': $scope.format,
-					'colors': $scope.colors,
-					'theme': $scope.theme,
-					'created': Date.now()
-				}
+			//Add deck
+			$scope.addDeck = function(){
+				$scope.result = "Waiting for response";
+				var addDeckReq = requestService.buildRequest(
+						"AddDeck", 
+						{
+							player: $scope.player,
+							deck: {
+								'name': $scope.name,
+								'format': $scope.format,
+								'colors': $scope.colors,
+								'theme': $scope.theme,
+								'created': Date.now()
+							}
+						});
+
+				$http(addDeckReq).then(function(response){
+					$scope.result = response.data
+					
+					if (response.data.result == "Success"){
+						$location.url('/dashboard');		
+					}
+					
+					}, 
+					function(){
+						$scope.result = 'Failure'
+					});
+			};
 		}
-
-		$http(addDeckReq).then(function(response){
-			$scope.result = response.data
-			}, 
-			function(){
-				$scope.result = 'Failure'
-			});
-	};
-
+	});
 });
 
-mApp.controller('loginController', function($scope, $http, $location) {
+ratorApp.controller('loginController', function($scope, $http, $location) {
 	
 	//Login
 	$scope.login = function(){
@@ -140,7 +185,7 @@ mApp.controller('loginController', function($scope, $http, $location) {
     };
 });
 
-mApp.controller('signupController', function($scope, $http, $location) {
+ratorApp.controller('signupController', function($scope, $http, $location) {
 	
 	//Sign up
 	$scope.signup = function(){
@@ -180,7 +225,7 @@ mApp.controller('signupController', function($scope, $http, $location) {
 	};
 });
 
-mApp.controller('dashboardController', function($scope, $http) {
+ratorApp.controller('dashboardController', function($scope, $http) {
 	
 	$scope.result = "Waiting for response";
 	

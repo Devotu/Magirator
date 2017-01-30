@@ -24,8 +24,6 @@ public class GetFormats extends HttpServlet {
 		
 		getServletContext().log("-- GetFormats --");
 		
-		getServletContext().log("-  GetFormats -> Returning formats");
-		
         JsonArray returnJson = new JsonArray();
         returnJson.add(new JsonPrimitive("Standard"));
         returnJson.add(new JsonPrimitive("Block"));

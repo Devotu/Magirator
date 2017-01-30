@@ -2,6 +2,8 @@ package magirator.objects;
 
 import java.util.Map;
 
+import com.google.gson.JsonObject;
+
 public class Player {
 	
 	private String name;
@@ -15,6 +17,11 @@ public class Player {
 	public Player(String name, int id) {
 		this.name = name;
 		this.id = id;
+	}
+
+	public Player(JsonObject json) {
+		this.name = json.get("name").getAsString();
+		this.id = json.get("id").getAsInt();
 	}
 
 	public String getName() {

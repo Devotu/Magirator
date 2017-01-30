@@ -1,0 +1,28 @@
+<div class="jumbotron text-center">
+	<h1>About Page</h1>
+
+	<p>{{ message }}</p>
+</div>
+
+
+<div class="container-fluid text-center">
+	<div class="row content">
+		<div class="col-sm-4"></div>
+		
+		<div class="col-sm-8 text-left">
+		
+		
+			<c:set var="goView" value="/DeckView.jsp" scope="request"/>	
+			<c:set var="controllers" scope="request" value="/GetDeck,/GetDeckGames,/GetAlterations"/>
+			<c:set var="errorView" value="/ErrorPage.jsp" scope="request"/>
+			<c:set var="listContainer" value="${requestScope.deckListContainer}" scope="request"/>
+			<jsp:include page="/segments/list_header.jsp">
+				<jsp:param name="header" value="Your decks"/>
+				<jsp:param name="addView" value="/AddDeck.jsp"/>
+			</jsp:include>
+      		<jsp:include page="/segments/list.jsp"/>
+    	</div>
+    	
+    	<div class="col-sm-4"></div>
+  	</div>
+</div>

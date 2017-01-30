@@ -22,7 +22,9 @@ import com.google.gson.JsonParser;
 
 import magirator.model.neo4j.DatabaseParams;
 import magirator.objects.Deck;
+import magirator.objects.Player;
 import magirator.support.Error;
+import magirator.support.Json;
 
 /**
  * Servlet implementation class AddDeck
@@ -34,29 +36,17 @@ public class AddDeck extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		getServletContext().log("-- AddDeck --");
 		
-		StringBuffer sb = new StringBuffer();
-		String line = null;
-		try {
-		    BufferedReader reader = req.getReader();
-		    while ((line = reader.readLine()) != null)
-		    	sb.append(line);
-		} 
-		catch (Exception e) 
-		{ 
-			res.getWriter().write( Error.printStackTrace(e) );
-		}
-
-		JsonObject data = null;
+		JsonObject result = new JsonObject();
+		result.addProperty("result", "Something went wrong adding your deck");
 		
-		JsonParser parser = new JsonParser();
-
-		data = (JsonObject) parser.parse(sb.toString());
+		JsonObject data = Json.parseRequestData(request);
 		
-		Deck deck = new Deck(data);
+		Player player = new Player( data.get("player").getAsJsonObject() );
+		Deck deck = new Deck( data.get("deck").getAsJsonObject() );
 		
 		DatabaseParams dp = null;
 		Connection con = null;
@@ -69,13 +59,13 @@ public class AddDeck extends HttpServlet {
 			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
 			con = ds.getConnection();
 
-			String query = "MATCH (u:User) WHERE id(u)=?";
+			String query = "MATCH (p:Player) WHERE id(p)=?";
 			query += "CREATE (d:Deck { name: ?, format: ?, black: ?, white: ?, red: ?, green: ?, blue: ? ,colorless: ?, theme: ?, created: TIMESTAMP(), active:true})";
-			query += "CREATE (u)-[r:Use]->(d)";
+			query += "CREATE (p)-[r:Use]->(d)";
 
 			PreparedStatement ps = con.prepareStatement(query);
 
-			ps.setInt(1, 0);
+			ps.setInt(1, player.getId());
 			ps.setString(2, deck.getName());
 			ps.setString(3, deck.getFormat());
 			ps.setBoolean(4, deck.getBlack());
@@ -88,21 +78,22 @@ public class AddDeck extends HttpServlet {
 			
 			ps.executeUpdate();
 			
+			result.addProperty("result", "Success");
+			
 		} catch (Exception e){
-			res.getWriter().write( Error.printStackTrace(e) );
+			response.getWriter().write( Error.printStackTrace(e) );
 		} finally {
 			try {
 				if (rs != null) rs.close();
 				if (st != null) st.close();
 				if (con != null) con.close();
 			} catch (SQLException e) {
-				res.getWriter().write( Error.printStackTrace(e) );
+				response.getWriter().write( Error.printStackTrace(e) );
 			}
 		}
 
-		res.setContentType("text/plain");
-		res.setCharacterEncoding("UTF-8");
-		res.getWriter().write("Sucess!");
+        response.setContentType("application/json");
+        response.getWriter().write(result.toString());
 
 		getServletContext().log("-- AddDeck -- Done");
 	}
