@@ -4,11 +4,12 @@ import java.io.*;
 import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+
+import magirator.dataobjects.Deck;
+import magirator.dataobjects.Play;
+import magirator.dataobjects.Player;
+import magirator.dataobjects.Result;
 import magirator.model.neo4j.*;
-import magirator.objects.Deck;
-import magirator.objects.Play;
-import magirator.objects.Player;
-import magirator.objects.Result;
 
 public class AddGameServlet extends HttpServlet {
 	

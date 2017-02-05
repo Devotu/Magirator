@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import magirator.objects.Player;
+import magirator.dataobjects.Player;
 import magirator.support.Error;
 
 /**

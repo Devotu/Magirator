@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import magirator.dataobjects.ListContainer;
+import magirator.dataobjects.Player;
 import magirator.model.neo4j.GameHandler;
-import magirator.objects.ListContainer;
-import magirator.objects.Player;
 
 public class GetUserGamesServlet extends HttpServlet {
 	

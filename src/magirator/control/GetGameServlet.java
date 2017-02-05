@@ -3,8 +3,9 @@ package magirator.control;
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+
+import magirator.dataobjects.GameResult;
 import magirator.model.neo4j.*;
-import magirator.objects.GameResult;
 
 public class GetGameServlet extends HttpServlet {
 	

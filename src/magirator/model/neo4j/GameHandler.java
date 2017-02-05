@@ -7,7 +7,7 @@ import java.util.Date;
 
 import javax.sql.*;
 
-import magirator.objects.*;
+import magirator.dataobjects.*;
 
 import javax.naming.*;
 

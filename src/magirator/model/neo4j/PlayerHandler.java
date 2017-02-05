@@ -5,7 +5,7 @@ import java.util.*;
 
 import javax.sql.*;
 
-import magirator.objects.*;
+import magirator.dataobjects.*;
 
 import javax.naming.*;
 

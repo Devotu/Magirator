@@ -4,8 +4,9 @@ import java.io.*;
 import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+
+import magirator.dataobjects.Player;
 import magirator.model.neo4j.*;
-import magirator.objects.Player;
 
 public class AddDeckServlet extends HttpServlet {
 	

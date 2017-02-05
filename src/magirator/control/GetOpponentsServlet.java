@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import magirator.dataobjects.Opponent;
+import magirator.dataobjects.Player;
 import magirator.model.neo4j.PlayerHandler;
-import magirator.objects.Opponent;
-import magirator.objects.Player;
 
 public class GetOpponentsServlet extends HttpServlet {
 	
@@ -30,7 +30,7 @@ public class GetOpponentsServlet extends HttpServlet {
 		PlayerHandler playerHandler = new PlayerHandler();		
 				
 		try {
-			getServletContext().log("-  GetOpponents -> Getting opponents to user " + player.getName() + " (" + player.getId() + ")");
+			getServletContext().log("-  GetOpponents -> Getting opponents to user " + player.getPlayerName() + " (" + player.getId() + ")");
 			opponents = playerHandler.getPlayerOpponents(player.getId());
 				
 		} catch (Exception ex) {

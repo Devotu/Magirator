@@ -3,8 +3,9 @@ package magirator.control;
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+
+import magirator.dataobjects.Deck;
 import magirator.model.neo4j.*;
-import magirator.objects.Deck;
 
 public class GetDeckServlet extends HttpServlet {
 	

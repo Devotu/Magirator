@@ -4,8 +4,9 @@ import java.io.*;
 import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+
+import magirator.dataobjects.*;
 import magirator.model.neo4j.*;
-import magirator.objects.*;
 
 public class SignupServlet extends HttpServlet {
 	

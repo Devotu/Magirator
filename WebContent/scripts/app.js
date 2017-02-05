@@ -200,13 +200,13 @@ ratorApp.controller('signupController', function($scope, $http, $location) {
 				},
 				data: { 
 					'username': $scope.username,
-					'password1': $scope.password1,
-					'password2': $scope.password2,
+					'password': $scope.password,
+					'retype': $scope.retype,
 					'playername': $scope.playername
 				}
 		}
 		
-		if( $scope.password1 === $scope.password2 ){
+		if( $scope.password === $scope.retype ){
 
 			$http(signupReq).then(function(response){
 				

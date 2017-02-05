@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import magirator.dataobjects.ListContainer;
 import magirator.model.neo4j.AlterationHandler;
-import magirator.objects.ListContainer;
 
 public class GetAlterationsServlet extends HttpServlet {
 	

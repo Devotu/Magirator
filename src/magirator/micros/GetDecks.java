@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import magirator.dataobjects.Deck;
 import magirator.model.neo4j.DatabaseParams;
-import magirator.objects.Deck;
 import magirator.support.Database;
 import magirator.support.Error;
 import magirator.support.ParameterHelper;
