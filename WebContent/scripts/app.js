@@ -42,6 +42,11 @@ ratorApp.config(function($routeProvider) {
 	.when('/dashboard', {
 		templateUrl : 'pages/dashboard.html',
 		controller : 'dashboardController'
+	})
+	
+	.when('/decklist', {
+		templateUrl : 'pages/decklist.html',
+		controller : 'decklistController'
 	});
 });
 
@@ -52,8 +57,8 @@ ratorApp.factory('playerService', function($http){
 	return {		
 		getPlayer: function(){			
 			return $http.post('/Magirator/GetPlayer').then(function(response){
-				if (response.data.player != "null"){
-					console.log("Logged in as " + JSON.parse( response.data.player ).name );
+				if (response.data.result == "Success"){
+					console.log("Logged in as " + JSON.parse( response.data.player ).playername );
 				} else {
 					console.log("Not logged in");
 				}
@@ -225,31 +230,73 @@ ratorApp.controller('signupController', function($scope, $http, $location) {
 	};
 });
 
-ratorApp.controller('dashboardController', function($scope, $http) {
+ratorApp.controller('dashboardController', function($scope, $http, $location, playerService) {
 	
 	$scope.result = "Waiting for response";
 	
-	//Get updated info
-    var getUpdatesReq = {
-    		method: 'POST',
-    		url: '/Magirator/GetDashboard'
-    }
-    
-    $http(getUpdatesReq).then(function(response){
-    	
-		$scope.result = response.data.result;
-		
-		if (response.data.result == "Success"){
-			var player = JSON.parse(response.data.player);
-			$scope.playername = player.name;	
+	playerService.getPlayer().then(function(data) {
+		if (data.result == "Success") {
+			
+			//Get updated info
+		    var getUpdatesReq = {
+		    		method: 'POST',
+		    		url: '/Magirator/GetDashboard'
+		    }
+		    
+		    $http(getUpdatesReq).then(function(response){
+		    	
+				$scope.result = response.data.result;
+				
+				if (response.data.result == "Success"){
+					var player = JSON.parse(response.data.player);
+					$scope.playername = player.playername;	
+				}
+		    	
+		    	}, 
+		    	function(){
+		    		$scope.result = 'Failure'
+		    	});
+		    
+		    $scope.goAddDeck = function() {
+		        $location.url('/adddeck');
+		    };
+		    
+		    $scope.goDeckList = function() {
+		        $location.url('/decklist');
+		    };
 		}
-    	
-    	}, 
-    	function(){
-    		$scope.result = 'Failure'
-    	});
+	});
 });
 
+ratorApp.controller('decklistController', function($scope, $http, $location, playerService, requestService) {
+	
+	$scope.result = "Waiting for response";
+	
+	playerService.getPlayer().then(function(data) {
+		if (data.result == "Success") {
+			
+			//Get decks
+			var getDecksReq = requestService.buildRequest(
+					"GetDecks", 
+					{
+						player: $scope.player
+					});
 
+			$http(getDecksReq).then(function(response){
+				$scope.result = response.data;
+				
+				if (response.data.result == "Success"){
+					$scope.result = 'Success';
+					$scope.decks = JSON.parse(response.data.decks);
+				}
+				
+				}, 
+				function(){
+					$scope.result = 'Failure';
+				});
+		} else {
+			$scope.result = 'Not logged in, please log in and try again';
+		}
+	});
 
-
+});

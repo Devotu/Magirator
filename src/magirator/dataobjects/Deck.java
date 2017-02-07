@@ -1,11 +1,8 @@
 package magirator.dataobjects;
 
-import java.sql.ResultSet;
 import java.util.Date;
 import java.util.Map;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class Deck {

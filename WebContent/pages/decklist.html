@@ -1,7 +1,7 @@
 <div class="jumbotron text-center">
-	<h1>About Page</h1>
+	<h1>Decklist</h1>
 
-	<p>{{ message }}</p>
+	<p>{{ result }}</p>
 </div>
 
 
@@ -11,16 +11,12 @@
 		
 		<div class="col-sm-8 text-left">
 		
+			<div class="list-group">
+	        	<a ng-repeat="deck in decks" ng-href="#" class="list-group-item">
+	            	<div>{{deck.name}}</div>
+	        	</a>
+	        </div>
 		
-			<c:set var="goView" value="/DeckView.jsp" scope="request"/>	
-			<c:set var="controllers" scope="request" value="/GetDeck,/GetDeckGames,/GetAlterations"/>
-			<c:set var="errorView" value="/ErrorPage.jsp" scope="request"/>
-			<c:set var="listContainer" value="${requestScope.deckListContainer}" scope="request"/>
-			<jsp:include page="/segments/list_header.jsp">
-				<jsp:param name="header" value="Your decks"/>
-				<jsp:param name="addView" value="/AddDeck.jsp"/>
-			</jsp:include>
-      		<jsp:include page="/segments/list.jsp"/>
     	</div>
     	
     	<div class="col-sm-4"></div>

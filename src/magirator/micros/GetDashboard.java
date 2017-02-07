@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 
 import magirator.dataobjects.Player;
 import magirator.support.Error;
+import magirator.support.Variables;
 
 /**
  * Servlet implementation class GetDashboard
@@ -36,7 +37,7 @@ public class GetDashboard extends HttpServlet {
 			HttpSession session = request.getSession();
 			Player player = (Player)session.getAttribute("player");
 			
-			result.addProperty("result", "Success");
+			result.addProperty(Variables.result, Variables.success);
 			result.addProperty("player", new Gson().toJson(player));
 		
 		} catch (Exception e){

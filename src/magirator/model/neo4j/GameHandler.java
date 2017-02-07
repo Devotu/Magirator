@@ -102,7 +102,7 @@ public class GameHandler extends DatabaseHandler {
 					ps.setInt(2, r.getDeck().getDeckid());
 					ps.setInt(3, r.getPlay().getPlace());
 					ps.setString(4, r.getPlay().getComment());
-					ps.setInt(5, r.getPlay().getConfirmed());
+					ps.setInt(5, r.getPlay().getConfirmed() ? 1 : 0);
 					
 					ps.executeUpdate();						
 				}

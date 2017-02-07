@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 
 import magirator.dataobjects.Player;
 import magirator.support.Error;
+import magirator.support.Variables;
 
 /**
  * Servlet implementation class GetPlayer
@@ -36,8 +37,14 @@ public class GetPlayer extends HttpServlet {
 			HttpSession session = request.getSession();
 			Player player = (Player)session.getAttribute("player");
 			
-			result.addProperty("result", "Success");
-			result.addProperty("player", new Gson().toJson(player));
+			if (player != null){
+				result.addProperty(Variables.result, Variables.success);
+				result.addProperty("player", new Gson().toJson(player));
+				
+			} else {
+				
+				result.addProperty(Variables.result, "Failed to get player, please login");
+			}
 		
 		} catch (Exception e){
 			response.getWriter().write( Error.printStackTrace(e) );

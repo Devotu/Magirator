@@ -5,10 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 import magirator.dataobjects.Deck;
+import magirator.dataobjects.ListItem;
 import magirator.dataobjects.Player;
 import magirator.support.Database;
 
@@ -16,7 +24,6 @@ public class Decks {
 
 	public static boolean addDeck(Player player, Deck deck) throws SQLException, NamingException {
 
-		DatabaseParams dp = null;
 		Connection con = null;
 		Statement st = null;
 		ResultSet rs = null;
@@ -52,6 +59,37 @@ public class Decks {
 				st.close();
 			if (con != null)
 				con.close();
+		}
+	}
+
+	public static ArrayList<Deck> getPlayerDecks(Player player) throws Exception {
+
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();
+
+			String query = "MATCH (p:Player)-[r:Use]->(d:Deck) WHERE id(p)=? RETURN id(d), PROPERTIES(d)";
+
+      		PreparedStatement ps = con.prepareStatement(query);
+      		ps.setInt(1, player.getId());
+
+      		rs = ps.executeQuery();
+      		
+      		ArrayList<Deck> decks = new ArrayList<Deck>();
+			
+			while (rs.next()) {
+				decks.add( new Deck( rs.getInt("id(d)"), (Map)rs.getObject("PROPERTIES(d)") ) );
+			}
+
+			return decks;
+			
+		} finally {
+			if (rs != null) rs.close();
+			if (st != null) st.close();
+			if (con != null) con.close();
 		}
 	}
 
