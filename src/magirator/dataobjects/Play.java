@@ -16,6 +16,8 @@ public class Play {
 		this.comment = (String)playMap.get("comment");
 	}
 
+
+
 	public int getId() {
 		return id;
 	}
@@ -30,6 +32,21 @@ public class Play {
 	
 	public String getComment() {
 		return comment;
+	}
+
+	//TODO Remove
+	public Play(int i, int place2, boolean b, String comment2) {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public void setComment(String playerComment) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setConfirmed(int i) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

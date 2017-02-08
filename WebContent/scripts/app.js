@@ -298,5 +298,43 @@ ratorApp.controller('decklistController', function($scope, $http, $location, pla
 			$scope.result = 'Not logged in, please log in and try again';
 		}
 	});
+	
+    $scope.order = {
+            field: 'name',
+            reverse: false
+        };
+    
+    $scope.reverseOrder = false;
+    
+    var bool_order = {
+            true: 0,
+            false: 1
+        };
+    
+    var bool_badge = {
+            true: 'yes',
+            false: 'no'
+        };
+	
+	
+	$scope.deckOrder = function(deck) {
+		var sorter = $scope.order.field;
+		var sortval = deck[sorter];
+		deck.badge = sortval;		
+
+		//Special cases value
+		if (sortval === true || sortval === false){
+			boolval = sortval;
+			sortval = bool_order[boolval];
+			deck.badge = bool_badge[boolval];
+		}
+		
+		//Special cases sorter
+		if (sorter == 'name'){//Name is always displayed
+			deck.badge = "";
+		}		
+		
+        return sortval;
+	}
 
 });
