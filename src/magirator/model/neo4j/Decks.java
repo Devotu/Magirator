@@ -93,4 +93,39 @@ public class Decks {
 		}
 	}
 
+	public static Deck getDeck(int deckId) throws Exception {
+
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();
+
+			String query = "MATCH (d:Deck) "
+					+ "WHERE id(d)=? "
+					+ "RETURN id(d), PROPERTIES(d)";
+
+      		PreparedStatement ps = con.prepareStatement(query);
+      		ps.setInt(1, deckId);
+
+      		rs = ps.executeQuery();
+      		
+      		Deck deck = null;
+		
+			if (rs.next()) {
+				deck = new Deck(rs.getInt("id(d)"), (Map)rs.getObject("PROPERTIES(d)"));
+			}
+
+			return deck;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (st != null) st.close();
+			if (con != null) con.close();
+		}
+	}
+
 }

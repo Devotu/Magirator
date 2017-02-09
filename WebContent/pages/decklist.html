@@ -30,8 +30,10 @@
 			<input type="checkbox" data-ng-model="order.reverse"/>
 			
 			<ul class="list-group">
-				<li ng-repeat="deck in decks | orderBy:deckOrder:order.reverse"
-					class="list-group-item">{{deck.name}} 
+				<li ng-repeat="deck in decks | orderBy:deckOrder:order.reverse" 
+					class="list-group-item"
+					ng-click="goDeck(deck.id)">
+					{{deck.name}} 
 					<span class="badge">{{ deck.badge }}</span>
 				</li>
 			</ul>

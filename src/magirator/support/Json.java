@@ -28,4 +28,8 @@ public class Json {
 	public static String getString(JsonObject data, String field, String otherwise){
 		return (String) (data.has(field) ? data.get(field).getAsString() : otherwise);
 	}
+	
+	public static int getInt(JsonObject data, String field, int otherwise){
+		return (int) (data.has(field) ? data.get(field).getAsInt() : otherwise);
+	}
 }

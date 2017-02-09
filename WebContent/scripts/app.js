@@ -1,15 +1,13 @@
-// create the module and name it scotchApp
-// also include ngRoute for all our routing needs
 var ratorApp = angular.module('magiratorApp', [ 'ngRoute' ]);
 
-// configure our routes
+/// ROUTES ///
+
 ratorApp.config(function($routeProvider) {
 	$routeProvider
 
-	// route for the home page
 	.when('/', {
 		templateUrl : 'pages/login.html',
-		controller : 'loginController'
+		controller : 'mainController'
 	})
 	
 	.when('/login', {
@@ -22,13 +20,11 @@ ratorApp.config(function($routeProvider) {
 		controller : 'signupController'
 	})
 
-	// route for the about page
 	.when('/about', {
 		templateUrl : 'pages/about.html',
 		controller : 'aboutController'
 	})
 
-	// route for the contact page
 	.when('/contact', {
 		templateUrl : 'pages/contact.html',
 		controller : 'contactController'
@@ -47,10 +43,16 @@ ratorApp.config(function($routeProvider) {
 	.when('/decklist', {
 		templateUrl : 'pages/decklist.html',
 		controller : 'decklistController'
+	})
+	
+	.when('/viewdeck', {
+		templateUrl : 'pages/viewdeck.html',
+		controller : 'viewdeckController'
 	});
 });
 
 
+/// SERVICES ///
 
 ratorApp.factory('playerService', function($http){
 	
@@ -84,20 +86,38 @@ ratorApp.factory('requestService', function(){
 	}
 });
 
+ratorApp.factory('tempStorage', function() {
+	 var savedData = {}
+	 function set(data) {
+	   savedData = data;
+	 }
+	 function get() {
+	  return savedData;
+	 }
 
-// create the controller and inject Angular's $scope
-ratorApp.controller('mainController', function($scope) {
-	// create a message to display in our view
-	$scope.message = 'Everyone come and see how good I look!';
+	 return {
+	  set: set,
+	  get: get
+	 }
+
+	});
+
+
+/// CONTROLLERS ///
+
+ratorApp.controller('mainController', function($scope, $http, $location, playerService) {
+	
+	$scope.result = "Waiting for response";
+	
+	playerService.getPlayer().then(function(data) {
+		if (data.result == "Success") {
+			$location.url('/dashboard');
+		} else {
+			$location.url('/login');
+		}
+	});
 });
 
-ratorApp.controller('aboutController', function($scope) {
-	$scope.message = 'Look! I am an about page.';
-});
-
-ratorApp.controller('contactController', function($scope) {
-	$scope.message = 'Contact us! JK. This is just a demo.';
-});
 
 ratorApp.controller('addDeckController', function($scope, $http, $location, playerService, requestService) {
     
@@ -264,11 +284,13 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 		    $scope.goDeckList = function() {
 		        $location.url('/decklist');
 		    };
+		} else {
+			$scope.result = 'Not logged in, please log in and try again';
 		}
 	});
 });
 
-ratorApp.controller('decklistController', function($scope, $http, $location, playerService, requestService) {
+ratorApp.controller('decklistController', function($scope, $http, $location, playerService, requestService, tempStorage) {
 	
 	$scope.result = "Waiting for response";
 	
@@ -278,9 +300,8 @@ ratorApp.controller('decklistController', function($scope, $http, $location, pla
 			//Get decks
 			var getDecksReq = requestService.buildRequest(
 					"GetDecks", 
-					{
-						player: $scope.player
-					});
+					{}
+					);
 
 			$http(getDecksReq).then(function(response){
 				$scope.result = response.data;
@@ -294,47 +315,102 @@ ratorApp.controller('decklistController', function($scope, $http, $location, pla
 				function(){
 					$scope.result = 'Failure';
 				});
+			
+		    $scope.order = {
+		            field: 'name',
+		            reverse: false
+		        };
+		    
+		    $scope.reverseOrder = false;
+		    
+		    var bool_order = {
+		            true: 0,
+		            false: 1
+		        };
+		    
+		    var bool_badge = {
+		            true: 'yes',
+		            false: 'no'
+		        };
+			
+			
+			$scope.deckOrder = function(deck) {
+				var sorter = $scope.order.field;
+				var sortval = deck[sorter];
+				deck.badge = sortval;		
+
+				//Special cases value
+				if (sortval === true || sortval === false){
+					boolval = sortval;
+					sortval = bool_order[boolval];
+					deck.badge = bool_badge[boolval];
+				}
+				
+				//Special cases sorter
+				if (sorter == 'name'){//Name is always displayed
+					deck.badge = "";
+				}		
+				
+		        return sortval;
+			}
+			
+			$scope.goDeck = function(id){
+				console.log("id: " + id);
+				tempStorage.set(id);
+				$location.url('/viewdeck');
+			}
+			
 		} else {
 			$scope.result = 'Not logged in, please log in and try again';
 		}
 	});
-	
-    $scope.order = {
-            field: 'name',
-            reverse: false
-        };
-    
-    $scope.reverseOrder = false;
-    
-    var bool_order = {
-            true: 0,
-            false: 1
-        };
-    
-    var bool_badge = {
-            true: 'yes',
-            false: 'no'
-        };
-	
-	
-	$scope.deckOrder = function(deck) {
-		var sorter = $scope.order.field;
-		var sortval = deck[sorter];
-		deck.badge = sortval;		
+});
 
-		//Special cases value
-		if (sortval === true || sortval === false){
-			boolval = sortval;
-			sortval = bool_order[boolval];
-			deck.badge = bool_badge[boolval];
+
+ratorApp.controller('viewdeckController', function($scope, $http, $location, playerService, requestService, tempStorage) {
+	
+	$scope.result = "Waiting for response";
+	
+	playerService.getPlayer().then(function(data) {
+		if (data.result == "Success") {
+			
+			$scope.deckId = tempStorage.get();
+			
+			$scope.result = "getting deck " + $scope.deckId;
+			
+			var getDeck = function(){				
+				
+				//Get deck
+				var getDeckReq = requestService.buildRequest(
+						"GetDeck", 
+						{id:$scope.deckId}
+						);
+
+				$http(getDeckReq).then(function(response){
+					$scope.result = response.data;
+					
+						if (response.data.result == "Success"){
+							$scope.result = 'Success';
+							$scope.deck = JSON.parse(response.data.deck);
+							console.log($scope.deck);
+							
+							var deck = JSON.parse(response.data.deck);
+							console.log(deck);
+							
+							$scope.deckname = deck.name;
+						}					
+					}, 
+					function(){
+						$scope.result = 'Failure';
+					});
+				
+			}
+			
+			getDeck();
+			
+			
+		} else {
+			$scope.result = 'Not logged in, please log in and try again';
 		}
-		
-		//Special cases sorter
-		if (sorter == 'name'){//Name is always displayed
-			deck.badge = "";
-		}		
-		
-        return sortval;
-	}
-
+	});
 });

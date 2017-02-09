@@ -6,7 +6,7 @@ import magirator.dataobjects.Deck;
 
 public class ListDeck {
 	
-	private int deckid;
+	private int id;
 	private String name;
 	private String format;
 	private boolean black;
@@ -22,7 +22,7 @@ public class ListDeck {
 	private int games;
 	
 	public ListDeck(Deck deck, int winrate, int games){
-		this.deckid = deck.getDeckid();
+		this.id = deck.getDeckid();
 		this.name = deck.getName();
 		this.format = deck.getFormat();
 		this.black = deck.getBlack();
