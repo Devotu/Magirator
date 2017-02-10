@@ -391,13 +391,8 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 					
 						if (response.data.result == "Success"){
 							$scope.result = 'Success';
-							$scope.deck = JSON.parse(response.data.deck);
-							console.log($scope.deck);
-							
-							var deck = JSON.parse(response.data.deck);
-							console.log(deck);
-							
-							$scope.deckname = deck.name;
+							$scope.deck = JSON.parse(response.data.deck);							
+							$scope.deckname = $scope.deck.name;
 						}					
 					}, 
 					function(){
@@ -407,6 +402,28 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 			}
 			
 			getDeck();
+			
+			$scope.toggleActive = function(){
+				
+				console.log($scope.deck.deckid);
+				
+				//Toggle deck
+				var toggleDeckReq = requestService.buildRequest(
+						"ToggleDeck", 
+						{id:$scope.deck.deckid}
+						);
+
+				$http(toggleDeckReq).then(function(response){
+					$scope.result = response.data;
+					
+						if (response.data.result == "Success"){
+							$scope.result = 'Success';
+						}					
+					}, 
+					function(){
+						$scope.result = 'Failure';
+					});
+			}
 			
 			
 		} else {

@@ -20,6 +20,7 @@
 
 
 
+
 			<div>
 
 				<h1>Deck info</h1>
@@ -122,10 +123,11 @@
 				</div>
 				<label for="name">Theme:</label>
 				<p>{{ deck.theme }}</p>
-				<label for="name">Active:</label>
-				<p>{{ deck.active }}</p>
 				<label for="name">Created:</label>
 				<p>{{ deck.created }}</p>
+				<label for="name">Active:
+    				<input type="checkbox" ng-model="deck.active" ng-click="toggleActive()">
+  				</label>
 
 			</div>
 

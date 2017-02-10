@@ -127,5 +127,38 @@ public class Decks {
 			if (con != null) con.close();
 		}
 	}
+	
+	public static boolean toggleDeck(int deckid) throws Exception {
+
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();
+
+			String query = "MATCH (d:Deck) "
+					+ "WHERE id(d)=? "
+					+ "SET d.active = NOT d.active";
+
+      		PreparedStatement ps = con.prepareStatement(query);
+      		ps.setInt(1, deckid);
+
+      		int updates = ps.executeUpdate();
+
+			if(updates >= 0){
+				return true;
+			}
+			
+			return false;			
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (st != null) st.close();
+			if (con != null) con.close();
+		}
+	}
 
 }
