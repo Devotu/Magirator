@@ -45,10 +45,34 @@ ratorApp.config(function($routeProvider) {
 		controller : 'decklistController'
 	})
 	
-	.when('/viewdeck', {
+	//Deck
+	.when('/deck', {
 		templateUrl : 'pages/viewdeck.html',
 		controller : 'viewdeckController'
-	});
+	})
+	
+	.when('/deck/info', {
+		templateUrl : 'pages/viewdeck.html',
+		controller : 'viewdeckController'
+	})
+	
+	.when('/deck/games', {
+		templateUrl : 'pages/contact.html',
+		controller : 'viewdeckController'
+	})
+	
+	.when('/deck/statistics', {
+		templateUrl : 'pages/viewdeck.html',
+		controller : 'viewdeckController'
+	})
+	
+	.when('/deck/alterations', {
+		templateUrl : 'pages/viewdeck.html',
+		controller : 'viewdeckController'
+	})
+	//Deck
+	
+	;
 });
 
 
@@ -356,7 +380,7 @@ ratorApp.controller('decklistController', function($scope, $http, $location, pla
 			
 			$scope.goDeck = function(id){
 				tempStorage.set(id);
-				$location.url('/viewdeck');
+				$location.url('/deck');
 			}
 			
 		} else {
