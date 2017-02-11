@@ -25,8 +25,8 @@ ratorApp.config(function($routeProvider) {
 		controller : 'aboutController'
 	})
 
-	.when('/contact', {
-		templateUrl : 'pages/contact.html',
+	.when('/modal', {
+		templateUrl : 'pages/modal.html',
 		controller : 'contactController'
 	})
 
@@ -355,7 +355,6 @@ ratorApp.controller('decklistController', function($scope, $http, $location, pla
 			}
 			
 			$scope.goDeck = function(id){
-				console.log("id: " + id);
 				tempStorage.set(id);
 				$location.url('/viewdeck');
 			}
@@ -373,6 +372,8 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 	
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
+			
+			$scope.showDelete = false;
 			
 			$scope.deckId = tempStorage.get();
 			
@@ -424,6 +425,40 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 						$scope.result = 'Failure';
 					});
 			}
+			
+			$scope.deleteDeck = function(){
+				
+				//Toggle deck
+				var deleteDeckReq = requestService.buildRequest(
+						"DeleteDeck", 
+						{id:$scope.deck.deckid}
+						);
+
+				$http(deleteDeckReq).then(function(response){
+					$scope.result = response.data;
+					
+						if (response.data.result == "Success"){
+							$scope.result = 'Success';
+						}
+					}, 
+					function(){
+						$scope.result = 'Failure';
+					});
+			}
+			
+			$scope.showDeleteDialog = function(){
+				
+				//Toggle delete dialog on
+				$scope.showDelete = true;
+			}
+			
+			$scope.toggleDeleteDialog = function(){
+				
+				//Toggle delete dialog
+				($scope.showDelete == true) ? $scope.showDelete = false : $scope.showDelete = true;
+			}
+			
+			
 			
 			
 		} else {
