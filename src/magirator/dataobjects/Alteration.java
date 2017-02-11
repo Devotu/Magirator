@@ -34,7 +34,7 @@ public class Alteration {
 	private Date altered;
 	private String comment;
 	
-	public Alteration(Deck previousDeck, Deck currentheck, String comment) throws Exception {
+	public Alteration(Deck previousDeck, Deck currentDeck, String comment) throws Exception {
 		
 		this.nameWas = previousDeck.getName();
 		this.formatWas = previousDeck.getFormat();
@@ -47,18 +47,18 @@ public class Alteration {
 		this.themeWas = previousDeck.getTheme();
 		this.colorPatternWas = (blackWas? 1:0) + (whiteWas? 2:0) + (redWas? 4:0) + (greenWas? 8:0) + (blueWas? 16:0) + (colorlessWas? 32:0);
 		
-		this.nameIs = currentheck.getName();
-		this.formatIs = currentheck.getFormat();
-		this.blackIs = currentheck.getBlack();
-		this.whiteIs = currentheck.getWhite();
-		this.redIs = currentheck.getRed();
-		this.greenIs = currentheck.getGreen();
-		this.blueIs = currentheck.getBlue();
-		this.colorlessIs = currentheck.getColorless();
-		this.themeIs = currentheck.getTheme();
+		this.nameIs = currentDeck.getName();
+		this.formatIs = currentDeck.getFormat();
+		this.blackIs = currentDeck.getBlack();
+		this.whiteIs = currentDeck.getWhite();
+		this.redIs = currentDeck.getRed();
+		this.greenIs = currentDeck.getGreen();
+		this.blueIs = currentDeck.getBlue();
+		this.colorlessIs = currentDeck.getColorless();
+		this.themeIs = currentDeck.getTheme();
 		this.colorPatternIs = (blackIs? 1:0) + (whiteIs? 2:0) + (redIs? 4:0) + (greenIs? 8:0) + (blueIs? 16:0) + (colorlessIs? 32:0);
 		
-		this.altered = currentheck.getDateCreated();
+		this.altered = currentDeck.getDateCreated();
 		this.comment = comment;
 		
 	}

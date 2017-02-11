@@ -15,6 +15,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import magirator.dataobjects.Alteration;
 import magirator.dataobjects.Deck;
 import magirator.dataobjects.ListItem;
 import magirator.dataobjects.Player;
@@ -185,6 +186,47 @@ public class Decks {
 			}
 			
 			return false;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (st != null) st.close();
+			if (con != null) con.close();
+		}
+	}
+	
+	public ArrayList<Alteration> getDeckAlterations(int deckId)  throws Exception {
+				
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();			
+
+			String query = ""
+					+ "MATCH dp=(d)<-[r:Evolved*]-() "
+					+ "WHERE id(d)=? "
+					+ "UNWIND nodes(dp) AS nd "
+					+ "OPTIONAL MATCH (nd)<-[e:Evolved]-() "
+					+ "RETURN DISTINCT id(nd), PROPERTIES(nd), PROPERTIES(e)";
+
+      		PreparedStatement ps = con.prepareStatement(query);
+      		ps.setInt(1, deckId);
+
+      		rs = ps.executeQuery();      		
+      		
+      		ArrayList<Alteration> deckAlterationList = new ArrayList<Alteration>();
+      		
+      		Deck currentDeck = null;
+      		Deck previousDeck = null;
+      		
+			while (rs.next()) {
+				Deck deck = new Deck(rs.getInt("id(nd)"), (Map)rs.getObject("PROPERTIES(nd)"));
+			}
+			
+			return deckAlterationList;
 			
 		} catch (Exception ex){
 			throw ex;
