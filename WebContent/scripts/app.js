@@ -171,7 +171,6 @@ ratorApp.controller('addDeckController', function($scope, $http, $location, play
 				var addDeckReq = requestService.buildRequest(
 						"AddDeck", 
 						{
-							player: $scope.player,
 							deck: {
 								'name': $scope.name,
 								'format': $scope.format,

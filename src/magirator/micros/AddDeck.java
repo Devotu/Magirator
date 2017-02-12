@@ -6,6 +6,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.google.gson.JsonObject;
 import magirator.dataobjects.Deck;
 import magirator.dataobjects.Player;
@@ -29,17 +31,32 @@ public class AddDeck extends HttpServlet {
 		getServletContext().log("-- AddDeck --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Something went wrong adding your deck");
+		result.addProperty(Variables.result, "Could not add deck, please log in first");
+        
+		HttpSession session = request.getSession();
+		Player player = (Player)session.getAttribute("player");
 		
-		JsonObject data = Json.parseRequestData(request);
-		
-		Player player = new Player( data.get("player").getAsJsonObject() );
-		Deck deck = new Deck( data.get("deck").getAsJsonObject() );
-		
-		try	{
-			result.addProperty(Variables.result, Decks.addDeck(player, deck) );			
-		} catch (Exception e) {
-			result.addProperty(Variables.result, Error.printStackTrace(e));
+		//Player is logged in
+		if (player != null){
+			
+			result.addProperty(Variables.result, "Something went wrong adding your deck");
+			
+			try {
+				JsonObject requestData = Json.parseRequestData(request);		
+				Deck deck = new Deck( requestData.get("deck").getAsJsonObject() );
+				
+				if (Decks.addDeck(player, deck)){
+				
+					result.addProperty(Variables.result, Variables.success);					
+				}
+				
+			} catch (Exception e) {
+				result.addProperty(Variables.result, Error.printStackTrace(e));
+			}
+			
+		} else {
+			
+			result.addProperty(Variables.result, "Failed to add deck, please login");
 		}
 
         response.setContentType("application/json");
