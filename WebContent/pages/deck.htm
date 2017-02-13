@@ -1,121 +1,134 @@
-<label for="name">Name:</label>
-<p>{{ deck.name }}</p>
-<label for="name">Format:</label>
-<p>{{ deck.format }}</p>
-<label for="name">Colors:</label>
-<!-- Colors -->
-<div>
-	<table>
-		<tr>
-			<th>
-				<div ng-switch="deck.black">
-					<div ng-switch-when="true">
-						<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-								fill="black" />
-										
-					</div>
-					<div ng-switch-default>
-						<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="lightgray"
-								stroke-width="4" fill="lightgray" />
-										
-					</div>
-				</div>
-			</th>
-			<th>
-				<div ng-switch="deck.white">
-					<div ng-switch-when="true">
-						<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-								fill="white" />
-										
-					</div>
-					<div ng-switch-default>
-						<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="lightgray"
-								stroke-width="4" fill="lightgray" />
-										
-					</div>
-				</div>
-			</th>
-			<th>
-				<div ng-switch="deck.red">
-					<div ng-switch-when="true">
-						<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-								fill="red" />
-										
-					</div>
-					<div ng-switch-default>
-						<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="lightgray"
-								stroke-width="4" fill="lightgray" />
-										
-					</div>
-				</div>
-			</th>
-			<th>
-				<div ng-switch="deck.green">
-					<div ng-switch-when="true">
-						<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-								fill="green" />
-										
-					</div>
-					<div ng-switch-default>
-						<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="lightgray"
-								stroke-width="4" fill="lightgray" />
-										
-					</div>
-				</div>
-			</th>
-			<th>
-				<div ng-switch="deck.blue">
-					<div ng-switch-when="true">
-						<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-								fill="blue" />
-										
-					</div>
-					<div ng-switch-default>
-						<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="lightgray"
-								stroke-width="4" fill="lightgray" />
-										
-					</div>
-				</div>
-			</th>
-			<th>
-				<div ng-switch="deck.colorless">
-					<div ng-switch-when="true">
-						<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-								fill="colorless" />
-										
-					</div>
-					<div ng-switch-default>
-						<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="lightgray"
-								stroke-width="4" fill="lightgray" />
-										
-					</div>
-				</div>
-			</th>
-		</tr>
-	</table>
+
+<div class="alert alert-danger fade in" ng-show="showDelete">
+	<strong>Warning!</strong> Do you really want to delete this deck?
+	<button data-dismiss="alert" ng-click="deleteDeck()">Yes,
+		delete</button>
+	<button data-dismiss="alert" ng-click="toggleDeleteDialog()">No,
+		keep</button>
 </div>
 
-<label for="name">Theme:</label>
-<p>{{ deck.theme }}</p>
-<label for="name">Created:</label>
-<p>{{ deck.created }}</p>
-<label for="name">Active: <input type="checkbox"
-	ng-model="deck.active" ng-click="toggleActive()">
-</label>
-
 <div>
-	<button type="button" class="btn btn-primary"
-		ng-click="showDeleteDialog()">Delete deck</button>
+
+	<h1>Deck info</h1>
+
+	<label for="name">Name:</label>
+	<p>{{ deck.name }}</p>
+	<label for="name">Format:</label>
+	<p>{{ deck.format }}</p>
+	<label for="name">Colors:</label>
+	<div>
+		<table>
+			<tr>
+				<th>
+					<div ng-switch="deck.black">
+						<div ng-switch-when="true">
+							<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
+									fill="black" />
+									
+						</div>
+						<div ng-switch-default>
+							<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="lightgray"
+									stroke-width="4" fill="lightgray" />
+									
+						</div>
+					</div>
+				</th>
+				<th>
+					<div ng-switch="deck.white">
+						<div ng-switch-when="true">
+							<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
+									fill="white" />
+									
+						</div>
+						<div ng-switch-default>
+							<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="lightgray"
+									stroke-width="4" fill="lightgray" />
+									
+						</div>
+					</div>
+				</th>
+				<th>
+					<div ng-switch="deck.red">
+						<div ng-switch-when="true">
+							<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
+									fill="red" />
+									
+						</div>
+						<div ng-switch-default>
+							<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="lightgray"
+									stroke-width="4" fill="lightgray" />
+									
+						</div>
+					</div>
+				</th>
+				<th>
+					<div ng-switch="deck.green">
+						<div ng-switch-when="true">
+							<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
+									fill="green" />
+									
+						</div>
+						<div ng-switch-default>
+							<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="lightgray"
+									stroke-width="4" fill="lightgray" />
+									
+						</div>
+					</div>
+				</th>
+				<th>
+					<div ng-switch="deck.blue">
+						<div ng-switch-when="true">
+							<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
+									fill="blue" />
+									
+						</div>
+						<div ng-switch-default>
+							<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="lightgray"
+									stroke-width="4" fill="lightgray" />
+									
+						</div>
+					</div>
+				</th>
+				<th>
+					<div ng-switch="deck.colorless">
+						<div ng-switch-when="true">
+							<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
+									fill="colorless" />
+									
+						</div>
+						<div ng-switch-default>
+							<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="lightgray"
+									stroke-width="4" fill="lightgray" />
+									
+						</div>
+					</div>
+				</th>
+			</tr>
+		</table>
+	</div>
+
+	<label for="name">Theme:</label>
+	<p>{{ deck.theme }}</p>
+	<label for="name">Created:</label>
+	<p>{{ deck.created }}</p>
+	<label for="name">Active: <input type="checkbox"
+		ng-model="deck.active" ng-click="toggleActive()">
+	</label>
+
+	<div>
+		<button type="button" class="btn btn-primary"
+			ng-click="showDeleteDialog()">Delete deck</button>
+	</div>
 </div>

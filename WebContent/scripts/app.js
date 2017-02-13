@@ -45,33 +45,10 @@ ratorApp.config(function($routeProvider) {
 		controller : 'decklistController'
 	})
 	
-	//Deck
 	.when('/deck', {
 		templateUrl : 'pages/viewdeck.html',
 		controller : 'viewdeckController'
-	})
-	
-	.when('/deck/info', {
-		templateUrl : 'pages/viewdeck.html',
-		controller : 'viewdeckController'
-	})
-	
-	.when('/deck/games', {
-		templateUrl : 'pages/contact.html',
-		controller : 'viewdeckController'
-	})
-	
-	.when('/deck/statistics', {
-		templateUrl : 'pages/viewdeck.html',
-		controller : 'viewdeckController'
-	})
-	
-	.when('/deck/alterations', {
-		templateUrl : 'pages/viewdeck.html',
-		controller : 'viewdeckController'
-	})
-	//Deck
-	
+	})	
 	;
 });
 
@@ -400,9 +377,21 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 			
 			$scope.deckId = tempStorage.get();
 			
+			//Tabs
+		    $scope.tab = 1;
+
+		    $scope.setTab = function(newTab){
+		      $scope.tab = newTab;
+		    };
+
+		    $scope.isSet = function(tabNum){
+		      return $scope.tab === tabNum;
+		    };
+			
+			//Deck
 			$scope.result = "getting deck " + $scope.deckId;
 			
-			var getDeck = function(){				
+			$scope.getDeck = function(){
 				
 				//Get deck
 				var getDeckReq = requestService.buildRequest(
@@ -421,11 +410,14 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 					}, 
 					function(){
 						$scope.result = 'Failure';
-					});
-				
+					});				
 			}
 			
-			getDeck();
+			//$scope.getDeck();
+			
+			$scope.doStuff = function(){
+				console.log('test');
+			}
 			
 			$scope.toggleActive = function(){
 				
@@ -481,7 +473,12 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 				($scope.showDelete == true) ? $scope.showDelete = false : $scope.showDelete = true;
 			}
 			
+			//Games
 			
+			
+			//Stats
+			
+			//Alterations
 			
 			
 		} else {
