@@ -1,7 +1,7 @@
-<h1>Alterations</h1>
+<h1>Alterationsz</h1>
 
 <ul class="list-group">
-	<li ng-repeat="alteration in alterations | alteration.created"
+	<li ng-repeat="alteration in alterations | orderBy:'created'"
 		class="list-group-item" ng-click="goAlteration(alteration.id)">{{alteration.comment}}
 	</li>
 </ul>

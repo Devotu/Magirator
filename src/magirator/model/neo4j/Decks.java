@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.naming.NamingException;
@@ -13,6 +14,7 @@ import javax.sql.DataSource;
 
 import magirator.dataobjects.Alteration;
 import magirator.dataobjects.Deck;
+import magirator.dataobjects.ListItem;
 import magirator.dataobjects.Player;
 import magirator.support.Database;
 
@@ -191,7 +193,7 @@ public class Decks {
 		}
 	}
 	
-	public ArrayList<Alteration> getDeckAlterations(int deckId)  throws Exception {
+	public static ArrayList<Alteration> getDeckAlterations(int deckId)  throws Exception {
 				
 		Connection con = null;
 		Statement st = null;
@@ -210,18 +212,29 @@ public class Decks {
       		PreparedStatement ps = con.prepareStatement(query);
       		ps.setInt(1, deckId);
 
-      		rs = ps.executeQuery();      		
+      		rs = ps.executeQuery();
       		
-      		ArrayList<Alteration> deckAlterationList = new ArrayList<Alteration>();
-      		
-      		Deck currentDeck = null;
       		Deck previousDeck = null;
+      		ArrayList<Alteration> alterations = new ArrayList<Alteration>();
       		
 			while (rs.next()) {
-				Deck deck = new Deck(rs.getInt("id(nd)"), (Map)rs.getObject("PROPERTIES(nd)"));
+				
+				Deck currentDeck = new Deck(rs.getInt("id(nd)"), (Map)rs.getObject("PROPERTIES(nd)"));
+				String comment = "Created";
+				
+				if (rs.getObject("PROPERTIES(e)") != null){ //Inte första
+					Map evolved = (Map)rs.getObject("PROPERTIES(e)");
+					comment = evolved.get("comment").toString();
+				}
+				
+				if (previousDeck != null){ //Inte första 
+					alterations.add( new Alteration(previousDeck, currentDeck, comment) );
+				}
+				
+				previousDeck = currentDeck;
 			}
 			
-			return deckAlterationList;
+			return alterations;
 			
 		} catch (Exception ex){
 			throw ex;

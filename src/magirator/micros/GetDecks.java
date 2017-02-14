@@ -36,7 +36,7 @@ public class GetDecks extends HttpServlet {
 		getServletContext().log("-- GetDecks --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty("result", "Could not get decks, are you logged in?");
+		result.addProperty(Variables.result, "Could not get decks, are you logged in?");
 		
 		HttpSession session = request.getSession();
 		Player player = (Player)session.getAttribute("player");

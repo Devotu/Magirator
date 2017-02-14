@@ -1,6 +1,6 @@
 var ratorApp = angular.module('magiratorApp', [ 'ngRoute' ]);
 
-/// ROUTES ///
+// / ROUTES ///
 
 ratorApp.config(function($routeProvider) {
 	$routeProvider
@@ -53,7 +53,7 @@ ratorApp.config(function($routeProvider) {
 });
 
 
-/// SERVICES ///
+// / SERVICES ///
 
 ratorApp.factory('playerService', function($http){
 	
@@ -104,7 +104,7 @@ ratorApp.factory('tempStorage', function() {
 	});
 
 
-/// CONTROLLERS ///
+// / CONTROLLERS ///
 
 ratorApp.controller('mainController', function($scope, $http, $location, playerService) {
 	
@@ -128,7 +128,7 @@ ratorApp.controller('addDeckController', function($scope, $http, $location, play
 			
 			$scope.player = JSON.parse(data.player);
 			
-			//Get formats
+			// Get formats
 		    var getFormatsReq = {
 		    		method: 'POST',
 		    		url: '/Magirator/GetFormats'
@@ -142,7 +142,7 @@ ratorApp.controller('addDeckController', function($scope, $http, $location, play
 		    		$scope.result += "Could not get formats";
 		    	});
 
-			//Add deck
+			// Add deck
 			$scope.addDeck = function(){
 				$scope.result = "Waiting for response";
 				var addDeckReq = requestService.buildRequest(
@@ -175,7 +175,7 @@ ratorApp.controller('addDeckController', function($scope, $http, $location, play
 
 ratorApp.controller('loginController', function($scope, $http, $location) {
 	
-	//Login
+	// Login
 	$scope.login = function(){
 		
 		$scope.result = "Waiting for response";
@@ -212,7 +212,7 @@ ratorApp.controller('loginController', function($scope, $http, $location) {
 
 ratorApp.controller('signupController', function($scope, $http, $location) {
 	
-	//Sign up
+	// Sign up
 	$scope.signup = function(){
 		
 		$scope.result = "Waiting for response";
@@ -257,7 +257,7 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
 			
-			//Get updated info
+			// Get updated info
 		    var getUpdatesReq = {
 		    		method: 'POST',
 		    		url: '/Magirator/GetDashboard'
@@ -297,7 +297,7 @@ ratorApp.controller('decklistController', function($scope, $http, $location, pla
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
 			
-			//Get decks
+			// Get decks
 			var getDecksReq = requestService.buildRequest(
 					"GetDecks", 
 					{}
@@ -339,15 +339,15 @@ ratorApp.controller('decklistController', function($scope, $http, $location, pla
 				var sortval = deck[sorter];
 				deck.badge = sortval;		
 
-				//Special cases value
+				// Special cases value
 				if (sortval === true || sortval === false){
 					boolval = sortval;
 					sortval = bool_order[boolval];
 					deck.badge = bool_badge[boolval];
 				}
 				
-				//Special cases sorter
-				if (sorter == 'name'){//Name is always displayed
+				// Special cases sorter
+				if (sorter == 'name'){// Name is always displayed
 					deck.badge = "";
 				}		
 				
@@ -377,23 +377,31 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 			
 			$scope.deckId = tempStorage.get();
 			
-			//Tabs
-		    $scope.tab = 1;
-
+			// Tabs
 		    $scope.setTab = function(newTab){
 		      $scope.tab = newTab;
+		      switch(newTab) {
+		      case 1:
+		          $scope.getDeck();
+		          break;
+		      case 4:
+		          $scope.getDeck();
+		          break;
+		      default:
+		    	  $scope.result = "The tabcase defaulted";
+		      } 
 		    };
 
 		    $scope.isSet = function(tabNum){
 		      return $scope.tab === tabNum;
 		    };
+		    
+		    $scope.setTab("1");
 			
-			//Deck
-			$scope.result = "getting deck " + $scope.deckId;
-			
+			// Deck			
 			$scope.getDeck = function(){
 				
-				//Get deck
+				// Get deck
 				var getDeckReq = requestService.buildRequest(
 						"GetDeck", 
 						{id:$scope.deckId}
@@ -412,18 +420,12 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 						$scope.result = 'Failure';
 					});				
 			}
-			
-			//$scope.getDeck();
-			
-			$scope.doStuff = function(){
-				console.log('test');
-			}
-			
+						
 			$scope.toggleActive = function(){
 				
 				console.log($scope.deck.deckid);
 				
-				//Toggle deck
+				// Toggle deck
 				var toggleDeckReq = requestService.buildRequest(
 						"ToggleDeck", 
 						{id:$scope.deck.deckid}
@@ -443,7 +445,7 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 			
 			$scope.deleteDeck = function(){
 				
-				//Toggle deck
+				// Toggle deck
 				var deleteDeckReq = requestService.buildRequest(
 						"DeleteDeck", 
 						{id:$scope.deck.deckid}
@@ -463,23 +465,44 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 			
 			$scope.showDeleteDialog = function(){
 				
-				//Toggle delete dialog on
+				// Toggle delete dialog on
 				$scope.showDelete = true;
 			}
 			
 			$scope.toggleDeleteDialog = function(){
 				
-				//Toggle delete dialog
+				// Toggle delete dialog
 				($scope.showDelete == true) ? $scope.showDelete = false : $scope.showDelete = true;
 			}
 			
-			//Games
+			// Games
 			
 			
-			//Stats
+			// Stats
 			
-			//Alterations
-			
+			// Alterations
+			$scope.getAlterations = function(){
+				
+				console.log($scope.deckId);
+				
+				// Get deck
+				var getAlterationsReq = requestService.buildRequest(
+						"GetAlterations", 
+						{id:$scope.deckId}
+						);
+
+				$http(getAlterationsReq).then(function(response){
+					$scope.result = response.data;
+					
+						if (response.data.result == "Success"){
+							$scope.result = response.data.result;
+							$scope.alterations = JSON.parse(response.data.alterations);
+						}					
+					}, 
+					function(){
+						$scope.result = 'Failure';
+					});				
+			}
 			
 		} else {
 			$scope.result = 'Not logged in, please log in and try again';
