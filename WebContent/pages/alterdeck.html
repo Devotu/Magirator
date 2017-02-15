@@ -1,7 +1,12 @@
 <div class="jumbotron text-center">
-	<h1>Add deck</h1>
+	<h1>Alter deck</h1>
 
-	<form ng-submit="addDeck()">
+	<form ng-submit="alterDeck()">
+		<div class="form-group">
+			<label for="comment">Comment:</label> 
+			<input type="text" class="form-control" ng-model="comment">
+				<button type="submit">Alter Deck</button>
+		</div>
 		<div class="form-group">
 			<label for="name">Name:</label> 
 			<input ng-model="deck.name" type="text" class="form-control" autofocus>
@@ -22,7 +27,7 @@
 			<label for="theme">Theme:</label> 
 			<input type="text" class="form-control" ng-model="deck.theme">
 		</div>
-		<button type="submit">Add Deck</button>
+		<button type="submit">Alter Deck</button>
 		<p>{{ result }}</p>
 	</form>
 </div>

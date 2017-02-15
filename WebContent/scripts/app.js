@@ -49,6 +49,11 @@ ratorApp.config(function($routeProvider) {
 		templateUrl : 'pages/viewdeck.html',
 		controller : 'viewdeckController'
 	})	
+	
+	.when('/alterdeck', {
+		templateUrl : 'pages/alterdeck.html',
+		controller : 'alterdeckController'
+	})
 	;
 });
 
@@ -119,59 +124,6 @@ ratorApp.controller('mainController', function($scope, $http, $location, playerS
 	});
 });
 
-
-ratorApp.controller('addDeckController', function($scope, $http, $location, playerService, requestService) {
-    
-	playerService.getPlayer().then(function(data){
-		
-		if (data.result == "Success"){
-			
-			$scope.player = JSON.parse(data.player);
-			
-			// Get formats
-		    var getFormatsReq = {
-		    		method: 'POST',
-		    		url: '/Magirator/GetFormats'
-		    }
-		    
-		    $http(getFormatsReq).then(function(response){
-		    	$scope.formats = response.data;
-		    	$scope.format = $scope.formats[0];
-		    	}, 
-		    	function(){
-		    		$scope.result += "Could not get formats";
-		    	});
-
-			// Add deck
-			$scope.addDeck = function(){
-				$scope.result = "Waiting for response";
-				var addDeckReq = requestService.buildRequest(
-						"AddDeck", 
-						{
-							deck: {
-								'name': $scope.name,
-								'format': $scope.format,
-								'colors': $scope.colors,
-								'theme': $scope.theme,
-								'created': Date.now()
-							}
-						});
-
-				$http(addDeckReq).then(function(response){
-					$scope.result = response.data
-					
-					if (response.data.result == "Success"){
-						$location.url('/dashboard');		
-					}
-					
-					}, 
-					function(){
-						$scope.result = 'Failure'
-					});
-			};
-		}
-	});
-});
 
 ratorApp.controller('loginController', function($scope, $http, $location) {
 	
@@ -290,6 +242,57 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 	});
 });
 
+ratorApp.controller('addDeckController', function($scope, $http, $location, playerService, requestService) {
+    
+	// Get formats
+    var getFormatsReq = {
+    		method: 'POST',
+    		url: '/Magirator/GetFormats'
+    }
+    
+    $http(getFormatsReq).then(function(response){
+    	$scope.formats = response.data;
+    	$scope.format = $scope.formats[0];
+    	}, 
+    	function(){
+    		$scope.result += "Could not get formats";
+    	});
+
+	// Add deck
+	$scope.addDeck = function(){
+		$scope.result = "Waiting for response";
+		var addDeckReq = requestService.buildRequest(
+				"AddDeck", 
+				{
+					deck: {
+						'name': $scope.deck.name,
+						'format': $scope.deck.format,
+						'black': $scope.deck.black,
+						'white': $scope.deck.white,
+						'red': $scope.deck.red,
+						'green': $scope.deck.green,
+						'blue': $scope.deck.blue,
+						'colorless': $scope.deck.colorless,
+						'theme': $scope.deck.theme,
+						'created': Date.now()
+					}
+				});
+
+		$http(addDeckReq).then(function(response){
+			$scope.result = response.data
+			
+			if (response.data.result == "Success"){
+				$location.url('/dashboard');		
+			}
+			
+			}, 
+			function(){
+				$scope.result = 'Failure'
+			});
+	};
+	
+});
+
 ratorApp.controller('decklistController', function($scope, $http, $location, playerService, requestService, tempStorage) {
 	
 	$scope.result = "Waiting for response";
@@ -373,32 +376,12 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
 			
-			$scope.showDelete = false;
-			
 			$scope.deckId = tempStorage.get();
 			
-			// Tabs
-		    $scope.setTab = function(newTab){
-		      $scope.tab = newTab;
-		      switch(newTab) {
-		      case 1:
-		          $scope.getDeck();
-		          break;
-		      case 4:
-		          $scope.getDeck();
-		          break;
-		      default:
-		    	  $scope.result = "The tabcase defaulted";
-		      } 
-		    };
-
-		    $scope.isSet = function(tabNum){
-		      return $scope.tab === tabNum;
-		    };
-		    
-		    $scope.setTab("1");
 			
-			// Deck			
+			// Deck
+			$scope.showDelete = false;
+			
 			$scope.getDeck = function(){
 				
 				// Get deck
@@ -475,17 +458,17 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 				($scope.showDelete == true) ? $scope.showDelete = false : $scope.showDelete = true;
 			}
 			
+			
 			// Games
 			
 			
 			// Stats
 			
+			
 			// Alterations
 			$scope.getAlterations = function(){
 				
-				console.log($scope.deckId);
-				
-				// Get deck
+				// Get Alterations
 				var getAlterationsReq = requestService.buildRequest(
 						"GetAlterations", 
 						{id:$scope.deckId}
@@ -504,8 +487,128 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 					});				
 			}
 			
+			$scope.goAlter = function(){
+				
+				tempStorage.set($scope.deckId);
+				$location.url('/alterdeck');
+			}
+			
+			// Tabs
+		    $scope.setTab = function(newTab){
+		      $scope.tab = newTab;
+		      switch(newTab) {
+			      case 1:
+			          $scope.getDeck();
+			          break;
+			      case 4:
+			          $scope.getDeck();
+			          break;
+			      default:
+			    	  $scope.result = "The tabcase defaulted";
+		      } 
+		    };
+
+		    $scope.isSet = function(tabNum){
+		      return $scope.tab === tabNum;
+		    };
+		    
+		    $scope.setTab(1);
+			
 		} else {
 			$scope.result = 'Not logged in, please log in and try again';
 		}
 	});
+	
 });
+	
+ratorApp.controller('alterdeckController', function($scope, $http, $location, playerService, requestService, tempStorage) {
+		
+		$scope.result = "Waiting for response";		
+
+		$scope.deckId = tempStorage.get();
+		
+		$scope.getFormats = function(){
+			
+			// Get formats
+		    var getFormatsReq = {
+		    		method: 'POST',
+		    		url: '/Magirator/GetFormats'
+		    }
+		    
+		    $http(getFormatsReq).then(function(response){
+		    	$scope.formats = response.data;
+		    	$scope.format = $scope.formats[0];
+		    	}, 
+		    	function(){
+		    		$scope.result += "Could not get formats";
+		    	});
+		}
+
+		$scope.getFormats();
+		
+			
+		$scope.getDeck = function(){
+			
+			// Get deck
+			var getDeckReq = requestService.buildRequest(
+					"GetDeck", 
+					{id:$scope.deckId}
+					);
+
+			$http(getDeckReq).then(function(response){
+				$scope.result = response.data;
+				
+					if (response.data.result == "Success"){
+						$scope.result = 'Success';
+						$scope.deck = JSON.parse(response.data.deck);							
+						$scope.deckname = $scope.deck.name;
+						console.log($scope.deck);
+					}					
+				}, 
+				function(){
+					$scope.result = 'Failure';
+				});				
+		}
+		
+		$scope.getDeck();
+		
+		
+		$scope.alterDeck = function(){
+			
+			// Alter deck
+			var AlterDeckReq = requestService.buildRequest(
+					"AlterDeck", 
+					{
+						deck: {
+							'id': $scope.deckId,
+							'name': $scope.deck.name,
+							'format': $scope.deck.format,
+							'black': $scope.deck.black,
+							'white': $scope.deck.white,
+							'red': $scope.deck.red,
+							'green': $scope.deck.green,
+							'blue': $scope.deck.blue,
+							'colorless': $scope.deck.colorless,
+							'theme': $scope.deck.theme,
+							'created': Date.now()
+						},
+						comment: $scope.comment
+					});
+
+			$http(AlterDeckReq).then(function(response){
+				$scope.result = response.data;
+				
+					if (response.data.result == "Success"){
+						console.log(response.data.newDeckId);
+						tempStorage.set(response.data.newDeckId);
+						$location.url('/deck');
+					}					
+				}, 
+				function(){
+					$scope.result = 'Failure';
+				});				
+		}
+	
+});
+
+

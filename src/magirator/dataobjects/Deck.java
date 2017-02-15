@@ -67,20 +67,20 @@ public class Deck {
 	
 
 	public Deck(JsonObject deck) {
-		this.deckid = (int) (deck.has("id") ? deck.get("id").getAsNumber() : 0);
+		this.deckid = (deck.has("id") ? deck.get("id").getAsNumber() : 0).intValue();
 		this.name = deck.get("name").getAsString();
 		this.format = deck.get("format").getAsString();
 		this.theme = deck.get("theme").getAsString();
-		this.active = (boolean) (deck.has("active") ? deck.get("active").getAsBoolean() : true );
+		this.active = (deck.has("active") ? deck.get("active").getAsBoolean() : true );
 		
-		JsonObject colors = deck.get("colors").getAsJsonObject();
+		//JsonObject colors = deck.get("colors").getAsJsonObject();
 		
-		if (colors.has("black")){ this.black = true; };
-		if (colors.has("white")){ this.white = true; };
-		if (colors.has("red")){ this.red = true; };
-		if (colors.has("green")){ this.green = true; };
-		if (colors.has("blue")){ this.blue = true; };
-		if (colors.has("colorless")){ this.colorless = true; };
+		if (deck.has("black")){ this.black = deck.get("black").getAsBoolean(); };
+		if (deck.has("white")){ this.white = deck.get("white").getAsBoolean(); };
+		if (deck.has("red")){ this.red = deck.get("red").getAsBoolean(); };
+		if (deck.has("green")){ this.green = deck.get("green").getAsBoolean(); };
+		if (deck.has("blue")){ this.blue = deck.get("blue").getAsBoolean(); };
+		if (deck.has("colorless")){ this.colorless = deck.get("colorless").getAsBoolean(); };
 		
 		long longTime = deck.get("created").getAsLong();
 		this.created = new Date(longTime);

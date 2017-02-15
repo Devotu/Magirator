@@ -1,8 +1,6 @@
 package magirator.micros;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import magirator.dataobjects.Alteration;
+import magirator.dataobjects.Deck;
 import magirator.dataobjects.Player;
 import magirator.model.neo4j.Decks;
 import magirator.support.Error;
@@ -21,10 +19,10 @@ import magirator.support.Json;
 import magirator.support.Variables;
 
 /**
- * Servlet implementation class GetAlterations
+ * Servlet implementation class AlterDeck
  */
-@WebServlet("/GetAlterations")
-public class GetAlterations extends HttpServlet {
+@WebServlet("/AlterDeck")
+public class AlterDeck extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -32,39 +30,42 @@ public class GetAlterations extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		getServletContext().log("-- GetAlterations --");
+		getServletContext().log("-- AlterDeck --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Could not get Alterations, are you logged in?");
-		
+		result.addProperty(Variables.result, "Could not alter deck, please log in first");
+        
 		HttpSession session = request.getSession();
 		Player player = (Player)session.getAttribute("player");
 		
 		//Player is logged in
 		if (player != null){
 			
+			result.addProperty(Variables.result, "Something went wrong altering your deck");
+			
 			try {
-				JsonObject requestData = Json.parseRequestData(request);
-				int deckId = Json.getInt(requestData, "id", 0);
+				JsonObject requestData = Json.parseRequestData(request);		
+				Deck newDeck = new Deck( requestData.get("deck").getAsJsonObject() );
+				String comment = requestData.get("comment").getAsString();
 				
-				ArrayList<Alteration> alterations = Decks.getDeckAlterations(deckId);
+				int newDeckId = Decks.AlterDeck(newDeck, comment);
 				
-				result.addProperty("alterations", new Gson().toJson(alterations));
-				result.addProperty(Variables.result, Variables.success);
+				if (newDeckId != -1){
+				
+					result.addProperty("newDeckId", newDeckId);
+					result.addProperty(Variables.result, Variables.success);					
+				}				
 				
 			} catch (Exception e) {
 				result.addProperty(Variables.result, Error.printStackTrace(e));
 			}
 			
-		} else {
-			
-			result.addProperty(Variables.result, "Failed to get Alterations, please login");
 		}
-		
-		response.setContentType("application/json");
-		response.getWriter().write(result.toString());
 
-		getServletContext().log("-- GetAlterations -- Done");
+        response.setContentType("application/json");
+        response.getWriter().write(result.toString());
+
+		getServletContext().log("-- AlterDeck -- Done");
 	}
 
 }

@@ -52,11 +52,24 @@
         </header>
 
         <!-- MAIN CONTENT AND INJECTED VIEWS -->
-        <div id="main">
-
+        <div id="main" class="container-fluid text-center">
+        
+		<div class="row content">
+			<div class="col-sm-2"></div>
+	
+			<div class="col-sm-8 text-left">
+	
+	
             <!-- angular templating -->
             <!-- this is where content will be injected -->
             <div ng-view></div>
+	
+			</div>
+	
+			<div class="col-sm-2"></div>
+		</div>
+
+
 
         </div>
 

@@ -3,43 +3,29 @@
 
 	<p>{{ result }}</p>
 </div>
-
-
-<div class="container-fluid text-center">
-	<div class="row content">
-		<div class="col-sm-4"></div>
-
-		<div class="col-sm-4 text-left">
-
-			<select data-ng-model="order.field">
-				<option value="winrate" selected>Winrate</option>
-				<option value="name">Name</option>
-				<option value="active">Active</option>
-				<option value="format">Format</option>
-				<option value="games">Games</option>
-				<option value="created">Created</option>
-				<option value="black">Black</option>
-				<option value="white">White</option>
-				<option value="red">Red</option>
-				<option value="green">Green</option>
-				<option value="blue">Blue</option>
-				<option value="colorless">Colorless</option>
-				<option value="theme">Theme</option>
-			</select>			
-			
-			<input type="checkbox" data-ng-model="order.reverse"/>
-			
-			<ul class="list-group">
-				<li ng-repeat="deck in decks | orderBy:deckOrder:order.reverse" 
-					class="list-group-item"
-					ng-click="goDeck(deck.id)">
-					{{deck.name}} 
-					<span class="badge">{{ deck.badge }}</span>
-				</li>
-			</ul>
-
-		</div>
-
-		<div class="col-sm-4"></div>
-	</div>
+<div>
+	<select data-ng-model="order.field">
+		<option value="winrate" selected>Winrate</option>
+		<option value="name">Name</option>
+		<option value="active">Active</option>
+		<option value="format">Format</option>
+		<option value="games">Games</option>
+		<option value="created">Created</option>
+		<option value="black">Black</option>
+		<option value="white">White</option>
+		<option value="red">Red</option>
+		<option value="green">Green</option>
+		<option value="blue">Blue</option>
+		<option value="colorless">Colorless</option>
+		<option value="theme">Theme</option>
+	</select>
+	
+	<input type="checkbox" data-ng-model="order.reverse" />
+	
+	<ul class="list-group">
+		<li ng-repeat="deck in decks | orderBy:deckOrder:order.reverse"
+			class="list-group-item" ng-click="goDeck(deck.id)">{{deck.name}}
+			<span class="badge">{{ deck.badge }}</span>
+		</li>
+	</ul>
 </div>
