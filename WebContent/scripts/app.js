@@ -54,6 +54,11 @@ ratorApp.config(function($routeProvider) {
 		templateUrl : 'pages/alterdeck.html',
 		controller : 'alterdeckController'
 	})
+	
+	.when('/alteration', {
+		templateUrl : 'pages/alteration.html',
+		controller : 'alterationController'
+	})
 	;
 });
 
@@ -493,6 +498,12 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 				$location.url('/alterdeck');
 			}
 			
+			$scope.goAlteration = function(){
+				
+				tempStorage.set($scope.deckId);
+				$location.url('/alteration');
+			}
+			
 			// Tabs
 		    $scope.setTab = function(newTab){
 		      $scope.tab = newTab;
@@ -501,7 +512,7 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 			          $scope.getDeck();
 			          break;
 			      case 4:
-			          $scope.getDeck();
+			          $scope.getAlterations();
 			          break;
 			      default:
 			    	  $scope.result = "The tabcase defaulted";
@@ -562,7 +573,6 @@ ratorApp.controller('alterdeckController', function($scope, $http, $location, pl
 						$scope.result = 'Success';
 						$scope.deck = JSON.parse(response.data.deck);							
 						$scope.deckname = $scope.deck.name;
-						console.log($scope.deck);
 					}					
 				}, 
 				function(){
@@ -599,7 +609,6 @@ ratorApp.controller('alterdeckController', function($scope, $http, $location, pl
 				$scope.result = response.data;
 				
 					if (response.data.result == "Success"){
-						console.log(response.data.newDeckId);
 						tempStorage.set(response.data.newDeckId);
 						$location.url('/deck');
 					}					
@@ -607,8 +616,62 @@ ratorApp.controller('alterdeckController', function($scope, $http, $location, pl
 				function(){
 					$scope.result = 'Failure';
 				});				
-		}
+		}	
+});
+
+
+ratorApp.controller('alterationController', function($scope, $http, $location, playerService, requestService, tempStorage) {
 	
+	$scope.result = "Waiting for response";		
+
+	$scope.alterationId = tempStorage.get();
+	
+	$scope.getFormats = function(){
+		
+		// Get formats
+	    var getFormatsReq = {
+	    		method: 'POST',
+	    		url: '/Magirator/GetFormats'
+	    }
+	    
+	    $http(getFormatsReq).then(function(response){
+	    	$scope.formats = response.data;
+	    	$scope.format = $scope.formats[0];
+	    	}, 
+	    	function(){
+	    		$scope.result += "Could not get formats";
+	    	});
+	}
+
+	$scope.getFormats();
+	
+		
+	$scope.getAlteration = function(){
+		
+		console.log("going for alteration " + $scope.alterationId);
+		
+		// Get alteration
+		var getAlterationReq = requestService.buildRequest(
+				"GetAlteration", 
+				{id:$scope.alterationId}
+				);
+
+		$http(getAlterationReq).then(function(response){
+			$scope.result = response.data;
+			
+				if (response.data.result == "Success"){
+					$scope.result = 'Success';
+					$scope.alteration = JSON.parse(response.data.alteration);
+					console.log($scope.alteration);
+				}					
+			}, 
+			function(){
+				$scope.result = 'Failure';
+			});				
+	}
+	
+	$scope.getAlteration();
+
 });
 
 
