@@ -9,6 +9,8 @@ import java.util.Date;
  */
 public class Alteration {
 
+	private int id;
+	
 	private String nameWas;
 	private String formatWas;
 	private boolean blackWas;
@@ -35,6 +37,8 @@ public class Alteration {
 	private String comment;
 	
 	public Alteration(Deck previousDeck, Deck currentDeck, String comment) throws Exception {
+		
+		this.id = currentDeck.getDeckid();
 		
 		this.nameWas = previousDeck.getName();
 		this.formatWas = previousDeck.getFormat();
@@ -237,6 +241,14 @@ public class Alteration {
 
 	public void setColorPatternIs(int colorPatternIs) {
 		this.colorPatternIs = colorPatternIs;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

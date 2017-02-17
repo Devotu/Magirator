@@ -6,9 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import magirator.dataobjects.Alteration;
 import magirator.dataobjects.Deck;
 import magirator.dataobjects.Player;
@@ -208,7 +213,8 @@ public class Decks {
 					"MATCH dp=(d)<-[r:Evolved*]-() " + 
 					"WHERE id(d)=? " + "UNWIND nodes(dp) AS nd " + 
 					"OPTIONAL MATCH (nd)<-[e:Evolved]-() " + 
-					"RETURN DISTINCT id(nd), PROPERTIES(nd), PROPERTIES(e)";
+					"RETURN DISTINCT id(nd), PROPERTIES(nd), PROPERTIES(e)" +
+					"ORDER BY PROPERTIES(nd).created";
 
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, deckId);
@@ -223,18 +229,20 @@ public class Decks {
 				Deck currentDeck = new Deck(rs.getInt("id(nd)"), (Map) rs.getObject("PROPERTIES(nd)"));
 				String comment = "Created";
 
-				if (rs.getObject("PROPERTIES(e)") != null) { // Inte första
+				if (previousDeck != null && rs.getObject("PROPERTIES(e)") != null) { // Inte första
+					
 					Map evolved = (Map) rs.getObject("PROPERTIES(e)");
 					comment = evolved.get("comment").toString();
-				}
-
-				if (previousDeck != null) { // Inte första
+					
 					alterations.add(new Alteration(previousDeck, currentDeck, comment));
+				} else {
+					alterations.add(new Alteration(currentDeck, currentDeck, comment));
 				}
 
 				previousDeck = currentDeck;
 			}
 
+			Collections.reverse(alterations);
 			return alterations;
 
 		} catch (Exception ex) {
@@ -301,6 +309,43 @@ public class Decks {
 				st.close();
 			if (con != null)
 				con.close();
+		}
+	}
+	
+	public static Alteration getAlteration(int alterationId) throws Exception {
+
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();			
+
+			String query = "MATCH (d)<-[e:Evolved]-(pd) WHERE id(d)=? RETURN PROPERTIES(d), id(pd), PROPERTIES(pd), e.comment";
+
+      		PreparedStatement ps = con.prepareStatement(query);
+      		ps.setInt(1, alterationId);
+
+      		rs = ps.executeQuery();
+      		
+      		Alteration alteration = null;
+			
+			if (rs.next()) {
+				Deck currentDeck = new Deck(alterationId, (Map)rs.getObject("PROPERTIES(d)"));
+				Deck previousDeck = new Deck(rs.getInt("id(pd)"), (Map)rs.getObject("PROPERTIES(pd)"));
+				String comment = rs.getString("e.comment");
+				
+				alteration = new Alteration(previousDeck, currentDeck, comment);
+			}
+			
+			return alteration;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (st != null) st.close();
+			if (con != null) con.close();
 		}
 	}
 
