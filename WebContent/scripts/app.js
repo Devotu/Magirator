@@ -243,59 +243,70 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 		    };
 		} else {
 			$scope.result = 'Not logged in, please log in and try again';
+			$location.url('/');
 		}
 	});
 });
 
 ratorApp.controller('addDeckController', function($scope, $http, $location, playerService, requestService) {
     
-	// Get formats
-    var getFormatsReq = {
-    		method: 'POST',
-    		url: '/Magirator/GetFormats'
-    }
-    
-    $http(getFormatsReq).then(function(response){
-    	$scope.formats = response.data;
-    	$scope.format = $scope.formats[0];
-    	}, 
-    	function(){
-    		$scope.result += "Could not get formats";
-    	});
+	playerService.getPlayer().then(function(data) {
+		if (data.result == "Success") {			
 
-	// Add deck
-	$scope.addDeck = function(){
-		$scope.result = "Waiting for response";
-		var addDeckReq = requestService.buildRequest(
-				"AddDeck", 
-				{
-					deck: {
-						'name': $scope.deck.name,
-						'format': $scope.deck.format,
-						'black': $scope.deck.black,
-						'white': $scope.deck.white,
-						'red': $scope.deck.red,
-						'green': $scope.deck.green,
-						'blue': $scope.deck.blue,
-						'colorless': $scope.deck.colorless,
-						'theme': $scope.deck.theme,
-						'created': Date.now()
+			// Get formats
+		    var getFormatsReq = {
+		    		method: 'POST',
+		    		url: '/Magirator/GetFormats'
+		    }
+		    
+		    $http(getFormatsReq).then(function(response){
+		    	$scope.formats = response.data;
+		    	$scope.format = $scope.formats[0];
+		    	}, 
+		    	function(){
+		    		$scope.result += "Could not get formats";
+		    	});
+		
+			// Add deck
+			$scope.addDeck = function(){
+				$scope.result = "Waiting for response";
+				var addDeckReq = requestService.buildRequest(
+						"AddDeck", 
+						{
+							deck: {
+								'name': $scope.deck.name,
+								'format': $scope.deck.format,
+								'black': $scope.deck.black,
+								'white': $scope.deck.white,
+								'red': $scope.deck.red,
+								'green': $scope.deck.green,
+								'blue': $scope.deck.blue,
+								'colorless': $scope.deck.colorless,
+								'theme': $scope.deck.theme,
+								'created': Date.now()
+							}
+						});
+		
+				$http(addDeckReq).then(function(response){
+					$scope.result = response.data
+					
+					if (response.data.result == "Success"){
+						$location.url('/dashboard');		
 					}
-				});
-
-		$http(addDeckReq).then(function(response){
-			$scope.result = response.data
+					
+					}, 
+					function(){
+						$scope.result = 'Failure'
+					});
+				
+				
+			};
 			
-			if (response.data.result == "Success"){
-				$location.url('/dashboard');		
-			}
-			
-			}, 
-			function(){
-				$scope.result = 'Failure'
-			});
-	};
-	
+		} else {
+			$scope.result = 'Not logged in, please log in and try again';
+			$location.url('/');
+		}
+	});
 });
 
 ratorApp.controller('decklistController', function($scope, $http, $location, playerService, requestService, tempStorage) {
@@ -369,6 +380,7 @@ ratorApp.controller('decklistController', function($scope, $http, $location, pla
 			
 		} else {
 			$scope.result = 'Not logged in, please log in and try again';
+			$location.url('/');
 		}
 	});
 });
@@ -498,9 +510,9 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 				$location.url('/alterdeck');
 			}
 			
-			$scope.goAlteration = function(){
+			$scope.goAlteration = function(alterationId){
 				
-				tempStorage.set($scope.deckId);
+				tempStorage.set(alterationId);
 				$location.url('/alteration');
 			}
 			
@@ -527,6 +539,7 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 			
 		} else {
 			$scope.result = 'Not logged in, please log in and try again';
+			$location.url('/');
 		}
 	});
 	
@@ -534,143 +547,141 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 	
 ratorApp.controller('alterdeckController', function($scope, $http, $location, playerService, requestService, tempStorage) {
 		
-		$scope.result = "Waiting for response";		
-
-		$scope.deckId = tempStorage.get();
+		$scope.result = "Waiting for response";	
 		
-		$scope.getFormats = function(){
-			
-			// Get formats
-		    var getFormatsReq = {
-		    		method: 'POST',
-		    		url: '/Magirator/GetFormats'
-		    }
-		    
-		    $http(getFormatsReq).then(function(response){
-		    	$scope.formats = response.data;
-		    	$scope.format = $scope.formats[0];
-		    	}, 
-		    	function(){
-		    		$scope.result += "Could not get formats";
-		    	});
-		}
+		playerService.getPlayer().then(function(data) {
+			if (data.result == "Success") {
 
-		$scope.getFormats();
-		
-			
-		$scope.getDeck = function(){
-			
-			// Get deck
-			var getDeckReq = requestService.buildRequest(
-					"GetDeck", 
-					{id:$scope.deckId}
-					);
-
-			$http(getDeckReq).then(function(response){
-				$scope.result = response.data;
+				$scope.deckId = tempStorage.get();
 				
-					if (response.data.result == "Success"){
-						$scope.result = 'Success';
-						$scope.deck = JSON.parse(response.data.deck);							
-						$scope.deckname = $scope.deck.name;
-					}					
-				}, 
-				function(){
-					$scope.result = 'Failure';
-				});				
-		}
+				$scope.getFormats = function(){
+					
+					// Get formats
+				    var getFormatsReq = {
+				    		method: 'POST',
+				    		url: '/Magirator/GetFormats'
+				    }
+				    
+				    $http(getFormatsReq).then(function(response){
+				    	$scope.formats = response.data;
+				    	$scope.format = $scope.formats[0];
+				    	}, 
+				    	function(){
+				    		$scope.result += "Could not get formats";
+				    	});
+				}
 		
-		$scope.getDeck();
-		
-		
-		$scope.alterDeck = function(){
-			
-			// Alter deck
-			var AlterDeckReq = requestService.buildRequest(
-					"AlterDeck", 
-					{
-						deck: {
-							'id': $scope.deckId,
-							'name': $scope.deck.name,
-							'format': $scope.deck.format,
-							'black': $scope.deck.black,
-							'white': $scope.deck.white,
-							'red': $scope.deck.red,
-							'green': $scope.deck.green,
-							'blue': $scope.deck.blue,
-							'colorless': $scope.deck.colorless,
-							'theme': $scope.deck.theme,
-							'created': Date.now()
-						},
-						comment: $scope.comment
-					});
-
-			$http(AlterDeckReq).then(function(response){
-				$scope.result = response.data;
+				$scope.getFormats();
 				
-					if (response.data.result == "Success"){
-						tempStorage.set(response.data.newDeckId);
-						$location.url('/deck');
-					}					
-				}, 
-				function(){
-					$scope.result = 'Failure';
-				});				
-		}	
+					
+				$scope.getDeck = function(){
+					
+					// Get deck
+					var getDeckReq = requestService.buildRequest(
+							"GetDeck", 
+							{id:$scope.deckId}
+							);
+		
+					$http(getDeckReq).then(function(response){
+						$scope.result = response.data;
+						
+							if (response.data.result == "Success"){
+								$scope.result = 'Success';
+								$scope.deck = JSON.parse(response.data.deck);							
+								$scope.deckname = $scope.deck.name;
+							}					
+						}, 
+						function(){
+							$scope.result = 'Failure';
+						});				
+				}
+				
+				$scope.getDeck();
+				
+				
+				$scope.alterDeck = function(){
+					
+					// Alter deck
+					var AlterDeckReq = requestService.buildRequest(
+							"AlterDeck", 
+							{
+								deck: {
+									'id': $scope.deckId,
+									'name': $scope.deck.name,
+									'format': $scope.deck.format,
+									'black': $scope.deck.black,
+									'white': $scope.deck.white,
+									'red': $scope.deck.red,
+									'green': $scope.deck.green,
+									'blue': $scope.deck.blue,
+									'colorless': $scope.deck.colorless,
+									'theme': $scope.deck.theme,
+									'created': Date.now()
+								},
+								comment: $scope.comment
+							});
+		
+					$http(AlterDeckReq).then(function(response){
+						$scope.result = response.data;
+						
+							if (response.data.result == "Success"){
+								tempStorage.set(response.data.newDeckId);
+								$location.url('/deck');
+							}					
+						}, 
+						function(){
+							$scope.result = 'Failure';
+						});				
+				}
+
+			} else {
+				$scope.result = 'Not logged in, please log in and try again';
+				$location.url('/');
+			}
+		});
 });
 
 
 ratorApp.controller('alterationController', function($scope, $http, $location, playerService, requestService, tempStorage) {
 	
-	$scope.result = "Waiting for response";		
-
-	$scope.alterationId = tempStorage.get();
+	$scope.result = "Waiting for response";
 	
-	$scope.getFormats = function(){
-		
-		// Get formats
-	    var getFormatsReq = {
-	    		method: 'POST',
-	    		url: '/Magirator/GetFormats'
-	    }
-	    
-	    $http(getFormatsReq).then(function(response){
-	    	$scope.formats = response.data;
-	    	$scope.format = $scope.formats[0];
-	    	}, 
-	    	function(){
-	    		$scope.result += "Could not get formats";
-	    	});
-	}
+	playerService.getPlayer().then(function(data) {
+		if (data.result == "Success") {
 
-	$scope.getFormats();
-	
+			$scope.alterationId = tempStorage.get();			
+				
+			$scope.getAlteration = function(){
+				
+				console.log("going for alteration " + $scope.alterationId);
+				
+				// Get alteration
+				var getAlterationReq = requestService.buildRequest(
+						"GetAlteration", 
+						{id:$scope.alterationId}
+						);
 		
-	$scope.getAlteration = function(){
-		
-		console.log("going for alteration " + $scope.alterationId);
-		
-		// Get alteration
-		var getAlterationReq = requestService.buildRequest(
-				"GetAlteration", 
-				{id:$scope.alterationId}
-				);
-
-		$http(getAlterationReq).then(function(response){
-			$scope.result = response.data;
+				$http(getAlterationReq).then(function(response){
+					$scope.result = response.data;
+					
+						if (response.data.result == "Success"){
+							$scope.result = 'Success';
+							$scope.alteration = JSON.parse(response.data.alteration);
+							console.log($scope.alteration);
+						}					
+					}, 
+					function(){
+						$scope.result = 'Failure';
+					});				
+			}
 			
-				if (response.data.result == "Success"){
-					$scope.result = 'Success';
-					$scope.alteration = JSON.parse(response.data.alteration);
-					console.log($scope.alteration);
-				}					
-			}, 
-			function(){
-				$scope.result = 'Failure';
-			});				
-	}
+			$scope.getAlteration();
 	
-	$scope.getAlteration();
+		} else {
+			$scope.result = 'Not logged in, please log in and try again';
+			$location.url('/');
+		}
+	});
 
 });
 
