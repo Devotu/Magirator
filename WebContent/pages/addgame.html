@@ -1,0 +1,38 @@
+<div class="jumbotron text-center">
+	<h1>Add Game</h1>
+
+	<form ng-submit="addParticipant()">
+		<div class="form-group">
+			<label>Comment:</label> 
+			<input ng-model="game.comment" type="text" class="form-control" autofocus>
+		</div>
+		
+		<div class="form-group">
+			<label>Opponent:</label> 
+			<select ng-options="opponent for opponent in opponents" ng-model="addOpponent" class="form-control" ng-change="getOpponentDecks(opponent.id)"></select>
+		</div>
+		
+		<div class="form-group">
+			<label>Opponent deck:</label> 
+			<select ng-options="opponentDeck for opponentDeck in decks" ng-model="addDeck" class="form-control"></select>
+		</div>
+		
+		<button type="submit">Add to game</button>
+	</form>
+	
+	<div class="form-group">
+		<label>Draw:</label> 
+		<input type="checkbox" data-ng-model="draw" />
+	</div>
+		
+	<ol class="list-group">
+		<li ng-repeat="participant in participants | orderBy:participant.place" class="list-group-item">
+			<div>
+  				<h3>{{ participant.playerName }}</h3>
+  				<p>{{ participant.deckName }}</p>
+  			</div>
+		</li>
+	</ol>
+	<p>{{ result }}</p>
+	
+</div>

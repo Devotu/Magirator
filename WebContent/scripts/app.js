@@ -59,6 +59,11 @@ ratorApp.config(function($routeProvider) {
 		templateUrl : 'pages/alteration.html',
 		controller : 'alterationController'
 	})
+	
+	.when('/addgame', {
+		templateUrl : 'pages/addgame.html',
+		controller : 'addGameController'
+	})
 	;
 });
 
@@ -343,7 +348,7 @@ ratorApp.controller('decklistController', function($scope, $http, $location, pla
 				}, 
 				function(){
 					$scope.result = 'Failure';
-				});
+			});
 			
 		    $scope.order = {
 		            field: 'name',
@@ -487,7 +492,11 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 			
 			
 			// Games
-			
+			$scope.goAddGame = function(){
+				
+				deckVarStorage.setCurrentDeck($scope.deckId);
+				$location.url('/addgame');
+			}
 			
 			// Stats
 			
@@ -677,12 +686,11 @@ ratorApp.controller('alterationController', function($scope, $http, $location, p
 						if (response.data.result == "Success"){
 							$scope.result = 'Success';
 							$scope.alteration = JSON.parse(response.data.alteration);
-							console.log($scope.alteration);
 						}					
 					}, 
 					function(){
 						$scope.result = 'Failure';
-					});				
+				});				
 			}
 			
 			$scope.getAlteration();
@@ -694,5 +702,122 @@ ratorApp.controller('alterationController', function($scope, $http, $location, p
 	});
 
 });
+
+
+ratorApp.controller('addGameController', function($scope, $http, $location, playerService, requestService, deckVarStorage) {
+    
+	playerService.getPlayer().then(function(data) {
+		if (data.result == "Success") {
+			
+			//LOG
+			console.log(data.player);
+			$scope.player = JSON.parse( data.player );
+			//LOG
+			console.log($scope.player.playername);
+
+			$scope.deckId = deckVarStorage.getCurrentDeck();
+			
+			$scope.participants = [];
+			//LOG
+			console.log($scope.participants);
+			
+			$scope.getDeck = function(){
+				
+				// Get deck
+				var getDeckReq = requestService.buildRequest(
+						"GetDeck", 
+						{id:$scope.deckId}
+						);
+
+				$http(getDeckReq).then(function(response){
+					$scope.result = response.data;
+					
+						if (response.data.result == "Success"){
+							$scope.result = 'Success';
+							$scope.deck = JSON.parse(response.data.deck);
+							
+							$scope.participants = [
+								{
+									deckId : 1,
+									place : 1,
+									playerName : $scope.player.playername,
+									deckName : $scope.deck.name
+								}
+							];
+							//LOG
+							console.log($scope.participants);
+						}					
+					}, 
+					function(){
+						$scope.result = 'Failure';
+					});				
+			}
+			
+			$scope.getDeck();
+		    
+			// Get opponents
+			var getOpponentsReq = requestService.buildRequest(
+					"GetOpponents", 
+					{id:$scope.deckId}
+					);
+	
+			$http(getOpponentsReq).then(function(response){
+				$scope.result = response.data;
+				
+					if (response.data.result == "Success"){
+				    	$scope.opponents = response.data;
+				    	$scope.addOopponent = $scope.opponents[0];
+					}					
+				}, 
+				function(){
+					$scope.result = 'Failure';
+			});
+			
+			// Get opponent decks
+			var getOpponentDecks = function(opponentId){
+				
+				console.log(opponentId);
+				
+				var getOpponentDecksReq = requestService.buildRequest(
+						"GetOpponentDecks", 
+						{id:opponentId}
+						);
+
+				$http(getOpponentDecksReq).then(function(response){
+					$scope.result = response.data;
+					
+					if (response.data.result == "Success"){
+				    	$scope.decks = response.data;
+				    	$scope.opponentDeck = $scope.decks[0];
+					}
+					
+					}, 
+					function(){
+						$scope.result = 'Failure';
+				});
+			}
+			
+			// Add Participant()
+			$scope.addParticipant = function(){
+				
+				$scope.participants.push(
+					{
+						deckId : $scope.addDeck.id,
+						place : $scope.participants.length +1,
+						playerName : $scope.addOpponent.playername,
+						deckName : $scope.addDeck.name	
+					}
+				);
+				//LOG
+				console.log($scope.participants);				
+			};
+			
+		} else {
+			$scope.result = 'Not logged in, please log in and try again';
+			$location.url('/');
+		}
+	});
+});
+
 
 
