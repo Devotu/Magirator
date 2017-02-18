@@ -97,18 +97,28 @@ ratorApp.factory('requestService', function(){
 	}
 });
 
-ratorApp.factory('tempStorage', function() {
-	 var savedData = {}
-	 function set(data) {
-	   savedData = data;
+ratorApp.factory('deckVarStorage', function() {
+	 var currentDeck = {}
+	 var goTo = {}
+	 
+	 function setCurrentDeck(data) {
+		 currentDeck = data;
 	 }
-	 function get() {
-	  return savedData;
+	 function getCurrentDeck() {
+		 return currentDeck;
+	 }
+	 function setGoTo(data) {
+		 goTo = data;
+	 }
+	 function getGoTo() {
+		 return goTo;
 	 }
 
 	 return {
-	  set: set,
-	  get: get
+		 setCurrentDeck : setCurrentDeck,
+		 getCurrentDeck : getCurrentDeck,
+		 setGoTo : setGoTo,
+		 getGoTo : getGoTo
 	 }
 
 	});
@@ -309,7 +319,7 @@ ratorApp.controller('addDeckController', function($scope, $http, $location, play
 	});
 });
 
-ratorApp.controller('decklistController', function($scope, $http, $location, playerService, requestService, tempStorage) {
+ratorApp.controller('decklistController', function($scope, $http, $location, playerService, requestService, deckVarStorage) {
 	
 	$scope.result = "Waiting for response";
 	
@@ -374,7 +384,7 @@ ratorApp.controller('decklistController', function($scope, $http, $location, pla
 			}
 			
 			$scope.goDeck = function(id){
-				tempStorage.set(id);
+				deckVarStorage.setCurrentDeck(id);
 				$location.url('/deck');
 			}
 			
@@ -386,14 +396,14 @@ ratorApp.controller('decklistController', function($scope, $http, $location, pla
 });
 
 
-ratorApp.controller('viewdeckController', function($scope, $http, $location, playerService, requestService, tempStorage) {
+ratorApp.controller('viewdeckController', function($scope, $http, $location, playerService, requestService, deckVarStorage) {
 	
 	$scope.result = "Waiting for response";
 	
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
 			
-			$scope.deckId = tempStorage.get();
+			$scope.deckId = deckVarStorage.getCurrentDeck();
 			
 			
 			// Deck
@@ -506,13 +516,13 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 			
 			$scope.goAlter = function(){
 				
-				tempStorage.set($scope.deckId);
+				deckVarStorage.setCurrentDeck($scope.deckId);
 				$location.url('/alterdeck');
 			}
 			
 			$scope.goAlteration = function(alterationId){
 				
-				tempStorage.set(alterationId);
+				deckVarStorage.setGoTo(alterationId);
 				$location.url('/alteration');
 			}
 			
@@ -545,14 +555,14 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 	
 });
 	
-ratorApp.controller('alterdeckController', function($scope, $http, $location, playerService, requestService, tempStorage) {
+ratorApp.controller('alterdeckController', function($scope, $http, $location, playerService, requestService, deckVarStorage) {
 		
 		$scope.result = "Waiting for response";	
 		
 		playerService.getPlayer().then(function(data) {
 			if (data.result == "Success") {
 
-				$scope.deckId = tempStorage.get();
+				$scope.deckId = deckVarStorage.getCurrentDeck();
 				
 				$scope.getFormats = function(){
 					
@@ -625,7 +635,7 @@ ratorApp.controller('alterdeckController', function($scope, $http, $location, pl
 						$scope.result = response.data;
 						
 							if (response.data.result == "Success"){
-								tempStorage.set(response.data.newDeckId);
+								deckVarStorage.setCurrentDeck(response.data.newDeckId);
 								$location.url('/deck');
 							}					
 						}, 
@@ -642,14 +652,14 @@ ratorApp.controller('alterdeckController', function($scope, $http, $location, pl
 });
 
 
-ratorApp.controller('alterationController', function($scope, $http, $location, playerService, requestService, tempStorage) {
+ratorApp.controller('alterationController', function($scope, $http, $location, playerService, requestService, deckVarStorage) {
 	
 	$scope.result = "Waiting for response";
 	
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
 
-			$scope.alterationId = tempStorage.get();			
+			$scope.alterationId = deckVarStorage.getGoTo();			
 				
 			$scope.getAlteration = function(){
 				
