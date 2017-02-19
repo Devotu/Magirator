@@ -300,7 +300,8 @@ ratorApp.controller('addDeckController', function($scope, $http, $location, play
 								'theme': $scope.deck.theme,
 								'created': Date.now()
 							}
-						});
+						}
+				);
 		
 				$http(addDeckReq).then(function(response){
 					$scope.result = response.data
@@ -312,9 +313,7 @@ ratorApp.controller('addDeckController', function($scope, $http, $location, play
 					}, 
 					function(){
 						$scope.result = 'Failure'
-					});
-				
-				
+				});				
 			};
 			
 		} else {
@@ -709,17 +708,12 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
 			
-			//LOG
-			console.log(data.player);
 			$scope.player = JSON.parse( data.player );
-			//LOG
-			console.log($scope.player.playername);
-
 			$scope.deckId = deckVarStorage.getCurrentDeck();
 			
+			$scope.comment = "";
+			$scope.draw = false;
 			$scope.participants = [];
-			//LOG
-			console.log($scope.participants);
 			
 			$scope.getDeck = function(){
 				
@@ -738,14 +732,14 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 							
 							$scope.participants = [
 								{
-									deckId : 1,
+									deckId : $scope.playerdeck.deckid,
 									place : 1,
 									playerName : $scope.player.playername,
-									deckName : $scope.playerdeck.name
+									deckName : $scope.playerdeck.name,
+									confirmed : true,
+									comment : ""
 								}
 							];
-							//LOG
-							console.log($scope.participants);
 						}					
 					}, 
 					function(){
@@ -804,12 +798,52 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 						deckId : $scope.addDeck.id,
 						place : $scope.participants.length +1,
 						playerName : $scope.addOpponent.playername,
-						deckName : $scope.addDeck.name	
+						deckName : $scope.addDeck.name,
+						confirmed : false,
+						comment : ""
 					}
 				);
 				//LOG
 				console.log($scope.participants);				
 			};
+			
+			// Add game
+			$scope.addGame = function(){
+				$scope.result = "Waiting for response";
+				
+				console.log($scope.participants);				
+				
+				var updatePlayerEntry = function(participant){
+					if (participant.deckId == $scope.deckId){
+						participant.comment = $scope.comment; 
+					}
+				}
+				
+				$scope.participants.forEach(updatePlayerEntry);
+				
+				var addGameReq = requestService.buildRequest(
+						"AddGame", 
+						{
+							participants : $scope.participants,
+							comment : $scope.comment,
+							draw : $scope.draw
+						}
+				);
+		
+				$http(addGameReq).then(function(response){
+					$scope.result = response.data
+					
+					if (response.data.result == "Success"){
+						deckVarStorage.setCurrentDeck($scope.deckId);
+						$location.url('/deck');	
+					}
+					
+					}, 
+					function(){
+						$scope.result = 'Failure'
+				});				
+			};
+			
 			
 		} else {
 			$scope.result = 'Not logged in, please log in and try again';

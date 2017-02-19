@@ -4,10 +4,16 @@ public class Result {
 	
 	private Deck deck;
 	private Play play;
-	private Player player;
+	private Player player; //TODO Remove
+	//TODO Game?
 
+	public Result(Deck deck, Play play) {
+		this.deck = deck;
+		this.play = play;
+	}
+	
+	//TODO ta bort
 	public Result(Deck deck, Play play, Player player) {
-		super();
 		this.deck = deck;
 		this.play = play;
 		this.player = player;
