@@ -270,7 +270,6 @@ public class Decks {
 					"MATCH (p:Player)-[r:Use]->(d:Deck) WHERE id(d) = ? " + 
 					"SET d.active = false " + 
 					"DELETE r " +
-					"CREATE (p)-[or:Used]->(d) " + 
 					"CREATE (c:Deck { name: ?, format: ?, black: ?, white: ?, red: ?, green: ?, blue: ? ,colorless: ?, theme: ?, created: TIMESTAMP(), active:true}) " +
 					"CREATE (d)-[e:Evolved {comment:?}]->(c) " + 
 					"CREATE (p)-[nr:Use]->(c) " + 
