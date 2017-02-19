@@ -1,0 +1,7 @@
+<h1>Games</h1>
+
+<ul class="list-group">
+	<li ng-repeat="participation in participations | orderBy:'participation.game.created'"
+		class="list-group-item" ng-click="goGame(participation.game.id)">{{ participation.play.comment }}
+	</li>
+</ul>

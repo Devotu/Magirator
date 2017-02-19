@@ -1,12 +1,12 @@
 <div class="jumbotron text-center">
 	<h1>Add Game</h1>
 
-	<form ng-submit="addParticipant()">
-		<div class="form-group">
-			<label>Comment:</label> 
-			<input ng-model="comment" type="text" class="form-control" autofocus>
-		</div>
+	<div class="form-group">
+		<label>Comment:</label> 
+		<input ng-model="comment" type="text" class="form-control" autofocus>
+	</div>
 		
+	<form ng-submit="addParticipant()" class="well">
 		<div class="form-group">
 			<label>Opponent:</label> 
 			<select ng-options="opponent.playername for opponent in opponents" ng-model="addOpponent" class="form-control" ng-change="getOpponentDecks()"></select>
@@ -19,6 +19,11 @@
 		
 		<button type="submit">Add to game</button>
 	</form>
+	
+	<div class="well">
+		<h3>{{ player.playername }}</h3>
+		<button type="button" ng-click="addSelf()">Add to game</button>
+	</div>
 	
 	<div class="form-group">
 		<label>Draw:</label> 

@@ -1,0 +1,133 @@
+<div class="jumbotron text-center">
+	<h1>Game</h1>
+
+	<div class="form-group" ng-show="draw">
+		<label>Draw:</label> <input type="checkbox" ng-model="draw" />
+	</div>
+
+	<ol class="list-group">
+		<li
+			ng-repeat="participant in participants | orderBy:participant.play.place"
+			class="list-group-item">
+			<div>
+				<h3>{{ participant.player.name }}</h3>
+				<p>{{ participant.deck.name }}</p>
+				<table>
+					<tr>
+						<th>
+							<div ng-switch="participant.deck.black">
+								<div ng-switch-when="true">
+									<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
+											fill="black" />
+									
+						
+								</div>
+								<div ng-switch-default>
+									<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="lightgray"
+											stroke-width="4" fill="lightgray" />
+									
+						
+								</div>
+							</div>
+						</th>
+						<th>
+							<div ng-switch="participant.deck.white">
+								<div ng-switch-when="true">
+									<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
+											fill="white" />
+									
+						
+								</div>
+								<div ng-switch-default>
+									<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="lightgray"
+											stroke-width="4" fill="lightgray" />
+									
+						
+								</div>
+							</div>
+						</th>
+						<th>
+							<div ng-switch="participant.deck.red">
+								<div ng-switch-when="true">
+									<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
+											fill="red" />
+									
+						
+								</div>
+								<div ng-switch-default>
+									<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="lightgray"
+											stroke-width="4" fill="lightgray" />
+									
+						
+								</div>
+							</div>
+						</th>
+						<th>
+							<div ng-switch="participant.deck.green">
+								<div ng-switch-when="true">
+									<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
+											fill="green" />
+									
+						
+								</div>
+								<div ng-switch-default>
+									<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="lightgray"
+											stroke-width="4" fill="lightgray" />
+									
+						
+								</div>
+							</div>
+						</th>
+						<th>
+							<div ng-switch="participant.deck.blue">
+								<div ng-switch-when="true">
+									<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
+											fill="blue" />
+									
+						
+								</div>
+								<div ng-switch-default>
+									<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="lightgray"
+											stroke-width="4" fill="lightgray" />
+									
+						
+								</div>
+							</div>
+						</th>
+						<th>
+							<div ng-switch="participant.deck.colorless">
+								<div ng-switch-when="true">
+									<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
+											fill="colorless" />
+									
+						
+								</div>
+								<div ng-switch-default>
+									<svg viewBox="0 0 100 100" class="mana-image">
+											<circle cx="50" cy="50" r="40" stroke="lightgray"
+											stroke-width="4" fill="lightgray" />
+									
+						
+								</div>
+							</div>
+						</th>
+					</tr>
+				</table>
+			</div>
+		</li>
+	</ol>
+
+	<p>{{ result }}</p>
+
+</div>

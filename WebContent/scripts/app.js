@@ -64,6 +64,11 @@ ratorApp.config(function($routeProvider) {
 		templateUrl : 'pages/addgame.html',
 		controller : 'addGameController'
 	})
+	
+	.when('/game', {
+		templateUrl : 'pages/game.html',
+		controller : 'gameController'
+	})
 	;
 });
 
@@ -489,12 +494,39 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 				($scope.showDelete == true) ? $scope.showDelete = false : $scope.showDelete = true;
 			}
 			
-			
 			// Games
+			$scope.getGames = function(){
+				
+				// Get Games
+				var getGamesReq = requestService.buildRequest(
+						"GetGames", 
+						{id:$scope.deckId}
+						);
+
+				$http(getGamesReq).then(function(response){
+					$scope.result = response.data;
+					
+						if (response.data.result == "Success"){
+							$scope.result = response.data.result;
+							$scope.participations = JSON.parse(response.data.games);
+							console.log($scope.participations);
+						}					
+					}, 
+					function(){
+						$scope.result = 'Failure';
+					});				
+			}
+			
 			$scope.goAddGame = function(){
 				
 				deckVarStorage.setCurrentDeck($scope.deckId);
 				$location.url('/addgame');
+			}
+			
+			$scope.goGame = function(gameId){
+				
+				deckVarStorage.setGoTo(gameId);
+				$location.url('/game');
 			}
 			
 			// Stats
@@ -540,6 +572,9 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 		      switch(newTab) {
 			      case 1:
 			          $scope.getDeck();
+			          break;
+			      case 2:
+			          $scope.getGames();
 			          break;
 			      case 4:
 			          $scope.getAlterations();
@@ -671,8 +706,6 @@ ratorApp.controller('alterationController', function($scope, $http, $location, p
 				
 			$scope.getAlteration = function(){
 				
-				console.log("going for alteration " + $scope.alterationId);
-				
 				// Get alteration
 				var getAlterationReq = requestService.buildRequest(
 						"GetAlteration", 
@@ -709,6 +742,7 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 		if (data.result == "Success") {
 			
 			$scope.player = JSON.parse( data.player );
+			console.log($scope.player.playername);
 			$scope.deckId = deckVarStorage.getCurrentDeck();
 			
 			$scope.comment = "";
@@ -729,17 +763,6 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 						if (response.data.result == "Success"){
 							$scope.result = 'Success';
 							$scope.playerdeck = JSON.parse(response.data.deck);
-							
-							$scope.participants = [
-								{
-									deckId : $scope.playerdeck.deckid,
-									place : 1,
-									playerName : $scope.player.playername,
-									deckName : $scope.playerdeck.name,
-									confirmed : true,
-									comment : ""
-								}
-							];
 						}					
 					}, 
 					function(){
@@ -788,9 +811,27 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 				}, 
 				function(){
 					$scope.result = 'Failure';
-			});
+			});			
+
+			// Add Self
+			$scope.addSelf = function(){
+				
+				$scope.participants.push(
+					{
+						deckId : $scope.playerdeck.deckid,
+						place : $scope.participants.length +1,
+						playerName : $scope.player.playername,
+						deckName : $scope.playerdeck.name,
+						confirmed : true,
+						comment : "",
+						added : Date.now()
+					}
+				);
+				//LOG
+				console.log($scope.participants);				
+			};
 			
-			// Add Participant()
+			// Add Participant
 			$scope.addParticipant = function(){
 				
 				$scope.participants.push(
@@ -800,7 +841,8 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 						playerName : $scope.addOpponent.playername,
 						deckName : $scope.addDeck.name,
 						confirmed : false,
-						comment : ""
+						comment : "",
+						added : Date.now()
 					}
 				);
 				//LOG
@@ -850,6 +892,50 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 			$location.url('/');
 		}
 	});
+});
+
+
+ratorApp.controller('gameController', function($scope, $http, $location, playerService, requestService, deckVarStorage) {
+	
+	$scope.result = "Waiting for response";
+	
+	$scope.participants = [];
+	
+	playerService.getPlayer().then(function(data) {
+		if (data.result == "Success") {
+
+			$scope.gameId = deckVarStorage.getGoTo();			
+				
+			$scope.getGame = function(){
+				
+				// Get Game
+				var getGameReq = requestService.buildRequest(
+						"GetGame", 
+						{id:$scope.gameId}
+						);
+		
+				$http(getGameReq).then(function(response){
+					$scope.result = response.data;
+					
+						if (response.data.result == "Success"){
+							$scope.result = 'Success';
+							$scope.participants = JSON.parse(response.data.participants);
+							console.log($scope.participants);
+						}					
+					}, 
+					function(){
+						$scope.result = 'Failure';
+				});				
+			}
+			
+			$scope.getGame();
+	
+		} else {
+			$scope.result = 'Not logged in, please log in and try again';
+			$location.url('/');
+		}
+	});
+
 });
 
 
