@@ -3,6 +3,11 @@ package magirator.dataobjects;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ * @deprecated Angular
+ * @author ottu
+ *
+ */
 public class Opponent {
 	
 	private String name;

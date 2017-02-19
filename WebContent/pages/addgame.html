@@ -9,12 +9,12 @@
 		
 		<div class="form-group">
 			<label>Opponent:</label> 
-			<select ng-options="opponent for opponent in opponents" ng-model="addOpponent" class="form-control" ng-change="getOpponentDecks(opponent.id)"></select>
+			<select ng-options="opponent.playername for opponent in opponents" ng-model="addOpponent" class="form-control" ng-change="getOpponentDecks()"></select>
 		</div>
 		
 		<div class="form-group">
 			<label>Opponent deck:</label> 
-			<select ng-options="opponentDeck for opponentDeck in decks" ng-model="addDeck" class="form-control"></select>
+			<select ng-options="deck.name for deck in decks" ng-model="addDeck" class="form-control"></select>
 		</div>
 		
 		<button type="submit">Add to game</button>

@@ -734,14 +734,14 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 					
 						if (response.data.result == "Success"){
 							$scope.result = 'Success';
-							$scope.deck = JSON.parse(response.data.deck);
+							$scope.playerdeck = JSON.parse(response.data.deck);
 							
 							$scope.participants = [
 								{
 									deckId : 1,
 									place : 1,
 									playerName : $scope.player.playername,
-									deckName : $scope.deck.name
+									deckName : $scope.playerdeck.name
 								}
 							];
 							//LOG
@@ -755,40 +755,20 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 			
 			$scope.getDeck();
 		    
-			// Get opponents
-			var getOpponentsReq = requestService.buildRequest(
-					"GetOpponents", 
-					{id:$scope.deckId}
-					);
-	
-			$http(getOpponentsReq).then(function(response){
-				$scope.result = response.data;
-				
-					if (response.data.result == "Success"){
-				    	$scope.opponents = response.data;
-				    	$scope.addOopponent = $scope.opponents[0];
-					}					
-				}, 
-				function(){
-					$scope.result = 'Failure';
-			});
-			
 			// Get opponent decks
-			var getOpponentDecks = function(opponentId){
-				
-				console.log(opponentId);
+			$scope.getOpponentDecks = function(){
 				
 				var getOpponentDecksReq = requestService.buildRequest(
 						"GetOpponentDecks", 
-						{id:opponentId}
+						{id:$scope.addOpponent.id}
 						);
 
 				$http(getOpponentDecksReq).then(function(response){
 					$scope.result = response.data;
 					
 					if (response.data.result == "Success"){
-				    	$scope.decks = response.data;
-				    	$scope.opponentDeck = $scope.decks[0];
+				    	$scope.decks = JSON.parse(response.data.decks);
+				    	$scope.addDeck = $scope.decks[0];
 					}
 					
 					}, 
@@ -796,6 +776,25 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 						$scope.result = 'Failure';
 				});
 			}
+			
+			// Get opponents
+			var getOpponentsReq = requestService.buildRequest(
+					"GetOpponents", 
+					{}
+					);
+	
+			$http(getOpponentsReq).then(function(response){
+				$scope.result = response.data;
+				
+					if (response.data.result == "Success"){
+				    	$scope.opponents = JSON.parse(response.data.opponents);
+				    	$scope.addOpponent = $scope.opponents[0];
+				    	$scope.getOpponentDecks();
+					}					
+				}, 
+				function(){
+					$scope.result = 'Failure';
+			});
 			
 			// Add Participant()
 			$scope.addParticipant = function(){
