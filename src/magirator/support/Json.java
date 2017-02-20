@@ -32,4 +32,8 @@ public class Json {
 	public static int getInt(JsonObject data, String field, int otherwise){
 		return (int) (data.has(field) ? data.get(field).getAsInt() : otherwise);
 	}
+	
+	public static boolean getBoolean(JsonObject data, String field, boolean otherwise){
+		return (boolean) (data.has(field) ? data.get(field).getAsBoolean() : otherwise);
+	}
 }

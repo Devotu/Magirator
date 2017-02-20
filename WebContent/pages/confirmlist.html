@@ -1,8 +1,8 @@
-<h1>Games</h1>
+<h1>Unconfirmed games</h1>
 
 <ul class="list-group">
 	<li ng-repeat="participation in participations | orderBy:'participation.game.created'"
-		class="list-group-item" ng-click="goGame(participation.game.id)">{{ participation.game.created }}
+		class="list-group-item" ng-click="goConfirm(participation.game.id)">{{ participation.game.created }}
 	</li>
 </ul>
 

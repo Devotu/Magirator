@@ -69,6 +69,16 @@ ratorApp.config(function($routeProvider) {
 		templateUrl : 'pages/game.html',
 		controller : 'gameController'
 	})
+	
+	.when('/confirmlist', {
+		templateUrl : 'pages/confirmlist.html',
+		controller : 'confirmlistController'
+	})
+	
+	.when('/confirm', {
+		templateUrl : 'pages/confirm.html',
+		controller : 'confirmController'
+	})
 	;
 });
 
@@ -261,6 +271,11 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 		    $scope.goDeckList = function() {
 		        $location.url('/decklist');
 		    };
+		    
+		    $scope.goConfirmList = function() {
+		        $location.url('/confirmlist');
+		    };
+		    
 		} else {
 			$scope.result = 'Not logged in, please log in and try again';
 			$location.url('/');
@@ -509,7 +524,6 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 						if (response.data.result == "Success"){
 							$scope.result = response.data.result;
 							$scope.participations = JSON.parse(response.data.games);
-							console.log($scope.participations);
 						}					
 					}, 
 					function(){
@@ -742,7 +756,6 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 		if (data.result == "Success") {
 			
 			$scope.player = JSON.parse( data.player );
-			console.log($scope.player.playername);
 			$scope.deckId = deckVarStorage.getCurrentDeck();
 			
 			$scope.comment = "";
@@ -826,9 +839,7 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 						comment : "",
 						added : Date.now()
 					}
-				);
-				//LOG
-				console.log($scope.participants);				
+				);				
 			};
 			
 			// Add Participant
@@ -844,9 +855,7 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 						comment : "",
 						added : Date.now()
 					}
-				);
-				//LOG
-				console.log($scope.participants);				
+				);				
 			};
 			
 			// Add game
@@ -920,7 +929,6 @@ ratorApp.controller('gameController', function($scope, $http, $location, playerS
 						if (response.data.result == "Success"){
 							$scope.result = 'Success';
 							$scope.participants = JSON.parse(response.data.participants);
-							console.log($scope.participants);
 						}					
 					}, 
 					function(){
@@ -939,4 +947,122 @@ ratorApp.controller('gameController', function($scope, $http, $location, playerS
 });
 
 
+ratorApp.controller('confirmlistController', function($scope, $http, $location, playerService, requestService, deckVarStorage) {
+	
+	$scope.result = "Waiting for response";
+	
+	playerService.getPlayer().then(function(data) {
+		if (data.result == "Success") {
+			
+			// Unconfirmed games
+			$scope.getUnconfirmed = function(){
+				console.log("getting unconfirmed");
+				
+				// Get Games
+				var getUnconfirmedReq = requestService.buildRequest(
+						"GetUnconfirmed", 
+						{}
+						);
 
+				$http(getUnconfirmedReq).then(function(response){
+					$scope.result = response.data;
+					
+						if (response.data.result == "Success"){
+							$scope.result = response.data.result;
+							$scope.participations = JSON.parse(response.data.games);
+							console.log($scope.participations);
+						}					
+					}, 
+					function(){
+						$scope.result = 'Failure';
+					});				
+			}
+			
+			$scope.getUnconfirmed();
+			
+			$scope.goConfirm = function(gameId){
+				
+				deckVarStorage.setGoTo(gameId);
+				$location.url('/confirm');
+			}
+			
+		} else {
+			$scope.result = 'Not logged in, please log in and try again';
+			$location.url('/');
+		}
+	});
+});
+
+
+ratorApp.controller('confirmController', function($scope, $http, $location, playerService, requestService, deckVarStorage) {
+	
+	$scope.result = "Waiting for response";	
+	
+	playerService.getPlayer().then(function(data) {
+		if (data.result == "Success") {
+
+			$scope.gameId = deckVarStorage.getGoTo();
+			$scope.player = JSON.parse( data.player );
+
+			$scope.getGame = function(){
+				
+				// Get Game
+				var getGameReq = requestService.buildRequest(
+						"GetGame", 
+						{id:$scope.gameId}
+						);
+		
+				$http(getGameReq).then(function(response){
+					$scope.result = response.data;
+					
+						if (response.data.result == "Success"){
+							$scope.result = 'Success';
+							$scope.participants = JSON.parse(response.data.participants);
+							console.log($scope.participants);
+						}					
+					}, 
+					function(){
+						$scope.result = 'Failure';
+				});				
+			}
+			
+			$scope.getGame();
+			
+			$scope.self = null;
+			
+			$scope.findSelf = function(participant){
+				console.log(participant.player.id + " " + $scope.player.id); //is undefined
+				return participant.player.id == $scope.player.id;
+			}
+			
+			$scope.confirm = function(response){
+				
+				// Confirm Game
+				var confirmReq = requestService.buildRequest(
+						"ConfirmGame", 
+							{
+								id : $scope.participants.filter($scope.findSelf()),
+								confirm : response,
+								comment : $scope.comment
+							}
+						);
+		
+				$http(confirmReq).then(function(response){
+					$scope.result = response.data;
+					
+						if (response.data.result == "Success"){
+							$scope.result = 'Success';
+							$location.url('/confirmlist');
+						}					
+					}, 
+					function(){
+						$scope.result = 'Failure';
+				});
+			}
+
+		} else {
+			$scope.result = 'Not logged in, please log in and try again';
+			$location.url('/');
+		}
+	});
+});
