@@ -956,7 +956,6 @@ ratorApp.controller('confirmlistController', function($scope, $http, $location, 
 			
 			// Unconfirmed games
 			$scope.getUnconfirmed = function(){
-				console.log("getting unconfirmed");
 				
 				// Get Games
 				var getUnconfirmedReq = requestService.buildRequest(
@@ -970,7 +969,6 @@ ratorApp.controller('confirmlistController', function($scope, $http, $location, 
 						if (response.data.result == "Success"){
 							$scope.result = response.data.result;
 							$scope.participations = JSON.parse(response.data.games);
-							console.log($scope.participations);
 						}					
 					}, 
 					function(){
@@ -1018,7 +1016,6 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 						if (response.data.result == "Success"){
 							$scope.result = 'Success';
 							$scope.participants = JSON.parse(response.data.participants);
-							console.log($scope.participants);
 						}					
 					}, 
 					function(){
@@ -1028,20 +1025,19 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 			
 			$scope.getGame();
 			
-			$scope.self = null;
-			
-			$scope.findSelf = function(participant){
-				console.log(participant.player.id + " " + $scope.player.id); //is undefined
-				return participant.player.id == $scope.player.id;
+			var findSelf = function(p){
+				return p.player.id == $scope.player.id;
 			}
 			
 			$scope.confirm = function(response){
+				
+				$scope.self = $scope.participants.filter(findSelf)[0];
 				
 				// Confirm Game
 				var confirmReq = requestService.buildRequest(
 						"ConfirmGame", 
 							{
-								id : $scope.participants.filter($scope.findSelf()),
+								id : $scope.self.play.id,
 								confirm : response,
 								comment : $scope.comment
 							}

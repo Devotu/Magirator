@@ -43,8 +43,8 @@ public class ConfirmGame extends HttpServlet {
 			
 			JsonObject requestData = Json.parseRequestData(request);
 			int playId = Json.getInt(requestData, "id", 0);
-			boolean confirm = Json.getBoolean(requestData, "id", false);
-			String comment = Json.getString(requestData, "id", "No comment");
+			boolean confirm = Json.getBoolean(requestData, "confirm", false);
+			String comment = Json.getString(requestData, "comment", "No comment");
 			
 			try {				
 				
