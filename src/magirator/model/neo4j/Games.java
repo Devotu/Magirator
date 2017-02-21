@@ -5,21 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.sql.DataSource;
-
 import magirator.dataobjects.Deck;
 import magirator.dataobjects.Game;
-import magirator.dataobjects.ListItem;
 import magirator.dataobjects.Participant;
 import magirator.dataobjects.Play;
 import magirator.dataobjects.Player;
@@ -28,7 +19,7 @@ import magirator.support.Database;
 
 public class Games {
 	
-	public static boolean addGame(ArrayList<Result> results) throws Exception {
+	public static boolean addGame(ArrayList<Result> results, boolean draw) throws Exception {
 		
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -37,8 +28,12 @@ public class Games {
 		try {
 			con = Database.getConnection();			
 			
-			String query = "CREATE (g:Game {created: TIMESTAMP()}) RETURN id(g)";
+			String query = "CREATE (g:Game {created: TIMESTAMP(), draw: ?}) RETURN id(g)";
+			
 			ps = con.prepareStatement(query);
+			
+			ps.setBoolean(1, draw);
+			
 			rs = ps.executeQuery();
 			
 			if	(rs.next()){
@@ -46,7 +41,8 @@ public class Games {
 				
 				query = "MATCH (g:Game), (d:Deck)";
 				query += "WHERE id(g) = ? AND id(d) = ?";
-				query += "CREATE (d)-[r:Played {place: ?, comment: ?, confirmed:?, added:? }]->(g)";					
+				query += "CREATE (d)-[r:Played {place: ?, comment: ?, confirmed:?, added:? }]->(g)";
+				
 				ps = con.prepareStatement(query);
 				
 				for (Result r : results){

@@ -8,13 +8,16 @@ public class Game {
 	private int id;
 	private Date datePlayed;//TODO Remove
 	private Date created;
+	private boolean draw;
 	
 	public Game(Map gameMap) {
 		this.datePlayed = (Date)gameMap.get("crated");
+		this.draw = (Boolean)gameMap.get("draw");
 	}
 
 	public Game(int id, Map game) {
 		this.id = id;
+		this.draw = (Boolean)game.get("draw");
 		
 		long longTime = (Long)game.get("created");
 		this.created = (new Date(longTime));
@@ -26,6 +29,10 @@ public class Game {
 	
 	public Date getCreated() {
 		return created;
+	}
+	
+	public boolean getDraw(){
+		return draw;
 	}
 	
 	

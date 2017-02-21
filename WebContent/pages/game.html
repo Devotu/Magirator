@@ -10,7 +10,8 @@
 			ng-repeat="participant in participants | orderBy:participant.play.place"
 			class="list-group-item">
 			<div>
-				<h3>{{ participant.player.name }}</h3>
+				<h3>{{ participant.player.playername }}
+					<span class="glyphicon glyphicon-ok green" ng-show="participant.play.confirmed"></span></h3>
 				<p>{{ participant.deck.name }}</p>
 				<table>
 					<tr>

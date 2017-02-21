@@ -250,13 +250,15 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 		    		url: '/Magirator/GetDashboard'
 		    }
 		    
+		    $scope.unconfirmed = 0;
+		    
 		    $http(getUpdatesReq).then(function(response){
 		    	
 				$scope.result = response.data.result;
 				
 				if (response.data.result == "Success"){
-					var player = JSON.parse(response.data.player);
-					$scope.playername = player.playername;	
+					$scope.playername = JSON.parse(response.data.player).playername;
+					$scope.unconfirmed = JSON.parse(response.data.unconfirmed);
 				}
 		    	
 		    	}, 
@@ -876,7 +878,6 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 						"AddGame", 
 						{
 							participants : $scope.participants,
-							comment : $scope.comment,
 							draw : $scope.draw
 						}
 				);
@@ -929,6 +930,7 @@ ratorApp.controller('gameController', function($scope, $http, $location, playerS
 						if (response.data.result == "Success"){
 							$scope.result = 'Success';
 							$scope.participants = JSON.parse(response.data.participants);
+							$scope.draw = $scope.participants[0].game.draw;
 						}					
 					}, 
 					function(){

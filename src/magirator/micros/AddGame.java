@@ -2,8 +2,6 @@ package magirator.micros;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -53,11 +51,11 @@ public class AddGame extends HttpServlet {
 			try {
 				JsonObject requestData = Json.parseRequestData(request);		
 				
-				JsonArray requestResults = requestData.get("participants").getAsJsonArray();
+				JsonArray participants = requestData.get("participants").getAsJsonArray();
 				
 				ArrayList<Result> results = new ArrayList<Result>();
 				
-				for (JsonElement e : requestResults){
+				for (JsonElement e : participants){
 					
 					JsonObject o = e.getAsJsonObject();
 					
@@ -65,10 +63,11 @@ public class AddGame extends HttpServlet {
 					Play play = new Play(o);
 					
 					results.add( new Result(deck, play) );
-				}			
+				}
 				
+				boolean draw = requestData.get("draw").getAsBoolean();		
 				
-				if (Games.addGame(results)){
+				if (Games.addGame(results, draw)){
 				
 					result.addProperty(Variables.result, Variables.success);					
 				}
