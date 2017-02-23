@@ -13,7 +13,7 @@ public class Database {
 	public static Connection getConnection() throws NamingException, SQLException{
 		
 		Context initContext = new InitialContext();
-		Context webContext = (Context)initContext.lookup("java:/comp/env");
+		Context webContext = (Context)initContext.lookup("java:comp/env");
 		DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
 		return ds.getConnection();
 	}

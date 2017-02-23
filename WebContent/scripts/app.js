@@ -89,7 +89,8 @@ ratorApp.factory('playerService', function($http){
 	
 	return {		
 		getPlayer: function(){			
-			return $http.post('/Magirator/GetPlayer').then(function(response){
+			return $http.post('/Magirator/GetPlayer').then(function(response){			
+			//return $http.post('/GetPlayer').then(function(response){
 				if (response.data.result == "Success"){
 					console.log("Logged in as " + JSON.parse( response.data.player ).playername );
 				} else {
@@ -108,6 +109,7 @@ ratorApp.factory('requestService', function(){
 		return {
 			method: 'POST',
 			url: '/Magirator/' + endpoint,
+			//url: '/' + endpoint,
 			headers: {
 			   'Content-Type': 'application/json'
 			}, 
@@ -160,24 +162,20 @@ ratorApp.controller('mainController', function($scope, $http, $location, playerS
 });
 
 
-ratorApp.controller('loginController', function($scope, $http, $location) {
+ratorApp.controller('loginController', function($scope, $http, $location, requestService) {
 	
 	// Login
 	$scope.login = function(){
 		
 		$scope.result = "Waiting for response";
 		
-		var loginReq = {
-				method: 'POST',
-				url: '/Magirator/Login',
-				headers: {
-				   'Content-Type': 'application/json'
-				},
-				data: { 
+		var loginReq = requestService.buildRequest(
+				"Login", 
+				{
 					'username': $scope.username,
 					'password': $scope.password
 				}
-		}
+			);
 
 		$http(loginReq).then(function(response){
 			$scope.result = response.data.result;
@@ -197,26 +195,22 @@ ratorApp.controller('loginController', function($scope, $http, $location) {
     };
 });
 
-ratorApp.controller('signupController', function($scope, $http, $location) {
+ratorApp.controller('signupController', function($scope, $http, $location, requestService) {
 	
 	// Sign up
 	$scope.signup = function(){
 		
 		$scope.result = "Waiting for response";
 		
-		var signupReq = {
-				method: 'POST',
-				url: '/Magirator/Signup',
-				headers: {
-				   'Content-Type': 'application/json'
-				},
-				data: { 
+		var signupReq = requestService.buildRequest(
+				"Signup", 
+				{
 					'username': $scope.username,
 					'password': $scope.password,
 					'retype': $scope.retype,
 					'playername': $scope.playername
 				}
-		}
+			);
 		
 		if( $scope.password === $scope.retype ){
 
@@ -237,7 +231,7 @@ ratorApp.controller('signupController', function($scope, $http, $location) {
 	};
 });
 
-ratorApp.controller('dashboardController', function($scope, $http, $location, playerService) {
+ratorApp.controller('dashboardController', function($scope, $http, $location, playerService, requestService) {
 	
 	$scope.result = "Waiting for response";
 	
@@ -245,10 +239,10 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 		if (data.result == "Success") {
 			
 			// Get updated info
-		    var getUpdatesReq = {
-		    		method: 'POST',
-		    		url: '/Magirator/GetDashboard'
-		    }
+			var getUpdatesReq = requestService.buildRequest(
+					"GetDashboard", 
+					{}
+					);
 		    
 		    $scope.unconfirmed = 0;
 		    
@@ -291,10 +285,12 @@ ratorApp.controller('addDeckController', function($scope, $http, $location, play
 		if (data.result == "Success") {			
 
 			// Get formats
-		    var getFormatsReq = {
-		    		method: 'POST',
-		    		url: '/Magirator/GetFormats'
-		    }
+			var getFormatsReq = requestService.buildRequest(
+					"GetFormats", 
+					{}
+					);
+		    
+		    
 		    
 		    $http(getFormatsReq).then(function(response){
 		    	$scope.formats = response.data;
@@ -624,12 +620,11 @@ ratorApp.controller('alterdeckController', function($scope, $http, $location, pl
 				$scope.deckId = deckVarStorage.getCurrentDeck();
 				
 				$scope.getFormats = function(){
-					
-					// Get formats
-				    var getFormatsReq = {
-				    		method: 'POST',
-				    		url: '/Magirator/GetFormats'
-				    }
+				    
+					var getFormatsReq = requestService.buildRequest(
+							"GetFormats", 
+							{}
+							);
 				    
 				    $http(getFormatsReq).then(function(response){
 				    	$scope.formats = response.data;

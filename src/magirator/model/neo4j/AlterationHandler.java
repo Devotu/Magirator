@@ -23,7 +23,7 @@ public class AlterationHandler extends DatabaseHandler {
 		
 		try {
 			Context initContext = new InitialContext();
-			Context webContext = (Context)initContext.lookup("java:/comp/env");
+			Context webContext = (Context)initContext.lookup("java:comp/env");
 			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
 			con = ds.getConnection();			
 
@@ -81,7 +81,7 @@ public class AlterationHandler extends DatabaseHandler {
 	public Alteration getAlterationById(int alterationId) throws Exception {
 		try {
 			Context initContext = new InitialContext();
-			Context webContext = (Context)initContext.lookup("java:/comp/env");
+			Context webContext = (Context)initContext.lookup("java:comp/env");
 			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
 			con = ds.getConnection();			
 
@@ -132,7 +132,7 @@ public class AlterationHandler extends DatabaseHandler {
 	
 		try {
 			Context initContext = new InitialContext();
-			Context webContext = (Context)initContext.lookup("java:/comp/env");
+			Context webContext = (Context)initContext.lookup("java:comp/env");
 			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
 			con = ds.getConnection();
 			

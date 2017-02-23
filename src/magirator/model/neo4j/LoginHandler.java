@@ -16,7 +16,7 @@ public class LoginHandler {
 	
 		try {	
 			Context initContext = new InitialContext();
-			Context webContext = (Context)initContext.lookup("java:/comp/env");
+			Context webContext = (Context)initContext.lookup("java:comp/env");
 			DataSource ds = (DataSource) webContext.lookup("jdbc/MagiratorDB");
 			con = ds.getConnection();
 
