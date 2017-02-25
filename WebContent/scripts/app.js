@@ -152,6 +152,14 @@ ratorApp.controller('mainController', function($scope, $http, $location, playerS
 	
 	$scope.result = "Waiting for response";
 	
+	$scope.$on('unconfirmed', function (event, data) {
+	    $scope.unconfirmed = data;
+	  });
+	
+	$scope.$on('logged_in', function (event, data) {
+	    $scope.logged_in = data;
+	  });
+	
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
 			$location.url('/dashboard');
@@ -181,6 +189,7 @@ ratorApp.controller('loginController', function($scope, $http, $location, reques
 			$scope.result = response.data.result;
 			
 			if (response.data.result == "Success"){
+				$scope.$emit('logged_in', true);
 				$location.url('/dashboard');		
 			}
 			
@@ -253,6 +262,7 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 				if (response.data.result == "Success"){
 					$scope.playername = JSON.parse(response.data.player).playername;
 					$scope.unconfirmed = JSON.parse(response.data.unconfirmed);
+					$scope.$emit('unconfirmed', $scope.unconfirmed);
 				}
 		    	
 		    	}, 
