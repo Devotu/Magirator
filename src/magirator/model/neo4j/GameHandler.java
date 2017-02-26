@@ -77,7 +77,7 @@ public class GameHandler extends DatabaseHandler {
 		}
 	}
 	
-	public void addGame(List<Result> results) throws Exception {
+	public void addGame(List<OldResult> results) throws Exception {
 		
 		try {
 			Context initContext = new InitialContext();
@@ -92,7 +92,7 @@ public class GameHandler extends DatabaseHandler {
 			if	(rs.next()){
 				int gameId = rs.getInt("id(g)");
 				
-				for (Result r : results){
+				for (OldResult r : results){
 					query = "MATCH (g:Game), (d:Deck)";
 					query += "WHERE id(g) = ? AND id(d) = ?";
 					query += "CREATE (d)-[r:Played {place: ?, comment: ?, confirmed:? }]->(g)";					
@@ -137,7 +137,7 @@ public class GameHandler extends DatabaseHandler {
 
       		ResultSet rs = ps.executeQuery();
       		
-      		GameResult gameResult = new GameResult(null, new ArrayList<Result>());
+      		GameResult gameResult = new GameResult(null, new ArrayList<OldResult>());
       		
       		while (rs.next()) {
       			if	(gameResult.getGame() == null){
@@ -146,7 +146,7 @@ public class GameHandler extends DatabaseHandler {
       			Player u = new Player(rs.getInt("id(u)"), (Map)rs.getObject("PROPERTIES(u)"));
       			Deck d = new Deck(rs.getInt("id(d)"), (Map)rs.getObject("PROPERTIES(d)"));
       			Play p = new Play(rs.getInt("id(p)"), (Map)rs.getObject("PROPERTIES(p)"));
-      			Result r = new Result(d, p, u);
+      			OldResult r = new OldResult(d, p, u);
       			gameResult.addResult(r);
       		}
 

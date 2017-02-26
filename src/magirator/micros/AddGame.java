@@ -14,11 +14,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import magirator.dataobjects.Deck;
-import magirator.dataobjects.Play;
 import magirator.dataobjects.Player;
 import magirator.dataobjects.Result;
+import magirator.dataobjects.Participant;
 import magirator.model.neo4j.Decks;
 import magirator.model.neo4j.Games;
+import magirator.model.neo4j.Players;
 import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Variables;
@@ -51,23 +52,29 @@ public class AddGame extends HttpServlet {
 			try {
 				JsonObject requestData = Json.parseRequestData(request);		
 				
-				JsonArray participants = requestData.get("participants").getAsJsonArray();
+				JsonArray requestParticipants = requestData.get("participants").getAsJsonArray();
 				
-				ArrayList<Result> results = new ArrayList<Result>();
+				ArrayList<Participant> participants = new ArrayList<Participant>();
+				int initiatorId = 0;
 				
-				for (JsonElement e : participants){
+				for (JsonElement e : requestParticipants){
 					
 					JsonObject o = e.getAsJsonObject();
 					
-					Deck deck = Decks.getDeck(o.get("deckId").getAsInt());
-					Play play = new Play(o);
+					Player p = Players.getPlayer(o.get("playerId").getAsInt());
+					Deck d = Decks.getDeck(o.get("deckId").getAsInt());
+					Result r = new Result(o);
 					
-					results.add( new Result(deck, play) );
+					participants.add( new Participant(p, d, r, null) );
+					
+					if(p.getId() == player.getId()){
+						
+					}
 				}
 				
 				boolean draw = requestData.get("draw").getAsBoolean();		
 				
-				if (Games.addGame(results, draw)){
+				if (Games.addGame(participants, draw, initiatorId)){
 				
 					result.addProperty(Variables.result, Variables.success);					
 				}

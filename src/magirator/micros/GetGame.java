@@ -13,10 +13,8 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import magirator.dataobjects.Alteration;
 import magirator.dataobjects.Participant;
 import magirator.dataobjects.Player;
-import magirator.model.neo4j.Decks;
 import magirator.model.neo4j.Games;
 import magirator.support.Error;
 import magirator.support.Json;

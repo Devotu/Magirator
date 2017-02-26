@@ -5,9 +5,9 @@ import java.util.List;
 public class GameResult {
 
 	private Game game;
-	private List<Result> results;
+	private List<OldResult> results;
 
-	public GameResult(Game game, List<Result> results) {
+	public GameResult(Game game, List<OldResult> results) {
 		super();
 		this.game = game;
 		this.results = results;
@@ -21,15 +21,15 @@ public class GameResult {
 		this.game = game;
 	}
 
-	public List<Result> getResults() {
+	public List<OldResult> getResults() {
 		return results;
 	}
 
-	public void setResults(List<Result> results) {
+	public void setResults(List<OldResult> results) {
 		this.results = results;
 	}
 	
-	public void addResult(Result result){
+	public void addResult(OldResult result){
 		this.results.add(result);
 	}
 	

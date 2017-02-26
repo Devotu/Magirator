@@ -10,14 +10,14 @@ public class Participant {
 
 	private Player player;
 	private Deck deck;
-	private Play play;
+	private Result result;
 	private Game game;
 	
-	public Participant(Player player, Deck deck, Play play, Game game) {
+	public Participant(Player player, Deck deck, Result result, Game game) {
 		super();
 		this.player = player;
 		this.deck = deck;
-		this.play = play;
+		this.result = result;
 		this.game = game;
 	}
 
@@ -29,8 +29,8 @@ public class Participant {
 		return deck;
 	}
 
-	public Play getPlay() {
-		return play;
+	public Result getResult() {
+		return result;
 	}
 
 	public Game getGame() {

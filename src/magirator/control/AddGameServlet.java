@@ -8,7 +8,7 @@ import javax.servlet.http.*;
 import magirator.dataobjects.Deck;
 import magirator.dataobjects.Play;
 import magirator.dataobjects.Player;
-import magirator.dataobjects.Result;
+import magirator.dataobjects.OldResult;
 import magirator.model.neo4j.*;
 
 public class AddGameServlet extends HttpServlet {
@@ -30,7 +30,7 @@ public class AddGameServlet extends HttpServlet {
 			DeckHandler deckHandler = new DeckHandler();
 			PlayerHandler playerHandler = new PlayerHandler();
 			
-			List<Result> results = new ArrayList<>();
+			List<OldResult> results = new ArrayList<>();
 			
 			String[] deckPlaceArray = deckPlaces.split(",");
 			
@@ -54,7 +54,7 @@ public class AddGameServlet extends HttpServlet {
 					play.setConfirmed(1);
 				}
 				
-				Result r = new Result(deck, play, null);
+				OldResult r = new OldResult(deck, play, null);
 				results.add(r);
 			}
 			

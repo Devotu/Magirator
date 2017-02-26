@@ -360,7 +360,7 @@ ratorApp.controller('decklistController', function($scope, $http, $location, pla
 			
 			// Get decks
 			var getDecksReq = requestService.buildRequest(
-					"GetDecks", 
+					"GetDeckList", 
 					{}
 					);
 
@@ -796,7 +796,7 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 			$scope.getOpponentDecks = function(){
 				
 				var getOpponentDecksReq = requestService.buildRequest(
-						"GetOpponentDecks", 
+						"GetOpponentDeckList", 
 						{id:$scope.addOpponent.id}
 						);
 
@@ -840,7 +840,7 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 					{
 						deckId : $scope.playerdeck.deckid,
 						place : $scope.participants.length +1,
-						playerName : $scope.player.playername,
+						playerId : $scope.player.id,
 						deckName : $scope.playerdeck.name,
 						confirmed : true,
 						comment : "",
@@ -856,7 +856,7 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 					{
 						deckId : $scope.addDeck.id,
 						place : $scope.participants.length +1,
-						playerName : $scope.addOpponent.playername,
+						playerId : $scope.addOpponent.id,
 						deckName : $scope.addDeck.name,
 						confirmed : false,
 						comment : "",
@@ -1021,7 +1021,7 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 					$scope.result = response.data;
 					
 						if (response.data.result == "Success"){
-							$scope.result = 'Success';
+							$scope.result = 'Got Game';
 							$scope.participants = JSON.parse(response.data.participants);
 						}					
 					}, 
@@ -1044,7 +1044,7 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 				var confirmReq = requestService.buildRequest(
 						"ConfirmGame", 
 							{
-								id : $scope.self.play.id,
+								id : $scope.self.result.id,
 								confirm : response,
 								comment : $scope.comment
 							}
@@ -1054,7 +1054,7 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 					$scope.result = response.data;
 					
 						if (response.data.result == "Success"){
-							$scope.result = 'Success';
+							$scope.result = 'Confirmed game';
 							$location.url('/confirmlist');
 						}					
 					}, 

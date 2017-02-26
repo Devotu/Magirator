@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import magirator.dataobjects.Participant;
-import magirator.dataobjects.Play;
 import magirator.dataobjects.Player;
 import magirator.model.neo4j.Games;
 import magirator.support.Error;
