@@ -221,21 +221,41 @@ ratorApp.controller('signupController', function($scope, $http, $location, reque
 				}
 			);
 		
-		if( $scope.password === $scope.retype ){
-
-			$http(signupReq).then(function(response){
+		var minlength = function(s){
+			if(s.length > 7){
+				return true;
+			}
+			return false;
+		}
+		
+		var match = function(a, b){
+			if (a === b){
+				return true;
+			}
+			return false;
+		}
 				
-					$scope.result = response.data.result;
-				
-					if (response.data.result == "Success"){
-						$location.url('/');				
-					}
-				}, 
-				function(){
-					$scope.result = 'Request failure';
-			});		
+		if( minlength($scope.password) ){
+			
+			if( match($scope.password, $scope.retype) ){
+	
+				$http(signupReq).then(function(response){
+					
+						$scope.result = response.data.result;
+					
+						if (response.data.result == "Success"){
+							$location.url('/');				
+						}
+					}, 
+					function(){
+						$scope.result = 'Request failure';
+				});		
+			} else {
+				$scope.result = 'Passwords does not match';
+			}
+			
 		} else {
-			$scope.result = 'Passwords does not match';
+			$scope.result = 'Passwords is to short, minimum length is 8 characters';
 		}
 	};
 });
@@ -299,8 +319,6 @@ ratorApp.controller('addDeckController', function($scope, $http, $location, play
 					"GetFormats", 
 					{}
 					);
-		    
-		    
 		    
 		    $http(getFormatsReq).then(function(response){
 		    	$scope.formats = response.data;
