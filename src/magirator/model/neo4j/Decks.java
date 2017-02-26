@@ -9,11 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.sql.DataSource;
-
 import magirator.dataobjects.Alteration;
 import magirator.dataobjects.Deck;
 import magirator.dataobjects.Player;
@@ -174,8 +170,8 @@ public class Decks {
 		try {
 			con = Database.getConnection();
 
-			String query = "MATCH (p:Player)-[or:Use]->(d:Deck) " + "WHERE id(d)=? " + "DELETE or "
-					+ "CREATE (p)-[nr:Used]->(d)";
+			String query = "MATCH (p:Player)-[use:Use]->(d:Deck) " + "WHERE id(d)=? " + "DELETE use "
+					+ "CREATE (p)-[:Deleted]->(d)";
 
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, deckid);
@@ -270,6 +266,7 @@ public class Decks {
 					"MATCH (p:Player)-[r:Use]->(d:Deck) WHERE id(d) = ? " + 
 					"SET d.active = false " + 
 					"DELETE r " +
+					"CREATE (p)-[:Used]->(d) " + 
 					"CREATE (c:Deck { name: ?, format: ?, black: ?, white: ?, red: ?, green: ?, blue: ? ,colorless: ?, theme: ?, created: TIMESTAMP(), active:true}) " +
 					"CREATE (d)-[e:Evolved {comment:?}]->(c) " + 
 					"CREATE (p)-[nr:Use]->(c) " + 
