@@ -12,6 +12,8 @@ public class Json {
 
 	public static JsonObject parseRequestData(HttpServletRequest req) throws IOException{
 		
+		req.setCharacterEncoding("UTF-8");
+		
 		StringBuffer sb = new StringBuffer();
 		String line = null;
 		
