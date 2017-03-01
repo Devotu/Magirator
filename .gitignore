@@ -1,2 +1,3 @@
-/bin/
 /WebContent/META-INF/context.xml
+/build/classes/magirator
+*.class
