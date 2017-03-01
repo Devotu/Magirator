@@ -282,20 +282,23 @@ public class Games {
 		try {
 			con = Database.getConnection();
 			
-			String query = ""
+			String queryStart = ""
 					+ "MATCH (p1:Player), (p2:Player)-[:Use]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
 					+ "WHERE id(p1)=? AND id(p2)=? AND id(g)=? "
-					+ "CREATE (p1)-[:Put]->(t:Tag {tag: ?})-[:On]->(r)";
+					+ "CREATE (p1)-[:Put]->(t:Tag:";
 			
-			ps = con.prepareStatement(query);
+			String queryEnd = ""
+					+ " {tag: ?})-[:On]->(r)";
 			
 			int tagsSet = 0;
 			
 			for (Tag t : tags){
+				ps = con.prepareStatement(queryStart + (t.getPolarity() > 0 ? "Positive" : "Negative") + queryEnd); //Inte vackert, går det att lösa på något snyggare sätt?
+				
 				ps.setInt(1, t.getTagger());
 				ps.setInt(2, t.getTagged());
 				ps.setInt(3, gameId);
-				ps.setString(4, t.getTag());
+				ps.setString(4, t.getTag());				
 				
 				tagsSet += (ps.executeUpdate()/3);//Returns 3 for every 1 tag set
 			}

@@ -2,51 +2,60 @@
 	<h1>Add Game</h1>
 
 	<div class="form-group">
-		<label>Comment:</label> 
-		<input ng-model="comment" type="text" class="form-control" autofocus>
+		<label>Comment:</label> <input ng-model="comment" type="text"
+			class="form-control" autofocus>
 	</div>
-		
+
 	<form ng-submit="addParticipant()" class="well">
 		<div class="form-group">
-			<label>Opponent:</label> 
-			<select ng-options="opponent.playername for opponent in opponents" ng-model="addOpponent" class="form-control" ng-change="getOpponentDecks()"></select>
+			<label>Opponent:</label> <select
+				ng-options="opponent.playername for opponent in opponents"
+				ng-model="addOpponent" class="form-control"
+				ng-change="getOpponentDecks()"></select>
 		</div>
-		
+
 		<div class="form-group">
-			<label>Opponent deck:</label> 
-			<select ng-options="deck.name for deck in decks" ng-model="addDeck" class="form-control"></select>
+			<label>Opponent deck:</label> <select
+				ng-options="deck.name for deck in decks" ng-model="addDeck"
+				class="form-control"></select>
 		</div>
-		
+
 		<button type="submit">Add to game</button>
 	</form>
-	
+
 	<div class="well">
 		<h3>{{ player.playername }}</h3>
-		<button type="button" ng-click="addSelf()">Add to game</button>		<label>Comment:</label> 
-		<input ng-model="comment" type="text" class="form-control" autofocus>
+		<button type="button" ng-click="addSelf()">Add to game</button>
+		<label>Comment:</label> <input ng-model="comment" type="text"
+			class="form-control" autofocus>
 	</div>
-	
+
 	<div class="form-group">
-		<label>Draw:</label> 
-		<input type="checkbox" ng-model="draw" />
+		<label>Draw:</label> <input type="checkbox" ng-model="draw" />
 	</div>
-		
+
 	<ol class="list-group">
-		<li ng-repeat="participant in participants | orderBy:participant.place" class="list-group-item">
+		<li
+			ng-repeat="participant in participants | orderBy:participant.place"
+			class="list-group-item">
 			<div>
-  				<h3>{{ participant.playername }}</h3>
-  				<p>{{ participant.deckName }}</p>
-  			</div>
-  			<div class="form-group">
-				<label>Tag:</label> 
-				<input ng-model="participant.tag" type="text" class="form-control"><button type="button" ng-click="addTag(participant)">Add tag</button>
-				<label>Tags:</label> 
+				<h3>{{ participant.place }} {{ participant.playerName }}</h3>
+				<p>{{ participant.deckName }}</p>
+				<div class="form-group col-sm-6">
+					<label>Positive</label> <input ng-model="participant.tag.positive" type="text" class="form-control">
+					<button type="button" ng-click="addTag(participant)">Add tag</button>
+				</div>
+				<div class="form-group col-sm-6">
+					<label>Negative</label> <input ng-model="participant.tag.negative" type="text" class="form-control">
+					<button type="button" ng-click="addTag(participant)">Add tag</button>
+				</div>
+				<label>Tags:</label>
 				<p ng-repeat="tag in participant.tags">{{ tag.tag }}</p>
 			</div>
 		</li>
 	</ol>
-	
+
 	<button type="button" ng-click="addGame()">Create game</button>
 	<p>{{ result }}</p>
-	
+
 </div>

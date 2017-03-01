@@ -859,6 +859,7 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 						deckId : $scope.playerdeck.deckid,
 						place : $scope.participants.length +1,
 						playerId : $scope.player.id,
+						playerName : $scope.player.name,
 						deckName : $scope.playerdeck.name,
 						confirmed : true,
 						comment : "",
@@ -876,6 +877,7 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 						deckId : $scope.addDeck.id,
 						place : $scope.participants.length +1,
 						playerId : $scope.addOpponent.id,
+						playerName : $scope.addOpponent.name,
 						deckName : $scope.addDeck.name,
 						confirmed : false,
 						comment : "",
@@ -888,22 +890,32 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 			// Add Tag
 			$scope.addTag = function(participant){
 				
-				if (participant.tag.length > 0){
+				if (participant.tag.positive.length > 0){
 					participant.tags.push(
 							{
-								tag: participant.tag
+								polarity: 1,
+								tag: participant.tag.positive
 							}
 					);
 					
-					participant.tag = "";
+					participant.tag.positive = "";
+				}
+				
+				if (participant.tag.negative.length > 0){
+					participant.tags.push(
+							{
+								polarity: -1,
+								tag: participant.tag.negative
+							}
+					);
+					
+					participant.tag.negative = "";
 				}
 			};
 			
 			// Add game
 			$scope.addGame = function(){
 				$scope.result = "Waiting for response";
-				
-				console.log($scope.participants);				
 				
 				var updatePlayerEntry = function(participant){
 					if (participant.deckId == $scope.deckId){

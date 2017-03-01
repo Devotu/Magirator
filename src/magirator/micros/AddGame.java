@@ -71,7 +71,8 @@ public class AddGame extends HttpServlet {
 					JsonArray tag_array = o.get("tags").getAsJsonArray();
 					
 					for (JsonElement t : tag_array){
-						tags.add(new Tag( player.getId(), p.getId(), t.getAsJsonObject().get("tag").getAsString() ));
+						JsonObject tag = t.getAsJsonObject();
+						tags.add(new Tag( player.getId(), p.getId(), tag.get("tag").getAsString(), tag.get("polarity").getAsInt() ));
 					}
 					
 				}
