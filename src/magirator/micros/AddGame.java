@@ -16,6 +16,7 @@ import com.google.gson.JsonObject;
 import magirator.dataobjects.Deck;
 import magirator.dataobjects.Player;
 import magirator.dataobjects.Result;
+import magirator.dataobjects.Tag;
 import magirator.dataobjects.Participant;
 import magirator.model.neo4j.Decks;
 import magirator.model.neo4j.Games;
@@ -55,7 +56,7 @@ public class AddGame extends HttpServlet {
 				JsonArray requestParticipants = requestData.get("participants").getAsJsonArray();
 				
 				ArrayList<Participant> participants = new ArrayList<Participant>();
-				int initiatorId = 0;
+				ArrayList<Tag> tags = new ArrayList<Tag>();
 				
 				for (JsonElement e : requestParticipants){
 					
@@ -67,16 +68,25 @@ public class AddGame extends HttpServlet {
 					
 					participants.add( new Participant(p, d, r, null) );
 					
-					if(p.getId() == player.getId()){
-						
+					JsonArray tag_array = o.get("tags").getAsJsonArray();
+					
+					for (JsonElement t : tag_array){
+						tags.add(new Tag( player.getId(), p.getId(), t.getAsJsonObject().get("tag").getAsString() ));
 					}
+					
 				}
 				
 				boolean draw = requestData.get("draw").getAsBoolean();		
 				
-				if (Games.addGame(participants, draw, initiatorId)){
+				int gameId = Games.addGame(participants, draw, player.getId());
 				
-					result.addProperty(Variables.result, Variables.success);					
+				if (gameId > 0){
+				
+					result.addProperty(Variables.result, "Game added but something went wrong tagging the results");
+					
+					if(Games.addTags(tags, gameId) == tags.size()){
+						result.addProperty(Variables.result, Variables.success);
+					}
 				}
 				
 			} catch (Exception e) {

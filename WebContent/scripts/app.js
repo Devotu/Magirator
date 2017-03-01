@@ -862,7 +862,8 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 						deckName : $scope.playerdeck.name,
 						confirmed : true,
 						comment : "",
-						added : Date.now()
+						added : Date.now(),
+						tags : []
 					}
 				);				
 			};
@@ -878,9 +879,24 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 						deckName : $scope.addDeck.name,
 						confirmed : false,
 						comment : "",
-						added : Date.now()
+						added : Date.now(),
+						tags : []
 					}
 				);				
+			};
+			
+			// Add Tag
+			$scope.addTag = function(participant){
+				
+				if (participant.tag.length > 0){
+					participant.tags.push(
+							{
+								tag: participant.tag
+							}
+					);
+					
+					participant.tag = "";
+				}
 			};
 			
 			// Add game

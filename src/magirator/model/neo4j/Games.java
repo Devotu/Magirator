@@ -14,11 +14,12 @@ import magirator.dataobjects.Game;
 import magirator.dataobjects.Participant;
 import magirator.dataobjects.Player;
 import magirator.dataobjects.Result;
+import magirator.dataobjects.Tag;
 import magirator.support.Database;
 
 public class Games {
 	
-	public static boolean addGame(ArrayList<Participant> participants, boolean draw, int initiatorId) throws Exception {
+	public static int addGame(ArrayList<Participant> participants, boolean draw, int initiatorId) throws Exception {
 		
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -67,18 +68,18 @@ public class Games {
 					ps.setInt(1, gameId);
 				}
 				
-				return true;			
+				return gameId;			
 			}
-			
-			if (rs != null) rs.close();
-			if (ps != null) ps.close();
-			if (con != null) con.close();
 			
 		} catch (Exception ex){
 			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
 		}
 		
-		return false;
+		return 0;
 	}
 
 	public static ArrayList<Result> getDeckPlayed(Deck deck) throws NamingException, SQLException {
@@ -143,15 +144,15 @@ public class Games {
 				
 				participations.add(new Participant(player, deck, result, game));
 			}
-
-			if (rs != null) rs.close();
-			if (ps != null) ps.close();
-			if (con != null) con.close();
 			
 			return participations;
 			
 		} catch (Exception ex){
 			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
 		}
 	}
 
@@ -185,15 +186,15 @@ public class Games {
 				
 				participants.add(new Participant(player, deck, result, game));
 			}
-
-			if (rs != null) rs.close();
-			if (ps != null) ps.close();
-			if (con != null) con.close();
 			
 			return participants;
 			
 		} catch (Exception ex){
 			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
 		}
 	}
 
@@ -230,15 +231,15 @@ public class Games {
 				
 				participants.add(new Participant(player, deck, result, game));
 			}
-
-			if (rs != null) rs.close();
-			if (ps != null) ps.close();
-			if (con != null) con.close();
 			
 			return participants;
 			
 		} catch (Exception ex){
 			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
 		}
 	}
 
@@ -263,13 +264,49 @@ public class Games {
 			
 			ps.executeUpdate();
 			
-			if (ps != null) ps.close();
-			if (con != null) con.close();
-			
 			return true;
 			
 		} catch (Exception ex){
 			throw ex;
+		} finally {
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+	}
+
+	public static int addTags(ArrayList<Tag> tags, int gameId) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		try {
+			con = Database.getConnection();
+			
+			String query = ""
+					+ "MATCH (p1:Player), (p2:Player)-[:Use]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
+					+ "WHERE id(p1)=? AND id(p2)=? AND id(g)=? "
+					+ "CREATE (p1)-[:Put]->(t:Tag {tag: ?})-[:On]->(r)";
+			
+			ps = con.prepareStatement(query);
+			
+			int tagsSet = 0;
+			
+			for (Tag t : tags){
+				ps.setInt(1, t.getTagger());
+				ps.setInt(2, t.getTagged());
+				ps.setInt(3, gameId);
+				ps.setString(4, t.getTag());
+				
+				tagsSet += (ps.executeUpdate()/3);//Returns 3 for every 1 tag set
+			}
+			
+			return tagsSet;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (ps != null) ps.close();
+			if (con != null) con.close();
 		}
 	}
 
