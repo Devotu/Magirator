@@ -6,9 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.naming.NamingException;
+
+import com.google.gson.Gson;
+
 import magirator.dataobjects.Deck;
 import magirator.dataobjects.Game;
 import magirator.dataobjects.Participant;
@@ -311,6 +316,51 @@ public class Games {
 			if (ps != null) ps.close();
 			if (con != null) con.close();
 		}
+	}
+
+	public static List<Tag> getTagsInGame(int gameId) throws Exception {
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();			
+
+			String query = ""
+					+ "MATCH (p:Player)-[:Use|:Used]->(:Deck)-[:Got]->(r:Result)-[]->(g:Game), (tp:Player)-[:Put]->(t:Tag)-[:On]->(r) "
+					+ "WHERE id(g)=? "
+					+ "RETURN id(tp), PROPERTIES(t), id(r), labels(t)";
+			
+			ps = con.prepareStatement(query);
+      		
+			ps.setInt(1, gameId);
+      		
+      		rs = ps.executeQuery();
+      		
+      		List<Tag> tags = new ArrayList<Tag>();
+			
+			while (rs.next()) {
+				List<String> labels = (List<String>)rs.getObject("labels(t)");
+				Tag t = new Tag(
+							rs.getInt("id(tp)"),
+							(Map)rs.getObject("PROPERTIES(t)"),
+							rs.getInt("id(r)"),
+							labels
+						);
+				
+				tags.add(t);
+			}
+			
+			return tags;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}		
 	}
 
 }

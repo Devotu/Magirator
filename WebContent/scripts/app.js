@@ -890,7 +890,7 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 			// Add Tag
 			$scope.addTag = function(participant){
 				
-				if (participant.tag.positive.length > 0){
+				if (participant.tag.positive != undefined && participant.tag.positive.length > 0){
 					participant.tags.push(
 							{
 								polarity: 1,
@@ -901,7 +901,7 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 					participant.tag.positive = "";
 				}
 				
-				if (participant.tag.negative.length > 0){
+				if (participant.tag.negative != undefined && participant.tag.negative.length > 0){
 					participant.tags.push(
 							{
 								polarity: -1,
@@ -1069,6 +1069,7 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 						if (response.data.result == "Success"){
 							$scope.result = 'Got Game';
 							$scope.participants = JSON.parse(response.data.participants);
+							console.log($scope.participants);
 						}					
 					}, 
 					function(){
@@ -1077,6 +1078,32 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 			}
 			
 			$scope.getGame();
+			
+			// Add Tag
+			$scope.addTag = function(participant){
+				
+				if (participant.tag.positive != undefined && participant.tag.positive.length > 0){
+					participant.tags.push(
+							{
+								polarity: 1,
+								tag: participant.tag.positive
+							}
+					);
+					
+					participant.tag.positive = "";
+				}
+				
+				if (participant.tag.negative != undefined && participant.tag.negative.length > 0){
+					participant.tags.push(
+							{
+								polarity: -1,
+								tag: participant.tag.negative
+							}
+					);
+					
+					participant.tag.negative = "";
+				}
+			};
 			
 			var findSelf = function(p){
 				return p.player.id == $scope.player.id;
