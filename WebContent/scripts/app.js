@@ -1069,7 +1069,6 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 						if (response.data.result == "Success"){
 							$scope.result = 'Got Game';
 							$scope.participants = JSON.parse(response.data.participants);
-							console.log($scope.participants);
 						}					
 					}, 
 					function(){
@@ -1079,27 +1078,31 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 			
 			$scope.getGame();
 			
+			$scope.tags = [];
+			
+			function Tag(tagged, polarity, tag){
+				this.tagged = tagged;
+				this.polarity = polarity;
+				this.tag = tag;
+			}
+			
 			// Add Tag
 			$scope.addTag = function(participant){
 				
 				if (participant.tag.positive != undefined && participant.tag.positive.length > 0){
-					participant.tags.push(
-							{
-								polarity: 1,
-								tag: participant.tag.positive
-							}
-					);
+					
+					var tag = new Tag(participant.player.id, 1, participant.tag.positive);
+					participant.tags.push(tag);
+					$scope.tags.push(tag);
 					
 					participant.tag.positive = "";
 				}
 				
 				if (participant.tag.negative != undefined && participant.tag.negative.length > 0){
-					participant.tags.push(
-							{
-								polarity: -1,
-								tag: participant.tag.negative
-							}
-					);
+
+					var tag = new Tag(participant.player.id, -1, participant.tag.negative);
+					participant.tags.push(tag);
+					$scope.tags.push(tag);
 					
 					participant.tag.negative = "";
 				}
@@ -1117,9 +1120,11 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 				var confirmReq = requestService.buildRequest(
 						"ConfirmGame", 
 							{
+								gameId : $scope.gameId,
 								id : $scope.self.result.id,
 								confirm : response,
-								comment : $scope.comment
+								comment : $scope.comment,
+								tags : $scope.tags
 							}
 						);
 		
