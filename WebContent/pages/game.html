@@ -126,6 +126,8 @@
 					</tr>
 				</table>
 				<p>{{ participant.result.comment }}</p>
+				<label>Tags:</label>
+				<p ng-repeat="tag in participant.tags">{{ tag.tag }}</p>
 			</div>
 		</li>
 	</ol>
