@@ -221,21 +221,41 @@ ratorApp.controller('signupController', function($scope, $http, $location, reque
 				}
 			);
 		
-		if( $scope.password === $scope.retype ){
-
-			$http(signupReq).then(function(response){
+		var minlength = function(s){
+			if(s.length > 7){
+				return true;
+			}
+			return false;
+		}
+		
+		var match = function(a, b){
+			if (a === b){
+				return true;
+			}
+			return false;
+		}
 				
-					$scope.result = response.data.result;
-				
-					if (response.data.result == "Success"){
-						$location.url('/');				
-					}
-				}, 
-				function(){
-					$scope.result = 'Request failure';
-			});		
+		if( minlength($scope.password) ){
+			
+			if( match($scope.password, $scope.retype) ){
+	
+				$http(signupReq).then(function(response){
+					
+						$scope.result = response.data.result;
+					
+						if (response.data.result == "Success"){
+							$location.url('/');				
+						}
+					}, 
+					function(){
+						$scope.result = 'Request failure';
+				});		
+			} else {
+				$scope.result = 'Passwords does not match';
+			}
+			
 		} else {
-			$scope.result = 'Passwords does not match';
+			$scope.result = 'Passwords is to short, minimum length is 8 characters';
 		}
 	};
 });
@@ -300,8 +320,6 @@ ratorApp.controller('addDeckController', function($scope, $http, $location, play
 					{}
 					);
 		    
-		    
-		    
 		    $http(getFormatsReq).then(function(response){
 		    	$scope.formats = response.data;
 		    	$scope.format = $scope.formats[0];
@@ -360,7 +378,7 @@ ratorApp.controller('decklistController', function($scope, $http, $location, pla
 			
 			// Get decks
 			var getDecksReq = requestService.buildRequest(
-					"GetDecks", 
+					"GetDeckList", 
 					{}
 					);
 
@@ -796,7 +814,7 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 			$scope.getOpponentDecks = function(){
 				
 				var getOpponentDecksReq = requestService.buildRequest(
-						"GetOpponentDecks", 
+						"GetOpponentDeckList", 
 						{id:$scope.addOpponent.id}
 						);
 
@@ -840,11 +858,13 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 					{
 						deckId : $scope.playerdeck.deckid,
 						place : $scope.participants.length +1,
-						playerName : $scope.player.playername,
+						playerId : $scope.player.id,
+						playerName : $scope.player.name,
 						deckName : $scope.playerdeck.name,
 						confirmed : true,
 						comment : "",
-						added : Date.now()
+						added : Date.now(),
+						tags : []
 					}
 				);				
 			};
@@ -856,20 +876,46 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 					{
 						deckId : $scope.addDeck.id,
 						place : $scope.participants.length +1,
-						playerName : $scope.addOpponent.playername,
+						playerId : $scope.addOpponent.id,
+						playerName : $scope.addOpponent.name,
 						deckName : $scope.addDeck.name,
 						confirmed : false,
 						comment : "",
-						added : Date.now()
+						added : Date.now(),
+						tags : []
 					}
 				);				
+			};
+			
+			// Add Tag
+			$scope.addTag = function(participant){
+				
+				if (participant.tag.positive != undefined && participant.tag.positive.length > 0){
+					participant.tags.push(
+							{
+								polarity: 1,
+								tag: participant.tag.positive
+							}
+					);
+					
+					participant.tag.positive = "";
+				}
+				
+				if (participant.tag.negative != undefined && participant.tag.negative.length > 0){
+					participant.tags.push(
+							{
+								polarity: -1,
+								tag: participant.tag.negative
+							}
+					);
+					
+					participant.tag.negative = "";
+				}
 			};
 			
 			// Add game
 			$scope.addGame = function(){
 				$scope.result = "Waiting for response";
-				
-				console.log($scope.participants);				
 				
 				var updatePlayerEntry = function(participant){
 					if (participant.deckId == $scope.deckId){
@@ -1021,7 +1067,7 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 					$scope.result = response.data;
 					
 						if (response.data.result == "Success"){
-							$scope.result = 'Success';
+							$scope.result = 'Got Game';
 							$scope.participants = JSON.parse(response.data.participants);
 						}					
 					}, 
@@ -1031,6 +1077,36 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 			}
 			
 			$scope.getGame();
+			
+			$scope.tags = [];
+			
+			function Tag(tagged, polarity, tag){
+				this.tagged = tagged;
+				this.polarity = polarity;
+				this.tag = tag;
+			}
+			
+			// Add Tag
+			$scope.addTag = function(participant){
+				
+				if (participant.tag.positive != undefined && participant.tag.positive.length > 0){
+					
+					var tag = new Tag(participant.player.id, 1, participant.tag.positive);
+					participant.tags.push(tag);
+					$scope.tags.push(tag);
+					
+					participant.tag.positive = "";
+				}
+				
+				if (participant.tag.negative != undefined && participant.tag.negative.length > 0){
+
+					var tag = new Tag(participant.player.id, -1, participant.tag.negative);
+					participant.tags.push(tag);
+					$scope.tags.push(tag);
+					
+					participant.tag.negative = "";
+				}
+			};
 			
 			var findSelf = function(p){
 				return p.player.id == $scope.player.id;
@@ -1044,9 +1120,11 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 				var confirmReq = requestService.buildRequest(
 						"ConfirmGame", 
 							{
-								id : $scope.self.play.id,
+								gameId : $scope.gameId,
+								id : $scope.self.result.id,
 								confirm : response,
-								comment : $scope.comment
+								comment : $scope.comment,
+								tags : $scope.tags
 							}
 						);
 		
@@ -1054,7 +1132,7 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 					$scope.result = response.data;
 					
 						if (response.data.result == "Success"){
-							$scope.result = 'Success';
+							$scope.result = 'Confirmed game';
 							$location.url('/confirmlist');
 						}					
 					}, 

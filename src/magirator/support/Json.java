@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -37,5 +38,9 @@ public class Json {
 	
 	public static boolean getBoolean(JsonObject data, String field, boolean otherwise){
 		return (boolean) (data.has(field) ? data.get(field).getAsBoolean() : otherwise);
+	}
+
+	public static JsonArray getArray(JsonObject data, String field) {
+		return data.get(field).getAsJsonArray();
 	}
 }

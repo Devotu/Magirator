@@ -1,41 +1,56 @@
 package magirator.dataobjects;
 
+import java.util.Date;
+import java.util.Map;
+
+import com.google.gson.JsonObject;
+
 public class Result {
 	
-	private Deck deck;
-	private Play play;
-	private Player player; //TODO Remove
-	//TODO Game?
-
-	public Result(Deck deck, Play play) {
-		this.deck = deck;
-		this.play = play;
+	private int id;
+	private int place;
+	private boolean confirmed;
+	private String comment;
+	private Date added;
+	
+	public Result(int resultId, Map resultMap) {
+		this.id = resultId;
+		this.place = Integer.valueOf( resultMap.get("place").toString() );
+		this.confirmed = (Integer.valueOf( resultMap.get("confirmed").toString() ) == 1 ? true : false);
+		this.comment = (String)resultMap.get("comment");
+		
+		long longTime = (Long)resultMap.get("added");
+		this.added = (new Date(longTime));
 	}
 	
-	//TODO ta bort
-	public Result(Deck deck, Play play, Player player) {
-		this.deck = deck;
-		this.play = play;
-		this.player = player;
-	}
-	
-	public Deck getDeck() {
-		return deck;
-	}
-	public void setDeck(Deck deck) {
-		this.deck = deck;
-	}
-	public Play getPlay() {
-		return play;
-	}
-	public void setPlay(Play play) {
-		this.play = play;
-	}
-	public Player getPlayer() {
-		return player;
+	public Result(JsonObject result) {
+		this.id = result.has("id") ? result.get("id").getAsInt() : 0;
+		this.place = result.has("place") ? result.get("place").getAsInt() : 0;
+		this.confirmed = result.has("confirmed") ? result.get("confirmed").getAsBoolean() : false;
+		this.comment = result.has("comment") ? result.get("comment").getAsString() : "";
+		
+		long longTime = result.get("added").getAsLong();
+		this.added = new Date(longTime);
 	}
 
-	public void setPlayer(Player player) {
-		this.player = player;
+	public int getId() {
+		return id;
 	}
+
+	public int getPlace() {
+		return place;
+	}
+	
+	public boolean getConfirmed() {
+		return confirmed;
+	}
+	
+	public String getComment() {
+		return comment;
+	}
+	
+	public Date getAdded() {
+		return added;
+	}
+
 }

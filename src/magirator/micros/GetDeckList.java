@@ -16,30 +16,29 @@ import com.google.gson.JsonObject;
 import magirator.dataobjects.Deck;
 import magirator.dataobjects.Play;
 import magirator.dataobjects.Player;
+import magirator.dataobjects.Result;
 import magirator.model.neo4j.Decks;
 import magirator.model.neo4j.Games;
-import magirator.model.neo4j.Players;
 import magirator.support.Error;
-import magirator.support.Json;
 import magirator.support.Variables;
 import magirator.viewobjects.ListDeck;
 
 /**
- * Servlet implementation class GetOpponentDecks
+ * Servlet implementation class GetDeckList
  */
-@WebServlet("/GetOpponentDecks")
-public class GetOpponentDecks extends HttpServlet {
+@WebServlet("/GetDeckList")
+public class GetDeckList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		getServletContext().log("-- GetOpponentDecks --");
+		
+		getServletContext().log("-- GetDeckList --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Could not get opponent decks, are you logged in?");
+		result.addProperty(Variables.result, "Could not get deck list, are you logged in?");
 		
 		HttpSession session = request.getSession();
 		Player player = (Player)session.getAttribute("player");
@@ -48,12 +47,7 @@ public class GetOpponentDecks extends HttpServlet {
 		if (player != null){
 			
 			try {
-				JsonObject requestData = Json.parseRequestData(request);
-				int playerId = Json.getInt(requestData, "id", 0);
-				
-				Player opponent = Players.getPlayer(playerId);
-				
-				ArrayList<Deck> decks = Decks.getPlayerDecks(opponent);
+				ArrayList<Deck> decks = Decks.getPlayerDecks(player);
 				
 				//There are decks
 				if (decks != null && decks.size() > 0){
@@ -62,18 +56,18 @@ public class GetOpponentDecks extends HttpServlet {
 					
 					for	(Deck d : decks){
 						
-						ArrayList<Play> plays = Games.getDeckPlayed(d);
+						ArrayList<Result> results = Games.getDeckPlayed(d);
 						
 						float wins = 0;
 						float games = 0;
 						
-						for (Play p : plays){
+						for (Result r : results){
 							
-							if (p.getConfirmed()){
+							if (r.getConfirmed()){
 								
 								games++;
 								
-								if (p.getPlace() == 1){ //Win
+								if (r.getPlace() == 1){ //Win
 									wins++;
 								}
 							}
@@ -99,13 +93,13 @@ public class GetOpponentDecks extends HttpServlet {
 			
 		} else {
 			
-			result.addProperty(Variables.result, "Failed to get opponent decks, please login");
+			result.addProperty(Variables.result, "Failed to get deck list, please login");
 		}
 		
 		response.setContentType("application/json");
 		response.getWriter().write(result.toString());
 
-		getServletContext().log("-- GetOpponentDecks -- Done");
+		getServletContext().log("-- GetDeckList -- Done");
 	}
 
 }

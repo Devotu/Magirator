@@ -7,11 +7,11 @@
 
 	<ol class="list-group">
 		<li
-			ng-repeat="participant in participants | orderBy:participant.play.place"
+			ng-repeat="participant in participants | orderBy:participant.result.place"
 			class="list-group-item">
 			<div>
 				<h3>{{ participant.player.playername }}
-					<span class="glyphicon glyphicon-ok green" ng-show="participant.play.confirmed"></span></h3>
+					<span class="glyphicon glyphicon-ok green" ng-show="participant.result.confirmed"></span></h3>
 				<p>{{ participant.deck.name }}</p>
 				<table>
 					<tr>
@@ -125,7 +125,9 @@
 						</th>
 					</tr>
 				</table>
-				<p>{{ participant.play.comment }}</p>
+				<p>{{ participant.result.comment }}</p>
+				<label>Tags:</label>
+				<p ng-repeat="tag in participant.tags">{{ tag.tag }}</p>
 			</div>
 		</li>
 	</ol>

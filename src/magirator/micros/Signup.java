@@ -34,33 +34,42 @@ public class Signup extends HttpServlet {
 		result.addProperty(Variables.result, "Something went wrong during singup, please try again");
 		
 		try {
-
 			
 			JsonObject signupRequest = Json.parseRequestData(request);
-			LoginCredentials requestedUser = new LoginCredentials(signupRequest);		
-
-			result.addProperty(Variables.result, "Username already in use, please try another one");
+			LoginCredentials requestedUser = new LoginCredentials(signupRequest);
 			
-			boolean userAvailable = Users.checkIfAvailable(requestedUser);
+			result.addProperty(Variables.result, "Password length is to short, please choose a password at least 8 characters long");
 			
-			if (userAvailable){
+			if(requestedUser.getPassword().length() > 7){
+			
+				result.addProperty(Variables.result, "Passwords does not match, please check and try again");
 				
-				PublicPlayer requestedPlayer = new PublicPlayer(signupRequest);
-
-				result.addProperty(Variables.result, "Playername already in use, please try another one");
-				
-				boolean playerAvailable = Players.checkIfAvailable(requestedPlayer);
-				
-				if (playerAvailable){
+				if(requestedUser.getPassword().equals(requestedUser.getRetype())){
+	
+					result.addProperty(Variables.result, "Username already in use, please try another one");
 					
-					result.addProperty(Variables.result, "This user and player name really should be ok, please try again");
+					boolean userAvailable = Users.checkIfAvailable(requestedUser);
 					
-					boolean signupSuccessful = Users.signup(requestedUser, requestedPlayer);
-					
-					if (signupSuccessful){
+					if (userAvailable){
 						
-						result.addProperty(Variables.result, Variables.success);
-					}					
+						PublicPlayer requestedPlayer = new PublicPlayer(signupRequest);
+		
+						result.addProperty(Variables.result, "Playername already in use, please try another one");
+						
+						boolean playerAvailable = Players.checkIfAvailable(requestedPlayer);
+						
+						if (playerAvailable){
+							
+							result.addProperty(Variables.result, "This user and player name really should be ok, please try again");
+							
+							boolean signupSuccessful = Users.signup(requestedUser, requestedPlayer);
+							
+							if (signupSuccessful){
+								
+								result.addProperty(Variables.result, Variables.success);
+							}					
+						}
+					}
 				}
 			}
 		} catch (Exception e) {

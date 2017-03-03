@@ -2,6 +2,7 @@ package magirator.micros;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,10 +14,9 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import magirator.dataobjects.Alteration;
 import magirator.dataobjects.Participant;
 import magirator.dataobjects.Player;
-import magirator.model.neo4j.Decks;
+import magirator.dataobjects.Tag;
 import magirator.model.neo4j.Games;
 import magirator.support.Error;
 import magirator.support.Json;
@@ -50,8 +50,17 @@ public class GetGame extends HttpServlet {
 			
 			try {
 				ArrayList<Participant> participants = Games.getParticipants(gameId);
-						
-				result.addProperty("participants", new Gson().toJson(participants));				
+				List<Tag> taglist = Games.getTagsInGame(gameId);
+				
+				for	(Participant p : participants){
+					for (Tag t : taglist){
+						if(t.getTagged() == p.getResult().getId()){
+							p.addTag(t);
+						}
+					}
+				}
+				
+				result.addProperty("participants", new Gson().toJson(participants));
 				result.addProperty(Variables.result, Variables.success);
 				
 			} catch (Exception e) {

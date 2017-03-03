@@ -14,11 +14,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import magirator.dataobjects.Deck;
-import magirator.dataobjects.Play;
 import magirator.dataobjects.Player;
 import magirator.dataobjects.Result;
+import magirator.dataobjects.Tag;
+import magirator.dataobjects.Participant;
 import magirator.model.neo4j.Decks;
 import magirator.model.neo4j.Games;
+import magirator.model.neo4j.Players;
 import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Variables;
@@ -51,25 +53,41 @@ public class AddGame extends HttpServlet {
 			try {
 				JsonObject requestData = Json.parseRequestData(request);		
 				
-				JsonArray participants = requestData.get("participants").getAsJsonArray();
+				JsonArray requestParticipants = requestData.get("participants").getAsJsonArray();
 				
-				ArrayList<Result> results = new ArrayList<Result>();
+				ArrayList<Participant> participants = new ArrayList<Participant>();
+				ArrayList<Tag> tags = new ArrayList<Tag>();
 				
-				for (JsonElement e : participants){
+				for (JsonElement e : requestParticipants){
 					
 					JsonObject o = e.getAsJsonObject();
 					
-					Deck deck = Decks.getDeck(o.get("deckId").getAsInt());
-					Play play = new Play(o);
+					Player p = Players.getPlayer(o.get("playerId").getAsInt());
+					Deck d = Decks.getDeck(o.get("deckId").getAsInt());
+					Result r = new Result(o);
 					
-					results.add( new Result(deck, play) );
+					participants.add( new Participant(p, d, r, null) );
+					
+					JsonArray tag_array = o.get("tags").getAsJsonArray();
+					
+					for (JsonElement t : tag_array){
+						JsonObject tag = t.getAsJsonObject();
+						tags.add(new Tag( player.getId(), p.getId(), tag.get("tag").getAsString(), tag.get("polarity").getAsInt() ));
+					}
+					
 				}
 				
 				boolean draw = requestData.get("draw").getAsBoolean();		
 				
-				if (Games.addGame(results, draw)){
+				int gameId = Games.addGame(participants, draw, player.getId());
 				
-					result.addProperty(Variables.result, Variables.success);					
+				if (gameId > 0){
+				
+					result.addProperty(Variables.result, "Game added but something went wrong tagging the results");
+					
+					if(Games.addTags(tags, gameId) == tags.size()){
+						result.addProperty(Variables.result, Variables.success);
+					}
 				}
 				
 			} catch (Exception e) {
