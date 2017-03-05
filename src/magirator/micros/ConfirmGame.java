@@ -17,6 +17,7 @@ import com.google.gson.JsonObject;
 import magirator.dataobjects.Player;
 import magirator.dataobjects.Tag;
 import magirator.model.neo4j.Games;
+import magirator.model.neo4j.Tags;
 import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Variables;
@@ -66,7 +67,7 @@ public class ConfirmGame extends HttpServlet {
 					
 					result.addProperty(Variables.result, "Confirmed game but something went wrong with the tags");	
 					
-					if(Games.addTags(tags, gameId) == tags.size()){
+					if(Tags.addTagsToResultsInGame(tags, gameId)){
 						result.addProperty(Variables.result, Variables.success);
 					}				
 				}

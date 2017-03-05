@@ -18,6 +18,7 @@ import magirator.dataobjects.Participant;
 import magirator.dataobjects.Player;
 import magirator.dataobjects.Tag;
 import magirator.model.neo4j.Games;
+import magirator.model.neo4j.Tags;
 import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Variables;
@@ -50,7 +51,7 @@ public class GetGame extends HttpServlet {
 			
 			try {
 				ArrayList<Participant> participants = Games.getParticipants(gameId);
-				List<Tag> taglist = Games.getTagsInGame(gameId);
+				List<Tag> taglist = Tags.getTagsInGame(gameId);
 				
 				for	(Participant p : participants){
 					for (Tag t : taglist){

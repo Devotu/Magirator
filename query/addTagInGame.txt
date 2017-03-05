@@ -1,0 +1,5 @@
+
+MATCH (p1:Player), (p2:Player)-[:Use]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) 	//Hitta taggare och resultat
+WHERE id(p1)=? AND id(p2)=? AND id(g)=? 											//Har taggare, taggad och spel
+																					//Om Tag finns, använd den
+CREATE (p1)-[:Put]->(t:Tag:	// String // {tag: ?})-[:On]->(r)									//Annars skapa ny + Om positiv sätt label positiv, annars negativ

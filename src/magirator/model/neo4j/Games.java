@@ -6,20 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.naming.NamingException;
-
-import com.google.gson.Gson;
 
 import magirator.dataobjects.Deck;
 import magirator.dataobjects.Game;
 import magirator.dataobjects.Participant;
 import magirator.dataobjects.Player;
 import magirator.dataobjects.Result;
-import magirator.dataobjects.Tag;
 import magirator.support.Database;
 
 public class Games {
@@ -42,6 +37,7 @@ public class Games {
 			rs = ps.executeQuery();
 			
 			if	(rs.next()){
+				
 				int gameId = rs.getInt("id(g)");
 				
 				query = "MATCH (g:Game), (d:Deck) ";
@@ -62,10 +58,12 @@ public class Games {
 				}
 				
 				if(initiatorId != 0){
+					
 					query = ""
 							+ "MATCH (p:Player), (g:Game) "
 							+ "WHERE id(p) = ? AND id(g) = ? "
 							+ "CREATE (p)-[:Initiated]->(g)";
+					
 					
 					ps = con.prepareStatement(query);
 					
@@ -221,8 +219,6 @@ public class Games {
 
       		ps = con.prepareStatement(query);
       		ps.setInt(1, playerId);
-
-      		rs = ps.executeQuery();
       		
       		rs = ps.executeQuery();
       		
@@ -279,89 +275,7 @@ public class Games {
 		}
 	}
 
-	public static int addTags(ArrayList<Tag> tags, int gameId) throws Exception {
 
-		Connection con = null;
-		PreparedStatement ps = null;
-		
-		try {
-			con = Database.getConnection();
-			
-			String queryStart = ""
-					+ "MATCH (p1:Player), (p2:Player)-[:Use]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
-					+ "WHERE id(p1)=? AND id(p2)=? AND id(g)=? "
-					+ "CREATE (p1)-[:Put]->(t:Tag:";
-			
-			String queryEnd = ""
-					+ " {tag: ?})-[:On]->(r)";
-			
-			int tagsSet = 0;
-			
-			for (Tag t : tags){
-				ps = con.prepareStatement(queryStart + (t.getPolarity() > 0 ? "Positive" : "Negative") + queryEnd); //Inte vackert, går det att lösa på något snyggare sätt?
-				
-				ps.setInt(1, t.getTagger());
-				ps.setInt(2, t.getTagged());
-				ps.setInt(3, gameId);
-				ps.setString(4, t.getTag());				
-				
-				tagsSet += (ps.executeUpdate()/3);//Returns 3 for every 1 tag set
-			}
-			
-			return tagsSet;
-			
-		} catch (Exception ex){
-			throw ex;
-		} finally {
-			if (ps != null) ps.close();
-			if (con != null) con.close();
-		}
-	}
-
-	public static List<Tag> getTagsInGame(int gameId) throws Exception {
-		
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		
-		try {
-			con = Database.getConnection();			
-
-			String query = ""
-					+ "MATCH (p:Player)-[:Use|:Used]->(:Deck)-[:Got]->(r:Result)-[]->(g:Game), (tp:Player)-[:Put]->(t:Tag)-[:On]->(r) "
-					+ "WHERE id(g)=? "
-					+ "RETURN id(tp), PROPERTIES(t), id(r), labels(t)";
-			
-			ps = con.prepareStatement(query);
-      		
-			ps.setInt(1, gameId);
-      		
-      		rs = ps.executeQuery();
-      		
-      		List<Tag> tags = new ArrayList<Tag>();
-			
-			while (rs.next()) {
-				List<String> labels = (List<String>)rs.getObject("labels(t)");
-				Tag t = new Tag(
-							rs.getInt("id(tp)"),
-							(Map)rs.getObject("PROPERTIES(t)"),
-							rs.getInt("id(r)"),
-							labels
-						);
-				
-				tags.add(t);
-			}
-			
-			return tags;
-			
-		} catch (Exception ex){
-			throw ex;
-		} finally {
-			if (rs != null) rs.close();
-			if (ps != null) ps.close();
-			if (con != null) con.close();
-		}		
-	}
 
 }
 
