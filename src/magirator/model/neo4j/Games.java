@@ -127,7 +127,7 @@ public class Games {
 			con = Database.getConnection();			
 
 			String query = ""
-					+ "MATCH (p:Player)-[Use]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) " //TODO Used & Evolved
+					+ "MATCH (p:Player)-[:Use]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) " //TODO Used & Evolved
 					+ "WHERE id(d) = ? "
 					+ "RETURN id(p), PROPERTIES(p), id(d), PROPERTIES(d), id(r), PROPERTIES(r), id(g), PROPERTIES(g) "
 					+ "ORDER BY g.created";
