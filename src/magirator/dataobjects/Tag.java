@@ -1,6 +1,5 @@
 package magirator.dataobjects;
 
-import java.util.List;
 import java.util.Map;
 
 public class Tag {
@@ -17,11 +16,11 @@ public class Tag {
 		this.polarity = polarity;
 	}
 	
-	public Tag(int tagger, Map properties, int tagged, List<String> labels) {
+	public Tag(int tagger, int tagged, Map properties) {
 		this.tagger = tagger;
 		this.tagged = tagged;
 		this.tag = (String)properties.get("tag");
-		this.polarity = labels.contains("Positive") ? 1 : -1;
+		this.polarity = (int)(long)properties.get("polarity");
 	}
 
 	public int getTagger() {

@@ -21,6 +21,7 @@ import magirator.dataobjects.Participant;
 import magirator.model.neo4j.Decks;
 import magirator.model.neo4j.Games;
 import magirator.model.neo4j.Players;
+import magirator.model.neo4j.Tags;
 import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Variables;
@@ -85,7 +86,7 @@ public class AddGame extends HttpServlet {
 				
 					result.addProperty(Variables.result, "Game added but something went wrong tagging the results");
 					
-					if(Games.addTags(tags, gameId) == tags.size()){
+					if(Tags.addTagsToResultsInGame(tags, gameId)){
 						result.addProperty(Variables.result, Variables.success);
 					}
 				}
