@@ -94,8 +94,14 @@ public class Games {
 		try {
 			con = Database.getConnection();
 
-			String query = "MATCH (d:Deck)-[:Got]->(r:Result)-[:In]->(:Game) WHERE id(d)=? RETURN id(r), PROPERTIES(r)";
-
+			String query = ""
+					+ "MATCH dp=(d:Deck)<-[r:Evolved*]-() "
+					+ "WHERE id(d)=? "
+					+ "UNWIND nodes(dp) AS nd "
+					+ "WITH nd as deck "
+					+ "MATCH (deck)-[:Got]->(r:Result)-[:In]->(:Game) "
+					+ "RETURN DISTINCT id(r), PROPERTIES(r)";
+			
       		PreparedStatement ps = con.prepareStatement(query);
       		ps.setInt(1, deck.getDeckid());
 
@@ -127,8 +133,11 @@ public class Games {
 			con = Database.getConnection();			
 
 			String query = ""
-					+ "MATCH (p:Player)-[:Use]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) " //TODO Used & Evolved
-					+ "WHERE id(d) = ? "
+					+ "MATCH dp=(cd:Deck)<-[r:Evolved*]-() "
+					+ "WHERE id(cd)=? "
+					+ "UNWIND nodes(dp) AS nd "
+					+ "WITH nd as d "
+					+ "MATCH (p:Player)-[:Use|:Used]->(d)-[:Got]->(r:Result)-[:In]->(g:Game) "
 					+ "RETURN id(p), PROPERTIES(p), id(d), PROPERTIES(d), id(r), PROPERTIES(r), id(g), PROPERTIES(g) "
 					+ "ORDER BY g.created";
 
