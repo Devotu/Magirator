@@ -208,7 +208,8 @@ public class Decks {
 			String query = "" + 
 					"MATCH dp=(d)<-[r:Evolved*]-() " + 
 					"WHERE id(d)=? " + 
-					"UNWIND nodes(dp) AS nd " + 
+					"UNWIND nodes(dp) AS nd " +  
+			        "OPTIONAL MATCH (nd)<-[e:Evolved]-() " +  
 					"RETURN DISTINCT id(nd), PROPERTIES(nd), PROPERTIES(e)" +
 					"ORDER BY PROPERTIES(nd).created";
 
