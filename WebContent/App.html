@@ -4,45 +4,25 @@
 <!-- define angular app -->
 <html ng-app="magiratorApp">
     <head>
-    
-    	<!-- SCROLLS -->
-      	<!-- load bootstrap and fontawesome via CDN -->
-     	<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	
-		<!-- jQuery library -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	
-		<!-- Latest compiled JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    
-      	<!-- SCROLLS -->
-      	<!-- load bootstrap and fontawesome via CDN -->
-      	<!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" /> -->
       	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
+      	<link rel="stylesheet" type="text/css" href="styles/Magirator.css">  
 
-      	<!-- SPELLS -->
-      	<!-- load angular and angular route via CDN -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
       	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
       	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>    
-      	
-      	<link rel="stylesheet" type="text/css" href="styles/Magirator.css">  
-      
     	<script src="scripts/app.js"></script>
     </head>
-        <!-- define angular controller -->
     <body ng-controller="mainController">
 
-        	<!-- HEADER AND NAVBAR -->
         <header>
-            <nav class="navbar navbar-default">
+            <nav class="navbar navbar-inverse">
             <div class="container">
-                <div class="navbar-header">
-                    <h1>Magirator</h1>
-                </div>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#dashboard"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></li>
+                    <li><a href="#dashboard"><span class="glyphicon glyphicon-home on-dark" aria-hidden="true"></span></a></li>
                     <li><a href="#login"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></a></li>
                     <li><a href="#signup"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></li>
                     <li><a href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
@@ -61,19 +41,13 @@
 			<div class="col-sm-2"></div>
 	
 			<div class="col-sm-8 text-left">
-	
-	
-            <!-- angular templating -->
-            <!-- this is where content will be injected -->
+
             <div ng-view></div>
 	
 			</div>
 	
 			<div class="col-sm-2"></div>
 		</div>
-
-
-
         </div>
 
     </body>

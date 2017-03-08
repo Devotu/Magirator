@@ -1,9 +1,6 @@
 <div class="jumbotron text-center">
 	<h1>Decklist</h1>
-
-	<p>{{ result }}</p>
-</div>
-<div>
+	
 	<select data-ng-model="order.field">
 		<option value="winrate" selected>Winrate</option>
 		<option value="name">Name</option>
@@ -29,3 +26,5 @@
 		</li>
 	</ul>
 </div>
+
+<p class='debug'>Result: {{ result }}</p>

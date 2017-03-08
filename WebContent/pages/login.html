@@ -7,16 +7,17 @@
 
 		<form ng-submit="login()">
 
-			<div class="form-group">
+			<div class="form-group text-center">
 				<label for="username">Username (email):</label> <input
 					ng-model="username" type="text" class="form-control" autofocus>
 				<label for="password">Password:</label> <input ng-model="password"
 					type="password" class="form-control">
 			</div>
 
-			<button type="submit">Login</button>
-			<button ng-click="goSignup()">Signup</button>
-			<p>{{ result }}</p>
+			<button type="submit" class="btn btn-primary">Login</button>
+			<button class="btn btn-primary" ng-click="goSignup()">Signup</button>
 		</form>
 	</div>
 </div>
+
+<p class='debug'>Result: {{ result }}</p>
