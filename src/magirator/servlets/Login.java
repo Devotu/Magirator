@@ -42,6 +42,8 @@ public class Login extends HttpServlet {
 			
 			LoginCredentials loginCredentials = new LoginCredentials(credentials);
 			
+			loginCredentials.encryptPassword();
+			
 			User user = Users.signin(loginCredentials);
 			
 			if (user != null){ //Inloggningen gick bra
