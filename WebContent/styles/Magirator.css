@@ -33,6 +33,14 @@ body{
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 4px rgba(255, 153, 0, 0.6);
 }
 
+.inline-checkbox{
+	vertical-align: sub;
+}
+
+.checkbox-label{
+	padding-right: 2px;
+	padding-left: 2px;
+}
 
 /*Buttons*/
 .btn {
@@ -44,6 +52,7 @@ body{
     text-transform: uppercase;
     margin-left: 5px;
     margin-right: 5px;
+    margin-top: 20px;
 }
 
 .btn-primary{
@@ -58,6 +67,15 @@ body{
 	border-color: #f90;
 }
 
+.btn-primary:active:focus {
+	background: solid;
+	background-color: #333;
+	border-color: #f90;
+}
+
+.btn-block {
+    white-space: normal;
+}
 
 
 
@@ -66,9 +84,79 @@ body{
 	
 }
 
+.badge-dark{
+	color: #333;
+	background: #f90;
+}
 
+.note{
+	position: absolute;
+	top: 5px;
+	right: 15px;
+}
+
+/*Colors*/
+.black{
+	color: #000;
+}
+
+.white{
+	color: #FFF;
+}
+
+.red{
+	color: #F00;
+}
+
+.green{
+	color: #0F0;
+}
+
+.blue{
+	color: #00F;
+}
+
+.colorless{
+	color: #999;
+}
+
+.colorframed{
+	border: solid;
+	border-radius: 7px;
+	border-width: 1px;
+	/*border-color*/
+}
+
+.black-frame{
+	border-color: #000;
+}
+
+.white-frame{
+	border-color: #FFF;
+}
+
+.red-frame{
+	border-color: #F00;
+}
+
+.green-frame{
+	border-color: #0F0;
+}
+
+.blue-frame{
+	border-color: #00F;
+}
+
+.colorless-frame{
+	border-color: #999;
+}
 
 /*Debug*/
-.debug{
+.debug-frame{
+	border: 1px solid;
+	border-color: #000
+}
+
+.debug-text{
 	font-size:x-small;
 }
