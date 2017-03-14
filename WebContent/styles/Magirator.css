@@ -77,6 +77,12 @@ body{
     white-space: normal;
 }
 
+.btn-add {
+	padding: 7px;
+	margin-top: 7px;
+	font-size: 12px;
+}
+
 
 
 /*Items*/
@@ -89,9 +95,13 @@ body{
 	background: #f90;
 }
 
+.badge-yes{
+	background: #f90;
+}
+
 .note{
 	position: absolute;
-	top: 5px;
+	top: 25px;
 	right: 15px;
 }
 
@@ -149,6 +159,14 @@ body{
 
 .colorless-frame{
 	border-color: #999;
+}
+
+.positive {
+	background: #696;
+}
+
+.negative {
+	background: #ff6347;
 }
 
 /*Debug*/

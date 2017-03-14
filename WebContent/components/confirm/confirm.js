@@ -7,7 +7,7 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 
 			$scope.gameId = deckVarStorage.getGoTo();
 			$scope.player = JSON.parse( data.player );
-
+			
 			$scope.getGame = function(){
 				
 				// Get Game

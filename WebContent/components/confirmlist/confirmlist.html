@@ -1,9 +1,10 @@
-<h1>Unconfirmed games</h1>
+<div class="jumbotron text-center">
+	<h1>Unconfirmed games</h1>
 
-<ul class="list-group">
-	<li ng-repeat="participation in participations | orderBy:'participation.game.created'"
-		class="list-group-item" ng-click="goConfirm(participation.game.id)">{{ participation.game.created }}
-	</li>
-</ul>
-
-<p>{{ result }}</p>
+	<ul class="list-group">
+		<li ng-repeat="participation in participations | orderBy:'participation.game.created'"
+			class="list-group-item" ng-click="goConfirm(participation.game.id)">
+			{{ participation.game.created }}</li>
+	</ul>
+</div>
+<p class='debug-text'>Result: {{ result }}</p>

@@ -1,7 +1,8 @@
 <div class="jumbotron text-center">
 	<h1>Decklist</h1>
 	
-	<select data-ng-model="order.field">
+	<label for="sorter">Sort by:</label> 
+	<select class="form-control" id="sorter" data-ng-model="order.field">
 		<option value="winrate" selected>Winrate</option>
 		<option value="name">Name</option>
 		<option value="active">Active</option>
@@ -17,12 +18,14 @@
 		<option value="theme">Theme</option>
 	</select>
 	
-	<input type="checkbox" data-ng-model="order.reverse" />
+	<div class=".checkbox-inline">
+		<label><input class="inline-checkbox" type="checkbox" data-ng-model="order.reverse"/>Reverse</label>
+	</div>
 	
 	<ul class="list-group">
 		<li ng-repeat="deck in decks | orderBy:deckOrder:order.reverse"
 			class="list-group-item" ng-click="goDeck(deck.id)">{{deck.name}}
-			<span class="badge">{{ deck.badge }}</span>
+			<span class="badge" ng-class="{'badge-yes': deck.badge=='yes'}">{{ deck.badge }}</span>
 		</li>
 	</ul>
 </div>
