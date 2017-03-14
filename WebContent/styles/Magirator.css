@@ -3,6 +3,9 @@ body{
 	background: #fcfaf8;
 }
 
+p {
+	border-radius: 5px;
+}
 
 /*Navbar*/
 .navbar{
@@ -19,6 +22,10 @@ body{
 
 .on-dark{
 	color: #999;
+}
+
+.list-group-item {
+	margin-bottom: 5px;
 }
 
 /*Text*/
