@@ -138,8 +138,7 @@ public class Games {
 					+ "UNWIND nodes(dp) AS nd "
 					+ "WITH nd as d "
 					+ "MATCH (p:Player)-[:Use|:Used]->(d)-[:Got]->(r:Result)-[:In]->(g:Game) "
-					+ "RETURN id(p), PROPERTIES(p), id(d), PROPERTIES(d), id(r), PROPERTIES(r), id(g), PROPERTIES(g) "
-					+ "ORDER BY g.created";
+					+ "RETURN DISTINCT id(p), PROPERTIES(p), id(d), PROPERTIES(d), id(r), PROPERTIES(r), id(g), PROPERTIES(g)";
 
       		ps = con.prepareStatement(query);
       		ps.setInt(1, deckId);
