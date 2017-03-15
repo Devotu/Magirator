@@ -7,6 +7,15 @@ p {
 	border-radius: 5px;
 }
 
+/*General*/
+.spaced {
+	margin-top: 5px;
+}
+
+.center {
+	margin: auto;
+}
+
 /*Navbar*/
 .navbar{
 	background-color: #333;
@@ -110,6 +119,11 @@ p {
 	position: absolute;
 	top: 25px;
 	right: 15px;
+}
+
+.mana-image {
+	height: 50px;
+	widith: 50px;
 }
 
 /*Colors*/

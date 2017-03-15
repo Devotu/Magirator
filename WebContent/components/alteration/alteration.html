@@ -39,7 +39,7 @@
 		<div
 			ng-switch="alteration.colorPatternIs == alteration.colorPatternWas">
 			<div ng-switch-when="true">
-				<table>
+				<table class="center">
 					<tr>
 						<td><svg viewBox="0 0 100 100" class="mana-image"
 								ng-show="alteration.blackIs">
@@ -69,7 +69,7 @@
 				</table>
 			</div>
 			<div ng-switch-default>
-				<table>
+				<table class="center">
 					<tr>
 						<td><svg viewBox="0 0 100 100" class="mana-image"
 								ng-show="alteration.blackWas">
@@ -98,7 +98,7 @@
 					</tr>
 				</table>
 				<label>became</label>
-				<table>
+				<table class="center">
 					<tr>
 						<td><svg viewBox="0 0 100 100" class="mana-image"
 								ng-show="alteration.blackIs">

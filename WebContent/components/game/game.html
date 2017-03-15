@@ -13,23 +13,19 @@
 				<h3>{{ participant.player.playername }}
 					<span class="glyphicon glyphicon-ok green" ng-show="participant.result.confirmed"></span></h3>
 				<p>{{ participant.deck.name }}</p>
-				<table>
+				<table class="center">
 					<tr>
 						<th>
 							<div ng-switch="participant.deck.black">
 								<div ng-switch-when="true">
-									<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-											fill="black" />
-									
-						
+									<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="mana-image" preserveAspectRatio="none">
+										<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="black" />
+									</svg>						
 								</div>
 								<div ng-switch-default>
-									<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="lightgray"
-											stroke-width="4" fill="lightgray" />
-									
-						
+									<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="mana-image" preserveAspectRatio="none">
+										<circle cx="50" cy="50" r="40" stroke="lightgray" stroke-width="4" fill="lightgray" />
+									</svg>
 								</div>
 							</div>
 						</th>
