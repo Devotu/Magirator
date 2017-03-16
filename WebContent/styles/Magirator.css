@@ -126,6 +126,14 @@ p {
 	widith: 50px;
 }
 
+.base-wide {
+	max-width: 200px;
+}
+
+.doubble-base-wide {
+	max-width: 400px;	
+}
+
 /*Colors*/
 .black{
 	color: #000;
@@ -183,11 +191,19 @@ p {
 }
 
 .positive {
-	background: #696;
+	color: #696;
 }
 
 .negative {
-	background: #ff6347;
+	color: #ff6347;
+}
+
+.main-concern {
+	border-color: #f90;
+}
+
+.main-theme {
+	color: #f90;
 }
 
 /*Debug*/

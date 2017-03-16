@@ -1,12 +1,12 @@
 <div class="jumbotron text-center">
 	<h1>Alteration</h1>
 
-	<div class="form-group">
+	<div class="form-group list-group-item main-concern">
 		<label>Comment:</label>
 		<p>{{alteration.comment}}</p>
 	</div>
 
-	<div class="form-group well">
+	<div class="form-group list-group-item">
 		<label>Name:</label>
 		<div ng-switch="alteration.nameIs == alteration.nameWas">
 			<div ng-switch-when="true">
@@ -20,7 +20,7 @@
 		</div>
 	</div>
 
-	<div class="form-group well">
+	<div class="form-group list-group-item">
 		<label>Format:</label>
 		<div ng-switch="alteration.formatIs == alteration.formatWas">
 			<div ng-switch-when="true">
@@ -34,103 +34,120 @@
 		</div>
 	</div>
 
-	<div class="form-group well">
+	<div class="form-group list-group-item">
 		<label>Colors:</label>
-		<div
-			ng-switch="alteration.colorPatternIs == alteration.colorPatternWas">
+		<div ng-switch="alteration.colorPatternIs == alteration.colorPatternWas">
 			<div ng-switch-when="true">
 				<table class="center">
 					<tr>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.blackIs">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="black" /></svg></td>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.whiteIs">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="white" /></svg></td>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.redIs">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="red" /></svg></td>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.greenIs">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="green" /></svg></td>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.blueIs">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="blue" /></svg></td>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.colorlessIs">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="colorless" /></svg></td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.blackIs">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="black" />
+							</svg>
+						</td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.whiteIs">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="white" />
+							</svg>
+						</td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.redIs">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="red" />
+							</svg>
+						</td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.greenIs">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="green" />
+							</svg>
+						</td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.blueIs">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="blue" />
+							</svg>
+						</td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.colorlessIs">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="colorless" />
+							</svg>
+						</td>
 					</tr>
 				</table>
 			</div>
 			<div ng-switch-default>
 				<table class="center">
 					<tr>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.blackWas">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="black" /></svg></td>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.whiteWas">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="white" /></svg></td>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.redWas">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="red" /></svg></td>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.greenWas">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="green" /></svg></td>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.blueWas">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="blue" /></svg></td>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.colorlessWas">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="colorless" /></svg></td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.blackWas">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="black" />
+							</svg>
+						</td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.whiteWas">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="white" />
+							</svg>
+						</td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.redWas">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="red" />
+							</svg>
+						</td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.greenWas">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="green" />
+							</svg>
+						</td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.blueWas">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="blue" />
+							</svg>
+						</td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.colorlessWas">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="colorless" />
+							</svg>
+						</td>
 					</tr>
 				</table>
 				<label>became</label>
 				<table class="center">
 					<tr>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.blackIs">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="black" /></svg></td>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.whiteIs">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="white" /></svg></td>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.redIs">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="red" /></svg></td>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.greenIs">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="green" /></svg></td>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.blueIs">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="blue" /></svg></td>
-						<td><svg viewBox="0 0 100 100" class="mana-image"
-								ng-show="alteration.colorlessIs">
-					<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="colorless" /></svg></td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.blackIs">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="black" />
+							</svg>
+						</td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.whiteIs">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="white" />
+							</svg>
+						</td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.redIs">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="red" />
+							</svg>
+						</td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.greenIs">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="green" />
+							</svg>
+						</td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.blueIs">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="blue" />
+							</svg>
+						</td>
+						<td>
+							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.colorlessIs">
+								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="colorless" />
+							</svg>
+						</td>
 					</tr>
 				</table>
 			</div>
 		</div>
 	</div>
 
-	<div class="form-group well">
+	<div class="form-group list-group-item">
 		<label>Theme:</label>
 		<div ng-switch="alteration.themeIs == alteration.themeWas">
 			<div ng-switch-when="true">
@@ -144,5 +161,6 @@
 		</div>
 	</div>
 
-	<p>{{ result }}</p>
 </div>
+
+<p class='debug-text'>Result: {{ result }}</p>

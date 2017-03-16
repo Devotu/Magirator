@@ -127,13 +127,13 @@
 					<label>Positive</label>
 					<input ng-model="participant.tag.positive" type="text" class="form-control">
 					<button class="btn btn-primary btn-add positive" type="button" ng-click="addTag(participant)">Add tag</button>
-					<p class="positive spaced" ng-repeat="tag in participant.tags | postiveTags">{{ tag }}</p>
+					<p class="positive spaced base-wide center" ng-repeat="tag in participant.tags | postiveTags">{{ tag }}</p>
 				</div>
 				<div class="form-group col-sm-6">
 					<label>Negative</label>
 					<input ng-model="participant.tag.negative" type="text" class="form-control">
 					<button class="btn btn-primary btn-add negative" type="button" ng-click="addTag(participant)">Add tag</button>
-					<p class="negative spaced" ng-repeat="tag in participant.tags | negativeTags">{{ tag }}</p>
+					<p class="negative spaced base-wide center" ng-repeat="tag in participant.tags | negativeTags">{{ tag }}</p>
 				</div>				
 			</div>
 		</li>
