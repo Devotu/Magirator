@@ -12,6 +12,10 @@ p {
 	margin-top: 5px;
 }
 
+.gap {
+	padding-top: 20px;
+}
+
 .center {
 	margin: auto;
 }
@@ -21,12 +25,52 @@ p {
 	background-color: #333;
 }
 
-
 /*Content*/
 .jumbotron{
 	background-color: #f3f3f3;
 	border: 2px solid;
 	border-color: #333
+}
+
+.jumbotron-full-width {
+	padding-left: 0px;
+	border: 2px solid;
+	border-color: #333
+}
+
+.jumbotron-tab-row {
+	margin-left: -60px;
+	margin-right: -60px;
+    border-bottom: 1px solid;	
+}
+
+.tab {
+	color: #333;
+	cursor: default;
+	background-color: #f3f3f3;
+    border: 1px solid;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    margin-left: 1px;
+    margin-right: 1px;
+    padding: 12px 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.tab-active {
+	color: #f90;
+	border-color: #333;
+	border-bottom-color: transparent;
+}
+
+.btn {
+    border-radius: 7px;
+}
+
+.tab:first-child {
+	margin-left: 20px;
 }
 
 .on-dark{
@@ -35,6 +79,27 @@ p {
 
 .list-group-item {
 	margin-bottom: 5px;
+}
+
+.includer {
+	position: relative;
+}
+
+.top-right {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+
+@media screen and (max-width: 768px) {
+  	.jumbotron-tab-row {
+		margin-left: -15px;
+		margin-right: -15px;
+	}
+	
+	.tab:first-child {
+		margin-left: 1px;
+	}
 }
 
 /*Text*/

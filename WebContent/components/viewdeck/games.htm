@@ -1,9 +1,5 @@
-<h1>Games</h1>
-
-<ul class="list-group">
+<ul class="list-group gap">
 	<li ng-repeat="participation in participations | orderBy:'participation.game.created'"
 		class="list-group-item" ng-click="goGame(participation.game.id)">{{ participation.game.created }}
 	</li>
 </ul>
-
-<p class='debug-text'>Result: {{ result }}</p>

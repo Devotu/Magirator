@@ -1,6 +1,4 @@
-<h1>Alterations</h1>
-
-<ul class="list-group">
+<ul class="list-group gap">
 	<li ng-repeat="alteration in alterations | orderBy:'created'"
 		class="list-group-item" ng-click="goAlteration(alteration.id)">{{alteration.comment}}
 	</li>

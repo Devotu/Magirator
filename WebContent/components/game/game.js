@@ -7,6 +7,8 @@ ratorApp.controller('gameController', function($scope, $http, $location, playerS
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
 
+			$scope.player = JSON.parse( data.player );
+
 			$scope.gameId = deckVarStorage.getGoTo();			
 				
 			$scope.getGame = function(){
