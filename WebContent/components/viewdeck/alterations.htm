@@ -1,4 +1,7 @@
 <ul class="list-group gap">
+	<li class="list-group-item main-item" ng-click="goAlter()">
+		<span class="glyphicon glyphicon-pencil"></span> Alter Deck
+	</li>
 	<li ng-repeat="alteration in alterations | orderBy:'created'"
 		class="list-group-item" ng-click="goAlteration(alteration.id)">{{alteration.comment}}
 	</li>

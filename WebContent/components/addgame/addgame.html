@@ -55,7 +55,7 @@
 		</li>
 	</ol>
 
-	<button type="button" ng-click="addGame()">Create game</button>
+	<button type="button" ng-click="addGame()" ng-disabled="{{ participants.length < 2 }}">Create game</button>
 	<p>{{ result }}</p>
 
 </div>

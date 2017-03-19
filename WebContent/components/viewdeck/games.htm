@@ -1,4 +1,7 @@
 <ul class="list-group gap">
+	<li class="list-group-item main-item" ng-click="goAddGame()">
+		<span class="glyphicon glyphicon-plus"></span> Add new Game
+	</li>
 	<li ng-repeat="participation in participations | orderBy:'participation.game.created'"
 		class="list-group-item" ng-click="goGame(participation.game.id)">{{ participation.game.created }}
 	</li>

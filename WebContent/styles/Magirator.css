@@ -285,6 +285,11 @@ p {
 	color: #f90;
 }
 
+.main-item {
+	color: #f90;
+	font-weight: bold;
+}
+
 /*Debug*/
 .debug-frame{
 	border: 1px solid;
