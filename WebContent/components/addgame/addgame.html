@@ -1,61 +1,55 @@
 <div class="jumbotron text-center">
 	<h1>Add Game</h1>
 
-	<div class="form-group">
-		<label>Comment:</label> <input ng-model="comment" type="text"
-			class="form-control" autofocus>
+	<div class="list-group-item">
+		<h3>{{ player.playername }}</h3>		
+		<label>Comment:</label> <input ng-model="comment" type="text" class="form-control">
+		<button type="button" class="btn btn-primary btn-add" ng-click="addSelf()">Add to game</button>
 	</div>
 
-	<form ng-submit="addParticipant()" class="well">
+	<form ng-submit="addParticipant()" class="list-group-item">
 		<div class="form-group">
-			<label>Opponent:</label> <select
-				ng-options="opponent.playername for opponent in opponents"
-				ng-model="addOpponent" class="form-control"
-				ng-change="getOpponentDecks()"></select>
+			<label>Opponent:</label> <select ng-options="opponent.playername for opponent in opponents" ng-model="addOpponent" class="form-control"
+			 ng-change="getOpponentDecks()"></select>
 		</div>
 
 		<div class="form-group">
-			<label>Opponent deck:</label> <select
-				ng-options="deck.name for deck in decks" ng-model="addDeck"
-				class="form-control"></select>
+			<label>Opponent deck:</label> <select ng-options="deck.name for deck in decks" ng-model="addDeck" class="form-control"></select>
 		</div>
 
-		<button type="submit">Add to game</button>
+		<button type="submit" class="btn btn-primary btn-add">Add to game</button>
 	</form>
 
-	<div class="well">
-		<h3>{{ player.playername }}</h3>
-		<button type="button" ng-click="addSelf()">Add to game</button>
-		<label>Comment:</label> <input ng-model="comment" type="text"
-			class="form-control" autofocus>
-	</div>
-
 	<div class="form-group">
-		<label>Draw:</label> <input type="checkbox" ng-model="draw" />
+		<label>
+			<input type="checkbox" class="inline-checkbox" ng-model="draw" /> Draw
+		</label> 
 	</div>
 
 	<ol class="list-group">
-		<li
-			ng-repeat="participant in participants | orderBy:participant.place"
-			class="list-group-item">
+		<li ng-repeat="participant in participants | orderBy:participant.place" class="list-group-item row">
 			<div>
 				<h3>{{ participant.place }} {{ participant.playerName }}</h3>
 				<p>{{ participant.deckName }}</p>
 				<div class="form-group col-sm-6">
-					<label>Positive</label> <input ng-model="participant.tag.positive" type="text" class="form-control">
-					<button type="button" ng-click="addTag(participant)">Add tag</button>
+					<label>Positive</label>
+					<input ng-model="participant.tag.positive" type="text" class="form-control">
+					<button class="btn btn-primary btn-add positive" type="button" ng-click="addTag(participant)">Add tag</button>
+					<p class="positive list-item base-wide center" ng-repeat="tag in participant.tags | postiveTags">{{ tag }}</p>
 				</div>
 				<div class="form-group col-sm-6">
-					<label>Negative</label> <input ng-model="participant.tag.negative" type="text" class="form-control">
-					<button type="button" ng-click="addTag(participant)">Add tag</button>
+					<label>Negative</label>
+					<input ng-model="participant.tag.negative" type="text" class="form-control">
+					<button class="btn btn-primary btn-add negative" type="button" ng-click="addTag(participant)">Add tag</button>
+					<p class="negative base-wide center" ng-repeat="tag in participant.tags | negativeTags">{{ tag }}</p>
 				</div>
-				<label>Tags:</label>
-				<p ng-repeat="tag in participant.tags">{{ tag.tag }}</p>
 			</div>
 		</li>
 	</ol>
 
-	<button type="button" ng-click="addGame()" ng-disabled="{{ participants.length < 2 }}">Create game</button>
-	<p>{{ result }}</p>
+<p>{{  }}</p>
+	<button type="button" class="btn btn-primary" ng-click="addGame()" ng-disabled="participants.length < 2">Create game</button>
 
 </div>
+
+<p class='debug-text'>Result: {{ result }}</p>

@@ -81,6 +81,14 @@ p {
 	margin-bottom: 5px;
 }
 
+.list-item::first-child {
+	margin-top: 10px;
+}
+
+.jumbotron p {
+	margin-bottom: auto;
+}
+
 .includer {
 	position: relative;
 }
