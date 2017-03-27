@@ -109,4 +109,14 @@ public class Users {
 		}
 		
 	}
+
+	public static boolean requestResetPassword(LoginCredentials loginCredentials) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	public static boolean setNewPassword(LoginCredentials loginCredentials) {
+		// TODO Auto-generated method stub
+		return true;
+	}
 }

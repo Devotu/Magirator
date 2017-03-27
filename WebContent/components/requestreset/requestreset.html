@@ -1,0 +1,17 @@
+<div class="jumbotron text-center">
+
+	<!--Request reset-->
+		<h1 id="title">Requesting a reset</h1>
+
+		<form ng-submit="request()">
+
+			<div class="form-group text-center">
+				<label for="username">Username (email):</label> 
+				<input ng-model="username" type="text" class="form-control" autofocus>
+			</div>
+
+			<button type="submit" class="btn btn-primary">Request reset</button>
+		</form>
+</div>
+
+<p class='debug-text'>Result: {{ result }}</p>

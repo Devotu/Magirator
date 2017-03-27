@@ -4,8 +4,8 @@ ratorApp.factory('requestService', function(){
 		buildRequest : function(endpoint, data) {
 		return {
 			method: 'POST',
-			url: '/Magirator/' + endpoint,
-			//url: '/' + endpoint,
+			url: '/Magirator/' + endpoint, //Debug
+			//url: '/' + endpoint, //Proper
 			headers: {
 			   'Content-Type': 'application/json'
 			}, 

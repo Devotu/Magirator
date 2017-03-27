@@ -16,13 +16,14 @@ public class LoginCredentials {
 	private String username;
 	private String password;
 	private String retype;
-	private byte[] salt;
+	private String code;
 	
 
 	public LoginCredentials(JsonObject json) {
 		this.username = json.get("username").getAsString().toLowerCase();
-		this.password = json.get("password").getAsString();
+		this.password = json.has("password") ? json.get("password").getAsString() : null;
 		this.retype = json.has("retype") ? json.get("retype").getAsString() : null;
+		this.code = json.has("code") ? json.get("code").getAsString() : null;
 	}
 
 	public String getUsername() {
@@ -35,6 +36,10 @@ public class LoginCredentials {
 
 	public String getRetype() {
 		return retype;
+	}
+	
+	public String getCode() {
+		return code;
 	}
 	
 	public void encryptPassword() throws NoSuchAlgorithmException{

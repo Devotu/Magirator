@@ -30,4 +30,8 @@ ratorApp.controller('loginController', function($scope, $http, $location, reques
     $scope.goSignup = function() {
         $location.url('/signup');
     };
+    
+    $scope.goReset = function() {
+        $location.url('/requestreset');
+    };
 });

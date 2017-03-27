@@ -70,5 +70,15 @@ ratorApp.config(function($routeProvider) {
 		templateUrl : 'components/confirm/confirm.html',
 		controller : 'confirmController'
 	})
+	
+	.when('/requestreset', {
+		templateUrl : 'components/requestreset/requestreset.html',
+		controller : 'requestresetController'
+	})
+	
+	.when('/resetpassword', {
+		templateUrl : 'components/resetpassword/resetpassword.html',
+		controller : 'resetpasswordController'
+	})
 	;
 });
