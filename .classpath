@@ -12,5 +12,7 @@
 	<classpathentry kind="lib" path="/home/ottu/jars/servlet-api.jar"/>
 	<classpathentry kind="lib" path="/home/ottu/jars/neo4j-jdbc-driver-3.0.1.jar"/>
 	<classpathentry kind="lib" path="/home/ottu/jars/gson-2.8.0.jar"/>
+	<classpathentry kind="lib" path="/home/ottu/jars/activation.jar"/>
+	<classpathentry kind="lib" path="/home/ottu/jars/javax.mail-1.5.6.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

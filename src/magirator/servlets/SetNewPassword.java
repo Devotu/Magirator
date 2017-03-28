@@ -6,16 +6,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import com.google.gson.JsonObject;
 
-import magirator.dataobjects.Player;
-import magirator.dataobjects.User;
-import magirator.model.neo4j.Players;
 import magirator.model.neo4j.Users;
 import magirator.support.Error;
 import magirator.support.Json;
+import magirator.support.Mail;
 import magirator.support.Variables;
 import magirator.viewobjects.LoginCredentials;
 
@@ -37,6 +33,8 @@ public class SetNewPassword extends HttpServlet {
 		result.addProperty(Variables.result, "Reset code, username or password is incorrect");
 		
 		JsonObject credentials;
+		
+		Mail.SendMail();
 		
 		try {
 			credentials = Json.parseRequestData(request);
