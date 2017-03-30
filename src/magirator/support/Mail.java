@@ -3,17 +3,16 @@ package magirator.support;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
-import javax.activation.*;
 
 public class Mail {
 	
-	public static void SendMail(){
+	public static void SendMail(String to, String subject, String content){
 		
 	      // Recipient's email ID needs to be mentioned.
-	      String to = "ottu@localhost";
+	      //String to = "ottu@localhost";
 
 	      // Sender's email ID needs to be mentioned
-	      String from = "ottu@Ubunuburken";
+	      String from = "support@magirator.net";
 
 	      // Assuming you are sending email from localhost
 	      String host = "localhost";
@@ -38,13 +37,14 @@ public class Mail {
 	         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
 	         // Set Subject: header field
-	         message.setSubject("This is the Subject Line!");
+	         message.setSubject(subject);
 
 	         // Now set the actual message
-	         message.setText("This is actual message");
+	         message.setText(content);
 
 	         // Send message
 	         Transport.send(message);
+	         
 	         System.out.println("Sent message successfully....");
 	      
 	      }catch (MessagingException e) {

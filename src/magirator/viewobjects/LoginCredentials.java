@@ -20,7 +20,7 @@ public class LoginCredentials {
 	
 
 	public LoginCredentials(JsonObject json) {
-		this.username = json.get("username").getAsString().toLowerCase();
+		this.username = json.has("username") ? json.get("username").getAsString().toLowerCase() : null;
 		this.password = json.has("password") ? json.get("password").getAsString() : null;
 		this.retype = json.has("retype") ? json.get("retype").getAsString() : null;
 		this.code = json.has("code") ? json.get("code").getAsString() : null;

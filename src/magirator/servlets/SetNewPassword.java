@@ -12,6 +12,7 @@ import magirator.model.neo4j.Users;
 import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Mail;
+import magirator.support.Validator;
 import magirator.support.Variables;
 import magirator.viewobjects.LoginCredentials;
 
@@ -34,16 +35,19 @@ public class SetNewPassword extends HttpServlet {
 		
 		JsonObject credentials;
 		
-		Mail.SendMail();
+		Mail.SendMail("ottu@localhost", "Test", "Testing in small steps 1");
 		
 		try {
 			credentials = Json.parseRequestData(request);
 			
 			LoginCredentials loginCredentials = new LoginCredentials(credentials);
 			
-			if (Users.setNewPassword(loginCredentials)){ //Inloggningen gick bra
+			if (Validator.hasValidResetCredentials(loginCredentials)) {
 				
-				result.addProperty(Variables.result, Variables.success);				
+				if (Users.setNewPassword(loginCredentials)) { //Inloggningen gick bra
+
+					result.addProperty(Variables.result, Variables.success);
+				} 
 			}
 			
 		} catch (Exception e) {
