@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import magirator.model.neo4j.Users;
 import magirator.support.Error;
 import magirator.support.Json;
+import magirator.support.Mail;
 import magirator.support.Variables;
 import magirator.viewobjects.LoginCredentials;
 
@@ -36,10 +37,15 @@ public class RequestResetPassword extends HttpServlet {
 		try {
 			credentials = Json.parseRequestData(request);
 			
+			//TODO 
 			LoginCredentials loginCredentials = new LoginCredentials(credentials);
 			
-			if (Users.requestResetPassword(loginCredentials)){ //Det finns ett reset
+			//TODO Skapa kod
+			String code = "coden";
+						
+			if (Users.requestResetPassword(loginCredentials, code)){ //Det finns ett reset
 				
+				Mail.SendMail(loginCredentials.getUsername(), "Magirator password reset", "Use this code [ " + code + " ] in the reset password dialog.");
 				result.addProperty(Variables.result, Variables.success);				
 			}
 			

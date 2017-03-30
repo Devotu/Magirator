@@ -35,8 +35,6 @@ public class SetNewPassword extends HttpServlet {
 		
 		JsonObject credentials;
 		
-		Mail.SendMail("ottu@localhost", "Test", "Testing in small steps 1");
-		
 		try {
 			credentials = Json.parseRequestData(request);
 			

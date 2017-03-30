@@ -8,9 +8,6 @@ public class Mail {
 	
 	public static void SendMail(String to, String subject, String content){
 		
-	      // Recipient's email ID needs to be mentioned.
-	      //String to = "ottu@localhost";
-
 	      // Sender's email ID needs to be mentioned
 	      String from = "support@magirator.net";
 

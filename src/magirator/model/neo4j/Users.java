@@ -110,13 +110,59 @@ public class Users {
 		
 	}
 
-	public static boolean requestResetPassword(LoginCredentials loginCredentials) {
-		// TODO Auto-generated method stub
-		return true;
+	/**
+	 * Associates a reset code with the user and return its value
+	 * If there is a previous reset code that one is overridden
+	 * @param loginCredentials
+	 * @param code to use for reset
+	 * @return reset code or null
+	 * @throws SQLException 
+	 * @throws NamingException 
+	 */
+	public static boolean requestResetPassword(LoginCredentials loginCredentials, String code) throws NamingException, SQLException {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {	
+			con = Database.getConnection();
+
+			String query = ""
+					+ "MATCH (u) "
+					+ "WHERE u.name = ? "
+					+ "MERGE (u)-[:Requested]->(rs:RESET) "
+					+ "SET rs.code = ?, rs.created = TIMESTAMP() "
+					+ "RETURN rs";
+
+			ps = con.prepareStatement(query);
+      		ps.setString(1, loginCredentials.getUsername());
+      		ps.setString(2, code);
+
+      		rs = ps.executeQuery();
+		
+			if (rs.next()) { //Reset skapad
+				return true;
+			}
+			
+			return false;
+			
+		} finally {
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
 	}
 
+	/**
+	 * Sets a new password granted that there is a matching reset code in the database
+	 * @param loginCredentials
+	 * @return success
+	 */
 	public static boolean setNewPassword(LoginCredentials loginCredentials) {
-		// TODO Auto-generated method stub
+		// TODO If timestamp is within limit
+		// TODO If code is correct
+		// TODO Split into get Reset & Set password?
 		return true;
 	}
 }
