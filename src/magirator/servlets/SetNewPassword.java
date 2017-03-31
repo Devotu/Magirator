@@ -1,6 +1,8 @@
 package magirator.servlets;
 
 import java.io.IOException;
+import java.util.Calendar;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,10 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.JsonObject;
 
+import magirator.dataobjects.Reset;
 import magirator.model.neo4j.Users;
 import magirator.support.Error;
 import magirator.support.Json;
-import magirator.support.Mail;
 import magirator.support.Validator;
 import magirator.support.Variables;
 import magirator.viewobjects.LoginCredentials;
@@ -42,10 +44,41 @@ public class SetNewPassword extends HttpServlet {
 			
 			if (Validator.hasValidResetCredentials(loginCredentials)) {
 				
-				if (Users.setNewPassword(loginCredentials)) { //Inloggningen gick bra
-
+				Reset reset = Users.getUserReset(loginCredentials);				
+				
+				reseting:{
+					
+					if (reset == null){
+						result.addProperty(Variables.result, "No reset request found for user " + loginCredentials.getUsername() + ".");
+						break reseting;
+					}
+					
+					if (! reset.getCode().equals( loginCredentials.getCode() ) ){
+						result.addProperty(Variables.result, "Submitted reset code does not match registerd code. Please check spelling.");
+						break reseting;
+					}
+					
+					int validMinutes = 30;
+					Calendar then = Calendar.getInstance();
+					then.add(Calendar.MINUTE, -validMinutes);
+					
+					if ( then.before( reset.getCreated() ) ){
+						result.addProperty(Variables.result, "Reset has expired (valid for " + validMinutes + " minutes. Try again.");
+						break reseting;
+					}
+					
+					if (! Users.clearReset(loginCredentials)){
+						result.addProperty(Variables.result, "Something went wrong removing the reset. Try again");
+						break reseting;
+					}
+					
+					if (! Users.setPassword(loginCredentials)) {
+						result.addProperty(Variables.result, "Something went wrong setting the new password. Try again");
+						break reseting;						
+					}
+					
 					result.addProperty(Variables.result, Variables.success);
-				} 
+				}
 			}
 			
 		} catch (Exception e) {

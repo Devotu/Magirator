@@ -11,7 +11,8 @@ public class Game {
 	private boolean draw;
 	
 	public Game(Map gameMap) {
-		this.datePlayed = (Date)gameMap.get("crated");
+		long longTime = (Long)gameMap.get("created");
+		this.datePlayed = new Date(longTime);
 		this.draw = (Boolean)gameMap.get("draw");
 	}
 

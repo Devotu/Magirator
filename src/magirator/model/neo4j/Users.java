@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.Map;
 
 import javax.naming.NamingException;
+
+import magirator.dataobjects.Reset;
 import magirator.dataobjects.User;
 import magirator.support.Database;
 import magirator.viewobjects.LoginCredentials;
@@ -129,9 +131,9 @@ public class Users {
 			con = Database.getConnection();
 
 			String query = ""
-					+ "MATCH (u) "
+					+ "MATCH (u:User) "
 					+ "WHERE u.name = ? "
-					+ "MERGE (u)-[:Requested]->(rs:RESET) "
+					+ "MERGE (u)-[:Requested]->(rs:Reset) "
 					+ "SET rs.code = ?, rs.created = TIMESTAMP() "
 					+ "RETURN rs";
 
@@ -153,16 +155,130 @@ public class Users {
 			if (con != null) con.close();
 		}
 	}
+	
+	/**
+	 * Gets the Reset associated with the player if such exist
+	 * @param loginCredentials
+	 * @return Reset or null
+	 * @throws SQLException 
+	 * @throws NamingException 
+	 */
+	public static Reset getUserReset(LoginCredentials loginCredentials) throws NamingException, SQLException {
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {	
+			con = Database.getConnection();
+
+			String query = "MATCH (u:User)-[:Requested]->(rs:Reset) WHERE u.name = ? RETURN PROPERTIES(rs)";
+
+			ps = con.prepareStatement(query);
+      		ps.setString(1, loginCredentials.getUsername());
+
+      		rs = ps.executeQuery();
+		
+			if (rs.next()) { //Reset skapad
+				return new Reset((Map)rs.getObject("PROPERTIES(rs)"));
+			}
+			
+			return null;
+			
+		} finally {
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+	}
 
 	/**
 	 * Sets a new password granted that there is a matching reset code in the database
 	 * @param loginCredentials
 	 * @return success
+	 * @throws SQLException 
+	 * @throws NamingException 
 	 */
-	public static boolean setNewPassword(LoginCredentials loginCredentials) {
-		// TODO If timestamp is within limit
-		// TODO If code is correct
-		// TODO Split into get Reset & Set password?
+	public static boolean setPassword(LoginCredentials loginCredentials) throws SQLException, NamingException {
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {	
+			con = Database.getConnection();
+
+			String query = "MATCH (u:User) WHERE u.name = ? SET u.password = ? RETURN u.password";
+
+			ps = con.prepareStatement(query);
+      		ps.setString(1, loginCredentials.getUsername());
+      		ps.setString(2, loginCredentials.getPassword());
+
+      		rs = ps.executeQuery();
+		
+			if (rs.next()) { //Reset skapad
+				String pwd = rs.getString("u.password");
+				return loginCredentials.getPassword().equals(pwd);
+			}
+			
+			return false;
+			
+		} finally {
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+	}
+
+	/**
+	 * Clears any resets currently requested by the user (should never be able to have more than one though)
+	 * @param loginCredentials
+	 * @return removed
+	 * @throws SQLException 
+	 * @throws NamingException 
+	 */
+	public static boolean clearReset(LoginCredentials loginCredentials) throws NamingException, SQLException {
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {	
+			con = Database.getConnection();
+
+			String query = "MATCH (u:User)-[:Requested]->(rs:Reset) WHERE u.name = ? DETACH DELETE rs";
+
+			ps = con.prepareStatement(query);
+      		ps.setString(1, loginCredentials.getUsername());
+
+      		ps.executeQuery();
+      		
+			query = "MATCH (u:User)-[:Requested]->(rs:Reset) WHERE u.name = ? RETURN rs";
+
+			ps = con.prepareStatement(query);
+      		ps.setString(1, loginCredentials.getUsername());
+
+      		rs = ps.executeQuery();
+		
+			if (rs.next()) { //Reset still present
+				return false;
+			}
+			
+		} finally {
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+		
 		return true;
 	}
+	
+
 }
+
+
+
+
+
+
+
