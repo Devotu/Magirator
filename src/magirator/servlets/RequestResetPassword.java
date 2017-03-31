@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.JsonObject;
 
 import magirator.model.neo4j.Users;
+import magirator.support.Encryption;
 import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Mail;
@@ -37,11 +38,9 @@ public class RequestResetPassword extends HttpServlet {
 		try {
 			credentials = Json.parseRequestData(request);
 			
-			//TODO 
 			LoginCredentials loginCredentials = new LoginCredentials(credentials);
 			
-			//TODO Skapa kod
-			String code = "coden";
+			String code = Encryption.generateResetCode();
 						
 			if (Users.requestResetPassword(loginCredentials, code)){ //Det finns ett reset
 				
