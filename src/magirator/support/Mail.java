@@ -5,49 +5,43 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 public class Mail {
-	
-	public static void SendMail(String to, String subject, String content){
-		
-	      // Sender's email ID needs to be mentioned
-	      String from = "support@magirator.net";
 
-	      // Assuming you are sending email from localhost
-	      String host = "localhost";
+	public static void SendMail(String to, String subject, String content) throws AddressException, MessagingException {
 
-	      // Get system properties
-	      Properties properties = System.getProperties();
+		// Sender's email ID needs to be mentioned
+		// String from = "support@magirator.net";
+		String from = "Support";
 
-	      // Setup mail server
-	      properties.setProperty("mail.smtp.host", host);
+		// Assuming you are sending email from localhost
+		String host = "localhost";
 
-	      // Get the default Session object.
-	      Session session = Session.getDefaultInstance(properties);
+		// Get system properties
+		Properties properties = System.getProperties();
 
-	      try {
-	         // Create a default MimeMessage object.
-	         MimeMessage message = new MimeMessage(session);
+		// Setup mail server
+		properties.setProperty("mail.smtp.host", host);
 
-	         // Set From: header field of the header.
-	         message.setFrom(new InternetAddress(from));
+		// Get the default Session object.
+		Session session = Session.getDefaultInstance(properties);
 
-	         // Set To: header field of the header.
-	         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+		// Create a default MimeMessage object.
+		MimeMessage message = new MimeMessage(session);
 
-	         // Set Subject: header field
-	         message.setSubject(subject);
+		// Set From: header field of the header.
+		message.setFrom(new InternetAddress(from));
 
-	         // Now set the actual message
-	         message.setText(content);
+		// Set To: header field of the header.
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
-	         // Send message
-	         Transport.send(message);
-	         
-	         System.out.println("Sent message successfully....");
-	      
-	      }catch (MessagingException e) {
-	         e.printStackTrace();
-	      }
-		
+		// Set Subject: header field
+		message.setSubject(subject);
+
+		// Now set the actual message
+		message.setText(content);
+
+		// Send message
+		Transport.send(message);
+
 	}
 
 }

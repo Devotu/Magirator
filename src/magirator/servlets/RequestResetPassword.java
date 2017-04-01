@@ -44,6 +44,8 @@ public class RequestResetPassword extends HttpServlet {
 						
 			if (Users.requestResetPassword(loginCredentials, code)){ //Det finns ett reset
 				
+				result.addProperty(Variables.result, "Something went wrong sending the reset mail");
+				
 				Mail.SendMail(loginCredentials.getUsername(), "Magirator password reset", "Use this code [ " + code + " ] in the reset password dialog.");
 				result.addProperty(Variables.result, Variables.success);				
 			}

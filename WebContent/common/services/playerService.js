@@ -1,9 +1,14 @@
-ratorApp.factory('playerService', function($http){
+ratorApp.factory('playerService', function($http, requestService){
 	
 	return {		
 		getPlayer: function(){			
-			return $http.post('/Magirator/GetPlayer').then(function(response){ //Debug
-			//return $http.post('/GetPlayer').then(function(response){ //Proper
+			var getPlayerReq = requestService.buildRequest(
+					"GetPlayer",
+					{ }
+					);					
+					
+			return	$http(getPlayerReq).then(function(response){					
+
 				return response.data;
 			});
 		}
