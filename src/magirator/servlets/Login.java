@@ -42,7 +42,7 @@ public class Login extends HttpServlet {
 			
 			LoginCredentials loginCredentials = new LoginCredentials(credentials);
 			
-			//loginCredentials.encryptPassword();
+			loginCredentials.encryptPassword();
 			
 			User user = Users.signin(loginCredentials);
 			

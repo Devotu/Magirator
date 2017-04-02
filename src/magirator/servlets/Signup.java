@@ -62,7 +62,7 @@ public class Signup extends HttpServlet {
 							
 							result.addProperty(Variables.result, "This user and player name really should be ok, please try again");
 							
-							//requestedUser.encryptPassword();
+							requestedUser.encryptPassword();
 							
 							boolean signupSuccessful = Users.signup(requestedUser, requestedPlayer);
 							

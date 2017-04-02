@@ -41,7 +41,7 @@ public class SetNewPassword extends HttpServlet {
 			credentials = Json.parseRequestData(request);
 			
 			LoginCredentials loginCredentials = new LoginCredentials(credentials);
-			
+						
 			if (Validator.hasValidResetCredentials(loginCredentials)) {
 				
 				Reset reset = Users.getUserReset(loginCredentials);				
@@ -71,6 +71,8 @@ public class SetNewPassword extends HttpServlet {
 						result.addProperty(Variables.result, "Something went wrong removing the reset. Try again");
 						break reseting;
 					}
+
+					loginCredentials.encryptPassword();
 					
 					if (! Users.setPassword(loginCredentials)) {
 						result.addProperty(Variables.result, "Something went wrong setting the new password. Try again");
