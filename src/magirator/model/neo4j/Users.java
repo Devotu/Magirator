@@ -55,7 +55,8 @@ public class Users {
 		try {
 			con = Database.getConnection();				
 			
-			String query = "CREATE (u:User {name:?, password:?, created: TIMESTAMP()})-[c:Created {created: TIMESTAMP()}]->(p:Player { name: ? }) "
+			String query = ""
+					+ "CREATE (u:User {name:?, password:?, created: TIMESTAMP()})-[c:Created {created: TIMESTAMP()}]->(p:Player { name: ? }) "
 					+ "CREATE (u)-[i:Is]->(p)"
 					+ "RETURN id(p)";
 			
@@ -81,7 +82,7 @@ public class Users {
 		
 	}
 	
-	public static User signin(LoginCredentials loginCredentials) throws NamingException, SQLException{
+	public static User login(LoginCredentials loginCredentials) throws NamingException, SQLException{
 		
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -90,7 +91,11 @@ public class Users {
 		try {	
 			con = Database.getConnection();
 
-			String query = "MATCH (u:User) WHERE u.name = ? AND u.password = ? RETURN id(u), PROPERTIES(u)";
+			String query = ""
+					+ "MATCH (u:User) "
+					+ "WHERE u.name = ? AND u.password = ? "
+					+ "SET u.login = TIMESTAMP() "
+					+ "RETURN id(u), PROPERTIES(u)";
 
 			ps = con.prepareStatement(query);
       		ps.setString(1, loginCredentials.getUsername());

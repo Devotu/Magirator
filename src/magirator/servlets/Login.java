@@ -44,7 +44,7 @@ public class Login extends HttpServlet {
 			
 			loginCredentials.encryptPassword();
 			
-			User user = Users.signin(loginCredentials);
+			User user = Users.login(loginCredentials);
 			
 			if (user != null){ //Inloggningen gick bra
 				
@@ -57,7 +57,9 @@ public class Login extends HttpServlet {
 					HttpSession session = request.getSession();
 					session.setAttribute("player", player);
 					result.addProperty(Variables.result, Variables.success);
-				}				
+					
+					Users.clearReset(loginCredentials);
+				}
 			}
 			
 		} catch (Exception e) {
