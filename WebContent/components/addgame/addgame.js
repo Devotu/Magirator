@@ -5,6 +5,9 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 			
 			$scope.player = JSON.parse( data.player );
 			$scope.deckId = deckVarStorage.getCurrentDeck();
+
+			$scope.selfAdded = false;
+			$scope.addState = "Regular";
 			
 			$scope.comment = "";
 			$scope.draw = false;
@@ -89,7 +92,9 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 						added : Date.now(),
 						tags : []
 					}
-				);				
+				);
+
+				$scope.selfAdded = true;
 			};
 			
 			// Add Participant
@@ -107,7 +112,19 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 						added : Date.now(),
 						tags : []
 					}
-				);				
+				);
+
+				//Remove to avoid duplicates
+				var opponentz = $scope.opponents.map(function(o) { return o.id; });
+				var pIndex = opponentz.indexOf($scope.addOpponent.id);
+
+				if (pIndex > -1) {
+					$scope.opponents.splice(pIndex, 1);
+				}
+
+				//Restore order
+				$scope.addOpponent = $scope.opponents[0];
+				$scope.getOpponentDecks();
 			};
 			
 			// Add Tag

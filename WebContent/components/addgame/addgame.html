@@ -1,20 +1,54 @@
 <div class="jumbotron text-center">
 	<h1>Add Game</h1>
 
-	<div class="list-group-item">
-		<h3>{{ player.playername }}</h3>		
+	<div class="list-group-item" ng-hide="selfAdded">
+		<h3>{{ player.playername }}</h3>
 		<label>Comment:</label> <input ng-model="comment" type="text" class="form-control">
 		<button type="button" class="btn btn-primary btn-add" ng-click="addSelf()">Add to game</button>
 	</div>
 
 	<form ng-submit="addParticipant()" class="list-group-item">
 		<div class="form-group">
-			<label>Opponent:</label> <select ng-options="opponent.playername for opponent in opponents" ng-model="addOpponent" class="form-control"
-			 ng-change="getOpponentDecks()"></select>
+			<label>Opponent:</label>
+			<select ng-options="opponent.playername for opponent in opponents" ng-model="addOpponent" class="form-control" ng-change="getOpponentDecks()"></select>
+			<button type="button" class="btn btn-primary btn-add">
+				 <span class="glyphicon glyphicon-search"></span>
+			</button>
+			<button type="button" class="btn btn-primary btn-add">
+				 <span class="glyphicon glyphicon-plus"></span>
+			</button>
+		</div>
+
+		<div class="form-group" id="idNewPlayer">
+			<label>Name:</label><input ng-model="newPlayer.name" type="text" class="form-control">
+			<label>Deck:</label><input ng-model="newPlayer.deck.name" type="text" class="form-control">
+			<div class=".checkbox-inline">
+				<label class="checkbox-label colorframed black-frame"><input class="inline-checkbox" type="checkbox" ng-model="newPlayer.deck.black"><span>Black</span></label>
+				<label class="checkbox-label colorframed white-frame"><input class="inline-checkbox" type="checkbox" ng-model="newPlayer.deck.white">White</label>
+				<label class="checkbox-label colorframed red-frame"><input class="inline-checkbox" type="checkbox" ng-model="newPlayer.deck.red">Red</label>
+				<label class="checkbox-label colorframed green-frame"><input class="inline-checkbox" type="checkbox" ng-model="newPlayer.deck.green">Green</label>
+				<label class="checkbox-label colorframed blue-frame"><input class="inline-checkbox" type="checkbox" ng-model="newPlayer.deck.blue">Blue</label>
+				<label class="checkbox-label colorframed colorless-frame"><input class="inline-checkbox" type="checkbox" ng-model="newPlayer.deck.colorless">Colorless</label>
+			</div>
 		</div>
 
 		<div class="form-group">
 			<label>Opponent deck:</label> <select ng-options="deck.name for deck in decks" ng-model="addDeck" class="form-control"></select>
+			<button type="button" class="btn btn-primary btn-add">
+				 <span class="glyphicon glyphicon-plus"></span>
+			</button>
+		</div>
+
+		<div class="form-group" id="idNewDeck">
+			<label>Name:</label><input ng-model="newDeck.name" type="text" class="form-control">
+			<div class=".checkbox-inline">
+				<label class="checkbox-label colorframed black-frame"><input class="inline-checkbox" type="checkbox" ng-model="newDeck.black"><span>Black</span></label>
+				<label class="checkbox-label colorframed white-frame"><input class="inline-checkbox" type="checkbox" ng-model="newDeck.white">White</label>
+				<label class="checkbox-label colorframed red-frame"><input class="inline-checkbox" type="checkbox" ng-model="newDeck.red">Red</label>
+				<label class="checkbox-label colorframed green-frame"><input class="inline-checkbox" type="checkbox" ng-model="newDeck.green">Green</label>
+				<label class="checkbox-label colorframed blue-frame"><input class="inline-checkbox" type="checkbox" ng-model="newDeck.blue">Blue</label>
+				<label class="checkbox-label colorframed colorless-frame"><input class="inline-checkbox" type="checkbox" ng-model="newDeck.colorless">Colorless</label>
+			</div>
 		</div>
 
 		<button type="submit" class="btn btn-primary btn-add">Add to game</button>
@@ -23,7 +57,7 @@
 	<div class="form-group">
 		<label>
 			<input type="checkbox" class="inline-checkbox" ng-model="draw" /> Draw
-		</label> 
+		</label>
 	</div>
 
 	<ol class="list-group">
@@ -47,7 +81,7 @@
 		</li>
 	</ol>
 
-<p>{{  }}</p>
+	<p>{{ }}</p>
 	<button type="button" class="btn btn-primary" ng-click="addGame()" ng-disabled="participants.length < 2">Create game</button>
 
 </div>
