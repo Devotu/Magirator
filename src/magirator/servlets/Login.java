@@ -10,8 +10,8 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.JsonObject;
 
-import magirator.dataobjects.Player;
 import magirator.dataobjects.User;
+import magirator.interfaces.IPlayer;
 import magirator.model.neo4j.Players;
 import magirator.model.neo4j.Users;
 import magirator.support.Error;
@@ -50,7 +50,7 @@ public class Login extends HttpServlet {
 				
 				result.addProperty(Variables.result, "Could not find player");
 				
-				Player player = Players.getPlayer(user);
+				IPlayer player = Players.getPlayer(user);
 				
 				if (player != null) {
 					

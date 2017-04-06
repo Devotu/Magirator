@@ -8,6 +8,7 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 
 			$scope.selfAdded = false;
 			$scope.addState = "Regular";
+			$scope.opponentIsMinion = false;
 			
 			$scope.comment = "";
 			$scope.draw = false;
@@ -69,7 +70,7 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 				
 					if (response.data.result == "Success"){
 				    	$scope.opponents = JSON.parse(response.data.opponents);
-				    	$scope.addOpponent = $scope.opponents[0];
+				    	$scope.addOpponent = $scope.opponents[0];  //TODO döp om till opponentToAdd för att inte misstas för metod
 				    	$scope.getOpponentDecks();
 					}					
 				}, 
@@ -97,34 +98,93 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 				$scope.selfAdded = true;
 			};
 			
+			var addMinion = function(name){
+				
+				var addMinonReq = requestService.buildRequest(
+						"AddMinion", 
+						{
+							'name': name
+						}
+					);
+				
+				return $http(addMinonReq).then(function(response){
+					
+						if (response.data.result == "Success"){
+							$scope.result = 'Success';
+							$scope.addOpponent = JSON.parse(response.data.minion);
+						}					
+					}, 
+					function(){
+						$scope.result = 'Failure';
+					});	
+			}
+			
+			var addMinionDeck = function(minion, deck){
+				
+			}
+			
+			var addToGame = function(participant){
+				
+				$scope.participants.push(
+						{							
+							place : $scope.participants.length +1,
+							playerId : participant.playerid,
+							playerName : participant.playername,
+							deckId : participant.deckid,
+							deckName : participant.deckname,
+							confirmed : false,
+							comment : "",
+							added : Date.now(),
+							tags : []
+						}
+					);
+
+					//Remove to avoid duplicates
+					var opponentz = $scope.opponents.map(function(o) { return o.id; });
+					var pIndex = opponentz.indexOf($scope.addOpponent.id);
+
+					if (pIndex > -1) {
+						$scope.opponents.splice(pIndex, 1);
+					}
+
+					//Clean up
+					$scope.addOpponent = $scope.opponents[0];
+					$scope.getOpponentDecks();
+			}
+			
 			// Add Participant
 			$scope.addParticipant = function(){
 				
-				$scope.participants.push(
-					{
-						deckId : $scope.addDeck.id,
-						place : $scope.participants.length +1,
-						playerId : $scope.addOpponent.id,
-						playerName : $scope.addOpponent.name,
-						deckName : $scope.addDeck.name,
-						confirmed : false,
-						comment : "",
-						added : Date.now(),
-						tags : []
-					}
-				);
-
-				//Remove to avoid duplicates
-				var opponentz = $scope.opponents.map(function(o) { return o.id; });
-				var pIndex = opponentz.indexOf($scope.addOpponent.id);
-
-				if (pIndex > -1) {
-					$scope.opponents.splice(pIndex, 1);
+				// 1 Update participants
+				if ($scope.addState == "Player"){
+					//add minion
+					//add minon deck
+					//add to game
+				} else if ($scope.addState == "Deck"){
+					//add minon deck
+					//add to game
+				} else {
+					addToGame(
+							{
+								playerid : $scope.addOpponent.id,
+								playername : $scope.addOpponent.name,
+								deckid : $scope.addDeck.id,
+								deckname : $scope.addDeck.name
+							}
+					);
 				}
 
-				//Restore order
-				$scope.addOpponent = $scope.opponents[0];
-				$scope.getOpponentDecks();
+			};
+			
+			// Switch to/from add new Minion
+			$scope.toggleAddPlayer = function(){
+
+				if ($scope.addState != "Player"){
+					$scope.addState = "Player";
+				} else {
+					$scope.addState = "Regular";
+				}
+				
 			};
 			
 			// Add Tag

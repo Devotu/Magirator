@@ -12,12 +12,12 @@ import java.util.Map;
 import javax.naming.NamingException;
 import magirator.dataobjects.Alteration;
 import magirator.dataobjects.Deck;
-import magirator.dataobjects.Player;
+import magirator.interfaces.IPlayer;
 import magirator.support.Database;
 
 public class Decks {
 
-	public static boolean addDeck(Player player, Deck deck) throws SQLException, NamingException {
+	public static boolean addDeck(IPlayer player, Deck deck) throws SQLException, NamingException {
 
 		Connection con = null;
 		Statement st = null;
@@ -57,7 +57,7 @@ public class Decks {
 		}
 	}
 
-	public static ArrayList<Deck> getPlayerDecks(Player player) throws Exception {
+	public static ArrayList<Deck> getPlayerDecks(IPlayer player) throws Exception {
 
 		Connection con = null;
 		Statement st = null;

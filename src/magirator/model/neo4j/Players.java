@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import javax.naming.NamingException;
+
 import magirator.dataobjects.Player;
 import magirator.dataobjects.User;
+import magirator.interfaces.IPlayer;
 import magirator.support.Database;
 import magirator.viewobjects.PublicPlayer;
 
@@ -45,7 +47,7 @@ public class Players {
 		}
 	}
 
-	public static Player getPlayer(User user) throws NamingException, SQLException {
+	public static IPlayer getPlayer(User user) throws NamingException, SQLException {
 		
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -75,7 +77,7 @@ public class Players {
 		}
 	}
 	
-	public static Player getPlayer(int playerId) throws NamingException, SQLException {
+	public static IPlayer getPlayer(int playerId) throws NamingException, SQLException {
 		
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -106,7 +108,7 @@ public class Players {
 	}
 	
 	
-	public static ArrayList<Player> getOpponents(Player player) throws Exception{
+	public static ArrayList<Player> getOpponents(IPlayer player) throws Exception{
 		
 		Connection con = null;
 		PreparedStatement ps = null;

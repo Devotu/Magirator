@@ -6,34 +6,31 @@ import com.google.gson.JsonObject;
 
 import magirator.interfaces.IPlayer;
 
-public class Player implements IPlayer {
-
+public class Minion implements IPlayer {
+	
 	private int id;
 	private String name;
 	
-	public Player(JsonObject json) {
+	public Minion(JsonObject json) {
 		this.name = json.get("playername").getAsString();
 		this.id = json.get("id").getAsInt();
 	}
 
-	public Player(int id, Map playerMap) {
+	public Minion(int id, Map playerMap) {
 		this.id = id;
 		this.name = (String) playerMap.get("name");
 	}
-	
-	/* (non-Javadoc)
-	 * @see magirator.dataobjects.IPlayer#getId()
-	 */
+
 	@Override
-	public int getId(){
-		return this.id;
+	public int getId() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
-	
-	/* (non-Javadoc)
-	 * @see magirator.dataobjects.IPlayer#getName()
-	 */
+
 	@Override
 	public String getName() {
-		return name;
+		// TODO Auto-generated method stub
+		return null;
 	}
+
 }

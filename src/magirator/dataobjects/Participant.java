@@ -2,6 +2,8 @@ package magirator.dataobjects;
 
 import java.util.ArrayList;
 
+import magirator.interfaces.IPlayer;
+
 /**
  * A Participant is a collection of a Player, (a Use), a Deck, a Play and a Game
  * where the player played the deck in the game 
@@ -11,13 +13,13 @@ import java.util.ArrayList;
  */
 public class Participant {
 
-	private Player player;
+	private IPlayer player;
 	private Deck deck;
 	private Result result;
 	private Game game;
 	private ArrayList<Tag> tags;
 
-	public Participant(Player player, Deck deck, Result result, Game game) {
+	public Participant(IPlayer player, Deck deck, Result result, Game game) {
 		this.player = player;
 		this.deck = deck;
 		this.result = result;
@@ -25,7 +27,7 @@ public class Participant {
 		this.tags = new ArrayList<Tag>();
 	}
 
-	public Player getPlayer() {
+	public IPlayer getPlayer() {
 		return player;
 	}
 

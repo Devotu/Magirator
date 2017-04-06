@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import magirator.dataobjects.Participant;
-import magirator.dataobjects.Player;
+import magirator.interfaces.IPlayer;
 import magirator.model.neo4j.Games;
 import magirator.support.Error;
 import magirator.support.Variables;
@@ -38,7 +38,7 @@ public class GetDashboard extends HttpServlet {
 		result.addProperty("result", "Could not fetch current information");
 		
 		HttpSession session = request.getSession();
-		Player player = (Player) session.getAttribute("player");
+		IPlayer player = (IPlayer) session.getAttribute("player");
 
 		// Player is logged in
 		if (player != null) {

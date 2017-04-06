@@ -15,6 +15,7 @@ import magirator.dataobjects.Game;
 import magirator.dataobjects.Participant;
 import magirator.dataobjects.Player;
 import magirator.dataobjects.Result;
+import magirator.interfaces.IPlayer;
 import magirator.support.Database;
 
 public class Games {
@@ -148,7 +149,7 @@ public class Games {
       		ArrayList<Participant> participations = new ArrayList<Participant>();
 			
 			while (rs.next()) {
-				Player player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
+				IPlayer player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
 				Deck deck = new Deck( rs.getInt("id(d)"), (Map) rs.getObject("PROPERTIES(d)") );
 				Result result = new Result( rs.getInt("id(r)"), (Map) rs.getObject("PROPERTIES(r)") );
 				Game game = new Game( rs.getInt("id(g)"), (Map) rs.getObject("PROPERTIES(g)") );
@@ -190,7 +191,7 @@ public class Games {
       		ArrayList<Participant> participants = new ArrayList<Participant>();
 			
 			while (rs.next()) {
-				Player player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
+				IPlayer player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
 				Deck deck = new Deck( rs.getInt("id(d)"), (Map) rs.getObject("PROPERTIES(d)") );
 				Result result = new Result( rs.getInt("id(r)"), (Map) rs.getObject("PROPERTIES(r)") );
 				Game game = new Game( rs.getInt("id(g)"), (Map) rs.getObject("PROPERTIES(g)") );
@@ -233,7 +234,7 @@ public class Games {
       		ArrayList<Participant> participants = new ArrayList<Participant>();
 			
 			while (rs.next()) {
-				Player player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
+				IPlayer player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
 				Deck deck = new Deck( rs.getInt("id(d)"), (Map) rs.getObject("PROPERTIES(d)") );
 				Result result = new Result( rs.getInt("id(r)"), (Map) rs.getObject("PROPERTIES(r)") );
 				Game game = new Game( rs.getInt("id(g)"), (Map) rs.getObject("PROPERTIES(g)") );

@@ -12,7 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import magirator.dataobjects.Deck;
-import magirator.dataobjects.Player;
+import magirator.interfaces.IPlayer;
 import magirator.model.neo4j.Decks;
 import magirator.support.Error;
 import magirator.support.Json;
@@ -39,7 +39,7 @@ public class ToggleDeck extends HttpServlet {
 		int deckId = Json.getInt(requestData, "id", 0);
 		
 		HttpSession session = request.getSession();
-		Player player = (Player)session.getAttribute("player");
+		IPlayer player = (IPlayer)session.getAttribute("player");
 		
 		//Player is logged in
 		if (player != null){
