@@ -65,16 +65,13 @@ public class Deck {
 	}
 	
 	
-
 	public Deck(JsonObject deck) {
 		this.deckid = (deck.has("id") ? deck.get("id").getAsNumber() : 0).intValue();
 		this.name = deck.get("name").getAsString();
 		this.format = deck.get("format").getAsString();
-		this.theme = deck.get("theme").getAsString();
+		this.theme = (deck.has("theme") ? deck.get("theme").getAsString() : "");
 		this.active = (deck.has("active") ? deck.get("active").getAsBoolean() : true );
-		
-		//JsonObject colors = deck.get("colors").getAsJsonObject();
-		
+				
 		if (deck.has("black")){ this.black = deck.get("black").getAsBoolean(); };
 		if (deck.has("white")){ this.white = deck.get("white").getAsBoolean(); };
 		if (deck.has("red")){ this.red = deck.get("red").getAsBoolean(); };

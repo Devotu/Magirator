@@ -76,7 +76,22 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 				}, 
 				function(){
 					$scope.result = 'Failure';
-			});			
+			});
+			
+			// Get formats
+			var getFormatsReq = requestService.buildRequest(
+					"GetFormats", 
+					{}
+					);
+		    
+		    $http(getFormatsReq).then(function(response){
+		    	$scope.formats = response.data;
+		    	$scope.format = $scope.newPlayer.deck.formats[0];
+		    	$scope.format = $scope.newDeck.formats[0];
+		    	}, 
+		    	function(){
+		    		$scope.result += "Could not get formats";
+		    	});
 
 			// Add Self
 			$scope.addSelf = function(){
@@ -98,29 +113,30 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 				$scope.selfAdded = true;
 			};
 			
-			var addMinion = function(name){
+			var addMinion = function(name, deck){
 				
 				var addMinonReq = requestService.buildRequest(
 						"AddMinion", 
 						{
-							'name': name
+							'name': name,
+							'deck': deck
 						}
 					);
 				
-				return $http(addMinonReq).then(function(response){
-					
-						if (response.data.result == "Success"){
-							$scope.result = 'Success';
-							$scope.addOpponent = JSON.parse(response.data.minion);
-						}					
-					}, 
-					function(){
-						$scope.result = 'Failure';
-					});	
+				return $http(addMinonReq);
 			}
 			
-			var addMinionDeck = function(minion, deck){
+			var addMinionDeck = function(id, deck){
 				
+				var addMinonDeckReq = requestService.buildRequest(
+						"AddMinionDeck", 
+						{
+							'id': id,
+							'deck': deck
+						}
+					);
+				
+				return $http(addMinonDeckReq);
 			}
 			
 			var addToGame = function(participant){
@@ -155,14 +171,67 @@ ratorApp.controller('addGameController', function($scope, $http, $location, play
 			// Add Participant
 			$scope.addParticipant = function(){
 				
-				// 1 Update participants
+				var miniondeck = {
+						'name': $scope.newDeck.name,
+						'format': $scope.newDeck.format,
+						'black': $scope.deck.black,
+						'white': $scope.deck.white,
+						'red': $scope.deck.red,
+						'green': $scope.deck.green,
+						'blue': $scope.deck.blue,
+						'colorless': $scope.deck.colorless,
+						'theme': $scope.deck.theme,
+						'created': Date.now()
+				}
+				
 				if ($scope.addState == "Player"){
-					//add minion
-					//add minon deck
-					//add to game
+					
+					addMinion($scope.newPlayer.name, miniondeck).then(function(response){
+						
+						if (response.data.result == "Success"){
+							$scope.result = 'Success';
+							
+							var newMinion = JSON.parse(response.data.minion);
+							var newMinionDeck = JSON.parse(response.data.minion);
+							
+							addToGame(
+									{
+										playerid : newMinion.id,
+										playername : newMinion.name,
+										deckid : newMinionDeck.id,
+										deckname : newMinionDeck.name
+									}
+							);
+						}
+					}, 
+					function(){
+						$scope.result = 'Failure';
+					});
+					
 				} else if ($scope.addState == "Deck"){
-					//add minon deck
-					//add to game
+
+					addMinionDeck($scope.addOpponent.id, miniondeck).then(function(response){
+						
+						if (response.data.result == "Success"){
+							$scope.result = 'Success';
+							$scope.addOpponent = JSON.parse(response.data.minion);
+							
+							var newMinionDeck = JSON.parse(response.data.miniondeck);
+							
+							addToGame(
+									{
+										playerid : $scope.addOpponent.id,
+										playername : $scope.addOpponent.name,
+										deckid : newMinionDeck.id,
+										deckname : newMinionDeck.name
+									}
+							);
+						}
+					}, 
+					function(){
+						$scope.result = 'Failure';
+					});
+					
 				} else {
 					addToGame(
 							{

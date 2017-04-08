@@ -1,5 +1,7 @@
 package magirator.support;
 
+import magirator.dataobjects.Deck;
+import magirator.dataobjects.Minion;
 import magirator.viewobjects.LoginCredentials;
 
 public class Validator {
@@ -13,4 +15,34 @@ public class Validator {
 		return false;
 	}
 
+	public static boolean isValidMinion(Minion m){
+		validate: {
+			if( "".equals( m.getName() ) ){
+				break validate;
+			}
+			
+			return true;
+		}
+
+		return false;
+	}
+
+	public static boolean isValidDeck(Deck d) {
+
+		validate: {
+			if( "".equals( d.getName() ) ){
+				break validate;
+			}
+			if( "".equals( d.getFormat() ) ){
+				break validate;
+			}
+			if( "".equals( d.getDateCreated() ) ){
+				break validate;
+			}
+		
+			return true;
+		}
+	
+		return false;
+	}
 }

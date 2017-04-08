@@ -12,7 +12,7 @@ public class Minion implements IPlayer {
 	private String name;
 	
 	public Minion(JsonObject json) {
-		this.name = json.get("playername").getAsString();
+		this.name = json.get("name").getAsString();
 		this.id = json.get("id").getAsInt();
 	}
 

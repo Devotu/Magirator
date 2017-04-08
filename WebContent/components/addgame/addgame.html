@@ -22,6 +22,10 @@
 		<div class="form-group" id="idNewPlayer" ng-show="addState == 'Player'">
 			<label>Name:</label><input ng-model="newPlayer.name" type="text" class="form-control">
 			<label>Deck:</label><input ng-model="newPlayer.deck.name" type="text" class="form-control">
+			<div class="form-group">
+				<label for="format">Format:</label> 
+				<select ng-options="format for format in formats" ng-model="newPlayer.deck.format" class="form-control"></select>
+			</div>
 			<div class=".checkbox-inline">
 				<label class="checkbox-label colorframed black-frame"><input class="inline-checkbox" type="checkbox" ng-model="newPlayer.deck.black"><span>Black</span></label>
 				<label class="checkbox-label colorframed white-frame"><input class="inline-checkbox" type="checkbox" ng-model="newPlayer.deck.white">White</label>
@@ -38,9 +42,15 @@
 				 <span class="glyphicon glyphicon-plus"></span>
 			</button>
 		</div>
+		
+
 
 		<div class="form-group" id="idNewDeck" ng-show="addState == 'Deck'">
 			<label>Name:</label><input ng-model="newDeck.name" type="text" class="form-control">
+			<div class="form-group">
+				<label for="format">Format:</label> 
+				<select ng-options="format for format in formats" ng-model="newDeck.format" class="form-control"></select>
+			</div>
 			<div class=".checkbox-inline">
 				<label class="checkbox-label colorframed black-frame"><input class="inline-checkbox" type="checkbox" ng-model="newDeck.black"><span>Black</span></label>
 				<label class="checkbox-label colorframed white-frame"><input class="inline-checkbox" type="checkbox" ng-model="newDeck.white">White</label>
