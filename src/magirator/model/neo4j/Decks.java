@@ -345,5 +345,45 @@ public class Decks {
 			if (con != null) con.close();
 		}
 	}
+	
+	public static boolean addMinionDeck(IPlayer minion, Deck deck) throws SQLException, NamingException {
+
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+
+		try {
+			con = Database.getConnection();
+
+			String query = "MATCH (m:Minion) WHERE id(m)=?";
+			query += "CREATE (d:Deck { name: ?, format: ?, black: ?, white: ?, red: ?, green: ?, blue: ? ,colorless: ?, theme: ?, created: TIMESTAMP(), active:true})";
+			query += "CREATE (m)-[r:Use]->(d)";
+
+			PreparedStatement ps = con.prepareStatement(query);
+
+			ps.setInt(1, minion.getId());
+			ps.setString(2, deck.getName());
+			ps.setString(3, deck.getFormat());
+			ps.setBoolean(4, deck.getBlack());
+			ps.setBoolean(5, deck.getWhite());
+			ps.setBoolean(6, deck.getRed());
+			ps.setBoolean(7, deck.getGreen());
+			ps.setBoolean(8, deck.getBlue());
+			ps.setBoolean(9, deck.getColorless());
+			ps.setString(10, deck.getTheme());
+
+			ps.executeUpdate();
+
+			return true;
+
+		} finally {
+			if (rs != null)
+				rs.close();
+			if (st != null)
+				st.close();
+			if (con != null)
+				con.close();
+		}
+	}
 
 }

@@ -21,6 +21,12 @@ public class User {
 		this.username = (String) properties.get("name");
 		this.password = (String) properties.get("password");
 	}
+	
+	public User(int id) {
+		this.id = id;
+		this.username = null;
+		this.password = null;
+	}
 
 	public int getId() {
 		return id;

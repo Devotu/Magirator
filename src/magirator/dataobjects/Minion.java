@@ -13,24 +13,22 @@ public class Minion implements IPlayer {
 	
 	public Minion(JsonObject json) {
 		this.name = json.get("name").getAsString();
-		this.id = json.get("id").getAsInt();
+		this.id = json.has("id") ? json.get("id").getAsInt() : 0;
 	}
 
-	public Minion(int id, Map playerMap) {
+	public Minion(int id, Map minionMap) {
 		this.id = id;
-		this.name = (String) playerMap.get("name");
+		this.name = (String) minionMap.get("name");
 	}
 
 	@Override
 	public int getId() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.id;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.name;
 	}
 
 }

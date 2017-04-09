@@ -10,6 +10,7 @@ import javax.naming.NamingException;
 
 import magirator.dataobjects.Reset;
 import magirator.dataobjects.User;
+import magirator.interfaces.IPlayer;
 import magirator.support.Database;
 import magirator.viewobjects.LoginCredentials;
 import magirator.viewobjects.PublicPlayer;
@@ -277,7 +278,35 @@ public class Users {
 		
 		return true;
 	}
-	
+
+	public static User getUser(IPlayer player) throws SQLException, NamingException {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {	
+			con = Database.getConnection();
+
+			String query = "MATCH (u:User)-[:Is]->(p:Player) WHERE id(p) = ? RETURN id(u), PROPERTIES(u)";
+
+			ps = con.prepareStatement(query);
+      		ps.setInt(1, player.getId());
+
+      		rs = ps.executeQuery();
+		
+			if (rs.next()) { 
+				return new User( rs.getInt("id(u)"), (Map)rs.getObject("PROPERTIES(u)") );
+			}
+			
+			return null;
+			
+		} finally {
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+	}
 
 }
 

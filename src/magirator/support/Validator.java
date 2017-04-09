@@ -26,6 +26,21 @@ public class Validator {
 
 		return false;
 	}
+	
+	public static boolean isRegisterdMinion(Minion m){
+		validate: {
+			if( 0 == m.getId() ){
+				break validate;
+			}
+			if( "".equals( m.getName() ) ){
+				break validate;
+			}
+			
+			return true;
+		}
+
+		return false;
+	}
 
 	public static boolean isValidDeck(Deck d) {
 
