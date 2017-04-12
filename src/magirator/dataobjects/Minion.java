@@ -21,14 +21,20 @@ public class Minion implements IPlayer {
 		this.name = (String) minionMap.get("name");
 	}
 
+	/* (non-Javadoc)
+	 * @see magirator.dataobjects.IPlayer#getId()
+	 */
 	@Override
-	public int getId() {
+	public int getId(){
 		return this.id;
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see magirator.dataobjects.IPlayer#getName()
+	 */
 	@Override
 	public String getName() {
-		return this.name;
+		return name;
 	}
 
 }

@@ -1,7 +1,7 @@
 package magirator.support;
 
 import magirator.dataobjects.Deck;
-import magirator.dataobjects.Minion;
+import magirator.interfaces.IPlayer;
 import magirator.viewobjects.LoginCredentials;
 
 public class Validator {
@@ -15,9 +15,9 @@ public class Validator {
 		return false;
 	}
 
-	public static boolean isValidMinion(Minion m){
+	public static boolean isValidPlayer(IPlayer p){
 		validate: {
-			if( "".equals( m.getName() ) ){
+			if( "".equals( p.getName() ) ){
 				break validate;
 			}
 			
@@ -27,12 +27,12 @@ public class Validator {
 		return false;
 	}
 	
-	public static boolean isRegisterdMinion(Minion m){
+	public static boolean isRegisterdPlayer(IPlayer p){
 		validate: {
-			if( 0 == m.getId() ){
+			if( 0 == p.getId() ){
 				break validate;
 			}
-			if( "".equals( m.getName() ) ){
+			if( "".equals( p.getName() ) ){
 				break validate;
 			}
 			

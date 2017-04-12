@@ -47,12 +47,12 @@ public class AddMinionDeck extends HttpServlet {
 			
 			try {				
 				JsonObject minionrequest = Json.parseRequestData(request);
-				Minion minion = new Minion(minionrequest);
+				IPlayer minion = new Minion(minionrequest);
 				Deck deck = new Deck(minionrequest);
 							
 				result.addProperty(Variables.result, "Deck must have a name and a format, Minon must be a valid Minion");
 				
-				if ( Validator.isRegisterdMinion(minion) && Validator.isValidDeck(deck) ){
+				if ( Validator.isRegisterdPlayer(minion) && Validator.isValidDeck(deck) ){
 					
 					if (Decks.addMinionDeck(minion, deck)){					
 						result.addProperty("deck", new Gson().toJson(deck));

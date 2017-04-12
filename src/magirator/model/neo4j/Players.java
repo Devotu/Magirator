@@ -87,15 +87,23 @@ public class Players {
 			con = Database.getConnection();
 			
 			
-			String query = "MATCH (p:Player) WHERE id(p) = ? RETURN id(p), PROPERTIES(p)";
+			//String query = "MATCH (p:Player) WHERE id(p) = ? RETURN id(p), PROPERTIES(p)";
+			String query = ""
+					+ "MATCH (p:Player) "
+					+ "WHERE id(p) = ? WITH collect(p) as p1 "
+					+ "OPTIONAL MATCH (m:Minion) "
+					+ "WHERE id(m) = ? WITH collect(m) + p1 as p2 "
+					+ "UNWIND p2 as player "
+					+ "RETURN id(player), PROPERTIES(player)";
 
 			ps = con.prepareStatement(query);
 			ps.setInt(1, playerId);
+			ps.setInt(2, playerId);
 			
 			rs = ps.executeQuery();
 		
 			if (rs.next()) { //Success
-				return new Player( rs.getInt("id(p)"), (Map)rs.getObject("PROPERTIES(p)") );
+				return new Player( rs.getInt("id(player)"), (Map)rs.getObject("PROPERTIES(player)") );
 			}
 			
 	        return null;

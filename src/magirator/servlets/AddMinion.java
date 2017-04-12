@@ -48,11 +48,11 @@ public class AddMinion extends HttpServlet {
 			try {
 				
 				JsonObject minionrequest = Json.parseRequestData(request);
-				Minion requestedMinion = new Minion(minionrequest);
+				IPlayer requestedMinion = new Minion(minionrequest);
 							
 				result.addProperty(Variables.result, "Minion must have a name");
 				
-				if ( Validator.isValidMinion(requestedMinion) ){
+				if ( Validator.isValidPlayer(requestedMinion) ){
 					
 					result.addProperty(Variables.result, "Could not get user. Adding Minion failed");
 					
@@ -65,7 +65,7 @@ public class AddMinion extends HttpServlet {
 						Minion minion = Minions.addMinion(user, requestedMinion);
 						
 						if ( minion != null ){
-							result.addProperty("minion", new Gson().toJson(requestedMinion));
+							result.addProperty("minion", new Gson().toJson(minion));
 							result.addProperty(Variables.result, Variables.success);
 						}
 					}

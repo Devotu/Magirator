@@ -21,19 +21,9 @@
 
 		<div class="form-group" id="idNewPlayer" ng-show="addState == 'Player'">
 			<label>Name:</label><input ng-model="newPlayer.name" type="text" class="form-control">
-			<label>Deck:</label><input ng-model="newPlayer.deck.name" type="text" class="form-control">
-			<div class="form-group">
-				<label for="format">Format:</label> 
-				<select ng-options="format for format in formats" ng-model="newPlayer.deck.format" class="form-control"></select>
-			</div>
-			<div class=".checkbox-inline">
-				<label class="checkbox-label colorframed black-frame"><input class="inline-checkbox" type="checkbox" ng-model="newPlayer.deck.black"><span>Black</span></label>
-				<label class="checkbox-label colorframed white-frame"><input class="inline-checkbox" type="checkbox" ng-model="newPlayer.deck.white">White</label>
-				<label class="checkbox-label colorframed red-frame"><input class="inline-checkbox" type="checkbox" ng-model="newPlayer.deck.red">Red</label>
-				<label class="checkbox-label colorframed green-frame"><input class="inline-checkbox" type="checkbox" ng-model="newPlayer.deck.green">Green</label>
-				<label class="checkbox-label colorframed blue-frame"><input class="inline-checkbox" type="checkbox" ng-model="newPlayer.deck.blue">Blue</label>
-				<label class="checkbox-label colorframed colorless-frame"><input class="inline-checkbox" type="checkbox" ng-model="newPlayer.deck.colorless">Colorless</label>
-			</div>
+			<button type="button" class="btn btn-primary btn-add" ng-click="addMinion()">
+				 <span class="glyphicon glyphicon-plus"></span>
+			</button>
 		</div>
 
 		<div class="form-group">
@@ -42,8 +32,6 @@
 				 <span class="glyphicon glyphicon-plus"></span>
 			</button>
 		</div>
-		
-
 
 		<div class="form-group" id="idNewDeck" ng-show="addState == 'Deck'">
 			<label>Name:</label><input ng-model="newDeck.name" type="text" class="form-control">
@@ -59,6 +47,10 @@
 				<label class="checkbox-label colorframed blue-frame"><input class="inline-checkbox" type="checkbox" ng-model="newDeck.blue">Blue</label>
 				<label class="checkbox-label colorframed colorless-frame"><input class="inline-checkbox" type="checkbox" ng-model="newDeck.colorless">Colorless</label>
 			</div>
+			<button type="button" class="btn btn-primary btn-add" ng-click="addMinionDeck()">
+				 <span class="glyphicon glyphicon-plus"></span>
+			</button>
+			<label>Theme:</label><input ng-model="newDeck.theme" type="text" class="form-control">
 		</div>
 
 		<button type="submit" class="btn btn-primary btn-add">Add to game</button>

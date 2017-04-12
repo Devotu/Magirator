@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.naming.NamingException;
 import magirator.dataobjects.Alteration;
 import magirator.dataobjects.Deck;
+import magirator.dataobjects.Minion;
 import magirator.interfaces.IPlayer;
 import magirator.support.Database;
 
@@ -66,17 +67,26 @@ public class Decks {
 		try {
 			con = Database.getConnection();
 
-			String query = "MATCH (p:Player)-[r:Use]->(d:Deck) WHERE id(p)=? RETURN id(d), PROPERTIES(d)";
+			//String query = "MATCH (p:Player)-[r:Use]->(d:Deck) WHERE id(p)=? RETURN id(d), PROPERTIES(d)";
+
+			String query = ""
+					+ "MATCH (p:Player)-[:Use]->(d:Deck) "
+					+ "WHERE id(p) = ? WITH collect(d) as d1 "
+					+ "OPTIONAL MATCH (d:Deck)<-[:Use]-(m:Minion) "
+					+ "WHERE id(m) = ? WITH collect(d) + d1 as d2 "
+					+ "UNWIND d2 as deck "
+					+ "RETURN id(deck), PROPERTIES(deck)";
 
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, player.getId());
+			ps.setInt(2, player.getId());
 
 			rs = ps.executeQuery();
 
 			ArrayList<Deck> decks = new ArrayList<Deck>();
 
 			while (rs.next()) {
-				decks.add(new Deck(rs.getInt("id(d)"), (Map) rs.getObject("PROPERTIES(d)")));
+				decks.add(new Deck(rs.getInt("id(deck)"), (Map) rs.getObject("PROPERTIES(deck)")));
 			}
 
 			return decks;
