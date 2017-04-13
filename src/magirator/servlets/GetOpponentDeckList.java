@@ -13,13 +13,12 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import magirator.dataobjects.Deck;
-import magirator.dataobjects.Play;
-import magirator.dataobjects.Result;
-import magirator.interfaces.IPlayer;
+import magirator.data.interfaces.IPlayer;
+import magirator.data.objects.Deck;
+import magirator.data.objects.Result;
 import magirator.model.neo4j.Decks;
 import magirator.model.neo4j.Games;
-import magirator.model.neo4j.Players;
+import magirator.model.neo4j.IPlayers;
 import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Variables;
@@ -52,7 +51,7 @@ public class GetOpponentDeckList extends HttpServlet {
 				JsonObject requestData = Json.parseRequestData(request);
 				int playerId = Json.getInt(requestData, "id", 0);
 				
-				IPlayer opponent = Players.getPlayer(playerId);
+				IPlayer opponent = IPlayers.getIPlayer(playerId);
 				
 				ArrayList<Deck> decks = Decks.getPlayerDecks(opponent);
 				

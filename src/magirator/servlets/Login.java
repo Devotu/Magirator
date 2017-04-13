@@ -10,8 +10,8 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.JsonObject;
 
-import magirator.dataobjects.User;
-import magirator.interfaces.IPlayer;
+import magirator.data.interfaces.IPlayer;
+import magirator.data.objects.User;
 import magirator.model.neo4j.Players;
 import magirator.model.neo4j.Users;
 import magirator.support.Error;

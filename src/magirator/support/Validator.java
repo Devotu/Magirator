@@ -1,7 +1,7 @@
 package magirator.support;
 
-import magirator.dataobjects.Deck;
-import magirator.interfaces.IPlayer;
+import magirator.data.interfaces.IPlayer;
+import magirator.data.objects.Deck;
 import magirator.viewobjects.LoginCredentials;
 
 public class Validator {

@@ -14,9 +14,9 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import magirator.dataobjects.Participant;
-import magirator.dataobjects.Tag;
-import magirator.interfaces.IPlayer;
+import magirator.data.interfaces.IPlayer;
+import magirator.data.objects.Participant;
+import magirator.data.objects.Tag;
 import magirator.model.neo4j.Games;
 import magirator.model.neo4j.Tags;
 import magirator.support.Error;

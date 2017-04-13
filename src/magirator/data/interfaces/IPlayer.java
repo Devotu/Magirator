@@ -1,4 +1,4 @@
-package magirator.interfaces;
+package magirator.data.interfaces;
 
 public interface IPlayer {
 

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.JsonObject;
 
-import magirator.dataobjects.Reset;
+import magirator.data.objects.Reset;
 import magirator.model.neo4j.Users;
 import magirator.support.Error;
 import magirator.support.Json;

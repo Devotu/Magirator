@@ -1,10 +1,10 @@
-package magirator.dataobjects;
+package magirator.data.objects;
 
 import java.util.Map;
 
 import com.google.gson.JsonObject;
 
-import magirator.interfaces.IPlayer;
+import magirator.data.interfaces.IPlayer;
 
 public class Player implements IPlayer {
 

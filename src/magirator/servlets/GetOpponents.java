@@ -13,9 +13,8 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import magirator.dataobjects.Player;
-import magirator.interfaces.IPlayer;
-import magirator.model.neo4j.Players;
+import magirator.data.interfaces.IPlayer;
+import magirator.model.neo4j.IPlayers;
 import magirator.support.Error;
 import magirator.support.Variables;
 
@@ -43,7 +42,7 @@ public class GetOpponents extends HttpServlet {
 		if (player != null){
 			
 			try {
-				ArrayList<Player> opponents = Players.getOpponents(player);
+				ArrayList<IPlayer> opponents = IPlayers.getOpponents(player);
 				
 				result.addProperty("opponents", new Gson().toJson(opponents));
 				result.addProperty(Variables.result, Variables.success);

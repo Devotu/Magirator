@@ -13,14 +13,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import magirator.dataobjects.Deck;
-import magirator.dataobjects.Result;
-import magirator.dataobjects.Tag;
-import magirator.interfaces.IPlayer;
-import magirator.dataobjects.Participant;
+import magirator.data.interfaces.IPlayer;
+import magirator.data.objects.Deck;
+import magirator.data.objects.Participant;
+import magirator.data.objects.Result;
+import magirator.data.objects.Tag;
 import magirator.model.neo4j.Decks;
 import magirator.model.neo4j.Games;
-import magirator.model.neo4j.Players;
+import magirator.model.neo4j.IPlayers;
 import magirator.model.neo4j.Tags;
 import magirator.support.Error;
 import magirator.support.Json;
@@ -63,7 +63,7 @@ public class AddGame extends HttpServlet {
 					
 					JsonObject o = e.getAsJsonObject();
 					
-					IPlayer p = Players.getPlayer(o.get("playerId").getAsInt());
+					IPlayer p = IPlayers.getIPlayer(o.get("playerId").getAsInt());
 					Deck d = Decks.getDeck(o.get("deckId").getAsInt());
 					Result r = new Result(o);
 					

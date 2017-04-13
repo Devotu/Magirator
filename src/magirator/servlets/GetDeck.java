@@ -13,9 +13,9 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import magirator.dataobjects.Deck;
-import magirator.dataobjects.Play;
-import magirator.interfaces.IPlayer;
+import magirator.data.interfaces.IPlayer;
+import magirator.data.objects.Deck;
+import magirator.data.objects.Play;
 import magirator.model.neo4j.Decks;
 import magirator.model.neo4j.Games;
 import magirator.support.Error;

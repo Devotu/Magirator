@@ -11,9 +11,9 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import magirator.dataobjects.Minion;
-import magirator.dataobjects.User;
-import magirator.interfaces.IPlayer;
+import magirator.data.interfaces.IPlayer;
+import magirator.data.objects.Minion;
+import magirator.data.objects.User;
 import magirator.model.neo4j.Minions;
 import magirator.model.neo4j.Users;
 import magirator.support.Error;

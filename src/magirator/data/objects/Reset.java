@@ -1,4 +1,4 @@
-package magirator.dataobjects;
+package magirator.data.objects;
 
 import java.util.Date;
 import java.util.Map;

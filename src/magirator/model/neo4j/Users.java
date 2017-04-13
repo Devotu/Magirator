@@ -8,9 +8,9 @@ import java.util.Map;
 
 import javax.naming.NamingException;
 
-import magirator.dataobjects.Reset;
-import magirator.dataobjects.User;
-import magirator.interfaces.IPlayer;
+import magirator.data.interfaces.IPlayer;
+import magirator.data.objects.Reset;
+import magirator.data.objects.User;
 import magirator.support.Database;
 import magirator.viewobjects.LoginCredentials;
 import magirator.viewobjects.PublicPlayer;

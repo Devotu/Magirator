@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Map;
 
-import magirator.dataobjects.Minion;
-import magirator.dataobjects.User;
-import magirator.interfaces.IPlayer;
+import magirator.data.interfaces.IPlayer;
+import magirator.data.objects.Minion;
+import magirator.data.objects.User;
 import magirator.support.Database;
 
 public class Minions {

@@ -2,7 +2,7 @@ package magirator.viewobjects;
 
 import java.util.Date;
 
-import magirator.dataobjects.Deck;
+import magirator.data.objects.Deck;
 
 public class ListDeck {
 	
