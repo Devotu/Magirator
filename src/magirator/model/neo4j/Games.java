@@ -134,7 +134,7 @@ public class Games {
 			con = Database.getConnection();			
 
 			String query = ""
-					+ "MATCH dp=(cd:Deck)<-[r:Evolved*]-() "
+					+ "MATCH dp=(cd:Deck)<-[r:Evolved*0..]-() "
 					+ "WHERE id(cd)=? "
 					+ "UNWIND nodes(dp) AS nd "
 					+ "WITH nd as d "
