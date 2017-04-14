@@ -2,6 +2,7 @@ package magirator.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,10 +14,18 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import magirator.data.collections.IPlayerGame;
 import magirator.data.interfaces.IPlayer;
+import magirator.data.objects.Minion;
+import magirator.data.objects.User;
 import magirator.model.neo4j.IPlayers;
+import magirator.model.neo4j.Minions;
+import magirator.model.neo4j.Users;
 import magirator.support.Error;
+import magirator.support.Lists;
+import magirator.support.Ranker;
 import magirator.support.Variables;
+import magirator.viewobjects.Opponent;
 
 /**
  * Servlet implementation class GetOpponents
@@ -41,8 +50,20 @@ public class GetOpponents extends HttpServlet {
 		//Player is logged in
 		if (player != null){
 			
-			try {
-				ArrayList<IPlayer> opponents = IPlayers.getOpponents(player);
+			List<Opponent> opponents = new ArrayList<>();
+			
+			try { //Get potential opponents, rank them, Merge into list
+				
+				List<IPlayerGame> previous = IPlayers.getPlayerPreviousOpponents(player);
+				List<Opponent> previousOpponents = Ranker.rankPrevious(previous);
+				Lists.mergeToOpponentList(opponents, previousOpponents);
+				
+				User user = Users.getUser(player);
+				List<Minion> minions = Minions.getUserMinions(user);
+				List<Opponent> minionOpponents = Ranker.rankMinions(minions);
+				Lists.mergeToOpponentList(opponents, minionOpponents);
+				
+				Lists.orderOpponents(opponents);
 				
 				result.addProperty("opponents", new Gson().toJson(opponents));
 				result.addProperty(Variables.result, Variables.success);

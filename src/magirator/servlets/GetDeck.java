@@ -1,8 +1,6 @@
 package magirator.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,14 +13,10 @@ import com.google.gson.JsonObject;
 
 import magirator.data.interfaces.IPlayer;
 import magirator.data.objects.Deck;
-import magirator.data.objects.Play;
 import magirator.model.neo4j.Decks;
-import magirator.model.neo4j.Games;
 import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Variables;
-import magirator.viewobjects.ListDeck;
-import magirator.viewobjects.LoginCredentials;
 
 /**
  * Servlet implementation class GetDeck

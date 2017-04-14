@@ -13,9 +13,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import magirator.data.collections.Participant;
 import magirator.data.interfaces.IPlayer;
 import magirator.data.objects.Deck;
-import magirator.data.objects.Participant;
 import magirator.data.objects.Result;
 import magirator.data.objects.Tag;
 import magirator.model.neo4j.Decks;

@@ -1,8 +1,12 @@
-package magirator.data.objects;
+package magirator.data.collections;
 
 import java.util.ArrayList;
 
 import magirator.data.interfaces.IPlayer;
+import magirator.data.objects.Deck;
+import magirator.data.objects.Game;
+import magirator.data.objects.Result;
+import magirator.data.objects.Tag;
 
 /**
  * A Participant is a collection of a Player, (a Use), a Deck, a Play and a Game

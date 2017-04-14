@@ -5,11 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.naming.NamingException;
 
+import magirator.data.collections.IPlayerGame;
 import magirator.data.interfaces.IPlayer;
+import magirator.data.objects.Game;
+import magirator.data.objects.Minion;
 import magirator.data.objects.Player;
 import magirator.support.Database;
 
@@ -52,7 +56,8 @@ public class IPlayers {
 		}
 	}
 	
-public static ArrayList<IPlayer> getOpponents(IPlayer player) throws Exception{
+	
+	public static List<IPlayerGame> getPlayerPreviousOpponents(IPlayer player) throws Exception{
 		
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -60,29 +65,30 @@ public static ArrayList<IPlayer> getOpponents(IPlayer player) throws Exception{
 		
 		try {
 			con = Database.getConnection();
-
-			//TODO Get more specific
-			String query = "MATCH (p:Player)" +
-				"WHERE NOT id(p) = ?" +
-				"MATCH (p)-->(d:Deck)" +
-				"RETURN DISTINCT id(p), PROPERTIES(p)";
-
-      		ps = con.prepareStatement(query);
-      		ps.setInt(1, player.getId());
-
-      		rs = ps.executeQuery();
-      		
-      		ArrayList<IPlayer> opponents = new ArrayList<IPlayer>();
+	
+			String query = ""
+					+ "MATCH (s:Player)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game)<-[:In]-(:Result)<-[:Got]-(:Deck)<-[:Use|:Used]-(p:Player) "
+					+ "WHERE id(s) = ? "
+					+ "RETURN id(p), PROPERTIES(p), id(g), PROPERTIES(g)";
+	
+	  		ps = con.prepareStatement(query);
+	  		ps.setInt(1, player.getId());
+	
+	  		rs = ps.executeQuery();
+	  		
+	  		List<IPlayerGame> previous = new ArrayList<>();
 			
 			while (rs.next()) {
-				opponents.add( new Player( rs.getInt("id(p)"), (Map)rs.getObject("PROPERTIES(p)") ) );
+				IPlayer p = new Player( rs.getInt("id(p)"), (Map)rs.getObject("PROPERTIES(p)") );
+				Game g = new Game( rs.getInt("id(g)"), (Map)rs.getObject("PROPERTIES(g)") );
+				previous.add( new IPlayerGame(p, g) );
 			}
-
+	
 			if (rs != null) rs.close();
 			if (ps != null) ps.close();
 			if (con != null) con.close();
 			
-			return opponents;
+			return previous;
 			
 		} catch (Exception ex){
 			throw ex;

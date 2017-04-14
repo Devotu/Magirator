@@ -10,10 +10,10 @@ import java.util.Map;
 
 import javax.naming.NamingException;
 
+import magirator.data.collections.Participant;
 import magirator.data.interfaces.IPlayer;
 import magirator.data.objects.Deck;
 import magirator.data.objects.Game;
-import magirator.data.objects.Participant;
 import magirator.data.objects.Player;
 import magirator.data.objects.Result;
 import magirator.support.Database;

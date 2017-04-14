@@ -40,14 +40,26 @@ public class Game {
 	
 
 	//TODO remove
+	/**
+	 * @deprecated
+	 * @param id
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public Date getDatePlayed() {
 		return datePlayed;
 	}
 
+	/**
+	 * @deprecated
+	 * @param datePlayed
+	 */
 	public void setDatePlayed(Date datePlayed) {
 		this.datePlayed = datePlayed;
 	}

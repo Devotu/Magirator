@@ -13,8 +13,8 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import magirator.data.collections.Participant;
 import magirator.data.interfaces.IPlayer;
-import magirator.data.objects.Participant;
 import magirator.model.neo4j.Games;
 import magirator.support.Error;
 import magirator.support.Json;

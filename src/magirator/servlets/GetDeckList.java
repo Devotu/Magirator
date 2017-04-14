@@ -15,7 +15,6 @@ import com.google.gson.JsonObject;
 
 import magirator.data.interfaces.IPlayer;
 import magirator.data.objects.Deck;
-import magirator.data.objects.Play;
 import magirator.data.objects.Result;
 import magirator.model.neo4j.Decks;
 import magirator.model.neo4j.Games;
