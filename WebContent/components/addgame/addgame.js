@@ -8,7 +8,7 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 
 			$scope.selfAdded = false;
 			$scope.addState = "Regular";
-			$scope.opponentIsMinion = false;
+			$scope.opponentIsMinion = true;
 
 			$scope.comment = "";
 			$scope.draw = false;
@@ -71,10 +71,22 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 				});
 
 			$scope.getDeck();
-
+			
+			$scope.opponentIsMinion = function(){
+				if ($scope.opponentToAdd != undefined){
+				    for (var i = 0; i < $scope.opponentToAdd.labels.length; i++) {
+				        if ($scope.opponentToAdd.labels[i] == "Minion") {
+				            return true;
+				        }
+				    }
+				    return false;
+				}
+			}
 
 			// Get opponent decks
 			$scope.getOpponentDecks = function () {
+				
+				console.log($scope.opponentToAdd);
 
 				var getOpponentDecksReq = requestService.buildRequest(
 					"GetOpponentDeckList",
@@ -138,12 +150,12 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 			}
 
 
-			$scope.addMinionDeck = function (id, deck) {
+			$scope.addMinionDeck = function () {
 
 				var addMinonDeckReq = requestService.buildRequest(
 					"AddMinionDeck",
 					{
-						'id': id,
+						'id': $scope.opponentToAdd.id,
 						'deck': {
 							'name': $scope.newDeck.name,
 							'format': $scope.newDeck.format,
@@ -153,7 +165,8 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 							'green': $scope.newDeck.green,
 							'blue': $scope.newDeck.blue,
 							'colorless': $scope.newDeck.colorless,
-							'theme': $scope.newDeck.theme
+							'theme': $scope.newDeck.theme,
+							'created': Date.now()
 						}
 					}
 				);
@@ -162,8 +175,9 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 					$scope.result = response.data;
 
 					if (response.data.result == "Success") {
-						$scope.decks.unshift(JSON.parse(response.data.decks));
+						$scope.decks.unshift(JSON.parse(response.data.deck));
 						$scope.addDeck = $scope.decks[0];
+						$scope.toggleAddMinionDeck();
 					}
 
 				},
@@ -193,10 +207,6 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 
 				$scope.selfAdded = true;
 			};
-
-
-
-
 
 			// Add Participant
 			$scope.addParticipant = function () {
@@ -252,7 +262,6 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 			}
 			
 			$scope.addToOpponents = function (player) {
-				console.log(player);
 				
 				$scope.opponents.unshift(player);
 				$scope.opponentToAdd = $scope.opponents[0];
@@ -265,6 +274,16 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 
 				if ($scope.addState != "Player") {
 					$scope.addState = "Player";
+				} else {
+					$scope.addState = "Regular";
+				}
+
+			};
+			
+			$scope.toggleAddMinionDeck = function () {
+
+				if ($scope.addState != "Deck") {
+					$scope.addState = "Deck";
 				} else {
 					$scope.addState = "Regular";
 				}

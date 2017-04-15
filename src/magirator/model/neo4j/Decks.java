@@ -357,7 +357,7 @@ public class Decks {
 		}
 	}
 	
-	public static boolean addMinionDeck(IPlayer minion, Deck deck) throws SQLException, NamingException {
+	public static Deck addMinionDeck(IPlayer minion, Deck deck) throws Exception {
 
 		Connection con = null;
 		Statement st = null;
@@ -368,7 +368,8 @@ public class Decks {
 
 			String query = "MATCH (m:Minion) WHERE id(m)=?";
 			query += "CREATE (d:Deck { name: ?, format: ?, black: ?, white: ?, red: ?, green: ?, blue: ? ,colorless: ?, theme: ?, created: TIMESTAMP(), active:true})";
-			query += "CREATE (m)-[r:Use]->(d)";
+			query += "CREATE (m)-[r:Use]->(d) ";
+			query += "RETURN id(d), PROPERTIES(d)";
 
 			PreparedStatement ps = con.prepareStatement(query);
 
@@ -383,9 +384,15 @@ public class Decks {
 			ps.setBoolean(9, deck.getColorless());
 			ps.setString(10, deck.getTheme());
 
-			ps.executeUpdate();
-
-			return true;
+      		rs = ps.executeQuery();
+      		
+      		Alteration alteration = null;
+			
+			if (rs.next()) {
+				return new Deck(rs.getInt("id(d)"), (Map)rs.getObject("PROPERTIES(d)"));
+			}
+			
+			return null;
 
 		} finally {
 			if (rs != null)

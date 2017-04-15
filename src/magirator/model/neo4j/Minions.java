@@ -91,6 +91,40 @@ public class Minions {
 			throw ex;
 		}		
 	}
+	
+	public static Minion getMinion(int minionId) throws Exception{
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();
+	
+			String query = ""
+					+ "MATCH (m:Minion) "
+					+ "WHERE id(m) = ? "
+					+ "RETURN id(m), PROPERTIES(m)";
+	
+	  		ps = con.prepareStatement(query);
+	  		ps.setInt(1, minionId);
+	
+	  		rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				return new Minion( rs.getInt("id(m)"), (Map)rs.getObject("PROPERTIES(m)") );
+			}
+	
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+			
+			return null;
+			
+		} catch (Exception ex){
+			throw ex;
+		}		
+	}
 
 }
 

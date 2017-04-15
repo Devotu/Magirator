@@ -43,4 +43,8 @@ public class Json {
 	public static JsonArray getArray(JsonObject data, String field) {
 		return data.get(field).getAsJsonArray();
 	}
+	
+	public static JsonObject getObject(JsonObject data, String field) {
+		return data.get(field).getAsJsonObject();
+	}
 }

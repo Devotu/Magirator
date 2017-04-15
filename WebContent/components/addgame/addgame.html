@@ -28,7 +28,7 @@
 
 		<div class="form-group">
 			<label>Opponent deck:</label> <select ng-options="deck.name for deck in decks" ng-model="addDeck" class="form-control"></select>
-			<button type="button" class="btn btn-primary btn-add" ng-show="opponentIsMinion">
+			<button type="button" class="btn btn-primary btn-add" ng-show="opponentIsMinion()" ng-click="toggleAddMinionDeck()">
 				 <span class="glyphicon glyphicon-plus"></span>
 			</button>
 		</div>
@@ -47,10 +47,10 @@
 				<label class="checkbox-label colorframed blue-frame"><input class="inline-checkbox" type="checkbox" ng-model="newDeck.blue">Blue</label>
 				<label class="checkbox-label colorframed colorless-frame"><input class="inline-checkbox" type="checkbox" ng-model="newDeck.colorless">Colorless</label>
 			</div>
+			<label>Theme:</label><input ng-model="newDeck.theme" type="text" class="form-control">
 			<button type="button" class="btn btn-primary btn-add" ng-click="addMinionDeck()">
 				 <span class="glyphicon glyphicon-plus"></span>
 			</button>
-			<label>Theme:</label><input ng-model="newDeck.theme" type="text" class="form-control">
 		</div>
 
 		<button type="submit" class="btn btn-primary btn-add">Add to game</button>

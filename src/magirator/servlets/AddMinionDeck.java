@@ -15,10 +15,12 @@ import magirator.data.interfaces.IPlayer;
 import magirator.data.objects.Deck;
 import magirator.data.objects.Minion;
 import magirator.model.neo4j.Decks;
+import magirator.model.neo4j.Minions;
 import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Validator;
 import magirator.support.Variables;
+import magirator.viewobjects.ListDeck;
 
 /**
  * Servlet implementation class AddMinionDeck
@@ -47,16 +49,23 @@ public class AddMinionDeck extends HttpServlet {
 			
 			try {				
 				JsonObject minionrequest = Json.parseRequestData(request);
-				IPlayer minion = new Minion(minionrequest);
-				Deck deck = new Deck(minionrequest);
-							
-				result.addProperty(Variables.result, "Deck must have a name and a format, Minon must be a valid Minion");
+				int minionId = Json.getInt(minionrequest, "id", 0);				
+				Deck requestedDeck = new Deck(Json.getObject(minionrequest, "deck"));
 				
-				if ( Validator.isRegisterdPlayer(minion) && Validator.isValidDeck(deck) ){
+				Minion minion = Minions.getMinion(minionId);
+				
+				result.addProperty(Variables.result, "Deck must have a name and a format, Minon must have a valid id");
+				if (minion != null){
 					
-					if (Decks.addMinionDeck(minion, deck)){					
-						result.addProperty("deck", new Gson().toJson(deck));
-						result.addProperty(Variables.result, Variables.success);
+					if ( Validator.isRegisterdPlayer(minion) && Validator.isValidDeck(requestedDeck) ){
+						
+						Deck deck = Decks.addMinionDeck(minion, requestedDeck);
+						
+						if (deck != null){
+							ListDeck ld = new ListDeck(deck, 0, 0);							
+							result.addProperty("deck", new Gson().toJson(ld));
+							result.addProperty(Variables.result, Variables.success);
+						}
 					}
 				}
 				
