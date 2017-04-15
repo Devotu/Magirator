@@ -7,11 +7,11 @@
 		<button type="button" class="btn btn-primary btn-add" ng-click="addSelf()">Add to game</button>
 	</div>
 
-	<form ng-submit="addParticipant()" class="list-group-item">
+	<form ng-submit="addParticipant()" class="list-group-item" ng-hide="addState == 'Search'">
 		<div class="form-group">
 			<label>Opponent:</label>
 			<select ng-options="opponent.name for opponent in opponents" ng-model="opponentToAdd" class="form-control" ng-change="getOpponentDecks()"></select>
-			<button type="button" class="btn btn-primary btn-add">
+			<button type="button" class="btn btn-primary btn-add" ng-click="toggleSearch()">
 				 <span class="glyphicon glyphicon-search"></span>
 			</button>
 			<button type="button" class="btn btn-primary btn-add" ng-click="toggleAddPlayer()">
@@ -36,7 +36,7 @@
 		<div class="form-group" id="idNewDeck" ng-show="addState == 'Deck'">
 			<label>Name:</label><input ng-model="newDeck.name" type="text" class="form-control">
 			<div class="form-group">
-				<label for="format">Format:</label> 
+				<label for="format">Format:</label>
 				<select ng-options="format for format in formats" ng-model="newDeck.format" class="form-control"></select>
 			</div>
 			<div class=".checkbox-inline">
@@ -55,6 +55,17 @@
 
 		<button type="submit" class="btn btn-primary btn-add">Add to game</button>
 	</form>
+
+	<div class="list-group-item" ng-show="addState == 'Search'">
+		
+		<label>Player name:</label><input ng-model="searchName" type="text" class="form-control">
+
+		<ul class="list-group">
+			<li ng-repeat="match in allPlayers | filter:searchName | limitTo:5" class="list-group-item" ng-click="addToOpponents(match)">{{match.name}}
+				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			</li>
+		</ul>
+	</div>
 
 	<div class="form-group">
 		<label>

@@ -4,10 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.naming.NamingException;
 
+import magirator.data.interfaces.IPlayer;
 import magirator.data.objects.Player;
 import magirator.data.objects.User;
 import magirator.support.Database;
@@ -43,6 +46,7 @@ public class Players {
 			if (con != null) con.close();
 		}
 	}
+	
 
 	public static Player getPlayer(User user) throws NamingException, SQLException {
 		
@@ -65,6 +69,38 @@ public class Players {
 			}
 			
 	        return null;
+	        
+		} finally {
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+	}
+	
+
+	public static List<Player> getAllPlayers(Player player) throws NamingException, SQLException {
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();			
+			
+			String query = "MATCH (p:Player) WHERE NOT id(p) = ? RETURN id(p), PROPERTIES(p)";
+
+			ps = con.prepareStatement(query);
+			ps.setInt(1, player.getId());
+			
+			rs = ps.executeQuery();
+			
+			List<Player> players = new ArrayList<>();
+		
+			while (rs.next()) { //Success
+				players.add( new Player( rs.getInt("id(p)"), (Map)rs.getObject("PROPERTIES(p)") ) );
+			}
+			
+	        return players;
 	        
 		} finally {
 			if (rs != null) rs.close();
