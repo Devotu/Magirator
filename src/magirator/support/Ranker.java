@@ -16,13 +16,19 @@ public class Ranker {
 		List<Opponent> minionOpponents = new ArrayList<>();
 		
 		for (Minion m : minions){
-			Opponent o = new Opponent(m);
-			o.addLabel("Minion");
-			o.adjustRelevance(-50);
-			minionOpponents.add(o);
+			minionOpponents.add(rankMinion(m));
 		}
 		
 		return minionOpponents;
+	}
+	
+	public static Opponent rankMinion(Minion m){
+	
+		Opponent o = new Opponent(m);
+		o.addLabel("Minion");
+		o.adjustRelevance(-50);
+		
+		return o;
 	}
 
 	public static List<Opponent> rankPrevious(List<IPlayerGame> previous) {

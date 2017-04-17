@@ -1,6 +1,8 @@
 package magirator.servlets;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,8 +20,11 @@ import magirator.model.neo4j.Minions;
 import magirator.model.neo4j.Users;
 import magirator.support.Error;
 import magirator.support.Json;
+import magirator.support.Lists;
+import magirator.support.Ranker;
 import magirator.support.Validator;
 import magirator.support.Variables;
+import magirator.viewobjects.Opponent;
 
 /**
  * Servlet implementation class AddMinion
@@ -63,9 +68,11 @@ public class AddMinion extends HttpServlet {
 						result.addProperty(Variables.result, "Something went wrong adding your Minion");
 						
 						Minion minion = Minions.addMinion(user, requestedMinion);
+						Opponent opponent = Ranker.rankMinion(minion);
 						
 						if ( minion != null ){
 							result.addProperty("minion", new Gson().toJson(minion));
+							result.addProperty("opponent", new Gson().toJson(opponent));
 							result.addProperty(Variables.result, Variables.success);
 						}
 					}

@@ -12,7 +12,8 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 
 			$scope.comment = "";
 			$scope.draw = false;
-			$scope.participants = [];
+			$scope.participants = [];''
+			$scope.decks = [];
 
 			$scope.newPlayer = { 'id': 0, 'name': "" };
 			$scope.allPlayers = [];
@@ -63,7 +64,9 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 				if (response.data.result == "Success") {
 					$scope.opponents = JSON.parse(response.data.opponents);
 					$scope.opponentToAdd = $scope.opponents[0];
-					$scope.getOpponentDecks();
+					if ($scope.opponentToAdd != undefined){
+						$scope.getOpponentDecks();
+					}					
 				}
 			},
 				function () {
@@ -73,7 +76,7 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 			$scope.getDeck();
 			
 			$scope.opponentIsMinion = function(){
-				if ($scope.opponentToAdd != undefined){
+				if ($scope.opponentToAdd != undefined && $scope.opponentToAdd.labels != undefined){
 				    for (var i = 0; i < $scope.opponentToAdd.labels.length; i++) {
 				        if ($scope.opponentToAdd.labels[i] == "Minion") {
 				            return true;
@@ -88,24 +91,26 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 				
 				console.log($scope.opponentToAdd);
 
-				var getOpponentDecksReq = requestService.buildRequest(
-					"GetOpponentDeckList",
-					{ id: $scope.opponentToAdd.id }
-				);
+				if ($scope.opponentToAdd != undefined){
+					var getOpponentDecksReq = requestService.buildRequest(
+							"GetOpponentDeckList",
+							{ id: $scope.opponentToAdd.id }
+						);
 
-				$http(getOpponentDecksReq).then(function (response) {
-					$scope.result = response.data;
+						$http(getOpponentDecksReq).then(function (response) {
+							$scope.result = response.data;
 
-					if (response.data.result == "Success") {
-						$scope.decks = {};
-						$scope.decks = JSON.parse(response.data.decks);
-						$scope.addDeck = $scope.decks[0];
-					}
+							if (response.data.result == "Success") {
+								$scope.decks = {};
+								$scope.decks = JSON.parse(response.data.decks);
+								$scope.addDeck = $scope.decks[0];
+							}
 
-				},
-					function () {
-						$scope.result = 'Failure';
-					});
+						},
+						function () {
+							$scope.result = 'Failure';
+						});
+				}
 			}
 
 
@@ -137,7 +142,7 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 					$scope.result = response.data;
 
 					if (response.data.result == "Success") {
-						$scope.opponents.unshift(JSON.parse(response.data.minion));
+						$scope.opponents.unshift(JSON.parse(response.data.opponent));
 						$scope.opponentToAdd = $scope.opponents[0];
 						$scope.getOpponentDecks();
 

@@ -56,7 +56,7 @@ public class GetOpponentDeckList extends HttpServlet {
 				ArrayList<Deck> decks = Decks.getPlayerDecks(opponent);
 				
 				//There are decks
-				if (decks != null && decks.size() > 0){
+				if (decks != null){
 					
 					ArrayList<ListDeck> listDecks = new ArrayList<ListDeck>();
 					
