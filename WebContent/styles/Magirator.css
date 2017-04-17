@@ -125,6 +125,16 @@ p {
 }
 
 /*Text*/
+.unmissable {
+	color: darkorange !important;
+	font-weight: bold !important;
+	font-size: x-large !important;
+	font-family: Courier !important;
+	border: 2px solid !important;
+	padding: 5px !important;
+	margin: 5px !important;
+	height: auto !important;
+}
 
 /*Forms*/
 .form-control{
