@@ -16,12 +16,12 @@
 			<select ng-options="format for format in formats" ng-model="deck.format" class="form-control"></select>
 		</div>
 		<div class=".checkbox-inline">
-			<label class="checkbox-label colorframed black-frame"><input type="checkbox" ng-model="deck.black">Black</label>
-			<label class="checkbox-label colorframed white-frame"><input type="checkbox" ng-model="deck.white">White</label>
-			<label class="checkbox-label colorframed red-frame"><input type="checkbox" ng-model="deck.red">Red</label>
-			<label class="checkbox-label colorframed green-frame"><input type="checkbox" ng-model="deck.green">Green</label>
-			<label class="checkbox-label colorframed blue-frame"><input type="checkbox" ng-model="deck.blue">Blue</label>
-			<label class="checkbox-label colorframed colorless-frame"><input type="checkbox" ng-model="deck.colorless">Colorless</label>
+			<label class="checkbox-label colorframed black-frame"><input type="checkbox" ng-model="deck.blackCards" ng-true-value="1" ng-false-value="0" ng-checked="deck.blackCards == 1">Black</label>
+			<label class="checkbox-label colorframed white-frame"><input type="checkbox" ng-model="deck.whiteCards" ng-true-value="1" ng-false-value="0" ng-checked="deck.whiteCards == 1">White</label>
+			<label class="checkbox-label colorframed red-frame"><input type="checkbox" ng-model="deck.redCards" ng-true-value="1" ng-false-value="0" ng-checked="deck.redCards == 1">Red</label>
+			<label class="checkbox-label colorframed green-frame"><input type="checkbox" ng-model="deck.greenCards" ng-true-value="1" ng-false-value="0" ng-checked="deck.greenCards == 1">Green</label>
+			<label class="checkbox-label colorframed blue-frame"><input type="checkbox" ng-model="deck.blueCards" ng-true-value="1" ng-false-value="0" ng-checked="deck.blueCards == 1">Blue</label>
+			<label class="checkbox-label colorframed colorless-frame"><input type="checkbox" ng-model="deck.colorlessCards" ng-true-value="1" ng-false-value="0" ng-checked="deck.colorlessCards == 1">Colorless</label>
 		</div>
 		<div class="form-group">
 			<label for="theme">Theme:</label> 

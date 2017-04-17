@@ -10,53 +10,27 @@ public class Deck {
 	private int deckid;
 	private String name;
 	private String format;
-	private boolean black;
-	private boolean white;
-	private boolean red;
-	private boolean green;
-	private boolean blue;
-	private boolean colorless;
+	private long blackCards;
+	private long whiteCards;
+	private long redCards;
+	private long greenCards;
+	private long blueCards;
+	private long colorlessCards;
 	private String theme;
 	private boolean active;
 	private Date created;
 	
-	//TODO remove
-	public Deck (int deckid, 
-					String name, 
-					String format, 
-					boolean black, 
-					boolean white, 
-					boolean red, 
-					boolean green, 
-					boolean blue, 
-					boolean colorless, 
-					String theme, 
-					boolean active, 
-					long created) {
-		this.deckid = deckid;
-		this.name = name;
-		this.format = format;
-		this.black = black;
-		this.white = white;
-		this.red = red;
-		this.green = green;
-		this.blue = blue;
-		this.colorless = colorless;
-		this.theme = theme;
-		this.active = active;
-		this.created = new Date(created);
-	}
 	
 	public Deck(int id, Map deckMap) throws Exception {
 		this.deckid = id; //Hur får jag med korrekt?
 		this.name = (String)deckMap.get("name");
 		this.format = (String)deckMap.get("format");
-		this.black = (boolean)deckMap.get("black");
-		this.white = (boolean)deckMap.get("white");
-		this.red = (boolean)deckMap.get("red");
-		this.green = (boolean)deckMap.get("green");
-		this.blue = (boolean)deckMap.get("blue");
-		this.colorless = (boolean)deckMap.get("colorless");
+		this.blackCards = (long)deckMap.get("black");
+		this.whiteCards = (long)deckMap.get("white");
+		this.redCards = (long)deckMap.get("red");
+		this.greenCards = (long)deckMap.get("green");
+		this.blueCards = (long)deckMap.get("blue");
+		this.colorlessCards = (long)deckMap.get("colorless");
 		this.theme = (String)deckMap.get("theme");
 		this.active = (boolean)deckMap.get("active");
 		
@@ -72,12 +46,12 @@ public class Deck {
 		this.theme = (deck.has("theme") ? deck.get("theme").getAsString() : "");
 		this.active = (deck.has("active") ? deck.get("active").getAsBoolean() : true );
 				
-		if (deck.has("black")){ this.black = deck.get("black").getAsBoolean(); };
-		if (deck.has("white")){ this.white = deck.get("white").getAsBoolean(); };
-		if (deck.has("red")){ this.red = deck.get("red").getAsBoolean(); };
-		if (deck.has("green")){ this.green = deck.get("green").getAsBoolean(); };
-		if (deck.has("blue")){ this.blue = deck.get("blue").getAsBoolean(); };
-		if (deck.has("colorless")){ this.colorless = deck.get("colorless").getAsBoolean(); };
+		if (deck.has("black")){ this.blackCards = deck.get("black").getAsNumber().longValue(); };
+		if (deck.has("white")){ this.whiteCards = deck.get("white").getAsNumber().longValue(); };
+		if (deck.has("red")){ this.redCards = deck.get("red").getAsNumber().longValue(); };
+		if (deck.has("green")){ this.greenCards = deck.get("green").getAsNumber().longValue(); };
+		if (deck.has("blue")){ this.blueCards = deck.get("blue").getAsNumber().longValue(); };
+		if (deck.has("colorless")){ this.colorlessCards = deck.get("colorless").getAsNumber().longValue(); };
 		
 		long longTime = deck.get("created").getAsLong();
 		this.created = new Date(longTime);
@@ -96,28 +70,28 @@ public class Deck {
 		this.format = format;
 	}
 	
-	public void setBlack(boolean black) {
-		this.black = black;
+	public void setBlack(int black) {
+		this.blackCards = black;
 	}
 	
-	public void setWhite(boolean white) {
-		this.white = white;
+	public void setWhite(int white) {
+		this.whiteCards = white;
 	}
 	
-	public void setRed(boolean red) {
-		this.red = red;
+	public void setRed(int red) {
+		this.redCards = red;
 	}
 	
-	public void setGreen(boolean green) {
-		this.green = green;
+	public void setGreen(int green) {
+		this.greenCards = green;
 	}
 	
-	public void setBlue(boolean blue) {
-		this.blue = blue;
+	public void setBlue(int blue) {
+		this.blueCards = blue;
 	}
 	
-	public void setColorless(boolean colorless) {
-		this.colorless = colorless;
+	public void setColorless(int colorless) {
+		this.colorlessCards = colorless;
 	}
 	
 	public void setTheme(String theme) {
@@ -145,28 +119,28 @@ public class Deck {
 		return this.format;
 	}
 	
-	public boolean getBlack() {
-		return this.black;
+	public long getBlackCards() {
+		return this.blackCards;
 	}
 	
-	public boolean getWhite() {
-		return this.white;
+	public long getWhiteCards() {
+		return this.whiteCards;
 	}
 	
-	public boolean getRed() {
-		return this.red;
+	public long getRedCards() {
+		return this.redCards;
 	}
 	
-	public boolean getGreen() {
-		return this.green;
+	public long getGreenCards() {
+		return this.greenCards;
 	}
 	
-	public boolean getBlue() {
-		return this.blue;
+	public long getBlueCards() {
+		return this.blueCards;
 	}
 	
-	public boolean getColorless() {
-		return this.colorless;
+	public long getColorlessCards() {
+		return this.colorlessCards;
 	}
 	
 	public String getTheme() {

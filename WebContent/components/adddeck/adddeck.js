@@ -26,12 +26,12 @@ ratorApp.controller('addDeckController', function($scope, $http, $location, play
 							deck: {
 								'name': $scope.deck.name,
 								'format': $scope.deck.format,
-								'black': $scope.deck.black,
-								'white': $scope.deck.white,
-								'red': $scope.deck.red,
-								'green': $scope.deck.green,
-								'blue': $scope.deck.blue,
-								'colorless': $scope.deck.colorless,
+								'black': $scope.deck.blackCards 		? 1 : 0,
+								'white': $scope.deck.whiteCards			? 1 : 0,
+								'red': $scope.deck.redCards				? 1 : 0,
+								'green': $scope.deck.greenCards 		? 1 : 0,
+								'blue': $scope.deck.blueCards 			? 1 : 0,
+								'colorless': $scope.deck.colorlessCards ? 1 : 0,
 								'theme': $scope.deck.theme,
 								'created': Date.now()
 							}

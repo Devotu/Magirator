@@ -37,12 +37,12 @@ public class Decks {
 			ps.setInt(1, player.getId());
 			ps.setString(2, deck.getName());
 			ps.setString(3, deck.getFormat());
-			ps.setBoolean(4, deck.getBlack());
-			ps.setBoolean(5, deck.getWhite());
-			ps.setBoolean(6, deck.getRed());
-			ps.setBoolean(7, deck.getGreen());
-			ps.setBoolean(8, deck.getBlue());
-			ps.setBoolean(9, deck.getColorless());
+			ps.setLong(4, deck.getBlackCards());
+			ps.setLong(5, deck.getWhiteCards());
+			ps.setLong(6, deck.getRedCards());
+			ps.setLong(7, deck.getGreenCards());
+			ps.setLong(8, deck.getBlueCards());
+			ps.setLong(9, deck.getColorlessCards());
 			ps.setString(10, deck.getTheme());
 
 			ps.executeUpdate();
@@ -289,12 +289,12 @@ public class Decks {
 			ps.setInt(1, newDeck.getDeckid());
 			ps.setString(2, newDeck.getName());
 			ps.setString(3, newDeck.getFormat());
-			ps.setBoolean(4, newDeck.getBlack());
-			ps.setBoolean(5, newDeck.getWhite());
-			ps.setBoolean(6, newDeck.getRed());
-			ps.setBoolean(7, newDeck.getGreen());
-			ps.setBoolean(8, newDeck.getBlue());
-			ps.setBoolean(9, newDeck.getColorless());
+			ps.setLong(4, newDeck.getBlackCards());
+			ps.setLong(5, newDeck.getWhiteCards());
+			ps.setLong(6, newDeck.getRedCards());
+			ps.setLong(7, newDeck.getGreenCards());
+			ps.setLong(8, newDeck.getBlueCards());
+			ps.setLong(9, newDeck.getColorlessCards());
 			ps.setString(10, newDeck.getTheme());
 			ps.setString(11, comment);
 
@@ -376,12 +376,12 @@ public class Decks {
 			ps.setInt(1, minion.getId());
 			ps.setString(2, deck.getName());
 			ps.setString(3, deck.getFormat());
-			ps.setBoolean(4, deck.getBlack());
-			ps.setBoolean(5, deck.getWhite());
-			ps.setBoolean(6, deck.getRed());
-			ps.setBoolean(7, deck.getGreen());
-			ps.setBoolean(8, deck.getBlue());
-			ps.setBoolean(9, deck.getColorless());
+			ps.setLong(4, deck.getBlackCards());
+			ps.setLong(5, deck.getWhiteCards());
+			ps.setLong(6, deck.getRedCards());
+			ps.setLong(7, deck.getGreenCards());
+			ps.setLong(8, deck.getBlueCards());
+			ps.setLong(9, deck.getColorlessCards());
 			ps.setString(10, deck.getTheme());
 
       		rs = ps.executeQuery();

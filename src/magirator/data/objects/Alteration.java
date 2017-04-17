@@ -13,25 +13,25 @@ public class Alteration {
 	
 	private String nameWas;
 	private String formatWas;
-	private boolean blackWas;
-	private boolean whiteWas;
-	private boolean redWas;
-	private boolean greenWas;
-	private boolean blueWas;
-	private boolean colorlessWas;
+	private long blackWas;
+	private long whiteWas;
+	private long redWas;
+	private long greenWas;
+	private long blueWas;
+	private long colorlessWas;
 	private String themeWas;
-	private int colorPatternWas;
+	private long colorPatternWas;
 	
 	private String nameIs;
 	private String formatIs;
-	private boolean blackIs;
-	private boolean whiteIs;
-	private boolean redIs;
-	private boolean greenIs;
-	private boolean blueIs;
-	private boolean colorlessIs;
+	private long blackIs;
+	private long whiteIs;
+	private long redIs;
+	private long greenIs;
+	private long blueIs;
+	private long colorlessIs;
 	private String themeIs;
-	private int colorPatternIs;
+	private long colorPatternIs;
 	
 	private Date altered;
 	private String comment;
@@ -42,25 +42,25 @@ public class Alteration {
 		
 		this.nameWas = previousDeck.getName();
 		this.formatWas = previousDeck.getFormat();
-		this.blackWas = previousDeck.getBlack();
-		this.whiteWas = previousDeck.getWhite();
-		this.redWas = previousDeck.getRed();
-		this.greenWas = previousDeck.getGreen();
-		this.blueWas = previousDeck.getBlue();
-		this.colorlessWas = previousDeck.getColorless();
+		this.blackWas = previousDeck.getBlackCards();
+		this.whiteWas = previousDeck.getWhiteCards();
+		this.redWas = previousDeck.getRedCards();
+		this.greenWas = previousDeck.getGreenCards();
+		this.blueWas = previousDeck.getBlueCards();
+		this.colorlessWas = previousDeck.getColorlessCards();
 		this.themeWas = previousDeck.getTheme();
-		this.colorPatternWas = (blackWas? 1:0) + (whiteWas? 2:0) + (redWas? 4:0) + (greenWas? 8:0) + (blueWas? 16:0) + (colorlessWas? 32:0);
+		this.colorPatternWas = (blackWas *1) + (whiteWas *2) + (redWas *4) + (greenWas *8) + (blueWas * 16) + (colorlessWas *32);
 		
 		this.nameIs = currentDeck.getName();
 		this.formatIs = currentDeck.getFormat();
-		this.blackIs = currentDeck.getBlack();
-		this.whiteIs = currentDeck.getWhite();
-		this.redIs = currentDeck.getRed();
-		this.greenIs = currentDeck.getGreen();
-		this.blueIs = currentDeck.getBlue();
-		this.colorlessIs = currentDeck.getColorless();
+		this.blackIs = currentDeck.getBlackCards();
+		this.whiteIs = currentDeck.getWhiteCards();
+		this.redIs = currentDeck.getRedCards();
+		this.greenIs = currentDeck.getGreenCards();
+		this.blueIs = currentDeck.getBlueCards();
+		this.colorlessIs = currentDeck.getColorlessCards();
 		this.themeIs = currentDeck.getTheme();
-		this.colorPatternIs = (blackIs? 1:0) + (whiteIs? 2:0) + (redIs? 4:0) + (greenIs? 8:0) + (blueIs? 16:0) + (colorlessIs? 32:0);
+		this.colorPatternIs = (blackIs *1) + (whiteIs *2) + (redIs *4) + (greenIs *8) + (blueIs *16) + (colorlessIs *32);
 		
 		this.altered = currentDeck.getDateCreated();
 		this.comment = comment;
@@ -83,51 +83,51 @@ public class Alteration {
 		this.formatWas = formatWas;
 	}
 
-	public boolean isBlackWas() {
+	public long isBlackWas() {
 		return blackWas;
 	}
 
-	public void setBlackWas(boolean blackWas) {
+	public void setBlackWas(long blackWas) {
 		this.blackWas = blackWas;
 	}
 
-	public boolean isWhiteWas() {
+	public long isWhiteWas() {
 		return whiteWas;
 	}
 
-	public void setWhiteWas(boolean whiteWas) {
+	public void setWhiteWas(long whiteWas) {
 		this.whiteWas = whiteWas;
 	}
 
-	public boolean isRedWas() {
+	public long isRedWas() {
 		return redWas;
 	}
 
-	public void setRedWas(boolean redWas) {
+	public void setRedWas(long redWas) {
 		this.redWas = redWas;
 	}
 
-	public boolean isGreenWas() {
+	public long isGreenWas() {
 		return greenWas;
 	}
 
-	public void setGreenWas(boolean greenWas) {
+	public void setGreenWas(long greenWas) {
 		this.greenWas = greenWas;
 	}
 
-	public boolean isBlueWas() {
+	public long isBlueWas() {
 		return blueWas;
 	}
 
-	public void setBlueWas(boolean blueWas) {
+	public void setBlueWas(long blueWas) {
 		this.blueWas = blueWas;
 	}
 
-	public boolean isColorlessWas() {
+	public long isColorlessWas() {
 		return colorlessWas;
 	}
 
-	public void setColorlessWas(boolean colorlessWas) {
+	public void setColorlessWas(long colorlessWas) {
 		this.colorlessWas = colorlessWas;
 	}
 
@@ -155,51 +155,51 @@ public class Alteration {
 		this.formatIs = formatIs;
 	}
 
-	public boolean isBlackIs() {
+	public long isBlackIs() {
 		return blackIs;
 	}
 
-	public void setBlackIs(boolean blackIs) {
+	public void setBlackIs(long blackIs) {
 		this.blackIs = blackIs;
 	}
 
-	public boolean isWhiteIs() {
+	public long isWhiteIs() {
 		return whiteIs;
 	}
 
-	public void setWhiteIs(boolean whiteIs) {
+	public void setWhiteIs(long whiteIs) {
 		this.whiteIs = whiteIs;
 	}
 
-	public boolean isRedIs() {
+	public long isRedIs() {
 		return redIs;
 	}
 
-	public void setRedIs(boolean redIs) {
+	public void setRedIs(long redIs) {
 		this.redIs = redIs;
 	}
 
-	public boolean isGreenIs() {
+	public long isGreenIs() {
 		return greenIs;
 	}
 
-	public void setGreenIs(boolean greenIs) {
+	public void setGreenIs(long greenIs) {
 		this.greenIs = greenIs;
 	}
 
-	public boolean isBlueIs() {
+	public long isBlueIs() {
 		return blueIs;
 	}
 
-	public void setBlueIs(boolean blueIs) {
+	public void setBlueIs(long blueIs) {
 		this.blueIs = blueIs;
 	}
 
-	public boolean isColorlessIs() {
+	public long isColorlessIs() {
 		return colorlessIs;
 	}
 
-	public void setColorlessIs(boolean colorlessIs) {
+	public void setColorlessIs(int colorlessIs) {
 		this.colorlessIs = colorlessIs;
 	}
 
@@ -227,19 +227,19 @@ public class Alteration {
 		this.comment = comment;
 	}
 
-	public int getColorPatternWas() {
+	public long getColorPatternWas() {
 		return colorPatternWas;
 	}
 
-	public void setColorPatternWas(int colorPatternWas) {
+	public void setColorPatternWas(long colorPatternWas) {
 		this.colorPatternWas = colorPatternWas;
 	}
 
-	public int getColorPatternIs() {
+	public long getColorPatternIs() {
 		return colorPatternIs;
 	}
 
-	public void setColorPatternIs(int colorPatternIs) {
+	public void setColorPatternIs(long colorPatternIs) {
 		this.colorPatternIs = colorPatternIs;
 	}
 	

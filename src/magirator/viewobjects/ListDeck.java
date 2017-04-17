@@ -4,17 +4,22 @@ import java.util.Date;
 
 import magirator.data.objects.Deck;
 
+/**
+ * A Deck containing all info needed for filering in a list
+ * @author ottu
+ *
+ */
 public class ListDeck {
 	
 	private int id;
 	private String name;
 	private String format;
-	private boolean black;
-	private boolean white;
-	private boolean red;
-	private boolean green;
-	private boolean blue;
-	private boolean colorless;
+	private long blackCards;
+	private long whiteCards;
+	private long redCards;
+	private long greenCards;
+	private long blueCards;
+	private long colorlessCards;
 	private String theme;
 	private boolean active;
 	private Date created;
@@ -25,12 +30,12 @@ public class ListDeck {
 		this.id = deck.getDeckid();
 		this.name = deck.getName();
 		this.format = deck.getFormat();
-		this.black = deck.getBlack();
-		this.white = deck.getWhite();
-		this.red = deck.getRed();
-		this.green = deck.getGreen();
-		this.blue = deck.getBlue();
-		this.colorless = deck.getColorless();
+		this.blackCards = deck.getBlackCards();
+		this.whiteCards = deck.getWhiteCards();
+		this.redCards = deck.getRedCards();
+		this.greenCards = deck.getGreenCards();
+		this.blueCards = deck.getBlueCards();
+		this.colorlessCards = deck.getColorlessCards();
 		this.theme = deck.getTheme();
 		this.active = deck.getActive();
 		this.created = deck.getDateCreated();

@@ -21,7 +21,7 @@
 		<table class="center">
 			<tr>
 				<th>
-					<div ng-switch="deck.black">
+					<div ng-switch="deck.blackCards > 0">
 						<div ng-switch-when="true">
 							<svg viewBox="0 0 100 100" class="mana-image">
 											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
@@ -39,7 +39,7 @@
 					</div>
 				</th>
 				<th>
-					<div ng-switch="deck.white">
+					<div ng-switch="deck.whiteCards > 0">
 						<div ng-switch-when="true">
 							<svg viewBox="0 0 100 100" class="mana-image">
 											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
@@ -57,7 +57,7 @@
 					</div>
 				</th>
 				<th>
-					<div ng-switch="deck.red">
+					<div ng-switch="deck.redCards > 0">
 						<div ng-switch-when="true">
 							<svg viewBox="0 0 100 100" class="mana-image">
 											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
@@ -75,7 +75,7 @@
 					</div>
 				</th>
 				<th>
-					<div ng-switch="deck.green">
+					<div ng-switch="deck.greenCards > 0">
 						<div ng-switch-when="true">
 							<svg viewBox="0 0 100 100" class="mana-image">
 											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
@@ -93,7 +93,7 @@
 					</div>
 				</th>
 				<th>
-					<div ng-switch="deck.blue">
+					<div ng-switch="deck.blueCards > 0">
 						<div ng-switch-when="true">
 							<svg viewBox="0 0 100 100" class="mana-image">
 											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
@@ -111,7 +111,7 @@
 					</div>
 				</th>
 				<th>
-					<div ng-switch="deck.colorless">
+					<div ng-switch="deck.colorlessCards > 0">
 						<div ng-switch-when="true">
 							<svg viewBox="0 0 100 100" class="mana-image">
 											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"

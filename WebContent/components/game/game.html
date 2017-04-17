@@ -14,7 +14,7 @@
 				<table class="center">
 					<tr>
 						<th>
-							<div ng-switch="participant.deck.black">
+							<div ng-switch="participant.deck.blackCards > 0">
 								<div ng-switch-when="true">
 									<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="mana-image" preserveAspectRatio="none">
 										<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="black" />
@@ -28,7 +28,7 @@
 							</div>
 						</th>
 						<th>
-							<div ng-switch="participant.deck.white">
+							<div ng-switch="participant.deck.whiteCards > 0">
 								<div ng-switch-when="true">
 									<svg viewBox="0 0 100 100" class="mana-image">
 										<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="white" />
@@ -44,7 +44,7 @@
 							</div>
 						</th>
 						<th>
-							<div ng-switch="participant.deck.red">
+							<div ng-switch="participant.deck.redCards > 0">
 								<div ng-switch-when="true">
 									<svg viewBox="0 0 100 100" class="mana-image">
 										<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="red" />
@@ -60,7 +60,7 @@
 							</div>
 						</th>
 						<th>
-							<div ng-switch="participant.deck.green">
+							<div ng-switch="participant.deck.greenCards > 0">
 								<div ng-switch-when="true">
 									<svg viewBox="0 0 100 100" class="mana-image">
 										<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="green" />
@@ -76,7 +76,7 @@
 							</div>
 						</th>
 						<th>
-							<div ng-switch="participant.deck.blue">
+							<div ng-switch="participant.deck.blueCards > 0">
 								<div ng-switch-when="true">
 									<svg viewBox="0 0 100 100" class="mana-image">
 										<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="blue" />
@@ -92,7 +92,7 @@
 							</div>
 						</th>
 						<th>
-							<div ng-switch="participant.deck.colorless">
+							<div ng-switch="participant.deck.colorlessCards > 0">
 								<div ng-switch-when="true">
 									<svg viewBox="0 0 100 100" class="mana-image">
 										<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="colorless" />
