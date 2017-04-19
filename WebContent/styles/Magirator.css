@@ -199,8 +199,8 @@ p {
 
 
 /*Items*/
-.glyphicon{
-	
+.block{
+	display: block;
 }
 
 .badge-dark{
@@ -231,6 +231,10 @@ p {
 	max-width: 400px;	
 }
 
+.cardbox {
+	display: inline-grid;
+}
+
 /*Colors*/
 .black{
 	color: #000;
@@ -259,7 +263,7 @@ p {
 .colorframed{
 	border: solid;
 	border-radius: 7px;
-	border-width: 1px;
+	border-width: 2px;
 	/*border-color*/
 }
 

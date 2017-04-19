@@ -3,23 +3,60 @@
 
 	<form ng-submit="addDeck()">
 		<div class="form-group">
-			<label for="name">Name:</label> 
+			<label for="name">Name:</label>
 			<input ng-model="deck.name" type="text" class="form-control" autofocus>
 		</div>
 		<div class="form-group">
-			<label for="format">Format:</label> 
+			<label for="format">Format:</label>
 			<select ng-options="format for format in formats" ng-model="deck.format" class="form-control"></select>
 		</div>
-		<div class=".checkbox-inline">
+		<div class=".checkbox-inline" ng-show="colormode == 'Simple'">
+			<label class="block">Colors:</label>
 			<label class="checkbox-label colorframed black-frame"><input class="inline-checkbox" type="checkbox" ng-model="deck.blackCards"><span>Black</span></label>
 			<label class="checkbox-label colorframed white-frame"><input class="inline-checkbox" type="checkbox" ng-model="deck.whiteCards">White</label>
 			<label class="checkbox-label colorframed red-frame"><input class="inline-checkbox" type="checkbox" ng-model="deck.redCards">Red</label>
 			<label class="checkbox-label colorframed green-frame"><input class="inline-checkbox" type="checkbox" ng-model="deck.greenCards">Green</label>
 			<label class="checkbox-label colorframed blue-frame"><input class="inline-checkbox" type="checkbox" ng-model="deck.blueCards">Blue</label>
 			<label class="checkbox-label colorframed colorless-frame"><input class="inline-checkbox" type="checkbox" ng-model="deck.colorlessCards">Colorless</label>
+			<span class="glyphicon glyphicon-option-horizontal" ng-click="toggleColor()"></span>
+		</div>
+		<div ng-show="colormode == 'Advanced'">
+			<label class="block">Colors:</label>
+			<span class="glyphicon glyphicon-option-horizontal" ng-click="toggleColor()"></span>
+			<div>
+				<div class="colorframed black-frame cardbox">
+					<input type="number" ng-model="deck.blackCards" placeholder="Cards">
+					<input type="number" ng-model="deck.blackLands" placeholder="Lands">
+				</div>
+
+				<div class="colorframed white-frame cardbox">
+					<input type="number" ng-model="deck.whiteCards" placeholder="Cards">
+					<input type="number" ng-model="deck.whiteLands" placeholder="Lands">
+				</div>
+
+				<div class="colorframed red-frame cardbox">
+					<input type="number" ng-model="deck.redCards" placeholder="Cards">
+					<input type="number" ng-model="deck.redLands" placeholder="Lands">
+				</div>
+
+				<div class="colorframed green-frame cardbox">
+					<input type="number" ng-model="deck.greenCards" placeholder="Cards">
+					<input type="number" ng-model="deck.greenLands" placeholder="Lands">
+				</div>
+
+				<div class="colorframed blue-frame cardbox">
+					<input type="number" ng-model="deck.blueCards" placeholder="Cards">
+					<input type="number" ng-model="deck.blueLands" placeholder="Lands">
+				</div>
+
+				<div class="colorframed colorless-frame cardbox">
+					<input type="number" ng-model="deck.colorlessCards" placeholder="Cards">
+					<input type="number" ng-model="deck.colorlessLands" placeholder="Lands">
+				</div>
+			</div>
 		</div>
 		<div class="form-group">
-			<label for="theme">Theme:</label> 
+			<label for="theme">Theme:</label>
 			<input type="text" class="form-control" ng-model="deck.theme">
 		</div>
 		<button class="btn btn-primary" type="submit">Add Deck</button>
