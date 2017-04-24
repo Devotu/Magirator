@@ -3,7 +3,29 @@
 
 	<div class="list-group-item" ng-hide="selfAdded">
 		<h3>{{ player.playername }}</h3>
-		<label>Comment:</label> <input ng-model="comment" type="text" class="form-control">
+		<label>Comment:</label> 
+		<input ng-model="comment" type="text" class="form-control">
+		
+		
+		<label>Rating:</label><span class="glyphicon glyphicon-option-horizontal" ng-click="toggleColor()"></span>
+		<div>
+			<button class="rating-star" id="1star" ng-click="rate('general',1)">
+				<span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-star': (generalRating() >= 1), 'glyphicon-star-empty': (generalRating() < 1)}"></span>
+			</button>
+			<button class="rating-star" id="1star" ng-click="rate('general',2)" >
+				<span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-star': (generalRating() >= 2), 'glyphicon-star-empty': (generalRating() < 2)}"></span>
+			</button>
+			<button class="rating-star" id="1star" ng-click="rate('general',3)">
+				<span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-star': (generalRating() >= 3), 'glyphicon-star-empty': (generalRating() < 3)}"></span>
+			</button>
+			<button class="rating-star" id="1star" ng-click="rate('general',4)">
+				<span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-star': (generalRating() >= 4), 'glyphicon-star-empty': (generalRating() < 4)}"></span>
+			</button>
+			<button class="rating-star" id="1star" ng-click="rate('general',5)">
+				<span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-star': (generalRating() >= 5), 'glyphicon-star-empty': (generalRating() < 5)}"></span>
+			</button>
+		</div>
+		
 		<button type="button" class="btn btn-primary btn-add" ng-click="addSelf()">Add to game</button>
 	</div>
 

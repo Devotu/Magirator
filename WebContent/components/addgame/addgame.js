@@ -17,6 +17,9 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 
 			$scope.newPlayer = { 'id': 0, 'name': "" };
 			$scope.allPlayers = [];
+			
+			$scope.rating = [0,0,0,0];
+			$scope.generalRating = function(){ return ($scope.rating.reduce(function(a, b) { return a + b; }, 0))/4; }
 
 			$scope.newDeck = {
 				'name': "",
@@ -89,8 +92,6 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 			// Get opponent decks
 			$scope.getOpponentDecks = function () {
 				
-				console.log($scope.opponentToAdd);
-
 				if ($scope.opponentToAdd != undefined){
 					var getOpponentDecksReq = requestService.buildRequest(
 							"GetOpponentDeckList",
@@ -306,6 +307,21 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 					$scope.addState = "Regular";
 				}
 			};
+			
+			
+			//Rating
+			$scope.rate = function(parameter, value){				
+				
+				switch(parameter) {
+			    case 'general':
+			        $scope.rating = [value, value, value, value];
+			        break;
+			    default:
+			    	$scope.rating = [value, value, value, value];
+				}				
+
+				console.log(parameter, value, $scope.generalRating());
+			}
 
 
 			// Add Tag
