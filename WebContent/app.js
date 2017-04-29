@@ -17,7 +17,7 @@ ratorApp.controller('mainController', function($scope, $http, $location, playerS
 		if (data.result == "Success") {
 			$location.url('/dashboard');
 		} else {
-			$location.url('/login');
+			$location.url('/');
 		}
 	});
 });

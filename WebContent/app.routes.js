@@ -2,8 +2,7 @@ ratorApp.config(function($routeProvider) {
 	$routeProvider
 
 	.when('/', {
-		templateUrl : 'components/login/login.html',
-		controller : 'mainController'
+		templateUrl : 'progressinfo.html'
 	})
 	
 	.when('/login', {
