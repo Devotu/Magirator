@@ -18,6 +18,7 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 			$scope.newPlayer = { 'id': 0, 'name': "" };
 			$scope.allPlayers = [];
 			
+			$scope.ratingSystem = "General";
 			$scope.rating = [0,0,0,0];
 			$scope.generalRating = function(){ return ($scope.rating.reduce(function(a, b) { return a + b; }, 0))/4; }
 
@@ -207,7 +208,13 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 						confirmed: true,
 						comment: "",
 						added: Date.now(),
-						tags: []
+						tags: [],
+						rating: {
+							speed: $scope.rating[0],
+							strength: $scope.rating[1],
+							synergy: $scope.rating[2],
+							control: $scope.rating[3]
+						}
 					}
 				);
 
@@ -309,19 +316,39 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 			};
 			
 			
-			//Rating
-			$scope.rate = function(parameter, value){				
+			//Rating (not particulary elegant)
+			$scope.rate = function(parameter, value){
 				
 				switch(parameter) {
 			    case 'general':
 			        $scope.rating = [value, value, value, value];
 			        break;
+			    case 'speed':
+			        $scope.rating = [value, $scope.rating[1], $scope.rating[2], $scope.rating[3]];
+			        break;
+			    case 'strength':
+			        $scope.rating = [$scope.rating[0], value, $scope.rating[2], $scope.rating[3]];
+			        break;
+			    case 'synergy':
+			        $scope.rating = [$scope.rating[0], $scope.rating[1], value, $scope.rating[3]];
+			        break;
+			    case 'control':
+			        $scope.rating = [$scope.rating[0], $scope.rating[1], $scope.rating[2], value];
+			        break;
 			    default:
 			    	$scope.rating = [value, value, value, value];
-				}				
-
-				console.log(parameter, value, $scope.generalRating());
+				}
 			}
+			
+			$scope.toggleRatingSystem = function () {
+
+				if ($scope.ratingSystem != "SSSC") {
+					$scope.ratingSystem = "SSSC";
+				} else {
+					$scope.ratingSystem = "General";
+				}
+
+			};
 
 
 			// Add Tag

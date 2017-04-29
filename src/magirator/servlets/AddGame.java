@@ -16,11 +16,13 @@ import com.google.gson.JsonObject;
 import magirator.data.collections.Participant;
 import magirator.data.interfaces.IPlayer;
 import magirator.data.objects.Deck;
+import magirator.data.objects.Rating;
 import magirator.data.objects.Result;
 import magirator.data.objects.Tag;
 import magirator.model.neo4j.Decks;
 import magirator.model.neo4j.Games;
 import magirator.model.neo4j.IPlayers;
+import magirator.model.neo4j.Ratings;
 import magirator.model.neo4j.Tags;
 import magirator.support.Error;
 import magirator.support.Json;
@@ -57,6 +59,7 @@ public class AddGame extends HttpServlet {
 				JsonArray requestParticipants = requestData.get("participants").getAsJsonArray();
 				
 				ArrayList<Participant> participants = new ArrayList<Participant>();
+				Rating rating = null;
 				ArrayList<Tag> tags = new ArrayList<Tag>();
 				
 				for (JsonElement e : requestParticipants){
@@ -68,6 +71,10 @@ public class AddGame extends HttpServlet {
 					Result r = new Result(o);
 					
 					participants.add( new Participant(p, d, r, null) );
+					
+					if (o.has("rating")){
+						rating = new Rating(o.get("rating").getAsJsonObject());				
+					}
 					
 					JsonArray tag_array = o.get("tags").getAsJsonArray();
 					
@@ -83,10 +90,22 @@ public class AddGame extends HttpServlet {
 				int gameId = Games.addGame(participants, draw, player.getId());
 				
 				if (gameId > 0){
-				
-					result.addProperty(Variables.result, "Game added but something went wrong tagging the results");
 					
-					if(Tags.addTagsToResultsInGame(tags, gameId)){
+					result.addProperty(Variables.result, "Game added but something went wrong with the optionals (rating and tags)");
+					
+					optionals: {
+						
+						if (rating != null) {
+							if (!Ratings.addRatingToResult(player.getId(), rating, gameId)) {
+								result.addProperty(Variables.result, "Game added but something went wrong rating the result");
+								break optionals;
+							} 
+						}
+						if(!Tags.addTagsToResultsInGame(tags, gameId)){
+							result.addProperty(Variables.result, "Game added but something went wrong tagging the results");
+							break optionals;
+						}
+						
 						result.addProperty(Variables.result, Variables.success);
 					}
 				}
