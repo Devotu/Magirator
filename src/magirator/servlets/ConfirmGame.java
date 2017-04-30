@@ -15,6 +15,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import magirator.data.interfaces.IPlayer;
+import magirator.data.objects.Rating;
 import magirator.data.objects.Tag;
 import magirator.model.neo4j.Games;
 import magirator.model.neo4j.Tags;
@@ -53,6 +54,19 @@ public class ConfirmGame extends HttpServlet {
 			boolean confirm = Json.getBoolean(requestData, "confirm", false);
 			String comment = Json.getString(requestData, "comment", "No comment");
 			
+			JsonArray ratingA = requestData.get("rating").getAsJsonArray();
+			
+			//Borde vara ett helt onödigt steg. Bör komma som objekt direkt ifrån gui
+			JsonObject ratingO = new JsonObject();
+			ratingO.addProperty("speed", ratingA.get(0).getAsNumber());
+			ratingO.addProperty("strength", ratingA.get(1).getAsNumber());
+			ratingO.addProperty("synergy", ratingA.get(2).getAsNumber());
+			ratingO.addProperty("control", ratingA.get(3).getAsNumber());			
+			
+			Rating rating = new Rating(ratingO);
+			
+			//If general rating = 0 rating = null
+			
 			JsonArray tag_array = Json.getArray(requestData, "tags");
 			ArrayList<Tag> tags = new ArrayList<Tag>();
 			
@@ -63,7 +77,7 @@ public class ConfirmGame extends HttpServlet {
 			
 			try {				
 				
-				if (Games.confirmGame(playId, confirm, comment)){
+				if (Games.confirmGame(playId, confirm, comment, rating)){
 					
 					result.addProperty(Variables.result, "Confirmed game but something went wrong with the tags");	
 					

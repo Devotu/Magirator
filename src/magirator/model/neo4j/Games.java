@@ -266,7 +266,7 @@ public class Games {
 		}
 	}
 
-	public static boolean confirmGame(int resultId, boolean confirm, String comment) throws Exception {
+	public static boolean confirmGame(int resultId, boolean confirm, String comment, Rating rating) throws Exception {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -275,15 +275,26 @@ public class Games {
 			con = Database.getConnection();			
 			
 			String query = ""
-					+ "MATCH (d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
+					+ "MATCH (p:Player)-[:Use|:Used]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
 					+ "WHERE id(r)=? "
 					+ "SET r.confirmed=?, r.comment=?";
+			
+			if (rating != null){
+				query += " CREATE (p)-[:Gave]->(rt:Rating {speed:?, strength:?, synergy:?, control:?})-[:To]->(r)";
+			}
 			
 			ps = con.prepareStatement(query);
       		
 			ps.setInt(1, resultId);
 			ps.setInt(2, confirm ? 1 : -1);
 			ps.setString(3, comment);
+			
+			if (rating != null){
+				ps.setInt(4, rating.getSpeed());
+				ps.setInt(5, rating.getStrength());
+				ps.setInt(6, rating.getSynergy());
+				ps.setInt(7, rating.getControl());
+			}
 			
 			ps.executeUpdate();
 			

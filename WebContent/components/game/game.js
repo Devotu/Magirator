@@ -12,6 +12,7 @@ ratorApp.controller('gameController', function($scope, $http, $location, playerS
 			$scope.gameId = deckVarStorage.getGoTo();
 			
 			$scope.rating = [0,0,0,0];
+			$scope.generalRating = function(){ return ($scope.rating.reduce(function(a, b) { return a + b; }, 0))/4; }
 			
 			$scope.setRating = function(r){
 				console.log(r['speed']);
@@ -53,9 +54,8 @@ ratorApp.controller('gameController', function($scope, $http, $location, playerS
 			$scope.getGame();
 
 			
-			$scope.ratingSystem = "General";			
-			$scope.generalRating = function(){ return ($scope.rating.reduce(function(a, b) { return a + b; }, 0))/4; }
-			
+			$scope.ratingSystem = "General";
+
 			$scope.toggleRatingSystem = function () {
 
 				if ($scope.ratingSystem != "SSSC") {

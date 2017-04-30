@@ -8,6 +8,10 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 			$scope.gameId = deckVarStorage.getGoTo();
 			$scope.player = JSON.parse( data.player );
 			
+			$scope.ratingSystem = "General";
+			$scope.rating = [0,0,0,0];
+			$scope.generalRating = function(){ return ($scope.rating.reduce(function(a, b) { return a + b; }, 0))/4; }
+			
 			$scope.getGame = function(){
 				
 				// Get Game
@@ -77,7 +81,8 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 								id : $scope.self.result.id,
 								confirm : response,
 								comment : $scope.comment,
-								tags : $scope.tags
+								tags : $scope.tags,
+								rating: $scope.rating
 							}
 						);
 		
@@ -92,6 +97,42 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 					function(){
 						$scope.result = 'Failure';
 				});
+			}
+			
+			
+			$scope.ratingSystem = "General";
+
+			$scope.toggleRatingSystem = function () {
+
+				if ($scope.ratingSystem != "SSSC") {
+					$scope.ratingSystem = "SSSC";
+				} else {
+					$scope.ratingSystem = "General";
+				}
+			};
+			
+			//Rating (not particulary elegant)
+			$scope.rate = function(parameter, value){
+				
+				switch(parameter) {
+			    case 'general':
+			        $scope.rating = [value, value, value, value];
+			        break;
+			    case 'speed':
+			        $scope.rating = [value, $scope.rating[1], $scope.rating[2], $scope.rating[3]];
+			        break;
+			    case 'strength':
+			        $scope.rating = [$scope.rating[0], value, $scope.rating[2], $scope.rating[3]];
+			        break;
+			    case 'synergy':
+			        $scope.rating = [$scope.rating[0], $scope.rating[1], value, $scope.rating[3]];
+			        break;
+			    case 'control':
+			        $scope.rating = [$scope.rating[0], $scope.rating[1], $scope.rating[2], value];
+			        break;
+			    default:
+			    	$scope.rating = [value, value, value, value];
+				}
 			}
 
 		} else {
