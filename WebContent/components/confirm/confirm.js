@@ -9,16 +9,17 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 			$scope.player = JSON.parse( data.player );
 			
 			$scope.rating = {'speed': 0, 'strength': 0, 'synergy': 0, 'control': 0};
-			console.log($scope.rating);
 			
 			$scope.generalRating = function(){
 				var total = 0;
+				var keys = 0;
 				for (var key in $scope.rating) {
 					  if ($scope.rating.hasOwnProperty(key)) {
 					    total += $scope.rating[key];
+					    keys++;
 					  }
 					}
-				return total/4; 
+				return total/keys; 
 				}
 			
 			$scope.getGame = function(){

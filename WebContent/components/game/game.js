@@ -11,19 +11,25 @@ ratorApp.controller('gameController', function($scope, $http, $location, playerS
 
 			$scope.gameId = deckVarStorage.getGoTo();
 			
-			$scope.rating = [0,0,0,0];
-			$scope.generalRating = function(){ return ($scope.rating.reduce(function(a, b) { return a + b; }, 0))/4; }
+			$scope.rating = {'speed': 0, 'strength': 0, 'synergy': 0, 'control': 0};
 			
-			$scope.setRating = function(r){
-				console.log(r['speed']);
-				$scope.rating = [r['speed'], r['strength'], r['synergy'], r['control']];
-			}
+			$scope.generalRating = function(){
+				var total = 0;
+				var keys = 0;
+				for (var key in $scope.rating) {
+					  if ($scope.rating.hasOwnProperty(key)) {
+					    total += $scope.rating[key];
+					    keys++;
+					  }
+					}
+				return total/keys; 
+				}
 			
 			$scope.setRatings = function(ps){
 				for (i = 0; i < ps.length; i++) {
 					console.log(ps[i].rating);
-				    if (ps[i].rating != undefined && ps[i].player.id == $scope.player.id){
-				    	$scope.setRating(ps[i].rating)
+				    if (ps[i].rating != undefined){
+				    	$scope.rating = ps[i].rating;
 				    }
 				}
 			}
