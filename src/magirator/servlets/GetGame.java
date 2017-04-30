@@ -16,8 +16,10 @@ import com.google.gson.JsonObject;
 
 import magirator.data.collections.Participant;
 import magirator.data.interfaces.IPlayer;
+import magirator.data.objects.Rating;
 import magirator.data.objects.Tag;
 import magirator.model.neo4j.Games;
+import magirator.model.neo4j.Ratings;
 import magirator.model.neo4j.Tags;
 import magirator.support.Error;
 import magirator.support.Json;

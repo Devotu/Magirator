@@ -15,6 +15,7 @@ import magirator.data.interfaces.IPlayer;
 import magirator.data.objects.Deck;
 import magirator.data.objects.Game;
 import magirator.data.objects.Player;
+import magirator.data.objects.Rating;
 import magirator.data.objects.Result;
 import magirator.support.Database;
 
@@ -180,7 +181,8 @@ public class Games {
 			String query = ""
 					+ "MATCH (p:Player)-[Use]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) " //TODO Used & Evolved
 					+ "WHERE id(g) = ? "
-					+ "RETURN id(p), PROPERTIES(p), id(d), PROPERTIES(d), id(r), PROPERTIES(r), id(g), PROPERTIES(g) "
+					+ "OPTIONAL MATCH (p)-[:Gave]->(rt)-[to]->(r) "
+					+ "RETURN id(p), PROPERTIES(p), id(d), PROPERTIES(d), id(r), PROPERTIES(r), id(rt), PROPERTIES(rt), id(g), PROPERTIES(g) "
 					+ "ORDER BY r.place";
 
       		ps = con.prepareStatement(query);
@@ -196,7 +198,18 @@ public class Games {
 				Result result = new Result( rs.getInt("id(r)"), (Map) rs.getObject("PROPERTIES(r)") );
 				Game game = new Game( rs.getInt("id(g)"), (Map) rs.getObject("PROPERTIES(g)") );
 				
-				participants.add(new Participant(player, deck, result, game));
+
+				
+				Participant participant = new Participant(player, deck, result, game);
+				
+				rs.getMetaData();
+				
+				if (rs.getObject("id(rt)") != null) {
+					Rating rating = new Rating(rs.getInt("id(rt)"), (Map) rs.getObject("PROPERTIES(rt)"));
+					participant.setRating(rating);
+				}
+				
+				participants.add(participant);				
 			}
 			
 			return participants;

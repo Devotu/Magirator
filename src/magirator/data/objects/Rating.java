@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 
 public class Rating {
 	
+	private int id;
 	private int speed;
 	private int strength;
 	private int synergy;
@@ -18,11 +19,16 @@ public class Rating {
 		this.control = rating.has("control") ? rating.get("control").getAsInt() : 0;
 	}
 	
-	public Rating(Map properties) {
+	public Rating(int ratingId, Map properties) {
+		this.id = ratingId;
 		this.speed = (int)(long)properties.get("speed");
 		this.strength = (int)(long)properties.get("strength");
 		this.synergy = (int)(long)properties.get("synergy");
 		this.control = (int)(long)properties.get("control");
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 	public int getSpeed() {

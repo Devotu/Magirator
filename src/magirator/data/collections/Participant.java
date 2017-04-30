@@ -18,10 +18,13 @@ import magirator.data.objects.Tag;
  */
 public class Participant {
 
+	//Core
 	private IPlayer player;
 	private Deck deck;
 	private Result result;
 	private Game game;
+	
+	//Optional
 	private Rating rating;
 	private ArrayList<Tag> tags;
 

@@ -9,7 +9,23 @@ ratorApp.controller('gameController', function($scope, $http, $location, playerS
 
 			$scope.player = JSON.parse( data.player );
 
-			$scope.gameId = deckVarStorage.getGoTo();			
+			$scope.gameId = deckVarStorage.getGoTo();
+			
+			$scope.rating = [0,0,0,0];
+			
+			$scope.setRating = function(r){
+				console.log(r['speed']);
+				$scope.rating = [r['speed'], r['strength'], r['synergy'], r['control']];
+			}
+			
+			$scope.setRatings = function(ps){
+				for (i = 0; i < ps.length; i++) {
+					console.log(ps[i].rating);
+				    if (ps[i].rating != undefined && ps[i].player.id == $scope.player.id){
+				    	$scope.setRating(ps[i].rating)
+				    }
+				}
+			}
 				
 			$scope.getGame = function(){
 				
@@ -26,6 +42,7 @@ ratorApp.controller('gameController', function($scope, $http, $location, playerS
 							$scope.result = 'Success';
 							$scope.participants = JSON.parse(response.data.participants);
 							$scope.draw = $scope.participants[0].game.draw;
+							$scope.setRatings($scope.participants);
 						}					
 					}, 
 					function(){
@@ -34,11 +51,23 @@ ratorApp.controller('gameController', function($scope, $http, $location, playerS
 			}
 			
 			$scope.getGame();
+
+			
+			$scope.ratingSystem = "General";			
+			$scope.generalRating = function(){ return ($scope.rating.reduce(function(a, b) { return a + b; }, 0))/4; }
+			
+			$scope.toggleRatingSystem = function () {
+
+				if ($scope.ratingSystem != "SSSC") {
+					$scope.ratingSystem = "SSSC";
+				} else {
+					$scope.ratingSystem = "General";
+				}
+			};
 	
 		} else {
 			$scope.result = 'Not logged in, please log in and try again';
 			$location.url('/');
 		}
 	});
-
 });
