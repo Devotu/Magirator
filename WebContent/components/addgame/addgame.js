@@ -18,9 +18,19 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 			$scope.newPlayer = { 'id': 0, 'name': "" };
 			$scope.allPlayers = [];
 			
-			$scope.ratingSystem = "General";
-			$scope.rating = [0,0,0,0];
-			$scope.generalRating = function(){ return ($scope.rating.reduce(function(a, b) { return a + b; }, 0))/4; }
+			$scope.rating = {'speed': 0, 'strength': 0, 'synergy': 0, 'control': 0};
+			
+			$scope.generalRating = function(){
+				var total = 0;
+				var keys = 0;
+				for (var key in $scope.rating) {
+					  if ($scope.rating.hasOwnProperty(key) && key != 'id') {
+					    total += $scope.rating[key];
+					    keys++;
+					  }
+					}
+				return total/keys; 
+				}
 
 			$scope.newDeck = {
 				'name': "",
@@ -210,10 +220,10 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 						added: Date.now(),
 						tags: [],
 						rating: {
-							speed: $scope.rating[0],
-							strength: $scope.rating[1],
-							synergy: $scope.rating[2],
-							control: $scope.rating[3]
+							speed: $scope.rating['speed'],
+							strength: $scope.rating['strength'],
+							synergy: $scope.rating['synergy'],
+							control: $scope.rating['control']
 						}
 					}
 				);
@@ -315,30 +325,20 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 				}
 			};
 			
-			
-			//Rating (not particulary elegant)
+			//Rating
 			$scope.rate = function(parameter, value){
-				
-				switch(parameter) {
-			    case 'general':
-			        $scope.rating = [value, value, value, value];
-			        break;
-			    case 'speed':
-			        $scope.rating = [value, $scope.rating[1], $scope.rating[2], $scope.rating[3]];
-			        break;
-			    case 'strength':
-			        $scope.rating = [$scope.rating[0], value, $scope.rating[2], $scope.rating[3]];
-			        break;
-			    case 'synergy':
-			        $scope.rating = [$scope.rating[0], $scope.rating[1], value, $scope.rating[3]];
-			        break;
-			    case 'control':
-			        $scope.rating = [$scope.rating[0], $scope.rating[1], $scope.rating[2], value];
-			        break;
-			    default:
-			    	$scope.rating = [value, value, value, value];
+				if (parameter == 'general'){
+					for (var key in $scope.rating) {
+						  if ($scope.rating.hasOwnProperty(key)) {
+							  $scope.rating[key] = value;
+						  }
+						}
+				} else {
+					$scope.rating[parameter] = value;
 				}
 			}
+			
+			$scope.ratingSystem = "General";
 			
 			$scope.toggleRatingSystem = function () {
 

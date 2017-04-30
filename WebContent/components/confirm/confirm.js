@@ -14,7 +14,7 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 				var total = 0;
 				var keys = 0;
 				for (var key in $scope.rating) {
-					  if ($scope.rating.hasOwnProperty(key)) {
+					  if ($scope.rating.hasOwnProperty(key) && key != 'id') {
 					    total += $scope.rating[key];
 					    keys++;
 					  }
@@ -122,9 +122,7 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 			};
 			
 			
-			$scope.rate = function(parameter, value){				
-
-				console.log($scope.rating);
+			$scope.rate = function(parameter, value){
 				if (parameter == 'general'){
 					for (var key in $scope.rating) {
 						  if ($scope.rating.hasOwnProperty(key)) {
@@ -134,8 +132,6 @@ ratorApp.controller('confirmController', function($scope, $http, $location, play
 				} else {
 					$scope.rating[parameter] = value;
 				}
-
-				console.log($scope.rating);
 			}
 
 		} else {
