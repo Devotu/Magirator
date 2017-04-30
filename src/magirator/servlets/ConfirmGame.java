@@ -54,16 +54,16 @@ public class ConfirmGame extends HttpServlet {
 			boolean confirm = Json.getBoolean(requestData, "confirm", false);
 			String comment = Json.getString(requestData, "comment", "No comment");
 			
-			JsonArray ratingA = requestData.get("rating").getAsJsonArray();
+			//JsonArray ratingA = requestData.get("rating").getAsJsonArray();
 			
 			//Borde vara ett helt onödigt steg. Bör komma som objekt direkt ifrån gui
-			JsonObject ratingO = new JsonObject();
-			ratingO.addProperty("speed", ratingA.get(0).getAsNumber());
-			ratingO.addProperty("strength", ratingA.get(1).getAsNumber());
-			ratingO.addProperty("synergy", ratingA.get(2).getAsNumber());
-			ratingO.addProperty("control", ratingA.get(3).getAsNumber());			
+			//JsonObject ratingO = new JsonObject();
+			//ratingO.addProperty("speed", ratingA.get(0).getAsNumber());
+			//ratingO.addProperty("strength", ratingA.get(1).getAsNumber());
+			//ratingO.addProperty("synergy", ratingA.get(2).getAsNumber());
+			//ratingO.addProperty("control", ratingA.get(3).getAsNumber());			
 			
-			Rating rating = new Rating(ratingO);
+			Rating rating = new Rating(Json.getObject(requestData, "rating"));
 			
 			//If general rating = 0 rating = null
 			
