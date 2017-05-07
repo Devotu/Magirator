@@ -8,12 +8,12 @@ import java.util.Map;
 
 import javax.naming.NamingException;
 
+import magirator.data.entities.Reset;
+import magirator.data.entities.User;
 import magirator.data.interfaces.IPlayer;
-import magirator.data.objects.Reset;
-import magirator.data.objects.User;
+import magirator.logic.LoginCredentials;
 import magirator.support.Database;
-import magirator.viewobjects.LoginCredentials;
-import magirator.viewobjects.PublicPlayer;
+import magirator.view.PlayerName;
 
 public class Users {
 	
@@ -47,7 +47,7 @@ public class Users {
 		}
 	}
 	
-	public static boolean signup(LoginCredentials requestedUser, PublicPlayer requestedPlayer) throws NamingException, SQLException{
+	public static boolean signup(LoginCredentials requestedUser, PlayerName requestedPlayer) throws NamingException, SQLException{
 		
 		Connection con = null;
 		PreparedStatement ps = null;

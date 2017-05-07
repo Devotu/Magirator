@@ -8,13 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.JsonObject;
 
+import magirator.logic.LoginCredentials;
 import magirator.model.neo4j.Players;
 import magirator.model.neo4j.Users;
 import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Variables;
-import magirator.viewobjects.LoginCredentials;
-import magirator.viewobjects.PublicPlayer;
+import magirator.view.PlayerName;
 
 /**
  * Servlet implementation class Signup
@@ -52,7 +52,7 @@ public class Signup extends HttpServlet {
 					
 					if (userAvailable){
 						
-						PublicPlayer requestedPlayer = new PublicPlayer(signupRequest);
+						PlayerName requestedPlayer = new PlayerName(signupRequest);
 		
 						result.addProperty(Variables.result, "Playername already in use, please try another one");
 						

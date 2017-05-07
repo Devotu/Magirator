@@ -43,7 +43,7 @@ public class GetDashboard extends HttpServlet {
 		// Player is logged in
 		if (player != null) {
 			try {
-				ArrayList<Participant> participations = Games.getUnconfirmedGames(player.getId());
+				ArrayList<Participant> participations = Games.getUnconfirmedParticipations(player.getId());
 				result.addProperty("unconfirmed", participations.size());
 				
 				result.addProperty("player", new Gson().toJson(player));

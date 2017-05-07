@@ -1,8 +1,8 @@
-package magirator.viewobjects;
+package magirator.view;
 
 import java.util.Date;
 
-import magirator.data.objects.Deck;
+import magirator.data.entities.Deck;
 
 /**
  * A Deck containing all info needed for filering in a list

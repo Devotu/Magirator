@@ -14,5 +14,7 @@
 	<classpathentry kind="lib" path="/home/ottu/jars/gson-2.8.0.jar"/>
 	<classpathentry kind="lib" path="/home/ottu/jars/activation.jar"/>
 	<classpathentry kind="lib" path="/home/ottu/jars/javax.mail-1.5.6.jar"/>
+	<classpathentry kind="lib" path="/home/ottu/jars/org.restlet-2.3.9.jar"/>
+	<classpathentry kind="lib" path="/home/ottu/jars/org.restlet.ext.servlet-2.3.9.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

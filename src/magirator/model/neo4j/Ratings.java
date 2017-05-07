@@ -2,7 +2,8 @@ package magirator.model.neo4j;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import magirator.data.objects.Rating;
+
+import magirator.data.entities.Rating;
 import magirator.support.Database;
 
 public class Ratings {

@@ -10,14 +10,14 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.JsonObject;
 
+import magirator.data.entities.User;
 import magirator.data.interfaces.IPlayer;
-import magirator.data.objects.User;
+import magirator.logic.LoginCredentials;
 import magirator.model.neo4j.Players;
 import magirator.model.neo4j.Users;
 import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Variables;
-import magirator.viewobjects.LoginCredentials;
 
 /**
  * Servlet implementation class Login

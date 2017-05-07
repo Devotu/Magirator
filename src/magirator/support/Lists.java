@@ -3,7 +3,7 @@ package magirator.support;
 import java.util.Collections;
 import java.util.List;
 
-import magirator.viewobjects.Opponent;
+import magirator.view.Opponent;
 
 public class Lists {
 	

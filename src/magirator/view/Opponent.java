@@ -1,4 +1,4 @@
-package magirator.viewobjects;
+package magirator.view;
 
 import java.util.ArrayList;
 import java.util.Comparator;

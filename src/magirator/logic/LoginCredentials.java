@@ -1,4 +1,4 @@
-package magirator.viewobjects;
+package magirator.logic;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -6,11 +6,6 @@ import com.google.gson.JsonObject;
 
 import magirator.support.Encryption;
 
-/**
- * Never to leave server side due to security functions
- * @author ottu
- *
- */
 public class LoginCredentials {
 	
 	private String username;

@@ -1,4 +1,4 @@
-package magirator.data.objects;
+package magirator.data.entities;
 
 import java.util.Map;
 
@@ -6,21 +6,21 @@ import com.google.gson.JsonObject;
 
 import magirator.data.interfaces.IPlayer;
 
-public class Player implements IPlayer {
-
+public class Minion implements IPlayer {
+	
 	private int id;
 	private String name;
 	
-	public Player(JsonObject json) {
+	public Minion(JsonObject json) {
 		this.name = json.get("name").getAsString();
-		this.id = json.get("id").getAsInt();
+		this.id = json.has("id") ? json.get("id").getAsInt() : 0;
 	}
 
-	public Player(int id, Map playerMap) {
+	public Minion(int id, Map minionMap) {
 		this.id = id;
-		this.name = (String) playerMap.get("name");
+		this.name = (String) minionMap.get("name");
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see magirator.dataobjects.IPlayer#getId()
 	 */
@@ -36,4 +36,5 @@ public class Player implements IPlayer {
 	public String getName() {
 		return name;
 	}
+
 }

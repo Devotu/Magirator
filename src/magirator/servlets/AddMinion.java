@@ -13,18 +13,18 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import magirator.data.entities.Minion;
+import magirator.data.entities.User;
 import magirator.data.interfaces.IPlayer;
-import magirator.data.objects.Minion;
-import magirator.data.objects.User;
+import magirator.logic.Ranker;
 import magirator.model.neo4j.Minions;
 import magirator.model.neo4j.Users;
 import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Lists;
-import magirator.support.Ranker;
 import magirator.support.Validator;
 import magirator.support.Variables;
-import magirator.viewobjects.Opponent;
+import magirator.view.Opponent;
 
 /**
  * Servlet implementation class AddMinion

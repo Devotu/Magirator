@@ -43,7 +43,7 @@ public class GetUnconfirmed extends HttpServlet {
 		if (player != null){
 			
 			try {				
-				ArrayList<Participant> participations = Games.getUnconfirmedGames(player.getId());
+				ArrayList<Participant> participations = Games.getUnconfirmedParticipations(player.getId());
 				
 				result.addProperty("games", new Gson().toJson(participations));
 				result.addProperty(Variables.result, Variables.success);

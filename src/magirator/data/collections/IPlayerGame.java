@@ -1,7 +1,7 @@
 package magirator.data.collections;
 
+import magirator.data.entities.Game;
 import magirator.data.interfaces.IPlayer;
-import magirator.data.objects.Game;
 
 public class IPlayerGame {
 	

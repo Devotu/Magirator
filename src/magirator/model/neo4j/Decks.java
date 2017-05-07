@@ -11,10 +11,10 @@ import java.util.Map;
 
 import javax.naming.NamingException;
 
+import magirator.data.entities.Alteration;
+import magirator.data.entities.Deck;
+import magirator.data.entities.Minion;
 import magirator.data.interfaces.IPlayer;
-import magirator.data.objects.Alteration;
-import magirator.data.objects.Deck;
-import magirator.data.objects.Minion;
 import magirator.support.Database;
 
 public class Decks {

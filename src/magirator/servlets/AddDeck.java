@@ -10,8 +10,8 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.JsonObject;
 
+import magirator.data.entities.Deck;
 import magirator.data.interfaces.IPlayer;
-import magirator.data.objects.Deck;
 import magirator.model.neo4j.Decks;
 import magirator.support.Error;
 import magirator.support.Json;

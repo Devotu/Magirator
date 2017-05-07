@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import magirator.data.entities.Minion;
+import magirator.data.entities.Player;
+import magirator.data.entities.User;
 import magirator.data.interfaces.IPlayer;
-import magirator.data.objects.Minion;
-import magirator.data.objects.Player;
-import magirator.data.objects.User;
 import magirator.support.Database;
 
 public class Minions {

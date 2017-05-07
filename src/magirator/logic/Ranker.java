@@ -1,13 +1,13 @@
-package magirator.support;
+package magirator.logic;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import magirator.data.collections.IPlayerGame;
-import magirator.data.objects.Game;
-import magirator.data.objects.Minion;
-import magirator.viewobjects.Opponent;
+import magirator.data.entities.Game;
+import magirator.data.entities.Minion;
+import magirator.view.Opponent;
 
 public class Ranker {
 	

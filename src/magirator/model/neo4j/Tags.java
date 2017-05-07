@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import magirator.data.objects.Tag;
+import magirator.data.entities.Tag;
 import magirator.support.Database;
 
 public class Tags {

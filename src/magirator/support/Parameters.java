@@ -2,7 +2,7 @@ package magirator.support;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class ParameterHelper {
+public class Parameters {
 	
 	public static String returnParameter(HttpServletRequest req, String name, String def){
 		

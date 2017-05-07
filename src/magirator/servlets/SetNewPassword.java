@@ -10,13 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.JsonObject;
 
-import magirator.data.objects.Reset;
+import magirator.data.entities.Reset;
+import magirator.logic.LoginCredentials;
 import magirator.model.neo4j.Users;
 import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Validator;
 import magirator.support.Variables;
-import magirator.viewobjects.LoginCredentials;
 
 /**
  * Servlet implementation class SetNewPassword

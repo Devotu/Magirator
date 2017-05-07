@@ -5,9 +5,12 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.restlet.representation.Representation;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 public class Json {
 
@@ -46,5 +49,15 @@ public class Json {
 	
 	public static JsonObject getObject(JsonObject data, String field) {
 		return data.get(field).getAsJsonObject();
+	}
+
+	public static JsonObject parseRepresentation(Representation rep) {
+		JsonParser parser = new JsonParser();
+		try {
+			return (JsonObject) parser.parse(rep.getText());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}	
 	}
 }

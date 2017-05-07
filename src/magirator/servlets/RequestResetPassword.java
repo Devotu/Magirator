@@ -8,13 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.JsonObject;
 
+import magirator.logic.LoginCredentials;
 import magirator.model.neo4j.Users;
 import magirator.support.Encryption;
 import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Mail;
 import magirator.support.Variables;
-import magirator.viewobjects.LoginCredentials;
 
 /**
  * Servlet implementation class RequestResetPassword

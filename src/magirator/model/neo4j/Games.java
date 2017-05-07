@@ -6,17 +6,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.naming.NamingException;
 
+import magirator.data.collections.GameBundle;
 import magirator.data.collections.Participant;
+import magirator.data.entities.Deck;
+import magirator.data.entities.Game;
+import magirator.data.entities.Player;
+import magirator.data.entities.Rating;
+import magirator.data.entities.Result;
 import magirator.data.interfaces.IPlayer;
-import magirator.data.objects.Deck;
-import magirator.data.objects.Game;
-import magirator.data.objects.Player;
-import magirator.data.objects.Rating;
-import magirator.data.objects.Result;
 import magirator.support.Database;
 
 public class Games {
@@ -223,7 +225,7 @@ public class Games {
 		}
 	}
 
-	public static ArrayList<Participant> getUnconfirmedGames(int playerId) throws Exception {
+	public static ArrayList<Participant> getUnconfirmedParticipations(int playerId) throws Exception {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -303,6 +305,68 @@ public class Games {
 		} catch (Exception ex){
 			throw ex;
 		} finally {
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+	}
+
+	public static List<GameBundle> getPlayerGames(int playerId) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();			
+
+			String query = ""
+					+ "MATCH (player:Player)"
+					+ "WHERE id(player) = ?"
+					+ "MATCH (player)-[:Use]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game)"
+					+ "MATCH (pm)-[:Use]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g)"
+					+ "RETURN id(pm), PROPERTIES(pm), id(d), PROPERTIES(d), id(r), PROPERTIES(r), id(g), PROPERTIES(g)"
+					+ "ORDER BY id(g)";
+
+      		ps = con.prepareStatement(query);
+      		ps.setInt(1, playerId);
+      		
+      		rs = ps.executeQuery();
+      		
+      		List<GameBundle> games = new ArrayList<>();      		
+      		GameBundle gb = null;
+			
+			while (rs.next()) {
+				IPlayer player = new Player( rs.getInt("id(pm)"), (Map) rs.getObject("PROPERTIES(pm)") );
+				Deck deck = new Deck( rs.getInt("id(d)"), (Map) rs.getObject("PROPERTIES(d)") );
+				Result result = new Result( rs.getInt("id(r)"), (Map) rs.getObject("PROPERTIES(r)") );
+				Game game = new Game( rs.getInt("id(g)"), (Map) rs.getObject("PROPERTIES(g)") );
+				
+				Participant p = new Participant(player, deck, result, game);
+				
+				if (gb == null) {
+					gb = new GameBundle(game);
+				}
+								
+				if (!gb.isSameGame(p)) {
+					games.add(gb);
+					gb = new GameBundle(game);
+				}
+				
+				if (player.getId() == playerId) {
+					gb.addSelf(p);
+				} else {
+					gb.addOpponent(p);
+				}
+			}
+			
+			games.add(gb);
+			
+			return games;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (rs != null) rs.close();
 			if (ps != null) ps.close();
 			if (con != null) con.close();
 		}

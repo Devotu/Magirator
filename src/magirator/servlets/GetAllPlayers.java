@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import magirator.data.objects.Player;
+import magirator.data.entities.Player;
 import magirator.model.neo4j.Players;
 import magirator.support.Error;
 import magirator.support.Variables;

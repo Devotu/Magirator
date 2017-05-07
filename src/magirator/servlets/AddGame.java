@@ -14,11 +14,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import magirator.data.collections.Participant;
+import magirator.data.entities.Deck;
+import magirator.data.entities.Rating;
+import magirator.data.entities.Result;
+import magirator.data.entities.Tag;
 import magirator.data.interfaces.IPlayer;
-import magirator.data.objects.Deck;
-import magirator.data.objects.Rating;
-import magirator.data.objects.Result;
-import magirator.data.objects.Tag;
 import magirator.model.neo4j.Decks;
 import magirator.model.neo4j.Games;
 import magirator.model.neo4j.IPlayers;

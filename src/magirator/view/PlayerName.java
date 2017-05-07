@@ -1,12 +1,12 @@
-package magirator.viewobjects;
+package magirator.view;
 
 import com.google.gson.JsonObject;
 
-public class PublicPlayer {
+public class PlayerName {
 	
 	private String playername;
 	
-	public PublicPlayer(JsonObject json) {
+	public PlayerName(JsonObject json) {
 		this.playername = json.get("playername").getAsString();
 	}
 	

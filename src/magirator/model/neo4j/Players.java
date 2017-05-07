@@ -10,15 +10,15 @@ import java.util.Map;
 
 import javax.naming.NamingException;
 
+import magirator.data.entities.Player;
+import magirator.data.entities.User;
 import magirator.data.interfaces.IPlayer;
-import magirator.data.objects.Player;
-import magirator.data.objects.User;
 import magirator.support.Database;
-import magirator.viewobjects.PublicPlayer;
+import magirator.view.PlayerName;
 
 public class Players {
 
-	public static boolean checkIfAvailable(PublicPlayer requestedPlayer) throws NamingException, SQLException {
+	public static boolean checkIfAvailable(PlayerName requestedPlayer) throws NamingException, SQLException {
 
 		Connection con = null;
 		PreparedStatement ps = null;

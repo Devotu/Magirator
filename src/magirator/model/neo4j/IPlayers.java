@@ -11,10 +11,10 @@ import java.util.Map;
 import javax.naming.NamingException;
 
 import magirator.data.collections.IPlayerGame;
+import magirator.data.entities.Game;
+import magirator.data.entities.Minion;
+import magirator.data.entities.Player;
 import magirator.data.interfaces.IPlayer;
-import magirator.data.objects.Game;
-import magirator.data.objects.Minion;
-import magirator.data.objects.Player;
 import magirator.support.Database;
 
 public class IPlayers {
