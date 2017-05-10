@@ -8,20 +8,24 @@ import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import magirator.data.collections.GameBundle;
+import magirator.data.entities.Player;
 import magirator.data.interfaces.IPlayer;
 import magirator.logic.Filter;
+import magirator.logic.graph.Graph;
+import magirator.logic.graph.Grapher;
 import magirator.model.neo4j.Games;
 import magirator.model.neo4j.IPlayers;
 import magirator.support.Json;
 import magirator.support.Variables;
 import magirator.view.Condition;
 
-public class Graph extends ServerResource {
+public class GenerateGraph extends ServerResource {
 
     @Post("json")
     public String toJson(Representation rep) {
@@ -40,9 +44,9 @@ public class Graph extends ServerResource {
 			
         	//extract player, graph and constrains
         	int playerId = request.get("playerId").getAsInt();
-        	IPlayer player = IPlayers.getIPlayer(playerId);
+        	Player player = (Player) IPlayers.getIPlayer(playerId);
         	
-        	String graph = request.get("graph").getAsString();
+        	String targetGraph = request.get("graph").getAsString();
         	JsonArray conditions = request.get("conditions").getAsJsonArray();
         	
         	
@@ -62,17 +66,12 @@ public class Graph extends ServerResource {
         	}
         	
         	//generate content
-        	//magirator.grahp.Grapher.generateAxes();
-        	//magirator.grahp.Grapher.generateBackground();
-        	//magirator.grahp.Grapher.generateContent();
-        	//...
+        	Grapher grapher = new Grapher("Graph", games);
+        	Graph graph = grapher.generateWinrateGraph();
+
+        	Gson gson = new Gson();
+        	response.add("graph", (JsonObject) gson.toJsonTree(graph));
         	
-        	
-        	response.addProperty("games", new Gson().toJson(games));
-        	
-        	response.addProperty("Player", player.getName());
-        	response.addProperty("Graph", graph);
-        	response.addProperty("Constrains", conditions.toString());
         	response.addProperty(Variables.result, "Success");
 			
 			
