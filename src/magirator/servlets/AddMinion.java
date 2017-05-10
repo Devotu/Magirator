@@ -23,7 +23,7 @@ import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Lists;
 import magirator.support.Validator;
-import magirator.support.Variables;
+import magirator.support.Constants;
 import magirator.view.Opponent;
 
 /**
@@ -41,31 +41,31 @@ public class AddMinion extends HttpServlet {
 		getServletContext().log("-- AddMinion --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Could not add Minion, please log in first");
+		result.addProperty(Constants.result, "Could not add Minion, please log in first");
 		
 		HttpSession session = request.getSession();
 		IPlayer player = (IPlayer)session.getAttribute("player");
 		
 		if (player != null){
 
-			result.addProperty(Variables.result, "Something went wrong adding the Minion");
+			result.addProperty(Constants.result, "Something went wrong adding the Minion");
 			
 			try {
 				
 				JsonObject minionrequest = Json.parseRequestData(request);
 				IPlayer requestedMinion = new Minion(minionrequest);
 							
-				result.addProperty(Variables.result, "Minion must have a name");
+				result.addProperty(Constants.result, "Minion must have a name");
 				
 				if ( Validator.isValidPlayer(requestedMinion) ){
 					
-					result.addProperty(Variables.result, "Could not get user. Adding Minion failed");
+					result.addProperty(Constants.result, "Could not get user. Adding Minion failed");
 					
 					User user = Users.getUser(player);
 					
 					if (user != null){
 						
-						result.addProperty(Variables.result, "Something went wrong adding your Minion");
+						result.addProperty(Constants.result, "Something went wrong adding your Minion");
 						
 						Minion minion = Minions.addMinion(user, requestedMinion);
 						Opponent opponent = Ranker.rankMinion(minion);
@@ -73,13 +73,13 @@ public class AddMinion extends HttpServlet {
 						if ( minion != null ){
 							result.addProperty("minion", new Gson().toJson(minion));
 							result.addProperty("opponent", new Gson().toJson(opponent));
-							result.addProperty(Variables.result, Variables.success);
+							result.addProperty(Constants.result, Constants.success);
 						}
 					}
 				}
 				
 			} catch (Exception e) {
-				result.addProperty(Variables.result, Error.printStackTrace(e));
+				result.addProperty(Constants.result, Error.printStackTrace(e));
 			}
 		}
 

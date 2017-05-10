@@ -6,7 +6,6 @@ public class Axis {
 	private int min;
 	private int max;
 	
-	
 	public Axis(String caption, int min, int max) {
 		this.caption = caption;
 		this.min = min;

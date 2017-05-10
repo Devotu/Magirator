@@ -18,7 +18,7 @@ import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Games;
 import magirator.support.Error;
 import magirator.support.Json;
-import magirator.support.Variables;
+import magirator.support.Constants;
 
 /**
  * Servlet implementation class GetGames
@@ -35,7 +35,7 @@ public class GetGames extends HttpServlet {
 		getServletContext().log("-- GetGames --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Could not get Games, are you logged in?");
+		result.addProperty(Constants.result, "Could not get Games, are you logged in?");
 		
 		HttpSession session = request.getSession();
 		IPlayer player = (IPlayer)session.getAttribute("player");
@@ -50,15 +50,15 @@ public class GetGames extends HttpServlet {
 				ArrayList<Participant> participations = Games.getDeckParticipations(deckId);
 				
 				result.addProperty("games", new Gson().toJson(participations));
-				result.addProperty(Variables.result, Variables.success);
+				result.addProperty(Constants.result, Constants.success);
 				
 			} catch (Exception e) {
-				result.addProperty(Variables.result, Error.printStackTrace(e));
+				result.addProperty(Constants.result, Error.printStackTrace(e));
 			}
 			
 		} else {
 			
-			result.addProperty(Variables.result, "Failed to get Games, please login");
+			result.addProperty(Constants.result, "Failed to get Games, please login");
 		}
 		
 		response.setContentType("application/json");

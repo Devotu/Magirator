@@ -8,21 +8,17 @@ import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import magirator.data.collections.GameBundle;
-import magirator.data.entities.Player;
-import magirator.data.interfaces.IPlayer;
 import magirator.logic.Filter;
 import magirator.logic.graph.Graph;
 import magirator.logic.graph.Grapher;
 import magirator.model.neo4j.Games;
-import magirator.model.neo4j.IPlayers;
 import magirator.support.Json;
-import magirator.support.Variables;
+import magirator.support.Constants;
 import magirator.view.Condition;
 
 public class GenerateGraph extends ServerResource {
@@ -31,20 +27,19 @@ public class GenerateGraph extends ServerResource {
     public String toJson(Representation rep) {
     	
     	JsonObject response = new JsonObject();
-    	response.addProperty(Variables.result, "Something went wrong");
+    	response.addProperty(Constants.result, "Something went wrong");
 		
         try {
         	
         	JsonObject request = Json.parseRepresentation(rep);
         	
         	if (request == null){
-        		response.addProperty(Variables.result, "A problem occured parsing the input.");
+        		response.addProperty(Constants.result, "A problem occured parsing the input.");
         		return response.toString();
         	}
 			
         	//extract player, graph and constrains
         	int playerId = request.get("playerId").getAsInt();
-        	Player player = (Player) IPlayers.getIPlayer(playerId);
         	
         	String targetGraph = request.get("graph").getAsString();
         	JsonArray conditions = request.get("conditions").getAsJsonArray();
@@ -67,12 +62,22 @@ public class GenerateGraph extends ServerResource {
         	
         	//generate content
         	Grapher grapher = new Grapher("Graph", games);
-        	Graph graph = grapher.generateWinrateGraph();
-
+        	Graph graph = null;
+        	
+        	if ("winrate".equals(targetGraph)) {
+        		
+        		graph = grapher.generateWinrateGraph();
+        		
+			} else if ("colorbars".equals(targetGraph)){
+				
+				graph = grapher.generateColorbarsGraph();
+			}
+        	
+        	//generate output
         	Gson gson = new Gson();
         	response.add("graph", (JsonObject) gson.toJsonTree(graph));
         	
-        	response.addProperty(Variables.result, "Success");
+        	response.addProperty(Constants.result, "Success");
 			
 			
 		} catch (Exception e) {

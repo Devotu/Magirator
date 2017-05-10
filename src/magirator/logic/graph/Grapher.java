@@ -21,4 +21,12 @@ public class Grapher {
 		
 		return g;
 	}
+
+	public Graph generateColorbarsGraph() {
+		Graph g = new Graph(this.title);
+		
+		g.generateColorbarsGraph(this.games);
+		
+		return g;
+	}
 }

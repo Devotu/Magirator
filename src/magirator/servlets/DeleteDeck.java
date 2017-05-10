@@ -14,7 +14,7 @@ import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Decks;
 import magirator.support.Error;
 import magirator.support.Json;
-import magirator.support.Variables;
+import magirator.support.Constants;
 
 /**
  * Servlet implementation class DeleteDeck
@@ -31,7 +31,7 @@ public class DeleteDeck extends HttpServlet {
 		getServletContext().log("-- DeleteDeck --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Could not delete, are you logged in?");		
+		result.addProperty(Constants.result, "Could not delete, are you logged in?");		
 		
 		JsonObject requestData = Json.parseRequestData(request);
 		int deckId = Json.getInt(requestData, "id", 0);
@@ -42,21 +42,21 @@ public class DeleteDeck extends HttpServlet {
 		//Player is logged in
 		if (player != null){
 
-			result.addProperty(Variables.result, "Your deck should have been deleted, something must have gone wrong");	
+			result.addProperty(Constants.result, "Your deck should have been deleted, something must have gone wrong");	
 			
 			try {
 				
 				if (Decks.deleteDeck(deckId)){
-					result.addProperty(Variables.result, Variables.success);
+					result.addProperty(Constants.result, Constants.success);
 				}
 				
 			} catch (Exception e) {
-				result.addProperty(Variables.result, Error.printStackTrace(e));
+				result.addProperty(Constants.result, Error.printStackTrace(e));
 			}
 			
 		} else {
 			
-			result.addProperty(Variables.result, "Failed to delete deck, please login");
+			result.addProperty(Constants.result, "Failed to delete deck, please login");
 		}
 		
 		response.setContentType("application/json");

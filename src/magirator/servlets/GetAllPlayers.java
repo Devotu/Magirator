@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 import magirator.data.entities.Player;
 import magirator.model.neo4j.Players;
 import magirator.support.Error;
-import magirator.support.Variables;
+import magirator.support.Constants;
 
 /**
  * Servlet implementation class GetAllPlayers
@@ -33,7 +33,7 @@ public class GetAllPlayers extends HttpServlet {
 		getServletContext().log("-- GetAllPlayers --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Could not get players, are you logged in?");
+		result.addProperty(Constants.result, "Could not get players, are you logged in?");
 		
 		HttpSession session = request.getSession();
 		Player player = (Player)session.getAttribute("player");
@@ -45,15 +45,15 @@ public class GetAllPlayers extends HttpServlet {
 				List<Player> players = Players.getAllPlayers(player);
 				
 				result.addProperty("players", new Gson().toJson(players));
-				result.addProperty(Variables.result, Variables.success);
+				result.addProperty(Constants.result, Constants.success);
 				
 			} catch (Exception e) {
-				result.addProperty(Variables.result, Error.printStackTrace(e));
+				result.addProperty(Constants.result, Error.printStackTrace(e));
 			}
 			
 		} else {
 			
-			result.addProperty(Variables.result, "Failed to get players, please login");
+			result.addProperty(Constants.result, "Failed to get players, please login");
 		}
 		
 		response.setContentType("application/json");

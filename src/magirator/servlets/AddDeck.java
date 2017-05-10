@@ -15,7 +15,7 @@ import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Decks;
 import magirator.support.Error;
 import magirator.support.Json;
-import magirator.support.Variables;
+import magirator.support.Constants;
 
 /**
  * Servlet implementation class AddDeck
@@ -32,7 +32,7 @@ public class AddDeck extends HttpServlet {
 		getServletContext().log("-- AddDeck --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Could not add deck, please log in first");
+		result.addProperty(Constants.result, "Could not add deck, please log in first");
         
 		HttpSession session = request.getSession();
 		IPlayer player = (IPlayer)session.getAttribute("player");
@@ -40,7 +40,7 @@ public class AddDeck extends HttpServlet {
 		//Player is logged in
 		if (player != null){
 			
-			result.addProperty(Variables.result, "Something went wrong adding your deck");
+			result.addProperty(Constants.result, "Something went wrong adding your deck");
 			
 			try {
 				JsonObject requestData = Json.parseRequestData(request);		
@@ -48,16 +48,16 @@ public class AddDeck extends HttpServlet {
 				
 				if (Decks.addDeck(player, deck)){
 				
-					result.addProperty(Variables.result, Variables.success);					
+					result.addProperty(Constants.result, Constants.success);					
 				}
 				
 			} catch (Exception e) {
-				result.addProperty(Variables.result, Error.printStackTrace(e));
+				result.addProperty(Constants.result, Error.printStackTrace(e));
 			}
 			
 		} else {
 			
-			result.addProperty(Variables.result, "Failed to add deck, please login");
+			result.addProperty(Constants.result, "Failed to add deck, please login");
 		}
 
         response.setContentType("application/json");

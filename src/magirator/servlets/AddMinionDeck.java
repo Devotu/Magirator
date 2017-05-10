@@ -19,7 +19,7 @@ import magirator.model.neo4j.Minions;
 import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Validator;
-import magirator.support.Variables;
+import magirator.support.Constants;
 import magirator.view.ListDeck;
 
 /**
@@ -37,7 +37,7 @@ public class AddMinionDeck extends HttpServlet {
 		getServletContext().log("-- AddMinionDeck --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Could not add Minion Deck, please log in first");
+		result.addProperty(Constants.result, "Could not add Minion Deck, please log in first");
         
 		HttpSession session = request.getSession();
 		IPlayer player = (IPlayer)session.getAttribute("player");
@@ -45,7 +45,7 @@ public class AddMinionDeck extends HttpServlet {
 		//Player is logged in
 		if (player != null){
 			
-			result.addProperty(Variables.result, "Something went wrong adding the Minion");
+			result.addProperty(Constants.result, "Something went wrong adding the Minion");
 			
 			try {				
 				JsonObject minionrequest = Json.parseRequestData(request);
@@ -54,7 +54,7 @@ public class AddMinionDeck extends HttpServlet {
 				
 				Minion minion = Minions.getMinion(minionId);
 				
-				result.addProperty(Variables.result, "Deck must have a name and a format, Minon must have a valid id");
+				result.addProperty(Constants.result, "Deck must have a name and a format, Minon must have a valid id");
 				if (minion != null){
 					
 					if ( Validator.isRegisterdPlayer(minion) && Validator.isValidDeck(requestedDeck) ){
@@ -64,13 +64,13 @@ public class AddMinionDeck extends HttpServlet {
 						if (deck != null){
 							ListDeck ld = new ListDeck(deck, 0, 0);							
 							result.addProperty("deck", new Gson().toJson(ld));
-							result.addProperty(Variables.result, Variables.success);
+							result.addProperty(Constants.result, Constants.success);
 						}
 					}
 				}
 				
 			} catch (Exception e) {
-				result.addProperty(Variables.result, Error.printStackTrace(e));
+				result.addProperty(Constants.result, Error.printStackTrace(e));
 			}
 		}
 

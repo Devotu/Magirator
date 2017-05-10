@@ -14,7 +14,7 @@ import magirator.support.Encryption;
 import magirator.support.Error;
 import magirator.support.Json;
 import magirator.support.Mail;
-import magirator.support.Variables;
+import magirator.support.Constants;
 
 /**
  * Servlet implementation class RequestResetPassword
@@ -31,7 +31,7 @@ public class RequestResetPassword extends HttpServlet {
 		getServletContext().log("-- Requesting reset --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Username is incorrect");
+		result.addProperty(Constants.result, "Username is incorrect");
 		
 		JsonObject credentials;
 		
@@ -44,14 +44,14 @@ public class RequestResetPassword extends HttpServlet {
 						
 			if (Users.requestResetPassword(loginCredentials, code)){ //Det finns ett reset
 				
-				result.addProperty(Variables.result, "Something went wrong sending the reset mail");
+				result.addProperty(Constants.result, "Something went wrong sending the reset mail");
 				
 				Mail.SendMail(loginCredentials.getUsername(), "Magirator password reset", "Use this code [ " + code + " ] in the reset password dialog.");
-				result.addProperty(Variables.result, Variables.success);				
+				result.addProperty(Constants.result, Constants.success);				
 			}
 			
 		} catch (Exception e) {
-			result.addProperty(Variables.result, Error.printStackTrace(e));
+			result.addProperty(Constants.result, Error.printStackTrace(e));
 		}
 		
 		response.setContentType("application/json");

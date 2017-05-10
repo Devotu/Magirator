@@ -17,7 +17,7 @@ import magirator.model.neo4j.Players;
 import magirator.model.neo4j.Users;
 import magirator.support.Error;
 import magirator.support.Json;
-import magirator.support.Variables;
+import magirator.support.Constants;
 
 /**
  * Servlet implementation class Login
@@ -34,7 +34,7 @@ public class Login extends HttpServlet {
 		getServletContext().log("-- Login --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Username or password is incorrect");
+		result.addProperty(Constants.result, "Username or password is incorrect");
 		
 		JsonObject credentials;
 		try {
@@ -48,7 +48,7 @@ public class Login extends HttpServlet {
 			
 			if (user != null){ //Inloggningen gick bra
 				
-				result.addProperty(Variables.result, "Could not find player");
+				result.addProperty(Constants.result, "Could not find player");
 				
 				IPlayer player = Players.getPlayer(user);
 				
@@ -56,14 +56,14 @@ public class Login extends HttpServlet {
 					
 					HttpSession session = request.getSession();
 					session.setAttribute("player", player);
-					result.addProperty(Variables.result, Variables.success);
+					result.addProperty(Constants.result, Constants.success);
 					
 					Users.clearReset(loginCredentials);
 				}
 			}
 			
 		} catch (Exception e) {
-			result.addProperty(Variables.result, Error.printStackTrace(e));
+			result.addProperty(Constants.result, Error.printStackTrace(e));
 		}
 		
 		response.setContentType("application/json");

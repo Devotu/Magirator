@@ -13,7 +13,7 @@ import com.google.gson.JsonObject;
 
 import magirator.data.interfaces.IPlayer;
 import magirator.support.Error;
-import magirator.support.Variables;
+import magirator.support.Constants;
 
 /**
  * Servlet implementation class GetPlayer
@@ -38,12 +38,12 @@ public class GetPlayer extends HttpServlet {
 			IPlayer player = (IPlayer)session.getAttribute("player");
 			
 			if (player != null){
-				result.addProperty(Variables.result, Variables.success);
+				result.addProperty(Constants.result, Constants.success);
 				result.addProperty("player", new Gson().toJson(player));
 				
 			} else {
 				
-				result.addProperty(Variables.result, "Failed to get player, please login");
+				result.addProperty(Constants.result, "Failed to get player, please login");
 			}
 		
 		} catch (Exception e){

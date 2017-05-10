@@ -17,7 +17,7 @@ import magirator.data.collections.Participant;
 import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Games;
 import magirator.support.Error;
-import magirator.support.Variables;
+import magirator.support.Constants;
 
 /**
  * Servlet implementation class GetDashboard
@@ -48,7 +48,7 @@ public class GetDashboard extends HttpServlet {
 				
 				result.addProperty("player", new Gson().toJson(player));
 
-				result.addProperty(Variables.result, Variables.success);
+				result.addProperty(Constants.result, Constants.success);
 				
 			} catch (Exception e) {
 				response.getWriter().write(Error.printStackTrace(e));
@@ -56,7 +56,7 @@ public class GetDashboard extends HttpServlet {
 
 		} else {
 
-			result.addProperty(Variables.result, "Failed to confirm game, please login");
+			result.addProperty(Constants.result, "Failed to confirm game, please login");
 		}
 
 		response.setContentType("application/json");

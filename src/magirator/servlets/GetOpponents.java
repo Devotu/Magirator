@@ -24,7 +24,7 @@ import magirator.model.neo4j.Minions;
 import magirator.model.neo4j.Users;
 import magirator.support.Error;
 import magirator.support.Lists;
-import magirator.support.Variables;
+import magirator.support.Constants;
 import magirator.view.Opponent;
 
 /**
@@ -42,7 +42,7 @@ public class GetOpponents extends HttpServlet {
 		getServletContext().log("-- GetOpponents --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Could not get opponents, are you logged in?");
+		result.addProperty(Constants.result, "Could not get opponents, are you logged in?");
 		
 		HttpSession session = request.getSession();
 		IPlayer player = (IPlayer)session.getAttribute("player");
@@ -66,15 +66,15 @@ public class GetOpponents extends HttpServlet {
 				Lists.orderOpponents(opponents);
 				
 				result.addProperty("opponents", new Gson().toJson(opponents));
-				result.addProperty(Variables.result, Variables.success);
+				result.addProperty(Constants.result, Constants.success);
 				
 			} catch (Exception e) {
-				result.addProperty(Variables.result, Error.printStackTrace(e));
+				result.addProperty(Constants.result, Error.printStackTrace(e));
 			}
 			
 		} else {
 			
-			result.addProperty(Variables.result, "Failed to get opponents, please login");
+			result.addProperty(Constants.result, "Failed to get opponents, please login");
 		}
 		
 		response.setContentType("application/json");

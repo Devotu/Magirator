@@ -16,7 +16,7 @@ import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Decks;
 import magirator.support.Error;
 import magirator.support.Json;
-import magirator.support.Variables;
+import magirator.support.Constants;
 
 /**
  * Servlet implementation class AlterDeck
@@ -33,7 +33,7 @@ public class AlterDeck extends HttpServlet {
 		getServletContext().log("-- AlterDeck --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Could not alter deck, please log in first");
+		result.addProperty(Constants.result, "Could not alter deck, please log in first");
         
 		HttpSession session = request.getSession();
 		IPlayer player = (IPlayer)session.getAttribute("player");
@@ -41,7 +41,7 @@ public class AlterDeck extends HttpServlet {
 		//Player is logged in
 		if (player != null){
 			
-			result.addProperty(Variables.result, "Something went wrong altering your deck");
+			result.addProperty(Constants.result, "Something went wrong altering your deck");
 			
 			try {
 				JsonObject requestData = Json.parseRequestData(request);		
@@ -53,11 +53,11 @@ public class AlterDeck extends HttpServlet {
 				if (newDeckId != -1){
 				
 					result.addProperty("newDeckId", newDeckId);
-					result.addProperty(Variables.result, Variables.success);					
+					result.addProperty(Constants.result, Constants.success);					
 				}				
 				
 			} catch (Exception e) {
-				result.addProperty(Variables.result, Error.printStackTrace(e));
+				result.addProperty(Constants.result, Error.printStackTrace(e));
 			}
 			
 		}

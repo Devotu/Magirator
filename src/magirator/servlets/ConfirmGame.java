@@ -21,7 +21,7 @@ import magirator.model.neo4j.Games;
 import magirator.model.neo4j.Tags;
 import magirator.support.Error;
 import magirator.support.Json;
-import magirator.support.Variables;
+import magirator.support.Constants;
 
 /**
  * Servlet implementation class ConfirmGame
@@ -38,7 +38,7 @@ public class ConfirmGame extends HttpServlet {
 		getServletContext().log("-- ConfirmGame --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Could not confirm game, please log in first");
+		result.addProperty(Constants.result, "Could not confirm game, please log in first");
         
 		HttpSession session = request.getSession();
 		IPlayer player = (IPlayer)session.getAttribute("player");
@@ -46,7 +46,7 @@ public class ConfirmGame extends HttpServlet {
 		//Player is logged in
 		if (player != null){
 			
-			result.addProperty(Variables.result, "Something went wrong adding your game");
+			result.addProperty(Constants.result, "Something went wrong adding your game");
 			
 			JsonObject requestData = Json.parseRequestData(request);
 			int gameId = Json.getInt(requestData, "gameId", 0);
@@ -68,20 +68,20 @@ public class ConfirmGame extends HttpServlet {
 				
 				if (Games.confirmGame(playId, confirm, comment, rating)){
 					
-					result.addProperty(Variables.result, "Confirmed game but something went wrong with the tags");	
+					result.addProperty(Constants.result, "Confirmed game but something went wrong with the tags");	
 					
 					if(Tags.addTagsToResultsInGame(tags, gameId)){
-						result.addProperty(Variables.result, Variables.success);
+						result.addProperty(Constants.result, Constants.success);
 					}				
 				}
 				
 			} catch (Exception e) {
-				result.addProperty(Variables.result, Error.printStackTrace(e));
+				result.addProperty(Constants.result, Error.printStackTrace(e));
 			}
 			
 		} else {
 			
-			result.addProperty(Variables.result, "Failed to confirm game, please login");
+			result.addProperty(Constants.result, "Failed to confirm game, please login");
 		}
 
         response.setContentType("application/json");

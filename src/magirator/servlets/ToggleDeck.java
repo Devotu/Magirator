@@ -16,7 +16,7 @@ import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Decks;
 import magirator.support.Error;
 import magirator.support.Json;
-import magirator.support.Variables;
+import magirator.support.Constants;
 
 /**
  * Servlet implementation class ToggleDeck
@@ -33,7 +33,7 @@ public class ToggleDeck extends HttpServlet {
 		getServletContext().log("-- ToggleDeck --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Could not toggle, are you logged in?");		
+		result.addProperty(Constants.result, "Could not toggle, are you logged in?");		
 		
 		JsonObject requestData = Json.parseRequestData(request);
 		int deckId = Json.getInt(requestData, "id", 0);
@@ -44,21 +44,21 @@ public class ToggleDeck extends HttpServlet {
 		//Player is logged in
 		if (player != null){
 
-			result.addProperty(Variables.result, "Your deck should have been toggled, something must have gone wrong");	
+			result.addProperty(Constants.result, "Your deck should have been toggled, something must have gone wrong");	
 			
 			try {
 				
 				if (Decks.toggleDeck(deckId)){
-					result.addProperty(Variables.result, Variables.success);
+					result.addProperty(Constants.result, Constants.success);
 				}
 				
 			} catch (Exception e) {
-				result.addProperty(Variables.result, Error.printStackTrace(e));
+				result.addProperty(Constants.result, Error.printStackTrace(e));
 			}
 			
 		} else {
 			
-			result.addProperty(Variables.result, "Failed to get deck, please login");
+			result.addProperty(Constants.result, "Failed to get deck, please login");
 		}
 		
 		response.setContentType("application/json");

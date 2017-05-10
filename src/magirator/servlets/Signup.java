@@ -13,7 +13,7 @@ import magirator.model.neo4j.Players;
 import magirator.model.neo4j.Users;
 import magirator.support.Error;
 import magirator.support.Json;
-import magirator.support.Variables;
+import magirator.support.Constants;
 import magirator.view.PlayerName;
 
 /**
@@ -31,22 +31,22 @@ public class Signup extends HttpServlet {
 		getServletContext().log("-- Signup --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Something went wrong during singup, please try again");
+		result.addProperty(Constants.result, "Something went wrong during singup, please try again");
 		
 		try {
 			
 			JsonObject signupRequest = Json.parseRequestData(request);
 			LoginCredentials requestedUser = new LoginCredentials(signupRequest);
 			
-			result.addProperty(Variables.result, "Password length is to short, please choose a password at least 8 characters long");
+			result.addProperty(Constants.result, "Password length is to short, please choose a password at least 8 characters long");
 			
 			if(requestedUser.getPassword().length() > 7){
 			
-				result.addProperty(Variables.result, "Passwords does not match, please check and try again");
+				result.addProperty(Constants.result, "Passwords does not match, please check and try again");
 				
 				if(requestedUser.getPassword().equals(requestedUser.getRetype())){
 	
-					result.addProperty(Variables.result, "Username already in use, please try another one");
+					result.addProperty(Constants.result, "Username already in use, please try another one");
 					
 					boolean userAvailable = Users.checkIfAvailable(requestedUser);
 					
@@ -54,13 +54,13 @@ public class Signup extends HttpServlet {
 						
 						PlayerName requestedPlayer = new PlayerName(signupRequest);
 		
-						result.addProperty(Variables.result, "Playername already in use, please try another one");
+						result.addProperty(Constants.result, "Playername already in use, please try another one");
 						
 						boolean playerAvailable = Players.checkIfAvailable(requestedPlayer);
 						
 						if (playerAvailable){
 							
-							result.addProperty(Variables.result, "This user and player name really should be ok, please try again");
+							result.addProperty(Constants.result, "This user and player name really should be ok, please try again");
 							
 							requestedUser.encryptPassword();
 							
@@ -68,14 +68,14 @@ public class Signup extends HttpServlet {
 							
 							if (signupSuccessful){
 								
-								result.addProperty(Variables.result, Variables.success);
+								result.addProperty(Constants.result, Constants.success);
 							}					
 						}
 					}
 				}
 			}
 		} catch (Exception e) {
-			result.addProperty(Variables.result, Error.printStackTrace(e));
+			result.addProperty(Constants.result, Error.printStackTrace(e));
 		}
 
 		response.setContentType("application/json");

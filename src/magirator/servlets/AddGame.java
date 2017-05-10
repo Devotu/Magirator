@@ -26,7 +26,7 @@ import magirator.model.neo4j.Ratings;
 import magirator.model.neo4j.Tags;
 import magirator.support.Error;
 import magirator.support.Json;
-import magirator.support.Variables;
+import magirator.support.Constants;
 
 /**
  * Servlet implementation class AddGame
@@ -43,7 +43,7 @@ public class AddGame extends HttpServlet {
 		getServletContext().log("-- AddGame --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Could not add game, please log in first");
+		result.addProperty(Constants.result, "Could not add game, please log in first");
         
 		HttpSession session = request.getSession();
 		IPlayer player = (IPlayer)session.getAttribute("player");
@@ -51,7 +51,7 @@ public class AddGame extends HttpServlet {
 		//Player is logged in
 		if (player != null){
 			
-			result.addProperty(Variables.result, "Something went wrong adding your game");
+			result.addProperty(Constants.result, "Something went wrong adding your game");
 			
 			try {
 				JsonObject requestData = Json.parseRequestData(request);		
@@ -91,32 +91,32 @@ public class AddGame extends HttpServlet {
 				
 				if (gameId > 0){
 					
-					result.addProperty(Variables.result, "Game added but something went wrong with the optionals (rating and tags)");
+					result.addProperty(Constants.result, "Game added but something went wrong with the optionals (rating and tags)");
 					
 					optionals: {
 						
 						if (rating != null) {
 							if (!Ratings.addRatingToResult(player.getId(), rating, gameId)) {
-								result.addProperty(Variables.result, "Game added but something went wrong rating the result");
+								result.addProperty(Constants.result, "Game added but something went wrong rating the result");
 								break optionals;
 							} 
 						}
 						if(!Tags.addTagsToResultsInGame(tags, gameId)){
-							result.addProperty(Variables.result, "Game added but something went wrong tagging the results");
+							result.addProperty(Constants.result, "Game added but something went wrong tagging the results");
 							break optionals;
 						}
 						
-						result.addProperty(Variables.result, Variables.success);
+						result.addProperty(Constants.result, Constants.success);
 					}
 				}
 				
 			} catch (Exception e) {
-				result.addProperty(Variables.result, Error.printStackTrace(e));
+				result.addProperty(Constants.result, Error.printStackTrace(e));
 			}
 			
 		} else {
 			
-			result.addProperty(Variables.result, "Failed to add game, please login");
+			result.addProperty(Constants.result, "Failed to add game, please login");
 		}
 
         response.setContentType("application/json");

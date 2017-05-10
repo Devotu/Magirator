@@ -16,7 +16,7 @@ import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Decks;
 import magirator.support.Error;
 import magirator.support.Json;
-import magirator.support.Variables;
+import magirator.support.Constants;
 
 /**
  * Servlet implementation class GetDeck
@@ -49,15 +49,15 @@ public class GetDeck extends HttpServlet {
 				Deck deck = Decks.getDeck(deckId);				
 				result.addProperty("deck", new Gson().toJson(deck));				
 				
-				result.addProperty(Variables.result, Variables.success);
+				result.addProperty(Constants.result, Constants.success);
 				
 			} catch (Exception e) {
-				result.addProperty(Variables.result, Error.printStackTrace(e));
+				result.addProperty(Constants.result, Error.printStackTrace(e));
 			}
 			
 		} else {
 			
-			result.addProperty(Variables.result, "Failed to get deck, please login");
+			result.addProperty(Constants.result, "Failed to get deck, please login");
 		}
 		
 		response.setContentType("application/json");

@@ -18,7 +18,7 @@ import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Decks;
 import magirator.support.Error;
 import magirator.support.Json;
-import magirator.support.Variables;
+import magirator.support.Constants;
 
 /**
  * Servlet implementation class GetAlterations
@@ -35,7 +35,7 @@ public class GetAlterations extends HttpServlet {
 		getServletContext().log("-- GetAlterations --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Could not get Alterations, are you logged in?");
+		result.addProperty(Constants.result, "Could not get Alterations, are you logged in?");
 		
 		HttpSession session = request.getSession();
 		IPlayer player = (IPlayer)session.getAttribute("player");
@@ -50,15 +50,15 @@ public class GetAlterations extends HttpServlet {
 				ArrayList<Alteration> alterations = Decks.getDeckAlterations(deckId);
 				
 				result.addProperty("alterations", new Gson().toJson(alterations));
-				result.addProperty(Variables.result, Variables.success);
+				result.addProperty(Constants.result, Constants.success);
 				
 			} catch (Exception e) {
-				result.addProperty(Variables.result, Error.printStackTrace(e));
+				result.addProperty(Constants.result, Error.printStackTrace(e));
 			}
 			
 		} else {
 			
-			result.addProperty(Variables.result, "Failed to get Alterations, please login");
+			result.addProperty(Constants.result, "Failed to get Alterations, please login");
 		}
 		
 		response.setContentType("application/json");

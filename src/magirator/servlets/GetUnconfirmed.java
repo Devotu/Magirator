@@ -17,7 +17,7 @@ import magirator.data.collections.Participant;
 import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Games;
 import magirator.support.Error;
-import magirator.support.Variables;
+import magirator.support.Constants;
 
 /**
  * Servlet implementation class GetUnconfirmed
@@ -34,7 +34,7 @@ public class GetUnconfirmed extends HttpServlet {
 		getServletContext().log("-- GetUnconfirmed --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Variables.result, "Could not get unconfirmed Games, are you logged in?");
+		result.addProperty(Constants.result, "Could not get unconfirmed Games, are you logged in?");
 		
 		HttpSession session = request.getSession();
 		IPlayer player = (IPlayer)session.getAttribute("player");
@@ -46,15 +46,15 @@ public class GetUnconfirmed extends HttpServlet {
 				ArrayList<Participant> participations = Games.getUnconfirmedParticipations(player.getId());
 				
 				result.addProperty("games", new Gson().toJson(participations));
-				result.addProperty(Variables.result, Variables.success);
+				result.addProperty(Constants.result, Constants.success);
 				
 			} catch (Exception e) {
-				result.addProperty(Variables.result, Error.printStackTrace(e));
+				result.addProperty(Constants.result, Error.printStackTrace(e));
 			}
 			
 		} else {
 			
-			result.addProperty(Variables.result, "Failed to get unconfirmed Games, please login");
+			result.addProperty(Constants.result, "Failed to get unconfirmed Games, please login");
 		}
 		
 		response.setContentType("application/json");

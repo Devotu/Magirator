@@ -21,7 +21,7 @@ import magirator.model.neo4j.Games;
 import magirator.model.neo4j.Tags;
 import magirator.support.Error;
 import magirator.support.Json;
-import magirator.support.Variables;
+import magirator.support.Constants;
 
 /**
  * Servlet implementation class GetGame
@@ -66,15 +66,15 @@ public class GetGame extends HttpServlet {
 				}
 				
 				result.addProperty("participants", new Gson().toJson(participants));
-				result.addProperty(Variables.result, Variables.success);
+				result.addProperty(Constants.result, Constants.success);
 				
 			} catch (Exception e) {
-				result.addProperty(Variables.result, Error.printStackTrace(e));
+				result.addProperty(Constants.result, Error.printStackTrace(e));
 			}
 			
 		} else {
 			
-			result.addProperty(Variables.result, "Failed to get game, please login");
+			result.addProperty(Constants.result, "Failed to get game, please login");
 		}
 		
 		response.setContentType("application/json");
