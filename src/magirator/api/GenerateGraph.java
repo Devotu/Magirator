@@ -1,4 +1,4 @@
-package magirator.restlets;
+package magirator.api;
 
 import java.util.List;
 import java.util.stream.Collectors;

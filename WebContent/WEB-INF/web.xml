@@ -793,7 +793,7 @@ standard deployment descriptor.
     <init-param>
 	    <!-- Application class name -->
 	    <param-name>org.restlet.application</param-name>
-	    <param-value>magirator.restlets.API</param-value>
+	    <param-value>magirator.api.Root</param-value>
     </init-param>
   </servlet>
    
