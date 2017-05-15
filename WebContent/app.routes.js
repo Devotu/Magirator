@@ -79,5 +79,15 @@ ratorApp.config(function($routeProvider) {
 		templateUrl : 'components/resetpassword/resetpassword.html',
 		controller : 'resetpasswordController'
 	})
+	
+	.when('/prepare', {
+		templateUrl : 'components/preparegame/preparegame.html',
+		controller : 'prepareGameController'
+	})	
+	
+	.when('/play', {
+		templateUrl : 'components/playgame/playgame.html',
+		controller : 'playGameController'
+	})
 	;
 });

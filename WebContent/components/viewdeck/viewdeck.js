@@ -115,6 +115,12 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 				$location.url('/addgame');
 			}
 			
+			$scope.goPrepareGame = function(){
+				
+				deckVarStorage.setCurrentDeck($scope.deckId);
+				$location.url('/prepare');
+			}
+			
 			$scope.goGame = function(gameId){
 				
 				deckVarStorage.setGoTo(gameId);
