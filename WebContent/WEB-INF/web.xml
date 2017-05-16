@@ -784,22 +784,16 @@ standard deployment descriptor.
     <res-type>javax.sql.DataSource</res-type>
     <res-auth>Container</res-auth>
   </resource-ref>
-  
-
-  
-  <servlet>  
-  	<servlet-name>RestletServlet</servlet-name>  
+  <servlet>
+    <servlet-name>RestletServlet</servlet-name>
     <servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
     <init-param>
-	    <!-- Application class name -->
-	    <param-name>org.restlet.application</param-name>
-	    <param-value>magirator.api.Root</param-value>
+      <param-name>org.restlet.application</param-name>
+      <param-value>magirator.api.Root</param-value>
     </init-param>
   </servlet>
-   
-  <servlet-mapping>  
-      <servlet-name>RestletServlet</servlet-name>  
-      <url-pattern>/API/*</url-pattern>  
+  <servlet-mapping>
+    <servlet-name>RestletServlet</servlet-name>
+    <url-pattern>/API/*</url-pattern>
   </servlet-mapping>
-  
 </web-app>

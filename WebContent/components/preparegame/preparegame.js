@@ -7,7 +7,12 @@ ratorApp.controller('prepareGameController', function ($scope, $http, $location,
 			$scope.player = JSON.parse(data.player);
 			$scope.deckId = deckVarStorage.getCurrentDeck();
 
-			$scope.participants = []; ''
+			$scope.participants = [ { 
+				playerId: $scope.player.id,
+				playerName: $scope.player.name,
+				deckId: $scope.deckId,
+				deckName: ""
+			}];
 
 			$scope.addState = "Regular";
 			$scope.decks = [];
@@ -154,9 +159,9 @@ ratorApp.controller('prepareGameController', function ($scope, $http, $location,
 
 				$scope.participants.push(
 					{
-						deckId: $scope.addDeck.id,
 						playerId: $scope.opponentToAdd.id,
 						playerName: $scope.opponentToAdd.name,
+						deckId: $scope.addDeck.id,
 						deckName: $scope.addDeck.name
 					}
 				);
@@ -269,7 +274,7 @@ ratorApp.controller('prepareGameController', function ($scope, $http, $location,
 					$scope.result = response.data
 
 					if (response.data.result == "Success") {
-						$location.url('/register');
+						$location.url('/play');
 					}
 
 				},

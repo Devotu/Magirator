@@ -13,6 +13,7 @@ import javax.naming.NamingException;
 
 import magirator.data.collections.GameBundle;
 import magirator.data.collections.Participant;
+import magirator.data.collections.PlayerDeck;
 import magirator.data.entities.Deck;
 import magirator.data.entities.Game;
 import magirator.data.entities.Player;
@@ -372,6 +373,69 @@ public class Games {
 		}
 	}
 
+	
+	public static int startGame(ArrayList<PlayerDeck> participants, int initiatorId, String gameToken) throws Exception {
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();			
+			
+			String query = "CREATE (g:Game {created: TIMESTAMP()})-[:Runs]->(l:Live {token: ?}) RETURN id(g)";
+			
+			ps = con.prepareStatement(query);
+
+			ps.setString(1, gameToken);
+			
+			rs = ps.executeQuery();
+			
+			if	(rs.next()){
+				
+				int gameId = rs.getInt("id(g)");
+				
+				query = ""
+						+ "MATCH (g:Game), (d:Deck) "
+						+ "WHERE id(g) = ? AND id(d) = ? "
+						+ "CREATE (d)-[:Got]->(r:Result {place: 0, comment: '', confirmed: false, added: TIMESTAMP() })-[:In]->(g)";
+				
+				ps = con.prepareStatement(query);
+				
+				for (PlayerDeck p : participants){
+					ps.setInt(1, gameId);
+					ps.setInt(2, p.getDeck().getDeckid());
+					
+					ps.executeUpdate();
+				}
+				
+				if(initiatorId != 0){
+					
+					query = ""
+							+ "MATCH (p:Player), (g:Game) "
+							+ "WHERE id(p) = ? AND id(g) = ? "
+							+ "CREATE (p)-[:Initiated]->(g)";
+					
+					
+					ps = con.prepareStatement(query);
+					
+					ps.setInt(1, initiatorId);
+					ps.setInt(1, gameId);
+				}
+				
+				return gameId;			
+			}
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+		
+		return 0;
+	}
 
 
 }
