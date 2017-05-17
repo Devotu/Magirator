@@ -11,6 +11,7 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 			$scope.participants = [];''
 			
 			$scope.rating = {'speed': 0, 'strength': 0, 'synergy': 0, 'control': 0};
+			$scope.tags = [];
 			
 			$scope.generalRating = function(){
 				var total = 0;
@@ -24,6 +25,8 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 				return total/keys; 
 				}
 
+
+			//INIT 
 
 			// Get participants
 			var getLiveGameReq = requestService.buildRequest(
@@ -41,6 +44,44 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 				function () {
 					$scope.result = 'Failure';
 				});
+			
+			
+			//CALLED
+			
+			// Add Positive
+			$scope.addPositiveTag = function () {
+				
+				var tag = $scope.tag.positive;
+
+				if (tag != undefined && tag.length > 0) {
+					$scope.addTag(1, tag);
+
+					$scope.tag.positive = "";
+				}
+			};
+			
+			// Add Negative
+			$scope.addNegativeTag = function () {
+				
+				var tag = $scope.tag.negative;
+
+				if (tag != undefined && tag.length > 0) {
+					$scope.addTag(-1, tag);
+
+					$scope.tag.negative = "";
+				}
+			};			
+			
+			// Add Tag
+			$scope.addTag = function (polarity, tag) {
+
+				$scope.tags.push(
+						{
+							polarity: polarity,
+							tag: tag
+						}
+					);
+			};
 
 
 
