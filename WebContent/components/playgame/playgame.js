@@ -28,9 +28,7 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 			// Get participants
 			var getLiveGameReq = requestService.buildRequest(
 				"GetLiveGame",
-				{
-					playerId: $scope.player.id
-				}
+				{ }
 			);
 
 			$http(getLiveGameReq).then(function (response) {
@@ -43,7 +41,6 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 				function () {
 					$scope.result = 'Failure';
 				});
-			
 
 
 

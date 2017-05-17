@@ -476,6 +476,47 @@ public class Games {
 			if (con != null) con.close();
 		}
 	}
+	
+	public static List<PlayerDeck> getPlayerLiveGame(int playerId) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();			
+			
+			String query = ""
+					+ "MATCH (self:Player) "
+					+ "WHERE id(self) = ? "
+					+ "MATCH (self)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game)-[:Runs]->(l:Live) "
+					+ "MATCH (p:Player)-[:Use|:Used]->(d:Deck)-[:Got]->(:Result)-[:In]->(g:Game) "
+					+ "RETURN id(p), PROPERTIES(p), id(d), PROPERTIES(d)";
+
+      		ps = con.prepareStatement(query);
+      		ps.setInt(1, playerId);
+      		
+      		rs = ps.executeQuery();
+      		
+      		List<PlayerDeck> participants = new ArrayList<>();
+			
+			while (rs.next()) {
+				IPlayer player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
+				Deck deck = new Deck( rs.getInt("id(d)"), (Map) rs.getObject("PROPERTIES(d)") );
+				
+				participants.add( new PlayerDeck( player, deck) );
+			}
+			
+			return participants;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+	}
 
 }
 
