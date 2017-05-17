@@ -1,6 +1,9 @@
 			<div>
-				<h3>{{ participant.place }} {{ participant.playerName }}</h3>
-				<p>{{ participant.deckName }}</p>
+				<h3>{{ player.name }}</h3>
+				<p>{{ player.deck.name }}</p>
+				
+				<label>Comment:</label> 
+				<input ng-model="comment" type="text" class="form-control">
 				
 				<div ng-hide="participant.rating == undefined">
 					<label>Rating: </label><span
@@ -141,13 +144,13 @@
 			
 			
 <h2>Participants</h2>
-<ol class="list-group">
+<ol class="list-group" style="column-count: 2;">
 	<li ng-repeat="participant in participants | orderBy:participant.place"
 		class="list-group-item row">
 		<h3>{{ participant.player.name }}</h3>
 		<p>{{ participant.deck.name }}</p>
 		<div>
-			<button>dead</button>
+			<button class="btn btn-primary btn-add" ng-show="playerHasControl(participant)" ng-click="confirmResult()">dead</button>
 		</div>
 		<div>calculator</div>
 		<div>lifelog</div>

@@ -517,6 +517,55 @@ public class Games {
 			if (con != null) con.close();
 		}
 	}
+	
+	
+	public static int confirmLiveGame(int PlayerId, String comment, Rating rating, List<Integer> lifelog) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();			
+			
+			String query = ""
+					+ "MATCH (p:Player)-[:Use|:Used]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game)-[:Runs]->(l:Live) "
+					+ "WHERE id(p)=? "
+					+ "SET r.confirmed=1, r.comment=?";
+			
+			if (rating != null){
+				query += " CREATE (p)-[:Gave]->(rt:Rating {speed:?, strength:?, synergy:?, control:?})-[:To]->(r)";
+			}
+			
+			query += "RETURN id(g)";
+			
+			ps = con.prepareStatement(query);
+      		
+			ps.setInt(1, PlayerId);
+			ps.setString(2, comment);
+			
+			if (rating != null){
+				ps.setInt(3, rating.getSpeed());
+				ps.setInt(4, rating.getStrength());
+				ps.setInt(5, rating.getSynergy());
+				ps.setInt(6, rating.getControl());
+			}
+			
+      		rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				return rs.getInt("id(g)");
+			}
+			
+			return 0;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+	}
 
 }
 

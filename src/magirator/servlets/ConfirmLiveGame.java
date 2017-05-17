@@ -26,8 +26,8 @@ import magirator.support.Constants;
 /**
  * Servlet implementation class ConfirmGame
  */
-@WebServlet("/ConfirmGame")
-public class ConfirmGame extends HttpServlet {
+@WebServlet("/ConfirmLiveGame")
+public class ConfirmLiveGame extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -46,13 +46,11 @@ public class ConfirmGame extends HttpServlet {
 		//Player is logged in
 		if (player != null){
 			
-			result.addProperty(Constants.result, "Something went wrong adding your game");
+			result.addProperty(Constants.result, "Something went wrong confirming your game");
 			
 			JsonObject requestData = Json.parseRequestData(request);
-			int gameId = Json.getInt(requestData, "gameId", 0);
-			int resultId = Json.getInt(requestData, "id", 0);
-			boolean confirm = Json.getBoolean(requestData, "confirm", false);
-			String comment = Json.getString(requestData, "comment", "No comment");		
+			
+			String comment = Json.getString(requestData, "comment", "No comment");	
 			
 			Rating rating = new Rating(Json.getObject(requestData, "rating"));
 			
@@ -61,16 +59,18 @@ public class ConfirmGame extends HttpServlet {
 			
 			for (JsonElement t : tag_array){
 				JsonObject tag = t.getAsJsonObject();
-				tags.add(new Tag( player.getId(), tag.get("tagged").getAsInt(), tag.get("tag").getAsString(), tag.get("polarity").getAsInt() ));
+				tags.add(new Tag( player.getId(), player.getId(), tag.get("tag").getAsString(), tag.get("polarity").getAsInt() ));
 			}
 			
-			try {				
+			try {
 				
-				if (Games.confirmGame(resultId, confirm, comment, rating)){
+				int confirmedGame = Games.confirmLiveGame(player.getId(), comment, rating, null); //TODO Lifelog
+				
+				if (confirmedGame != 0){
 					
 					result.addProperty(Constants.result, "Confirmed game but something went wrong with the tags");	
 					
-					if(Tags.addTagsToResultsInGame(tags, gameId)){
+					if(Tags.addTagsToResultsInGame(tags, confirmedGame)){
 						result.addProperty(Constants.result, Constants.success);
 					}				
 				}
