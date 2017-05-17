@@ -102,6 +102,7 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 						if (response.data.result == "Success"){
 							$scope.result = response.data.result;
 							$scope.participations = JSON.parse(response.data.games);
+							$scope.liveGame = response.data.live;
 						}					
 					}, 
 					function(){
@@ -125,6 +126,10 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 				
 				deckVarStorage.setGoTo(gameId);
 				$location.url('/game');
+			}
+			
+			$scope.goLiveGame = function(){
+				$location.url('/play');
 			}
 			
 			// Stats

@@ -1,4 +1,4 @@
-ratorApp.controller('addGameController', function ($scope, $http, $location, playerService, requestService, deckVarStorage) {
+ratorApp.controller('playGameController', function ($scope, $http, $location, playerService, requestService, deckVarStorage) {
 
 	playerService.getPlayer().then(function (data) {
 		if (data.result == "Success") {
@@ -29,7 +29,7 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 			var getLiveGameReq = requestService.buildRequest(
 				"GetLiveGame",
 				{
-					playerId: $scope.player.id 
+					playerId: $scope.player.id
 				}
 			);
 

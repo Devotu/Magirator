@@ -5,3 +5,11 @@
 	<div>calculator</div>
 	<div>lifelog</div>
 </div>
+
+	<h2>Participants</h2>
+	<ol class="list-group">
+		<li ng-repeat="participant in participants | orderBy:participant.place" class="list-group-item row">
+			<h3>{{ participant.playerName }}</h3>
+			<p>{{ participant.deckName }}</p>
+		</li>
+	</ol>

@@ -104,7 +104,8 @@ public class Games {
 					+ "WHERE id(d)=? "
 					+ "UNWIND nodes(dp) AS nd "
 					+ "WITH nd as deck "
-					+ "MATCH (deck)-[:Got]->(r:Result)-[:In]->(:Game) "
+					+ "MATCH (deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
+					+ "WHERE NOT (g)-[:Runs]->(:Live) "
 					+ "RETURN DISTINCT id(r), PROPERTIES(r)";
 			
       		PreparedStatement ps = con.prepareStatement(query);
@@ -143,6 +144,7 @@ public class Games {
 					+ "UNWIND nodes(dp) AS nd "
 					+ "WITH nd as d "
 					+ "MATCH (p:Player)-[:Use|:Used]->(d)-[:Got]->(r:Result)-[:In]->(g:Game) "
+					+ "WHERE NOT (g)-[:Runs]->(:Live) "
 					+ "RETURN DISTINCT id(p), PROPERTIES(p), id(d), PROPERTIES(d), id(r), PROPERTIES(r), id(g), PROPERTIES(g)";
 
       		ps = con.prepareStatement(query);
@@ -182,7 +184,7 @@ public class Games {
 			con = Database.getConnection();			
 
 			String query = ""
-					+ "MATCH (p:Player)-[Use]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) " //TODO Used & Evolved
+					+ "MATCH (p:Player)-[:Use|:Used]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) " //TODO Used & Evolved
 					+ "WHERE id(g) = ? "
 					+ "OPTIONAL MATCH (p)-[:Gave]->(rt)-[to]->(r) "
 					+ "RETURN id(p), PROPERTIES(p), id(d), PROPERTIES(d), id(r), PROPERTIES(r), id(rt), PROPERTIES(rt), id(g), PROPERTIES(g) "
@@ -238,7 +240,7 @@ public class Games {
 			String query = ""
 					+ "MATCH (p:Player) "
 					+ "WHERE id(p) = ? "
-					+ "MATCH (p)-[:Use]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
+					+ "MATCH (p)-[:Use|:Used]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
 					+ "WHERE r.confirmed = 0 "
 					+ "RETURN id(p), PROPERTIES(p), id(d), PROPERTIES(d), id(r), PROPERTIES(r), id(g), PROPERTIES(g)";
 
@@ -323,7 +325,7 @@ public class Games {
 			String query = ""
 					+ "MATCH (player:Player)"
 					+ "WHERE id(player) = ?"
-					+ "MATCH (player)-[:Use]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game)"
+					+ "MATCH (player)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game)"
 					+ "MATCH (pm)-[:Use]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g)"
 					+ "RETURN id(pm), PROPERTIES(pm), id(d), PROPERTIES(d), id(r), PROPERTIES(r), id(g), PROPERTIES(g)"
 					+ "ORDER BY id(g)";
@@ -437,6 +439,43 @@ public class Games {
 		return 0;
 	}
 
+
+	public static String getPlayerLiveGameToken(int playerId) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();			
+
+			String query = ""
+					+ "MATCH (p:Player) "
+					+ "WHERE id(p) = ? "
+					+ "MATCH (p)-[:Use|:Used]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game)-[:Runs]->(l:Live) "
+					+ "RETURN l.token";
+
+      		ps = con.prepareStatement(query);
+      		ps.setInt(1, playerId);
+      		
+      		rs = ps.executeQuery();
+      		
+      		String token = "none";
+      					
+			if (rs.next()) {
+				token = rs.getString("l.token");
+			}
+			
+			return token;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+	}
 
 }
 
