@@ -18,7 +18,7 @@ public class Game {
 
 	public Game(int id, Map game) {
 		this.id = id;
-		this.draw = (Boolean)game.get("draw");
+		this.draw = game.containsKey("draw") ? (Boolean)game.get("draw") : false;
 		
 		long longTime = (Long)game.get("created");
 		this.created = (new Date(longTime));

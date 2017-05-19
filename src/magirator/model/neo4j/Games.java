@@ -385,7 +385,7 @@ public class Games {
 		try {
 			con = Database.getConnection();			
 			
-			String query = "CREATE (g:Game {created: TIMESTAMP()})-[:Runs]->(l:Live {token: ?}) RETURN id(g)";
+			String query = "CREATE (g:Game {created: TIMESTAMP(), draw: false})-[:Runs]->(l:Live {token: ?}) RETURN id(g)";
 			
 			ps = con.prepareStatement(query);
 
@@ -519,7 +519,51 @@ public class Games {
 	}
 	
 	
-	public static int confirmLiveGame(int PlayerId, String comment, Rating rating, List<Integer> lifelog) throws Exception {
+	public static boolean updateLivePlayerLife(){
+		
+		//TODO uppdatera liv
+		return true;
+	}
+	
+	
+	public static boolean updateLiveGameAttributes(int playerId, boolean draw) throws Exception{
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();			
+			
+			String query = ""
+					+ "MATCH (p:Player)-[:Use|:Used]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game)-[:Runs]->(l:Live) "
+					+ "WHERE id(p)=? "
+					+ "SET g.draw=?"
+					+ "RETURN g.draw";
+			
+			ps = con.prepareStatement(query);
+      		
+			ps.setInt(1, playerId);
+			ps.setBoolean(2, draw);
+			
+			rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				return (rs.getBoolean("g.draw") == draw);
+			}
+			
+			return false;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+	}
+	
+	
+	public static int confirmLiveGame(int playerId, String comment, Rating rating) throws Exception {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -541,7 +585,7 @@ public class Games {
 			
 			ps = con.prepareStatement(query);
       		
-			ps.setInt(1, PlayerId);
+			ps.setInt(1, playerId);
 			ps.setString(2, comment);
 			
 			if (rating != null){
@@ -558,6 +602,84 @@ public class Games {
 			}
 			
 			return 0;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+	}
+	
+	public static boolean endLiveGame(int playerId) throws Exception {
+
+		Connection con = null;
+		PreparedStatement queryPS = null;
+		PreparedStatement deletePS = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();			
+			
+			String query = ""
+					+ "MATCH (p:Player)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game)-[:Runs]->(l:Live), (r:Result)-[:In]->(g) "
+					+ "WHERE id(p)=? AND NOT r.confirmed=1 "
+					+ "RETURN id(r)";
+			
+			queryPS = con.prepareStatement(query);
+      		
+			queryPS.setInt(1, playerId);
+			
+      		rs = queryPS.executeQuery();
+			
+			if (rs.next()) {
+				return false;
+			}
+			
+			String deleteQuery = ""
+					+ "MATCH (p:Player)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game)-[:Runs]->(l:Live)"
+					+ "WHERE id(p)=? "
+					+ "DETACH DELETE l";
+			
+			deletePS = con.prepareStatement(deleteQuery);
+      		
+			deletePS.setInt(1, playerId);
+			
+			int result = deletePS.executeUpdate();
+			
+			return result != 0;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (queryPS != null) queryPS.close();
+			if (deletePS != null) deletePS.close();
+			if (con != null) con.close();
+		}
+	}
+
+	public static boolean abortLiveGame(int playerId) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();			
+			
+			String query = ""
+					+ "MATCH (p:Player)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game)-[:Runs]->(l:Live) "
+					+ "WHERE id(p)=? "
+					+ "MATCH (g)--(x) "
+					+ "DETACH DELETE g, x";
+			
+			ps = con.prepareStatement(query);
+      		
+			ps.setInt(1, playerId);
+			
+			int result = ps.executeUpdate();
+			
+			return result != 0;
 			
 		} catch (Exception ex){
 			throw ex;

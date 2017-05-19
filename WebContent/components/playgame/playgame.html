@@ -5,6 +5,11 @@
 				<label>Comment:</label> 
 				<input ng-model="comment" type="text" class="form-control">
 				
+				<label>
+					<input type="checkbox" class="inline-checkbox" ng-model="draw" ng-change="updateGameAttributes()"/> Draw
+				</label>
+
+				
 				<div ng-hide="participant.rating == undefined">
 					<label>Rating: </label><span
 						class="glyphicon glyphicon-option-horizontal"
@@ -150,13 +155,16 @@
 		<h3>{{ participant.player.name }}</h3>
 		<p>{{ participant.deck.name }}</p>
 		<div>
-			<button class="btn btn-primary btn-add" ng-show="playerHasControl(participant)" ng-click="confirmResult()">dead</button>
+			<button class="btn btn-primary btn-add" ng-show="playerHasControl(participant)" ng-click="confirmResult()" ng-disabled="confirmed">dead</button>
 		</div>
 		<div>calculator</div>
 		<div>lifelog</div>
 	</li>
 </ol>
 
-
+<div>
+	<button class="btn btn-primary" type="submit" ng-disabled="!confirmed" ng-click="leaveGame()">Leave Game</button>
+	<button class="btn btn-primary negative" type="submit" ng-click="abortGame()">Cancel game</button>
+</div>
 
 <p class='debug-text'>Result: {{ result }}</p>

@@ -34,8 +34,6 @@ public class ConfirmLiveGame extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		getServletContext().log("-- ConfirmGame --");
 		
 		JsonObject result = new JsonObject();
 		result.addProperty(Constants.result, "Could not confirm game, please log in first");
@@ -64,7 +62,7 @@ public class ConfirmLiveGame extends HttpServlet {
 			
 			try {
 				
-				int confirmedGame = Games.confirmLiveGame(player.getId(), comment, rating, null); //TODO Lifelog
+				int confirmedGame = Games.confirmLiveGame(player.getId(), comment, rating);
 				
 				if (confirmedGame != 0){
 					
@@ -73,6 +71,12 @@ public class ConfirmLiveGame extends HttpServlet {
 					if(Tags.addTagsToResultsInGame(tags, confirmedGame)){
 						result.addProperty(Constants.result, Constants.success);
 					}				
+				}
+				
+				if(Games.endLiveGame(player.getId())){
+					result.addProperty("End", "All players have confirmed the game and it is now closed");
+				} else {
+					result.addProperty("End", "Your participation has been confirmed but one or more players have not confirmed the game. The game will be ended as soon as they confirm the game.");
 				}
 				
 			} catch (Exception e) {
@@ -86,8 +90,6 @@ public class ConfirmLiveGame extends HttpServlet {
 
         response.setContentType("application/json");
         response.getWriter().write(result.toString());
-
-		getServletContext().log("-- ConfirmGame -- Done");
 	}
 
 }

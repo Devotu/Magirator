@@ -5,6 +5,9 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 
 			$scope.player = JSON.parse(data.player);
 			$scope.deckId = deckVarStorage.getCurrentDeck();
+			$scope.confirmed = false;
+			$scope.done = !$scope.confirmed;
+
 
 			$scope.comment = "";
 			$scope.draw = false;
@@ -44,6 +47,28 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 				function () {
 					$scope.result = 'Failure';
 			});
+			
+			
+			$scope.updateGameAttributes = function(){
+				
+				var updateGameReq = requestService.buildRequest(
+						"UpdateLiveGameAttributes", 
+							{
+								draw : $scope.draw
+							}
+						);
+		
+				$http(updateGameReq).then(function(response){
+					$scope.result = response.data;
+					
+						if (response.data.result == "Success"){
+							$scope.result = 'Game attributes updated';
+						}					
+					}, 
+					function(){
+						$scope.result = 'Failure';
+				});
+			}
 			
 			
 			//CALLED
@@ -93,6 +118,7 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 				return false;
 			}
 			
+			//Confirm + end if all players have confirmed
 			$scope.confirmResult = function(){
 				
 				// Confirm Game
@@ -110,6 +136,7 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 					$scope.result = response.data;
 					
 						if (response.data.result == "Success"){
+							$scope.confirmed = true;
 							$scope.result = 'Confirmed game';
 						}					
 					}, 
@@ -118,16 +145,31 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 				});
 			}
 			
-			$scope.endGame = function(){
-				//http end game
+			
+			$scope.abortGame = function(){
 				
-				//if all players (not minions) results are confirmed remove live and set end time
-				
-				//else notify who has not confirmed + option abort
+				// Abort Game
+				var abortReq = requestService.buildRequest(
+						"AbortLiveGame", 
+							{ }
+						);
+		
+				$http(abortReq).then(function(response){
+					$scope.result = response.data;
+					
+						if (response.data.result == "Success"){
+							$scope.result = 'Game canceled';
+						}					
+					}, 
+					function(){
+						$scope.result = 'Failure';
+				});
 			}
 			
 			
-
+			$scope.leaveGame = function(){
+				$location.url('/deck');
+			}
 
 
 		} else {
