@@ -69,7 +69,7 @@ public class StartGame extends HttpServlet {
 				
 				String token = Encryption.generateLiveToken();
 				
-				int gameId = Games.startGame(participants, player.getId(), token);
+				int gameId = Games.startGame(participants, player.getId(), token, 20);
 				
 				if (gameId > 0){
 					

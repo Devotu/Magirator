@@ -158,6 +158,13 @@
 			<button class="btn btn-primary btn-add" ng-show="playerHasControl(participant)" ng-click="confirmResult()" ng-disabled="confirmed">dead</button>
 		</div>
 		<div>calculator</div>
+		
+		<div>
+			<button type="button" class="btn btn-primary btn-add" ng-disabled="confirmed" ng-click="addLife(participant.player.id, 1)">
+				 <span class="glyphicon glyphicon-plus"></span>
+			</button>
+		</div>
+		
 		<div>lifelog</div>
 	</li>
 </ol>

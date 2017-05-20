@@ -71,6 +71,32 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 			}
 			
 			
+			$scope.addLife = function(playerId, life){
+				
+				console.log(Date.now());
+				
+				var updateLifeReq = requestService.buildRequest(
+						"UpdateLivePlayerLife", 
+							{
+								id : playerId,
+								life : life,
+								time: Date.now()
+							}
+						);
+		
+				$http(updateLifeReq).then(function(response){
+					$scope.result = response.data;
+					
+						if (response.data.result == "Success"){
+							$scope.result = 'Life updated';
+						}					
+					}, 
+					function(){
+						$scope.result = 'Failure';
+				});
+			}
+			
+			
 			//CALLED
 			
 			// Add Positive

@@ -376,7 +376,7 @@ public class Games {
 	}
 
 	
-	public static int startGame(ArrayList<PlayerDeck> participants, int initiatorId, String gameToken) throws Exception {
+	public static int startGame(ArrayList<PlayerDeck> participants, int initiatorId, String gameToken, int initialLife) throws Exception {
 		
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -400,13 +400,14 @@ public class Games {
 				query = ""
 						+ "MATCH (g:Game), (d:Deck) "
 						+ "WHERE id(g) = ? AND id(d) = ? "
-						+ "CREATE (d)-[:Got]->(r:Result {place: 0, comment: '', confirmed: false, added: TIMESTAMP() })-[:In]->(g)";
+						+ "CREATE (d)-[:Got]->(r:Result {place: 0, comment: '', confirmed: false, added: TIMESTAMP() })-[:In]->(g), (r)-[:StartedWith]->(:Life {life:?})";
 				
 				ps = con.prepareStatement(query);
 				
 				for (PlayerDeck p : participants){
 					ps.setInt(1, gameId);
 					ps.setInt(2, p.getDeck().getDeckid());
+					ps.setInt(3, initialLife);
 					
 					ps.executeUpdate();
 				}
@@ -687,6 +688,42 @@ public class Games {
 			if (ps != null) ps.close();
 			if (con != null) con.close();
 		}
+	}
+
+	public static boolean updateLivePlayerLife(int reportingPlayerId, int updatedPlayerId, int life, long time) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();			
+			
+			String query = ""
+					+ "MATCH (up:Player)-[:Use|:Used]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game)-[:Runs]->(:Live), "
+					+ "(rp:Player)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g), "
+					+ "(r:Result)-[:StartedWith]->(:Life)-[:ChangedTo*0..]->(l:Life) "
+					+ "WHERE id(up)=? AND id(rp)=? "
+					+ "CREATE (l)-[:ChangedTo {time:?}]->(:Life {life:?}) ";
+			
+			ps = con.prepareStatement(query);
+      		
+			ps.setInt(1, updatedPlayerId);
+			ps.setInt(2, reportingPlayerId);
+			ps.setLong(3, time);
+			ps.setInt(4, life);
+			
+			int result = ps.executeUpdate();
+			
+			return result != 0;
+			
+		} catch (Exception ex){
+			return false;
+		} finally {
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+		
 	}
 
 }

@@ -39,6 +39,10 @@ public class Json {
 		return (int) (data.has(field) ? data.get(field).getAsInt() : otherwise);
 	}
 	
+	public static long getLong(JsonObject data, String field, long otherwise){
+		return (long) (data.has(field) ? data.get(field).getAsLong() : otherwise);
+	}
+	
 	public static boolean getBoolean(JsonObject data, String field, boolean otherwise){
 		return (boolean) (data.has(field) ? data.get(field).getAsBoolean() : otherwise);
 	}
