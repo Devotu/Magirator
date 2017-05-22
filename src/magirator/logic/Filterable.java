@@ -2,7 +2,7 @@ package magirator.logic;
 
 import java.util.Date;
 
-import magirator.data.collections.Participant;
+import magirator.data.collections.PlayerGameResult;
 import magirator.data.entities.Deck;
 import magirator.data.entities.Game;
 import magirator.data.interfaces.IPlayer;
@@ -34,7 +34,7 @@ public class Filterable {
 		date = game.getCreated();
 	}	
 	
-	public Filterable(Participant participant) {
+	public Filterable(PlayerGameResult participant) {
 		playerId = participant.getPlayer().getId();
 		format = participant.getDeck().getFormat();
 		date = participant.getGame().getCreated();

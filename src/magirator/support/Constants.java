@@ -8,4 +8,6 @@ public class Constants {
 	public static int non = 0;
 	
 	public static int numberOfMagicColors = 6;
+	
+	public static int startingLifeStandard = 20;
 }

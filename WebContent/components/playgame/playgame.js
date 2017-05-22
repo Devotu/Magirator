@@ -71,15 +71,13 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 			}
 			
 			
-			$scope.addLife = function(playerId, life){
-				
-				console.log(Date.now());
+			$scope.addLife = function(participant, lifechange){
 				
 				var updateLifeReq = requestService.buildRequest(
 						"UpdateLivePlayerLife", 
 							{
-								id : playerId,
-								life : life,
+								id : participant.player.id,
+								life : participant.life + lifechange,
 								time: Date.now()
 							}
 						);

@@ -36,8 +36,6 @@ public class StartGame extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		getServletContext().log("-- StartGame --");
 		
 		JsonObject result = new JsonObject();
 		result.addProperty(Constants.result, "Could not start game, please log in first");
@@ -64,12 +62,12 @@ public class StartGame extends HttpServlet {
 					IPlayer p = IPlayers.getIPlayer(o.get("playerId").getAsInt());
 					Deck d = Decks.getDeck(o.get("deckId").getAsInt());
 					
-					participants.add( new PlayerDeck(p, d) );			
+					participants.add( new PlayerDeck(p, d) );		
 				}
 				
 				String token = Encryption.generateLiveToken();
 				
-				int gameId = Games.startGame(participants, player.getId(), token, 20);
+				int gameId = Games.startGame(participants, player.getId(), token, Constants.startingLifeStandard);
 				
 				if (gameId > 0){
 					
@@ -88,8 +86,6 @@ public class StartGame extends HttpServlet {
 
         response.setContentType("application/json");
         response.getWriter().write(result.toString());
-
-		getServletContext().log("-- StartGame -- Done");
 	}
 
 }

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import magirator.data.collections.PlayerDeck;
+import magirator.data.collections.Participant;
 import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Games;
 import magirator.support.Constants;
@@ -41,7 +41,7 @@ public class GetLiveGame extends HttpServlet {
 		if (player != null){
 			
 			try {
-				List<PlayerDeck> participants = Games.getPlayerLiveGame(player.getId());
+				List<Participant> participants = Games.getPlayerLiveGame(player.getId());
 				
 				result.addProperty("participants", new Gson().toJson(participants));
 				result.addProperty(Constants.result, Constants.success);

@@ -48,7 +48,7 @@ public class UpdateLivePlayerLife extends HttpServlet {
 			try {
 				
 				if (playerId != 0 && time != 0) {
-					if(Games.updateLivePlayerLife(player.getId(), playerId, life, time)){
+					if(Games.updateLivePlayerLife(playerId, player.getId(), life, time)){
 						result.addProperty(Constants.result, Constants.success);
 					}					
 				}

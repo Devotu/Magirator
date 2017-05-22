@@ -160,12 +160,21 @@
 		<div>calculator</div>
 		
 		<div>
-			<button type="button" class="btn btn-primary btn-add" ng-disabled="confirmed" ng-click="addLife(participant.player.id, 1)">
-				 <span class="glyphicon glyphicon-plus"></span>
+			<button type="button" class="btn btn-primary btn-add" ng-disabled="confirmed" ng-click="addLife(participant, 1)">
+				 <span class="glyphicon glyphicon-plus positive">1</span>
+			</button>
+			<button type="button" class="btn btn-primary btn-add" ng-disabled="confirmed" ng-click="addLife(participant, 5)">
+				 <span class="glyphicon glyphicon-plus positive">5</span>
+			</button>
+			<button type="button" class="btn btn-primary btn-add" ng-disabled="confirmed" ng-click="addLife(participant, -1)">
+				 <span class="glyphicon glyphicon-minus negative">1</span>
+			</button>
+			<button type="button" class="btn btn-primary btn-add" ng-disabled="confirmed" ng-click="addLife(participant, -5)">
+				 <span class="glyphicon glyphicon-minus negative">5</span>
 			</button>
 		</div>
 		
-		<div>lifelog</div>
+		<div>{{ participant.life }}</div>
 	</li>
 </ol>
 

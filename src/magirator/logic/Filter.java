@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import magirator.data.collections.GameBundle;
-import magirator.data.collections.Participant;
+import magirator.data.collections.PlayerGameResult;
 import magirator.data.entities.Game;
 import magirator.view.Condition;
 
@@ -18,12 +18,12 @@ public class Filter {
 				
 		switch (condition.getCondition()) {
 		case "against":
-			List <Participant> opponents = bundle.getOpponents();
+			List <PlayerGameResult> opponents = bundle.getOpponents();
 			subjects = opponents.stream().map(o -> new Filterable(o)).collect(Collectors.toList());
 			break;
 
 		case "with":
-			Participant self = bundle.getSelf();
+			PlayerGameResult self = bundle.getSelf();
 			subjects.add(new Filterable(self));
 			break;			
 

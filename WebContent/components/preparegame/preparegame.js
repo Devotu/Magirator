@@ -267,8 +267,6 @@ ratorApp.controller('prepareGameController', function ($scope, $http, $location,
 						participants: $scope.participants
 					}
 				);
-				
-				console.log(startGameReq);
 
 				$http(startGameReq).then(function (response) {
 					$scope.result = response.data

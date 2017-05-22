@@ -13,23 +13,23 @@ import magirator.data.entities.Game;
 public class GameBundle {
 	
 	private Game game;
-	private Participant self;
-	private List<Participant> opponents;
+	private PlayerGameResult self;
+	private List<PlayerGameResult> opponents;
 
 	public GameBundle(Game game) {
 		this.game = game;
 		this.opponents = new ArrayList<>();
 	}
 	
-	public void addOpponent(Participant p){
+	public void addOpponent(PlayerGameResult p){
 		this.opponents.add(p);
 	}
 	
-	public void addSelf(Participant p){
+	public void addSelf(PlayerGameResult p){
 		this.self = p;
 	}
 	
-	public boolean isSameGame(Participant p){
+	public boolean isSameGame(PlayerGameResult p){
 		if (this.game.getId() == p.getGame().getId()) {
 			return true;
 		} else {
@@ -49,11 +49,11 @@ public class GameBundle {
 		}
 	}
 
-	public List<Participant> getOpponents() {
+	public List<PlayerGameResult> getOpponents() {
 		return opponents;
 	}
 
-	public Participant getSelf() {
+	public PlayerGameResult getSelf() {
 		return self;
 	}
 	

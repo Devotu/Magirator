@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import magirator.data.collections.Participant;
+import magirator.data.collections.PlayerGameResult;
 import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Games;
 import magirator.support.Error;
@@ -43,7 +43,7 @@ public class GetDashboard extends HttpServlet {
 		// Player is logged in
 		if (player != null) {
 			try {
-				ArrayList<Participant> participations = Games.getUnconfirmedParticipations(player.getId());
+				ArrayList<PlayerGameResult> participations = Games.getUnconfirmedParticipations(player.getId());
 				result.addProperty("unconfirmed", participations.size());
 				
 				result.addProperty("player", new Gson().toJson(player));

@@ -13,6 +13,7 @@ import javax.naming.NamingException;
 
 import magirator.data.collections.GameBundle;
 import magirator.data.collections.Participant;
+import magirator.data.collections.PlayerGameResult;
 import magirator.data.collections.PlayerDeck;
 import magirator.data.entities.Deck;
 import magirator.data.entities.Game;
@@ -24,7 +25,7 @@ import magirator.support.Database;
 
 public class Games {
 	
-	public static int addGame(ArrayList<Participant> participants, boolean draw, int initiatorId) throws Exception {
+	public static int addGame(ArrayList<PlayerGameResult> participants, boolean draw, int initiatorId) throws Exception {
 		
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -51,7 +52,7 @@ public class Games {
 				
 				ps = con.prepareStatement(query);
 				
-				for (Participant p : participants){
+				for (PlayerGameResult p : participants){
 					ps.setInt(1, gameId);
 					ps.setInt(2, p.getDeck().getDeckid());
 					ps.setInt(3, p.getResult().getPlace());
@@ -129,7 +130,7 @@ public class Games {
 
 	}
 
-	public static ArrayList<Participant> getDeckParticipations(int deckId) throws Exception {
+	public static ArrayList<PlayerGameResult> getDeckParticipations(int deckId) throws Exception {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -152,7 +153,7 @@ public class Games {
 
       		rs = ps.executeQuery();
       		
-      		ArrayList<Participant> participations = new ArrayList<Participant>();
+      		ArrayList<PlayerGameResult> participations = new ArrayList<PlayerGameResult>();
 			
 			while (rs.next()) {
 				IPlayer player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
@@ -160,7 +161,7 @@ public class Games {
 				Result result = new Result( rs.getInt("id(r)"), (Map) rs.getObject("PROPERTIES(r)") );
 				Game game = new Game( rs.getInt("id(g)"), (Map) rs.getObject("PROPERTIES(g)") );
 				
-				participations.add(new Participant(player, deck, result, game));
+				participations.add(new PlayerGameResult(player, deck, result, game));
 			}
 			
 			return participations;
@@ -174,7 +175,7 @@ public class Games {
 		}
 	}
 
-	public static ArrayList<Participant> getParticipants(int gameId) throws Exception {
+	public static ArrayList<PlayerGameResult> getParticipants(int gameId) throws Exception {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -195,7 +196,7 @@ public class Games {
 
       		rs = ps.executeQuery();
       		
-      		ArrayList<Participant> participants = new ArrayList<Participant>();
+      		ArrayList<PlayerGameResult> participants = new ArrayList<PlayerGameResult>();
 			
 			while (rs.next()) {
 				IPlayer player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
@@ -205,7 +206,7 @@ public class Games {
 				
 
 				
-				Participant participant = new Participant(player, deck, result, game);
+				PlayerGameResult participant = new PlayerGameResult(player, deck, result, game);
 				
 				rs.getMetaData();
 				
@@ -228,7 +229,7 @@ public class Games {
 		}
 	}
 
-	public static ArrayList<Participant> getUnconfirmedParticipations(int playerId) throws Exception {
+	public static ArrayList<PlayerGameResult> getUnconfirmedParticipations(int playerId) throws Exception {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -249,7 +250,7 @@ public class Games {
       		
       		rs = ps.executeQuery();
       		
-      		ArrayList<Participant> participants = new ArrayList<Participant>();
+      		ArrayList<PlayerGameResult> participants = new ArrayList<PlayerGameResult>();
 			
 			while (rs.next()) {
 				IPlayer player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
@@ -257,7 +258,7 @@ public class Games {
 				Result result = new Result( rs.getInt("id(r)"), (Map) rs.getObject("PROPERTIES(r)") );
 				Game game = new Game( rs.getInt("id(g)"), (Map) rs.getObject("PROPERTIES(g)") );
 				
-				participants.add(new Participant(player, deck, result, game));
+				participants.add(new PlayerGameResult(player, deck, result, game));
 			}
 			
 			return participants;
@@ -344,7 +345,7 @@ public class Games {
 				Result result = new Result( rs.getInt("id(r)"), (Map) rs.getObject("PROPERTIES(r)") );
 				Game game = new Game( rs.getInt("id(g)"), (Map) rs.getObject("PROPERTIES(g)") );
 				
-				Participant p = new Participant(player, deck, result, game);
+				PlayerGameResult p = new PlayerGameResult(player, deck, result, game);
 				
 				if (gb == null) {
 					gb = new GameBundle(game);
@@ -478,7 +479,7 @@ public class Games {
 		}
 	}
 	
-	public static List<PlayerDeck> getPlayerLiveGame(int playerId) throws Exception {
+	public static List<Participant> getPlayerLiveGame(int playerId) throws Exception {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -490,22 +491,26 @@ public class Games {
 			String query = ""
 					+ "MATCH (self:Player) "
 					+ "WHERE id(self) = ? "
-					+ "MATCH (self)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game)-[:Runs]->(l:Live) "
-					+ "MATCH (p:Player)-[:Use|:Used]->(d:Deck)-[:Got]->(:Result)-[:In]->(g:Game) "
-					+ "RETURN id(p), PROPERTIES(p), id(d), PROPERTIES(d)";
+					+ "MATCH (self)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game)-[:Runs]->(:Live) "
+					+ "MATCH (p:Player)-[:Use|:Used]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
+					+ "MATCH lifelog=(r)-[:StartedWith|:ChangedTo*0..]->(l:Life) "
+					+ "WHERE NOT (l)-->() AND length(lifelog) > 0 "
+					+ "WITH p,d, LAST(NODES(lifelog)[1..]) AS cl "
+					+ "RETURN id(p), PROPERTIES(p), id(d), PROPERTIES(d), cl.life";
 
       		ps = con.prepareStatement(query);
       		ps.setInt(1, playerId);
       		
       		rs = ps.executeQuery();
       		
-      		List<PlayerDeck> participants = new ArrayList<>();
+      		List<Participant> participants = new ArrayList<>();
 			
 			while (rs.next()) {
 				IPlayer player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
 				Deck deck = new Deck( rs.getInt("id(d)"), (Map) rs.getObject("PROPERTIES(d)") );
+				int life = rs.getInt("cl.life");
 				
-				participants.add( new PlayerDeck( player, deck) );
+				participants.add( new Participant( player, deck, life) );
 			}
 			
 			return participants;
@@ -520,10 +525,43 @@ public class Games {
 	}
 	
 	
-	public static boolean updateLivePlayerLife(){
+	public static boolean updateLivePlayerLife(int updatedPlayerId, int reportingPlayerId, int newLife, long time) throws Exception{
 		
-		//TODO uppdatera liv
-		return true;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();			
+			
+			String query = ""
+					+ "MATCH (rp:Player)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g) "
+					+ "WHERE id(rp)=? "
+					+ "MATCH (up:Player)-[:Use|:Used]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game)-[:Runs]->(:Live) "
+					+ "WHERE id(up)=? "
+					+ "MATCH lifelog=(r)-[:StartedWith|:ChangedTo*0..]->(l:Life) "
+					+ "WHERE NOT (l)-->() AND length(lifelog) > 0 "
+					+ "WITH LAST(NODES(lifelog)[1..]) AS lastLife "
+					+ "CREATE (lastLife)-[:ChangedTo]->(newLife:Life {time:?, life:?}) "
+					+ "RETURN lastLife, newLife";
+			
+			ps = con.prepareStatement(query);
+
+			ps.setInt(1, reportingPlayerId);
+			ps.setInt(2, updatedPlayerId);
+			ps.setLong(3, time);
+			ps.setInt(4, newLife);
+			
+			int result = ps.executeUpdate();
+			
+			return result != 0;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
 	}
 	
 	
@@ -688,42 +726,6 @@ public class Games {
 			if (ps != null) ps.close();
 			if (con != null) con.close();
 		}
-	}
-
-	public static boolean updateLivePlayerLife(int reportingPlayerId, int updatedPlayerId, int life, long time) throws Exception {
-
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		
-		try {
-			con = Database.getConnection();			
-			
-			String query = ""
-					+ "MATCH (up:Player)-[:Use|:Used]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game)-[:Runs]->(:Live), "
-					+ "(rp:Player)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g), "
-					+ "(r:Result)-[:StartedWith]->(:Life)-[:ChangedTo*0..]->(l:Life) "
-					+ "WHERE id(up)=? AND id(rp)=? "
-					+ "CREATE (l)-[:ChangedTo {time:?}]->(:Life {life:?}) ";
-			
-			ps = con.prepareStatement(query);
-      		
-			ps.setInt(1, updatedPlayerId);
-			ps.setInt(2, reportingPlayerId);
-			ps.setLong(3, time);
-			ps.setInt(4, life);
-			
-			int result = ps.executeUpdate();
-			
-			return result != 0;
-			
-		} catch (Exception ex){
-			return false;
-		} finally {
-			if (ps != null) ps.close();
-			if (con != null) con.close();
-		}
-		
 	}
 
 }

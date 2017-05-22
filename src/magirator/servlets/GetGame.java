@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import magirator.data.collections.Participant;
+import magirator.data.collections.PlayerGameResult;
 import magirator.data.entities.Tag;
 import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Games;
@@ -50,10 +50,10 @@ public class GetGame extends HttpServlet {
 		if (player != null){
 			
 			try {
-				ArrayList<Participant> participants = Games.getParticipants(gameId);
+				ArrayList<PlayerGameResult> participants = Games.getParticipants(gameId);
 				List<Tag> taglist = Tags.getTagsInGame(gameId);
 				
-				for	(Participant p : participants){
+				for	(PlayerGameResult p : participants){
 					for (Tag t : taglist){
 						if(t.getTagged() == p.getResult().getId()){
 							p.addTag(t);

@@ -13,7 +13,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import magirator.data.collections.Participant;
+import magirator.data.collections.PlayerGameResult;
 import magirator.data.entities.Deck;
 import magirator.data.entities.Rating;
 import magirator.data.entities.Result;
@@ -58,7 +58,7 @@ public class AddGame extends HttpServlet {
 				
 				JsonArray requestParticipants = requestData.get("participants").getAsJsonArray();
 				
-				ArrayList<Participant> participants = new ArrayList<Participant>();
+				ArrayList<PlayerGameResult> participants = new ArrayList<PlayerGameResult>();
 				Rating rating = null;
 				ArrayList<Tag> tags = new ArrayList<Tag>();
 				
@@ -70,7 +70,7 @@ public class AddGame extends HttpServlet {
 					Deck d = Decks.getDeck(o.get("deckId").getAsInt());
 					Result r = new Result(o);
 					
-					participants.add( new Participant(p, d, r, null) );
+					participants.add( new PlayerGameResult(p, d, r, null) );
 					
 					if (o.has("rating")){
 						rating = new Rating(o.get("rating").getAsJsonObject());				
