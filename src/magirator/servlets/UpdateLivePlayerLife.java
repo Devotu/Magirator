@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.JsonObject;
 
+import magirator.data.collections.PlayerStatus;
 import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Games;
 import magirator.support.Constants;

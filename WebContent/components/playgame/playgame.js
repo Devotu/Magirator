@@ -2,6 +2,8 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 
 	playerService.getPlayer().then(function (data) {
 		if (data.result == "Success") {
+			
+			$scope.token = "";
 
 			$scope.player = JSON.parse(data.player);
 			$scope.deckId = deckVarStorage.getCurrentDeck();
@@ -42,12 +44,49 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 
 				if (response.data.result == "Success") {
 					$scope.participants = JSON.parse(response.data.participants);
+					$scope.token = response.data.token;
 				}
 			},
 				function () {
 					$scope.result = 'Failure';
 			});
 			
+				
+			//RUNNING
+			$scope.getGameStatus = function(){
+				
+				var getGameStatusReq = requestService.buildRequest(
+						"API/gamestatus", 
+							{
+								token : $scope.token
+							}
+						);
+		
+				$http(getGameStatusReq).then(function(response){
+					$scope.result = response.data;
+					
+						if (response.data.result == "Success"){
+							$scope.result = 'updated ' + Date.now();
+							
+							var updated = JSON.parse(response.data.status);
+							
+							updated.forEach(function (up){
+								$scope.participants.forEach(function (p){
+									if(up.id == p.player.id)
+										p.life = up.life;
+								})
+							});
+						}					
+					}, 
+					function(){
+						$scope.result = 'Failure';
+				});
+			}
+			
+			setInterval($scope.getGameStatus, 1000 * 2);
+			
+			
+			//CALLED
 			
 			$scope.updateGameAttributes = function(){
 				
@@ -87,15 +126,13 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 					
 						if (response.data.result == "Success"){
 							$scope.result = 'Life updated';
+							$scope.getGameStatus();
 						}					
 					}, 
 					function(){
 						$scope.result = 'Failure';
 				});
 			}
-			
-			
-			//CALLED
 			
 			// Add Positive
 			$scope.addPositiveTag = function () {
@@ -130,8 +167,6 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 							tag: tag
 						}
 					);
-				
-				//TODO update db tags
 			};
 			
 			$scope.playerHasControl = function(participant){

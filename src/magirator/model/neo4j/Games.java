@@ -14,6 +14,7 @@ import javax.naming.NamingException;
 import magirator.data.collections.GameBundle;
 import magirator.data.collections.Participant;
 import magirator.data.collections.PlayerGameResult;
+import magirator.data.collections.PlayerStatus;
 import magirator.data.collections.PlayerDeck;
 import magirator.data.entities.Deck;
 import magirator.data.entities.Game;
@@ -723,6 +724,45 @@ public class Games {
 		} catch (Exception ex){
 			throw ex;
 		} finally {
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+	}
+
+	public static List<PlayerStatus> getGameStatus(String token) throws Exception {
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();			
+			
+			String query = ""
+					+ "MATCH (liveGame:Live)<-[:Runs]-(:Game)<-[:In]-(result:Result)<-[:Got]-(:Deck)<-[:Use|:Used]-(player) "
+					+ "WHERE liveGame.token=? "
+					+ "MATCH lifelog=(result)-[:StartedWith|:ChangedTo*0..]->(life:Life) "
+					+ "WHERE NOT (life)-->() AND length(lifelog) > 0 "
+					+ "WITH player, result, LAST(NODES(lifelog)[1..]) AS currentLife "
+					+ "RETURN id(player), currentLife.life, result.confirmed";
+
+      		ps = con.prepareStatement(query);
+      		ps.setString(1, token);
+      		
+      		rs = ps.executeQuery();
+      		
+      		List<PlayerStatus> statuses = new ArrayList<>();
+			
+			while (rs.next()) {
+				statuses.add( new PlayerStatus( rs.getInt("id(player)"), rs.getInt("currentLife.life"), rs.getBoolean("result.confirmed")) );
+			}
+			
+			return statuses;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (rs != null) rs.close();
 			if (ps != null) ps.close();
 			if (con != null) con.close();
 		}
