@@ -20,6 +20,31 @@ p {
 	margin: auto;
 }
 
+/*Layout*/
+div.clear {
+    clear:both;
+}
+
+.horizontal-tile {
+	float: left;
+	margin: 0 2% 0 2%;
+	width: 46%;
+	text-align: center;
+	border-radius: 4px;
+}
+
+.spacer {
+	height: 20px;
+}
+
+.center-content {
+	text-align: center;
+}
+
+.tile-spaced {
+	margin: 0 2% 0 2%;
+}
+
 /*Navbar*/
 .navbar{
 	background-color: #333;
@@ -122,6 +147,11 @@ p {
 	.collapse.in {
 		display: flex;
 	}
+}
+
+.tag {
+	margin: 5px;
+	display: inline-block;
 }
 
 /*Text*/

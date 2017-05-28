@@ -6,15 +6,17 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 			$scope.token = "";
 
 			$scope.player = JSON.parse(data.player);
-			$scope.deckId = deckVarStorage.getCurrentDeck();
+			$scope.deck = undefined;
 			$scope.confirmed = false;
 			$scope.done = !$scope.confirmed;
+			$scope.confirmOption = "Confirm dead";
 
 
 			$scope.comment = "";
 			$scope.draw = false;
 			$scope.participants = [];
-			
+
+			$scope.ratingSystem = "General";
 			$scope.rating = {'speed': 0, 'strength': 0, 'synergy': 0, 'control': 0};
 			$scope.tags = [];
 			
@@ -32,6 +34,23 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 
 
 			//INIT 
+			var getDeckinLiveGameReq = requestService.buildRequest(
+				"GetDeckinLiveGame",
+				{ }
+			);
+
+			$http(getDeckinLiveGameReq).then(function (response) {
+				$scope.result = response.data;
+			
+				if (response.data.result == "Success") {
+					$scope.deck = JSON.parse(response.data.deck);
+					deckVarStorage.setCurrentDeck($scope.deck.deckid);
+				}
+			},
+				function () {
+					$scope.result = 'Failure';
+			});
+			
 
 			// Get participants
 			var getLiveGameReq = requestService.buildRequest(
@@ -68,14 +87,25 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 						if (response.data.result == "Success"){
 							$scope.result = 'updated ' + Date.now();
 							
+							var numAlive = 0;
+							
 							var updated = JSON.parse(response.data.status);
 							
 							updated.forEach(function (up){
+								
+								if(up.confirmed == false){
+									numAlive++;
+								}
+								
 								$scope.participants.forEach(function (p){
 									if(up.id == p.player.id)
 										p.life = up.life;
 								})
 							});
+							
+							if(numAlive <= 1){
+								$scope.confirmOption = "Confirm win!"
+							}
 						}					
 					}, 
 					function(){
@@ -83,8 +113,7 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 				});
 			}
 			
-			setInterval($scope.getGameStatus, 1000 * 2);
-			
+			var updater = setInterval($scope.getGameStatus, 1000 * 2);			
 			
 			//CALLED
 			
@@ -137,37 +166,62 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 			// Add Positive
 			$scope.addPositiveTag = function () {
 				
-				var tag = $scope.tag.positive;
+				var tag = { polarity: 1, tag: $scope.tag.positive } ;
 
-				if (tag != undefined && tag.length > 0) {
-					$scope.addTag(1, tag);
-
+				if (tag != undefined && tag.tag.length > 0 && $scope.tagExistsAt(tag) == -1) {
+					$scope.tags.push(tag)
 					$scope.tag.positive = "";
 				}
 			};
 			
+			
 			// Add Negative
 			$scope.addNegativeTag = function () {
 				
-				var tag = $scope.tag.negative;
+				var tag = { polarity: -1, tag: $scope.tag.negative } ;
 
-				if (tag != undefined && tag.length > 0) {
-					$scope.addTag(-1, tag);
-
+				if (tag != undefined && tag.tag.length > 0 && $scope.tagExistsAt(tag) == -1) {
+					$scope.tags.push(tag)
 					$scope.tag.negative = "";
 				}
-			};			
-			
-			// Add Tag
-			$scope.addTag = function (polarity, tag) {
-
-				$scope.tags.push(
-						{
-							polarity: polarity,
-							tag: tag
-						}
-					);
 			};
+			
+			$scope.tagExistsAt = function (tag) {
+				
+				for(var t in $scope.tags){
+					if($scope.tags[t].polarity == tag.polarity && $scope.tags[t].tag == tag.tag){
+						return t;
+					}
+				}
+				return -1;
+			}
+			
+			$scope.removeTag = function (tag) {
+				
+				var i = $scope.tagExistsAt(tag);
+				$scope.tags.splice(i, 1);
+			};
+
+			$scope.toggleRatingSystem = function () {
+
+				if ($scope.ratingSystem != "SSSC") {
+					$scope.ratingSystem = "SSSC";
+				} else {
+					$scope.ratingSystem = "General";
+				}
+			};
+			
+			$scope.rate = function(parameter, value){
+				if (parameter == 'general'){
+					for (var key in $scope.rating) {
+						  if ($scope.rating.hasOwnProperty(key)) {
+							  $scope.rating[key] = value;
+						  }
+						}
+				} else {
+					$scope.rating[parameter] = value;
+				}
+			}
 			
 			$scope.playerHasControl = function(participant){
 				if( participant.player.id == $scope.player.id){
@@ -218,6 +272,7 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 					
 						if (response.data.result == "Success"){
 							$scope.result = 'Game canceled';
+							clearInterval(updater);
 						}					
 					}, 
 					function(){
@@ -227,6 +282,7 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 			
 			
 			$scope.leaveGame = function(){
+				clearInterval(updater);
 				$location.url('/deck');
 			}
 

@@ -29,8 +29,6 @@ public class GetDeck extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		getServletContext().log("-- GetDeck --");
 		
 		JsonObject result = new JsonObject();
 		result.addProperty("result", "Could not get decks, are you logged in?");		
@@ -62,8 +60,6 @@ public class GetDeck extends HttpServlet {
 		
 		response.setContentType("application/json");
 		response.getWriter().write(result.toString());
-
-		getServletContext().log("-- GetDeck -- Done");
 	}
 
 }

@@ -41,7 +41,7 @@ public class GetLiveGame extends HttpServlet {
 		if (player != null){
 			
 			try {
-				List<Participant> participants = Games.getPlayerLiveGame(player.getId());				
+				List<Participant> participants = Games.getPlayerLiveGameParticipants(player.getId());				
 				result.addProperty("participants", new Gson().toJson(participants));
 				
 				String token = Games.getPlayerLiveGameToken(player.getId());				

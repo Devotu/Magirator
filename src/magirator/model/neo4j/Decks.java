@@ -404,4 +404,39 @@ public class Decks {
 		}
 	}
 
+	public static Deck getPlayerDeckInLiveGame(int playerId) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();			
+
+			String query = ""
+					+ "MATCH (p:Player) "
+					+ "WHERE id(p) = ? "
+					+ "MATCH (p)-[:Use|:Used]->(d:Deck)-[:Got]->(:Result)-[:In]->(:Game)-[:Runs]->(:Live) "
+					+ "RETURN id(d), PROPERTIES(d)";
+
+      		ps = con.prepareStatement(query);
+      		ps.setInt(1, playerId);
+      		
+      		rs = ps.executeQuery();
+      		
+			if (rs.next()) {
+				return new Deck(rs.getInt("id(d)"), (Map)rs.getObject("PROPERTIES(d)"));
+			}
+			
+			return null;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+	}
+
 }

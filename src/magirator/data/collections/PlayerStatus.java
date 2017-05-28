@@ -9,11 +9,13 @@ public class PlayerStatus {
 	private int id;
 	private int life;
 	private boolean confirmed;
+	private int place;
 	
 	
-	public PlayerStatus(int id, int life, boolean confirmed) {
+	public PlayerStatus(int id, int life, boolean confirmed, int place) {
 		this.id = id;
 		this.life = life;
 		this.confirmed = confirmed;
+		this.place = place;
 	}		
 }

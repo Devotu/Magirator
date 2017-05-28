@@ -62,7 +62,15 @@ public class ConfirmLiveGame extends HttpServlet {
 			
 			try {
 				
-				int confirmedGame = Games.confirmLiveGame(player.getId(), comment, rating);
+				int gameId = Games.getPlayerLiveGameId(player.getId());
+				boolean isDraw = Games.gameIsDraw(gameId);
+
+				int place = 0;
+				if(!isDraw){
+					place = Games.getPlaceInGame(gameId);
+				}
+				
+				int confirmedGame = Games.confirmLiveGame(player.getId(), place, comment, rating);
 				
 				if (confirmedGame != 0){
 					

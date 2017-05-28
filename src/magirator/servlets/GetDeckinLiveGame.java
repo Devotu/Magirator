@@ -1,8 +1,6 @@
 package magirator.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,30 +11,28 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import magirator.data.collections.PlayerGameResult;
+import magirator.data.entities.Deck;
 import magirator.data.interfaces.IPlayer;
-import magirator.model.neo4j.Games;
+import magirator.model.neo4j.Decks;
+import magirator.support.Constants;
 import magirator.support.Error;
 import magirator.support.Json;
-import magirator.support.Constants;
 
 /**
- * Servlet implementation class GetGames
+ * Servlet implementation class GetDeckinLiveGame
  */
-@WebServlet("/GetGames")
-public class GetGames extends HttpServlet {
+@WebServlet("/GetDeckinLiveGame")
+public class GetDeckinLiveGame extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		getServletContext().log("-- GetGames --");
 		
 		JsonObject result = new JsonObject();
-		result.addProperty(Constants.result, "Could not get Games, are you logged in?");
-		
+		result.addProperty("result", "Could not get deck, are you logged in?");		
+				
 		HttpSession session = request.getSession();
 		IPlayer player = (IPlayer)session.getAttribute("player");
 		
@@ -44,12 +40,10 @@ public class GetGames extends HttpServlet {
 		if (player != null){
 			
 			try {
-				JsonObject requestData = Json.parseRequestData(request);
-				int deckId = Json.getInt(requestData, "id", 0);
 				
-				ArrayList<PlayerGameResult> participations = Games.getDeckParticipations(deckId);				
-				result.addProperty("games", new Gson().toJson(participations));
-								
+				Deck deck = Decks.getPlayerDeckInLiveGame(player.getId());			
+				result.addProperty("deck", new Gson().toJson(deck));				
+				
 				result.addProperty(Constants.result, Constants.success);
 				
 			} catch (Exception e) {
@@ -58,13 +52,11 @@ public class GetGames extends HttpServlet {
 			
 		} else {
 			
-			result.addProperty(Constants.result, "Failed to get Games, please login");
+			result.addProperty(Constants.result, "Failed to get deck, please login");
 		}
 		
 		response.setContentType("application/json");
 		response.getWriter().write(result.toString());
-
-		getServletContext().log("-- GetGames -- Done");
 	}
 
 }

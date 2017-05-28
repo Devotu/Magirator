@@ -16,7 +16,7 @@ public class Result {
 	public Result(int resultId, Map resultMap) {
 		this.id = resultId;
 		this.place = Integer.valueOf( resultMap.get("place").toString() );
-		this.confirmed = (Integer.valueOf( resultMap.get("confirmed").toString() ) == 1 ? true : false);
+		this.confirmed = (boolean) (resultMap.get("confirmed"));
 		this.comment = (String)resultMap.get("comment");
 		
 		long longTime = (Long)resultMap.get("added");

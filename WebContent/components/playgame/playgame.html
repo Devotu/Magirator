@@ -1,186 +1,211 @@
-			<div>
-				<h3>{{ player.name }}</h3>
-				<p>{{ player.deck.name }}</p>
-				
-				<label>Comment:</label> 
-				<input ng-model="comment" type="text" class="form-control">
-				
-				<label>
-					<input type="checkbox" class="inline-checkbox" ng-model="draw" ng-change="updateGameAttributes()"/> Draw
-				</label>
+<div class="note">
+	<label>
+		<input type="checkbox" class="inline-checkbox" ng-model="draw" ng-change="updateGameAttributes()"/> Draw
+	</label>
+</div>
 
-				
-				<div ng-hide="participant.rating == undefined">
-					<label>Rating: </label><span
-						class="glyphicon glyphicon-option-horizontal"
-						ng-click="toggleRatingSystem()"></span>
-					<div ng-show="ratingSystem == 'General'">
-						<label>Rating: </label>
-						<button class="rating-star" ng-click="rate('general',1)">
+<div>
+	<h2>{{ player.name }}</h2>
+	<p>{{ player.deck.name }}</p>
+
+	<div ng-hide="confirmed">
+		<div div class="form-group col-sm-12">
+			<label>Comment:</label>
+			<input ng-model="comment" type="text" class="form-control">
+		</div>
+
+		<div div class="form-group col-sm-12">
+			<label>Rating: </label><span class="glyphicon glyphicon-option-horizontal" ng-click="toggleRatingSystem()"></span>
+			<div ng-show="ratingSystem == 'General'">
+				<label>General: </label>
+				<button class="rating-star" ng-click="rate('general',1)">
 							<span class="glyphicon" aria-hidden="true"
 								ng-class="{'glyphicon-star': (generalRating() >= 1), 'glyphicon-star-empty': (generalRating() < 1)}"></span>
 						</button>
-						<button class="rating-star" ng-click="rate('general',2)">
+				<button class="rating-star" ng-click="rate('general',2)">
 							<span class="glyphicon" aria-hidden="true"
 								ng-class="{'glyphicon-star': (generalRating() >= 2), 'glyphicon-star-empty': (generalRating() < 2)}"></span>
 						</button>
-						<button class="rating-star" ng-click="rate('general',3)">
+				<button class="rating-star" ng-click="rate('general',3)">
 							<span class="glyphicon" aria-hidden="true"
 								ng-class="{'glyphicon-star': (generalRating() >= 3), 'glyphicon-star-empty': (generalRating() < 3)}"></span>
 						</button>
-						<button class="rating-star" ng-click="rate('general',4)">
+				<button class="rating-star" ng-click="rate('general',4)">
 							<span class="glyphicon" aria-hidden="true"
 								ng-class="{'glyphicon-star': (generalRating() >= 4), 'glyphicon-star-empty': (generalRating() < 4)}"></span>
 						</button>
-						<button class="rating-star" ng-click="rate('general',5)">
+				<button class="rating-star" ng-click="rate('general',5)">
 							<span class="glyphicon" aria-hidden="true"
 								ng-class="{'glyphicon-star': (generalRating() >= 5), 'glyphicon-star-empty': (generalRating() < 5)}"></span>
 						</button>
-					</div>
-					<div ng-show="ratingSystem == 'SSSC'">
-						<div>
-							<label>Speed: </label>
-							<button class="rating-star" ng-click="rate('speed',1)">
+			</div>
+			<div ng-show="ratingSystem == 'SSSC'">
+				<div>
+					<label>Speed: </label>
+					<button class="rating-star" ng-click="rate('speed',1)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['speed'] >= 1), 'glyphicon-star-empty': (rating['speed'] < 1)}"></span>
 							</button>
-							<button class="rating-star" ng-click="rate('speed',2)">
+					<button class="rating-star" ng-click="rate('speed',2)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['speed'] >= 2), 'glyphicon-star-empty': (rating['speed'] < 2)}"></span>
 							</button>
-							<button class="rating-star" ng-click="rate('speed',3)">
+					<button class="rating-star" ng-click="rate('speed',3)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['speed'] >= 3), 'glyphicon-star-empty': (rating['speed'] < 3)}"></span>
 							</button>
-							<button class="rating-star" ng-click="rate('speed',4)">
+					<button class="rating-star" ng-click="rate('speed',4)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['speed'] >= 4), 'glyphicon-star-empty': (rating['speed'] < 4)}"></span>
 							</button>
-							<button class="rating-star" ng-click="rate('speed',5)">
+					<button class="rating-star" ng-click="rate('speed',5)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['speed'] >= 5), 'glyphicon-star-empty': (rating['speed'] < 5)}"></span>
 							</button>
-						</div>
-						<div>
-							<label>Strength: </label>
-							<button class="rating-star" ng-click="rate('strength',1)">
+				</div>
+				<div>
+					<label>Strength: </label>
+					<button class="rating-star" ng-click="rate('strength',1)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['strength'] >= 1), 'glyphicon-star-empty': (rating['strength'] < 1)}"></span>
 							</button>
-							<button class="rating-star" ng-click="rate('strength',2)">
+					<button class="rating-star" ng-click="rate('strength',2)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['strength'] >= 2), 'glyphicon-star-empty': (rating['strength'] < 2)}"></span>
 							</button>
-							<button class="rating-star" ng-click="rate('strength',3)">
+					<button class="rating-star" ng-click="rate('strength',3)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['strength'] >= 3), 'glyphicon-star-empty': (rating['strength'] < 3)}"></span>
 							</button>
-							<button class="rating-star" ng-click="rate('strength',4)">
+					<button class="rating-star" ng-click="rate('strength',4)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['strength'] >= 4), 'glyphicon-star-empty': (rating['strength'] < 4)}"></span>
 							</button>
-							<button class="rating-star" ng-click="rate('strength',5)">
+					<button class="rating-star" ng-click="rate('strength',5)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['strength'] >= 5), 'glyphicon-star-empty': (rating['strength'] < 5)}"></span>
 							</button>
-						</div>
-						<div>
-							<label>Synergy: </label>
-							<button class="rating-star" ng-click="rate('synergy',1)">
+				</div>
+				<div>
+					<label>Synergy: </label>
+					<button class="rating-star" ng-click="rate('synergy',1)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['synergy'] >= 1), 'glyphicon-star-empty': (rating['synergy'] < 1)}"></span>
 							</button>
-							<button class="rating-star" ng-click="rate('synergy',2)">
+					<button class="rating-star" ng-click="rate('synergy',2)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['synergy'] >= 2), 'glyphicon-star-empty': (rating['synergy'] < 2)}"></span>
 							</button>
-							<button class="rating-star" ng-click="rate('synergy',3)">
+					<button class="rating-star" ng-click="rate('synergy',3)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['synergy'] >= 3), 'glyphicon-star-empty': (rating['synergy'] < 3)}"></span>
 							</button>
-							<button class="rating-star" ng-click="rate('synergy',4)">
+					<button class="rating-star" ng-click="rate('synergy',4)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['synergy'] >= 4), 'glyphicon-star-empty': (rating['synergy'] < 4)}"></span>
 							</button>
-							<button class="rating-star" ng-click="rate('synergy',5)">
+					<button class="rating-star" ng-click="rate('synergy',5)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['synergy'] >= 5), 'glyphicon-star-empty': (rating['synergy'] < 5)}"></span>
 							</button>
-						</div>
-						<div>
-							<label>Control: </label>
-							<button class="rating-star" ng-click="rate('control',1)">
+				</div>
+				<div>
+					<label>Control: </label>
+					<button class="rating-star" ng-click="rate('control',1)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['control'] >= 1), 'glyphicon-star-empty': (rating['control'] < 1)}"></span>
 							</button>
-							<button class="rating-star" ng-click="rate('control',2)">
+					<button class="rating-star" ng-click="rate('control',2)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['control'] >= 2), 'glyphicon-star-empty': (rating['control'] < 2)}"></span>
 							</button>
-							<button class="rating-star" ng-click="rate('control',3)">
+					<button class="rating-star" ng-click="rate('control',3)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['control'] >= 3), 'glyphicon-star-empty': (rating['control'] < 3)}"></span>
 							</button>
-							<button class="rating-star" ng-click="rate('control',4)">
+					<button class="rating-star" ng-click="rate('control',4)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['control'] >= 4), 'glyphicon-star-empty': (rating['control'] < 4)}"></span>
 							</button>
-							<button class="rating-star" ng-click="rate('control',5)">
+					<button class="rating-star" ng-click="rate('control',5)">
 								<span class="glyphicon" aria-hidden="true"
 									ng-class="{'glyphicon-star': (rating['control'] >= 5), 'glyphicon-star-empty': (rating['control'] < 5)}"></span>
 							</button>
-						</div>
-					</div>
-				</div>
-				
-				<div class="form-group col-sm-6">
-					<label>Positive</label>
-					<input ng-model="tag.positive" type="text" class="form-control">
-					<button class="btn btn-primary btn-add positive" type="button" ng-click="addPositiveTag()">Add positive tag</button>
-					<p class="positive list-item base-wide center" ng-repeat="tag in tags | postiveTags">{{ tag }}</p>
-				</div>
-				<div class="form-group col-sm-6">
-					<label>Negative</label>
-					<input ng-model="tag.negative" type="text" class="form-control">
-					<button class="btn btn-primary btn-add negative" type="button" ng-click="addNegativeTag()">Add negative tag</button>
-					<p class="negative base-wide center" ng-repeat="tag in tags | negativeTags">{{ tag }}</p>
 				</div>
 			</div>
-			
-			
+		</div>
+
+		<div class="form-group col-sm-6">
+			<div>
+				<label>Positive</label>
+				<input ng-model="tag.positive" type="text" class="form-control">
+				<button class="btn btn-primary btn-add positive" type="button" ng-click="addPositiveTag()">Add positive tag</button>
+			</div>
+			<div>
+				<p class="label label-success tag" ng-repeat="tag in tags | postiveTags">{{ tag }} <span ng-click="removeTag(this)">&times;</span></p>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-6">
+			<div>
+				<label>Negative</label>
+				<input ng-model="tag.negative" type="text" class="form-control">
+				<button class="btn btn-primary btn-add negative" type="button" ng-click="addNegativeTag()">Add negative tag</button>
+			</div>
+			<div>
+				<p class="label label-danger tag" ng-repeat="tag in tags | negativeTags">{{ tag }} <span ng-click="removeTag(this)">&times;</span></p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+
 <h2>Participants</h2>
-<ol class="list-group" style="column-count: 2;">
-	<li ng-repeat="participant in participants | orderBy:participant.place"
-		class="list-group-item row">
-		<h3>{{ participant.player.name }}</h3>
-		<p>{{ participant.deck.name }}</p>
-		<div>
-			<button class="btn btn-primary btn-add" ng-show="playerHasControl(participant)" ng-click="confirmResult()" ng-disabled="confirmed">dead</button>
-		</div>
-		<div>calculator</div>
-		
-		<div>
-			<button type="button" class="btn btn-primary btn-add" ng-disabled="confirmed" ng-click="addLife(participant, 1)">
-				 <span class="glyphicon glyphicon-plus positive">1</span>
-			</button>
-			<button type="button" class="btn btn-primary btn-add" ng-disabled="confirmed" ng-click="addLife(participant, 5)">
-				 <span class="glyphicon glyphicon-plus positive">5</span>
-			</button>
-			<button type="button" class="btn btn-primary btn-add" ng-disabled="confirmed" ng-click="addLife(participant, -1)">
-				 <span class="glyphicon glyphicon-minus negative">1</span>
-			</button>
-			<button type="button" class="btn btn-primary btn-add" ng-disabled="confirmed" ng-click="addLife(participant, -5)">
-				 <span class="glyphicon glyphicon-minus negative">5</span>
-			</button>
-		</div>
-		
-		<div>{{ participant.life }}</div>
-	</li>
-</ol>
 
 <div>
-	<button class="btn btn-primary" type="submit" ng-disabled="!confirmed" ng-click="leaveGame()">Leave Game</button>
-	<button class="btn btn-primary negative" type="submit" ng-click="abortGame()">Cancel game</button>
+	<ol class="list-group">
+		<li ng-repeat="participant in participants | orderBy:participant.place" class="list-group-item row horizontal-tile">
+			<h3>{{ participant.player.name }}</h3>
+			<p>{{ participant.deck.name }}</p>
+
+			<div>
+				<button type="button" class="btn btn-primary btn-add" ng-disabled="confirmed" ng-click="addLife(participant, 1)">
+					 <span class="glyphicon glyphicon-plus positive">1</span>
+				</button>
+				<button type="button" class="btn btn-primary btn-add" ng-disabled="confirmed" ng-click="addLife(participant, 5)">
+					 <span class="glyphicon glyphicon-plus positive">5</span>
+				</button>
+			</div>
+
+			<div>
+				<H1>{{ participant.life }}</H1>
+			</div>
+
+			<div>
+				<button type="button" class="btn btn-primary btn-add" ng-disabled="confirmed" ng-click="addLife(participant, -1)">
+					 <span class="glyphicon glyphicon-minus negative">1</span>
+				</button>
+				<button type="button" class="btn btn-primary btn-add" ng-disabled="confirmed" ng-click="addLife(participant, -5)">
+					 <span class="glyphicon glyphicon-minus negative">5</span>
+				</button>
+			</div>
+
+			<div class="spacer"></div>
+
+			<div>
+				<button class="btn btn-primary btn-add" ng-show="playerHasControl(participant)" ng-click="confirmResult()" ng-disabled="confirmed">{{ confirmOption }}</button>
+			</div>
+			<div>calculator</div>
+		</li>
+	</ol>
+</div>
+<div class="clear"></div>
+
+<div>
+	<div class="center-content">
+		<button class="btn btn-primary tile-spaced" type="submit" ng-disabled="!confirmed" ng-click="leaveGame()">Leave Game</button>
+		<button class="btn btn-primary tile-spaced negative" type="submit" ng-click="abortGame()">Cancel game</button>
+	</div>
 </div>
 
 <p class='debug-text'>Result: {{ result }}</p>

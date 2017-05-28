@@ -12,6 +12,7 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 					);
 		    
 		    $scope.unconfirmed = 0;
+		    $scope.liveGame = 'none';
 		    
 		    $http(getUpdatesReq).then(function(response){
 		    	
@@ -28,6 +29,28 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 		    		$scope.result = 'Failure'
 		    	});
 		    
+			$scope.hasLiveGame = function(){
+				
+				var hasLiveGameReq = requestService.buildRequest(
+						"HasLiveGame", 
+						{id:$scope.deckId}
+						);
+
+				$http(hasLiveGameReq).then(function(response){
+					$scope.result = response.data;
+					
+						if (response.data.result == "Success"){
+							$scope.result = response.data.result;
+							$scope.liveGame = response.data.live;
+						}					
+					}, 
+					function(){
+						$scope.result = 'Failure';
+					});				
+			}
+			
+			$scope.hasLiveGame();
+			
 		    $scope.goAddDeck = function() {
 		        $location.url('/adddeck');
 		    };
@@ -39,6 +62,10 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 		    $scope.goConfirmList = function() {
 		        $location.url('/confirmlist');
 		    };
+			
+			$scope.goLiveGame = function(){
+				$location.url('/play');
+			}
 		    
 		} else {
 			$scope.result = 'Not logged in, please log in and try again';
