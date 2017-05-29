@@ -45,6 +45,10 @@ div.clear {
 	margin: 0 2% 0 2%;
 }
 
+.inline {
+	display: inline;
+}
+
 /*Navbar*/
 .navbar{
 	background-color: #333;

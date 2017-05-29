@@ -11,7 +11,6 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 			$scope.done = !$scope.confirmed;
 			$scope.confirmOption = "Confirm dead";
 
-
 			$scope.comment = "";
 			$scope.draw = false;
 			$scope.participants = [];
@@ -31,6 +30,8 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 					}
 				return total/keys; 
 				}
+			
+			$scope.lifeTimer;
 
 
 			//INIT 
@@ -64,6 +65,10 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 				if (response.data.result == "Success") {
 					$scope.participants = JSON.parse(response.data.participants);
 					$scope.token = response.data.token;
+					
+					$scope.participants.forEach(function (p){
+						p.lifeChange = 0;
+					})
 				}
 			},
 				function () {
@@ -113,7 +118,7 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 				});
 			}
 			
-			var updater = setInterval($scope.getGameStatus, 1000 * 2);			
+			var updater = setInterval($scope.getGameStatus, 1000 * 2);
 			
 			//CALLED
 			
@@ -140,7 +145,43 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 			
 			
 			$scope.addLife = function(participant, lifechange){
+				console.log('adding ' + lifechange);
 				
+				clearTimeout($scope.lifeTimer);
+				participant.lifeChange = participant.lifeChange + lifechange
+				
+				console.log('now totals ' + participant.lifeChange);
+				
+				$scope.lifeTimer = setTimeout(function(){
+					
+					console.log('updating');
+					var updateLifeReq = requestService.buildRequest(
+							"UpdateLivePlayerLife", 
+								{
+									id : participant.player.id,
+									life : participant.life + participant.lifeChange,
+									time: Date.now()
+								}
+							);
+			
+					$http(updateLifeReq).then(function(response){
+						$scope.result = response.data;
+						
+							if (response.data.result == "Success"){
+								$scope.result = 'Life updated';
+								participant.lifeChange = 0;
+								$scope.getGameStatus();
+							}					
+						}, 
+						function(){
+							$scope.result = 'Failure';
+					});
+				}, 2000, participant);
+			}
+			
+			$scope.updateLife = function(participant, lifechange){
+				
+				console.log('updating');
 				var updateLifeReq = requestService.buildRequest(
 						"UpdateLivePlayerLife", 
 							{
@@ -155,6 +196,7 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 					
 						if (response.data.result == "Success"){
 							$scope.result = 'Life updated';
+							participant.lifeChange = 0;
 							$scope.getGameStatus();
 						}					
 					}, 
@@ -162,6 +204,7 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 						$scope.result = 'Failure';
 				});
 			}
+			
 			
 			// Add Positive
 			$scope.addPositiveTag = function () {

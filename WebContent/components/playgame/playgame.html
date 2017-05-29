@@ -167,6 +167,11 @@
 		<li ng-repeat="participant in participants | orderBy:participant.place" class="list-group-item row horizontal-tile">
 			<h3>{{ participant.player.name }}</h3>
 			<p>{{ participant.deck.name }}</p>
+			
+			<div>
+				<H1 class="inline">{{ participant.life }}</H1>
+				<H3 class="inline"ng-show="participant.lifeChange != 0">{{ participant.lifeChange }}</H3>
+			</div>
 
 			<div>
 				<button type="button" class="btn btn-primary btn-add" ng-disabled="confirmed" ng-click="addLife(participant, 1)">
@@ -176,11 +181,7 @@
 					 <span class="glyphicon glyphicon-plus positive">5</span>
 				</button>
 			</div>
-
-			<div>
-				<H1>{{ participant.life }}</H1>
-			</div>
-
+			<div class="spacer"></div>
 			<div>
 				<button type="button" class="btn btn-primary btn-add" ng-disabled="confirmed" ng-click="addLife(participant, -1)">
 					 <span class="glyphicon glyphicon-minus negative">1</span>
@@ -195,7 +196,6 @@
 			<div>
 				<button class="btn btn-primary btn-add" ng-show="playerHasControl(participant)" ng-click="confirmResult()" ng-disabled="confirmed">{{ confirmOption }}</button>
 			</div>
-			<div>calculator</div>
 		</li>
 	</ol>
 </div>
