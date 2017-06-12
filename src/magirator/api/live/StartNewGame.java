@@ -1,6 +1,7 @@
-package magirator.api;
+package magirator.api.live;
 
 import java.util.List;
+
 import org.restlet.representation.Representation;
 import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
@@ -10,11 +11,14 @@ import com.google.gson.JsonObject;
 
 import magirator.data.collections.PlayerStatus;
 import magirator.model.neo4j.Games;
+import magirator.model.neo4j.LiveGames;
 import magirator.support.Constants;
 import magirator.support.Json;
 
-public class CurrentGameStatus extends ServerResource {
+public class StartNewGame extends ServerResource {
 
+
+    
     @Post("json")
     public String toJson(Representation rep) {
     	
@@ -29,15 +33,28 @@ public class CurrentGameStatus extends ServerResource {
         		response.addProperty(Constants.result, "A problem occured parsing the input.");
         		return response.toString();
         	}
-			        	
-        	String token = request.get("token").getAsString();        	
         	
-        	List<PlayerStatus> status = Games.getGameStatus(token);
         	
-        	Gson gson = new Gson();			
-        	response.addProperty("status", new Gson().toJson(status));
+        	String playerName = request.get("player_name").getAsString();
+        	int playerId = request.get("player_id").getAsInt();
+        	String deckName = request.get("deck_name").getAsString();
+        	int deckId = request.get("deck_id").getAsInt();
         	
-        	response.addProperty(Constants.result, "Success");			
+        	
+        	//Does player exist
+        	//If not create anonymous player
+        	
+        	response.addProperty(Constants.result, "You are already in a game.");
+        	
+        	if(!LiveGames.isPlayerInGame(playerId)){
+        		
+        		response.addProperty(Constants.result, "A problem occured starting the game.");
+        		
+        		if(LiveGames.startNewGame(deckId)){
+        			
+        			response.addProperty(Constants.result, Constants.success);
+        		}
+        	}	
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -45,4 +62,5 @@ public class CurrentGameStatus extends ServerResource {
         
         return response.toString();
     }
+
 }

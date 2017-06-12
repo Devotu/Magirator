@@ -9,6 +9,7 @@ public class Encryption {
 	
 	private static int RESET_MIN_LENGTH = 14;
 	private static int LIVE_TOKEN_ARITY = 4;
+	private static int LIVE_ID_ARITY = 4;
 	
 	private static String[] WORDS = new String[]{
 			"banana", "monkey", "donkey", "soup", "sorcery", "instant", "creature", "madness", "heroic", "dredge", "camel", "wine", "artifact", "flying", "bear", 
@@ -22,7 +23,8 @@ public class Encryption {
             "style", "tail", "undead", "villain", "xtra", "yes", "zebra", "uneven", "33", "lone", "wolf", "bank", "skruv", "lastbil", "useful", "card", 
             "pizza", "mojna", "skostorlek", "wither", "exalted", "extort", "theros", "ravnica", "7th", "10th", "cool", "gorgon", "zendikar", "kamigawa", "end",
             "kval", "snooze", "elixir", "statue", "tank", "steve", "vader", "dinosaur", "kid", "grass", "hippo", "club", "cup", "lace", "mask", "erdwal", "attack",
-            "mammoth", "bar", "color", "while", "paste", "tooth", "neonate", "eternal", "final", "gorgon", "head", "tail", "sting", "prodigal", "wojek", "cultist"
+            "mammoth", "bar", "color", "while", "paste", "tooth", "neonate", "eternal", "final", "gorgon", "head", "tail", "sting", "prodigal", "wojek", "cultist",
+            "carnivore", "piranha", "wolf", "83", "big", "jackal", "amonkhet", "druid", "cycling", "cat", "naga", "camel", "drake", "illusion", "scorpion", "ice"
 	};
 	
 
@@ -63,6 +65,25 @@ public class Encryption {
     public static String generateLiveToken(){
     	
     	return generateRandomStringOfArity(LIVE_TOKEN_ARITY);
+    }
+    
+    public static String generateLiveGameId(){
+    	
+    	return generateRandomNumberOfArity(LIVE_ID_ARITY);
+    }
+    
+    private static String generateRandomNumberOfArity(int arity){
+    	
+    	String number = "";
+    	int numberOfNumbers = 0;
+        Random random = new Random();
+        
+        while (numberOfNumbers != arity){
+        	number += random.nextInt(10);
+        	numberOfNumbers++;
+        }
+    	
+    	return number;
     }
     
     
