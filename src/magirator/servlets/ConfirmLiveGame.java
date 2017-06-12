@@ -18,6 +18,7 @@ import magirator.data.entities.Rating;
 import magirator.data.entities.Tag;
 import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Games;
+import magirator.model.neo4j.Minions;
 import magirator.model.neo4j.Tags;
 import magirator.support.Error;
 import magirator.support.Json;
@@ -44,49 +45,62 @@ public class ConfirmLiveGame extends HttpServlet {
 		//Player is logged in
 		if (player != null){
 			
-			result.addProperty(Constants.result, "Something went wrong confirming your game");
+			result.addProperty(Constants.result, "Could not get id of player");
 			
 			JsonObject requestData = Json.parseRequestData(request);
 			
-			String comment = Json.getString(requestData, "comment", "No comment");	
-			
-			Rating rating = new Rating(Json.getObject(requestData, "rating"));
-			
-			JsonArray tag_array = Json.getArray(requestData, "tags");
-			ArrayList<Tag> tags = new ArrayList<Tag>();
-			
-			for (JsonElement t : tag_array){
-				JsonObject tag = t.getAsJsonObject();
-				tags.add(new Tag( player.getId(), player.getId(), tag.get("tag").getAsString(), tag.get("polarity").getAsInt() ));
-			}
+			int playerId = Json.getInt(requestData, "playerId", 0);
 			
 			try {
-				
-				int gameId = Games.getPlayerLiveGameId(player.getId());
-				boolean isDraw = Games.gameIsDraw(gameId);
+				if (playerId != 0 && (playerId == player.getId() || Minions.isMinionOfPlayer(playerId, player.getId()) ) ) {
+					
+					String comment = Json.getString(requestData, "comment", "No comment");
+					
+					Rating rating = null;
+					JsonObject ratingJson = Json.getObject(requestData, "rating");
+					
+					if (ratingJson != null) {
+						rating = new Rating(ratingJson);
+					}
+					
+					JsonArray tag_array = Json.getArray(requestData, "tags");
+					ArrayList<Tag> tags = new ArrayList<Tag>();
+					if (tag_array != null) {
+						for (JsonElement t : tag_array) {
+							JsonObject tag = t.getAsJsonObject();
+							tags.add(new Tag(player.getId(), player.getId(), tag.get("tag").getAsString(),
+									tag.get("polarity").getAsInt()));
+						}
+					}
 
-				int place = 0;
-				if(!isDraw){
-					place = Games.getPlaceInGame(gameId);
-				}
-				
-				int confirmedGame = Games.confirmLiveGame(player.getId(), place, comment, rating);
-				
-				if (confirmedGame != 0){
+					int gameId = Games.getPlayerLiveGameId(player.getId());
+					boolean isDraw = Games.gameIsDraw(gameId);
+
+					int place = 0;
+					if (!isDraw) {
+						place = Games.getPlaceInGame(gameId);
+					}
 					
-					result.addProperty(Constants.result, "Confirmed game but something went wrong with the tags");	
+					int confirmedGame = Games.confirmLiveGame(playerId, place, comment, rating);
+					if (confirmedGame != 0) {
+						result.addProperty(Constants.result, "Confirmed game but something went wrong with the tags");
+	
+						if (Tags.addTagsToResultsInGame(tags, confirmedGame)) {
+							result.addProperty(Constants.result, Constants.success);
+						}
+					}
+
+					if (Games.endLiveGame(player.getId())) {
+						result.addProperty("End", "All players have confirmed the game and it is now closed");
+					} else {
+						result.addProperty("End",
+								"Your participation has been confirmed but one or more players have not confirmed the game. The game will be ended as soon as they confirm the game.");
+					}
 					
-					if(Tags.addTagsToResultsInGame(tags, confirmedGame)){
-						result.addProperty(Constants.result, Constants.success);
-					}				
+					if(Games.placeInGame(playerId, gameId) == 1){
+						result.addProperty("win", true);
+					}
 				}
-				
-				if(Games.endLiveGame(player.getId())){
-					result.addProperty("End", "All players have confirmed the game and it is now closed");
-				} else {
-					result.addProperty("End", "Your participation has been confirmed but one or more players have not confirmed the game. The game will be ended as soon as they confirm the game.");
-				}
-				
 			} catch (Exception e) {
 				result.addProperty(Constants.result, Error.printStackTrace(e));
 			}

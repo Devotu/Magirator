@@ -165,6 +165,7 @@
 <div>
 	<ol class="list-group">
 		<li ng-repeat="participant in participants | orderBy:participant.place" class="list-group-item row horizontal-tile">
+			<h3>{{ participant.place }}</h3>
 			<h3>{{ participant.player.name }}</h3>
 			<p>{{ participant.deck.name }}</p>
 			
@@ -192,9 +193,14 @@
 			</div>
 
 			<div class="spacer"></div>
-
-			<div>
-				<button class="btn btn-primary btn-add" ng-show="playerHasControl(participant)" ng-click="confirmResult()" ng-disabled="confirmed">{{ confirmOption }}</button>
+			
+			<div ng-hide="participant.confirmed">
+				<div ng-show="isSelf(participant)">
+					<button class="btn btn-primary btn-add" ng-click="confirmSelf()" >{{ confirmOption }}</button>
+				</div>
+				<div ng-show="participant.isMinion">
+					<button class="btn btn-primary btn-add" ng-click="confirmMinion(participant)">{{ confirmOption }}</button>
+				</div>
 			</div>
 		</li>
 	</ol>
@@ -203,8 +209,8 @@
 
 <div>
 	<div class="center-content">
-		<button class="btn btn-primary tile-spaced" type="submit" ng-disabled="!confirmed" ng-click="leaveGame()">Leave Game</button>
-		<button class="btn btn-primary tile-spaced negative" type="submit" ng-click="abortGame()">Cancel game</button>
+		<button class="btn btn-primary tile-spaced" type="submit" ng-click="leaveGame()">Return to menu</button>
+		<button class="btn btn-primary tile-spaced negative" type="submit" ng-hide="selfConfirmed" ng-click="abortGame()">Cancel game</button>
 	</div>
 </div>
 

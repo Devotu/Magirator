@@ -12,11 +12,17 @@ public class Participant {
 	private IPlayer player;
 	private Deck deck;
 	private int life;
+	private boolean minion;
+	private boolean confirmed;
+	private int place;
 
-	public Participant(IPlayer player, Deck deck, int life) {
+	public Participant(IPlayer player, Deck deck, int life, boolean isMinion, boolean isConfirmed, int place) {
 		this.player = player;
 		this.deck = deck;
 		this.life = life;
+		this.minion = isMinion;
+		this.confirmed = isConfirmed;
+		this.place = place;
 	}
 
 	public IPlayer getPlayer() {
@@ -29,5 +35,17 @@ public class Participant {
 	
 	public int getLife(){
 		return life;
+	}
+
+	public boolean isMinion() {
+		return minion;
+	}
+	
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	public int getPlace() {
+		return place;
 	}
 }

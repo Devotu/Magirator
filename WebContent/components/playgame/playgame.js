@@ -7,7 +7,6 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 
 			$scope.player = JSON.parse(data.player);
 			$scope.deck = undefined;
-			$scope.confirmed = false;
 			$scope.done = !$scope.confirmed;
 			$scope.confirmOption = "Confirm dead";
 
@@ -69,16 +68,18 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 					$scope.participants.forEach(function (p){
 						p.lifeChange = 0;
 					})
+					
+					$scope.getGameStatus();
 				}
 			},
 				function () {
 					$scope.result = 'Failure';
 			});
 			
-				
 			//RUNNING
 			$scope.getGameStatus = function(){
 				
+				console.log('Getting game status');
 				var getGameStatusReq = requestService.buildRequest(
 						"API/gamestatus", 
 							{
@@ -103,12 +104,16 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 								}
 								
 								$scope.participants.forEach(function (p){
-									if(up.id == p.player.id)
+									if(up.id == p.player.id){
 										p.life = up.life;
+										p.confirmed = up.confirmed;
+										if(up.place != 0){ p.place = up.place; } else { p.place = "" }
+										
+									}
 								})
 							});
 							
-							if(numAlive <= 1){
+							if(numAlive == 1){
 								$scope.confirmOption = "Confirm win!"
 							}
 						}					
@@ -118,7 +123,8 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 				});
 			}
 			
-			var updater = setInterval($scope.getGameStatus, 1000 * 2);
+			$scope.updater = setInterval($scope.getGameStatus, 1000 * 2);
+			//clearInterval($scope.updater);
 			
 			//CALLED
 			
@@ -145,16 +151,12 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 			
 			
 			$scope.addLife = function(participant, lifechange){
-				console.log('adding ' + lifechange);
 				
 				clearTimeout($scope.lifeTimer);
 				participant.lifeChange = participant.lifeChange + lifechange
 				
-				console.log('now totals ' + participant.lifeChange);
-				
 				$scope.lifeTimer = setTimeout(function(){
 					
-					console.log('updating');
 					var updateLifeReq = requestService.buildRequest(
 							"UpdateLivePlayerLife", 
 								{
@@ -181,7 +183,6 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 			
 			$scope.updateLife = function(participant, lifechange){
 				
-				console.log('updating');
 				var updateLifeReq = requestService.buildRequest(
 						"UpdateLivePlayerLife", 
 							{
@@ -266,38 +267,77 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 				}
 			}
 			
-			$scope.playerHasControl = function(participant){
-				if( participant.player.id == $scope.player.id){
+			$scope.isSelf = function(participant){
+				if( participant.player.id == $scope.player.id ){
 					
 					return true;
 				}
 				return false;
 			}
 			
-			//Confirm + end if all players have confirmed
-			$scope.confirmResult = function(){
+			$scope.selfConfirmed = function(){
+				
+				$scope.participants.forEach(function (p){
+					if($scope.player.id == p.player.id){
+						if(p.confirmed){
+							return true;
+						}									
+					}
+				})
+				
+				return false;
+			}
+			
+			$scope.confirmSelf = function(){
 				
 				// Confirm Game
 				var confirmReq = requestService.buildRequest(
 						"ConfirmLiveGame", 
 							{
-								id : $scope.player.id,
+								playerId : $scope.player.id,
 								comment : $scope.comment,
 								tags : $scope.tags,
 								rating: $scope.rating
 							}
 						);
+				
+				$scope.confirmResult(confirmReq, $scope.player.id);
+			}
+			
+			$scope.confirmMinion = function(minionParticipant){
+				
+				// Confirm Game
+				var confirmReq = requestService.buildRequest(
+						"ConfirmLiveGame", 
+							{
+								playerId : minionParticipant.player.id
+							}
+						);
+				
+				$scope.confirmResult(confirmReq, minionParticipant.player.id);
+			}
+			
+			//Confirm + end if all players have confirmed
+			$scope.confirmResult = function(confirmReq, pid){
 		
 				$http(confirmReq).then(function(response){
 					$scope.result = response.data;
 					
 						if (response.data.result == "Success"){
-							$scope.confirmed = true;
 							$scope.result = 'Confirmed game';
-						}					
+							if(response.data.win){
+								$scope.participants.forEach(function (p){
+									if(pid == p.player.id){
+										p.place = "Winner";
+										p.confirmed = true;										
+									}
+								})
+							}
+						}
 					}, 
 					function(){
 						$scope.result = 'Failure';
+						$scope.getGameStatus();
 				});
 			}
 			
@@ -315,7 +355,7 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 					
 						if (response.data.result == "Success"){
 							$scope.result = 'Game canceled';
-							clearInterval(updater);
+							clearInterval($scope.updater);
 						}					
 					}, 
 					function(){
@@ -325,7 +365,7 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 			
 			
 			$scope.leaveGame = function(){
-				clearInterval(updater);
+				clearInterval($scope.updater);
 				$location.url('/deck');
 			}
 

@@ -11,6 +11,8 @@ import java.util.Map;
 
 import javax.naming.NamingException;
 
+import org.neo4j.jdbc.Array;
+
 import magirator.data.collections.GameBundle;
 import magirator.data.collections.Participant;
 import magirator.data.collections.PlayerGameResult;
@@ -493,11 +495,11 @@ public class Games {
 					+ "MATCH (self:Player) "
 					+ "WHERE id(self) = ? "
 					+ "MATCH (self)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game)-[:Runs]->(:Live) "
-					+ "MATCH (p:Player)-[:Use|:Used]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
+					+ "MATCH (p)-[:Use|:Used]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
 					+ "MATCH lifelog=(r)-[:StartedWith|:ChangedTo*0..]->(l:Life) "
 					+ "WHERE NOT (l)-->() AND length(lifelog) > 0 "
-					+ "WITH p,d, LAST(NODES(lifelog)[1..]) AS cl "
-					+ "RETURN id(p), PROPERTIES(p), id(d), PROPERTIES(d), cl.life";
+					+ "WITH p,d,r, LAST(NODES(lifelog)[1..]) AS cl "
+					+ "RETURN id(p), PROPERTIES(p), id(d), PROPERTIES(d), cl.life, p:Minion, r.confirmed, r.place";
 
       		ps = con.prepareStatement(query);
       		ps.setInt(1, playerId);
@@ -510,8 +512,11 @@ public class Games {
 				IPlayer player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
 				Deck deck = new Deck( rs.getInt("id(d)"), (Map) rs.getObject("PROPERTIES(d)") );
 				int life = rs.getInt("cl.life");
+				boolean isMinon = rs.getBoolean("p:Minion");
+				boolean isConfirmed = rs.getBoolean("r.confirmed");
+				int place = rs.getInt("r.place");
 				
-				participants.add( new Participant( player, deck, life) );
+				participants.add( new Participant( player, deck, life, isMinon, isConfirmed, place) );
 			}
 			
 			return participants;
@@ -536,9 +541,9 @@ public class Games {
 			con = Database.getConnection();			
 			
 			String query = ""
-					+ "MATCH (rp:Player)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g) "
+					+ "MATCH (rp:Player)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game)-[:Runs]->(:Live) "
 					+ "WHERE id(rp)=? "
-					+ "MATCH (up:Player)-[:Use|:Used]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game)-[:Runs]->(:Live) "
+					+ "MATCH (up)-[:Use|:Used]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
 					+ "WHERE id(up)=? "
 					+ "MATCH lifelog=(r)-[:StartedWith|:ChangedTo*0..]->(l:Life) "
 					+ "WHERE NOT (l)-->() AND length(lifelog) > 0 "
@@ -613,7 +618,7 @@ public class Games {
 			con = Database.getConnection();			
 			
 			String query = ""
-					+ "MATCH (p:Player)-[:Use|:Used]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game)-[:Runs]->(l:Live) "
+					+ "MATCH (p)-[:Use|:Used]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game)-[:Runs]->(l:Live) "
 					+ "WHERE id(p)=? "
 					+ "SET r.confirmed=true, r.place=?, r.comment=?";
 			
@@ -884,6 +889,42 @@ public class Games {
       		}
       		
       		return -1;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+	}
+
+	public static int placeInGame(int playerId, int gameId) throws Exception {
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();			
+			
+			String query = ""
+					+ "MATCH (p)-[:Use|:Used]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
+					+ "WHERE id(p)=? AND id(g)=? "
+					+ "RETURN r.place";
+
+      		ps = con.prepareStatement(query);
+      		ps.setInt(1, playerId);
+      		ps.setInt(2, gameId);
+      		
+      		rs = ps.executeQuery();
+      		
+      		if(rs.next()){
+      			
+      			return rs.getInt("r.place");      			
+      		}
+      		
+      		return 0;
 			
 		} catch (Exception ex){
 			throw ex;

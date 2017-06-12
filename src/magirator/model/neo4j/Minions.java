@@ -125,6 +125,41 @@ public class Minions {
 			throw ex;
 		}		
 	}
+	
+	public static boolean isMinionOfPlayer(int minionId, int playerId) throws Exception{
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Database.getConnection();
+	
+			String query = ""
+					+ "MATCH (p:Player)<-[:Is]-(u:User)-[:Created]->(m:Minion) "
+					+ "WHERE id(p)=? AND id(m)=? "
+					+ "RETURN id(m)";
+	
+	  		ps = con.prepareStatement(query);
+	  		ps.setInt(1, minionId);
+	  		ps.setInt(2, playerId);
+	
+	  		rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				return true;
+			}
+	
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+			
+			return false;
+			
+		} catch (Exception ex){
+			throw ex;
+		}		
+	}
 
 }
 
