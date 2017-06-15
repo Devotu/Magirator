@@ -86,8 +86,13 @@ ratorApp.config(function($routeProvider) {
 	})	
 	
 	.when('/play', {
-		templateUrl : 'components/playgame/playgame.html',
-		controller : 'playGameController'
+		templateUrl : 'components/livegame/livegame.html',
+		controller : 'liveGameController'
+	})
+	
+	.when('/init', {
+		templateUrl : 'components/initgame/initgame.html',
+		controller : 'initGameController'
 	})
 	;
 });

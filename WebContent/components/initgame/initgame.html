@@ -1,0 +1,15 @@
+<div class="jumbotron text-center">
+	<h1>Select deck</h1>
+	
+	<div class=".checkbox-inline">
+		<label><input class="inline-checkbox" type="checkbox" data-ng-model="order.reverse"/>Reverse</label>
+	</div>
+	
+	<ul class="list-group">
+		<li ng-repeat="deck in decks | orderBy:deckOrder:order.reverse"
+			class="list-group-item" ng-click="goWithDeck(deck.name, deck.id)">{{deck.name}}
+		</li>
+	</ul>
+</div>
+
+<p class='debug-text'>Result: {{ result }}</p>

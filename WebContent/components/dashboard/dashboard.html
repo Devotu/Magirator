@@ -4,9 +4,14 @@
 
 	<div class="container">
 		<div class="row">
-			<form class="col-sm-4" ng-show="liveGame != 'none'">
-				<button class="btn btn-block btn-primary" ng-click="goLiveGame()">
-					<h2>To live game</h2>
+			<form class="col-sm-4" ng-show="liveGame == 'none'">
+				<button class="btn btn-block btn-primary" ng-click="goStartGame()">
+					<h2>Start new game</h2>
+				</button>
+			</form>
+			<form class="col-sm-4" ng-show="liveGame == 'none'">
+				<button class="btn btn-block btn-primary" ng-click="goJoinGame()">
+					<h2>Join game</h2>
 				</button>
 			</form>
 			<form class="col-sm-4">

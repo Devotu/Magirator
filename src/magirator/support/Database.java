@@ -22,23 +22,22 @@ public class Database {
 
 	public static PreparedStatement setStatementParams(PreparedStatement ps, List<Object> params) throws Exception {
 		
-		int order = 0;
+		int order = 1;
 		
 		for	(Object o : params){
 			
-			switch (o.getClass().getName()) {
-			case "int":
+			if(o instanceof Integer){
+				
 				ps.setInt(order, (int)o);
-				break;
-			case "String":
-				ps.setString(order, (String)o);
-				break;
-			case "boolean":
-				ps.setBoolean(order, (boolean)o);
-				break;
+				
+			} else if(o instanceof String){
 
-			default:
-				break;
+				ps.setString(order, (String)o);
+				
+			} else if(o instanceof Boolean){
+
+				ps.setBoolean(order, (boolean)o);
+				
 			}
 			
 			order++;

@@ -12,35 +12,51 @@ import magirator.support.Encryption;
 
 public class LiveGames {
 	
-	public static ResultSet runQuery(String query, List<Object> params) throws Exception{
-		
+	/**
+	 * Att klippa klistra från tills vidare
+	 * @param playerId
+	 * @return
+	 * @throws Exception
+	 */
+	public static String defaultMethod(int playerId) throws Exception {
+
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		try {
-			con = Database.getConnection();
+		try {	
 			
-			ps = con.prepareStatement(query);
+			String query = ""
+					+ "";
 			
+			List<Object> params = new ArrayList<>();
+			params.add(playerId);
+						
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
 			ps = Database.setStatementParams(ps, params);
 			
 			rs = ps.executeQuery();
 			
-			return rs;
+			while(rs.next()){
+				return rs.getString("");
+			}
+			
+			return "";
 			
 		} catch (Exception ex){
 			throw ex;
 		} finally {
-			if (rs != null) rs.close();
-			if (ps != null) ps.close();
 			if (con != null) con.close();
-		}
+			if (ps != null) ps.close();
+			if (rs != null) rs.close();
+		}		
 	}
-	
 	
 	public static boolean isPlayerInGame(int playerId) throws Exception {
 
+		Connection con = null;
+		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
 		try {	
@@ -53,7 +69,11 @@ public class LiveGames {
 			List<Object> params = new ArrayList<>();
 			params.add(playerId);
 			
-			rs = runQuery(query, params);
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
 			
 			if	(rs.next()){
 				
@@ -65,6 +85,8 @@ public class LiveGames {
 		} catch (Exception ex){
 			throw ex;
 		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
 			if (rs != null) rs.close();
 		}
 	}
@@ -72,6 +94,8 @@ public class LiveGames {
 
 	public static String startNewGame(int deckId) throws Exception {
 
+		Connection con = null;
+		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
 		try {
@@ -95,7 +119,11 @@ public class LiveGames {
 			params.add(Encryption.generateLiveGameId());
 			params.add(Encryption.generateLiveToken());
 			
-			rs = runQuery(query, params);
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
 			
 			if	(rs.next()){
 				
@@ -107,6 +135,8 @@ public class LiveGames {
 		} catch (Exception ex){
 			throw ex;
 		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
 			if (rs != null) rs.close();
 		}
 	}
@@ -114,6 +144,8 @@ public class LiveGames {
 	
 	public static String joinGame(int deckId, String liveId) throws Exception {
 
+		Connection con = null;
+		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
 		try {	
@@ -135,7 +167,11 @@ public class LiveGames {
 			params.add(deckId);
 			params.add(Encryption.generateLiveToken());
 						
-			rs = runQuery(query, params);
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
 			
 			if	(rs.next()){
 				
@@ -147,6 +183,8 @@ public class LiveGames {
 		} catch (Exception ex){
 			throw ex;
 		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
 			if (rs != null) rs.close();
 		}
 	}
@@ -154,6 +192,8 @@ public class LiveGames {
 	
 	public static String getPlayerLiveId(String token) throws Exception {
 
+		Connection con = null;
+		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
 		try {
@@ -167,7 +207,11 @@ public class LiveGames {
 			List<Object> params = new ArrayList<>();
 			params.add(token);
 			
-			rs = runQuery(query, params);
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
 			
 			if	(rs.next()){
 				
@@ -179,6 +223,8 @@ public class LiveGames {
 		} catch (Exception ex){
 			throw ex;
 		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
 			if (rs != null) rs.close();
 		}
 	}
@@ -186,6 +232,8 @@ public class LiveGames {
 	
 	public static boolean changeLife(String liveId, String token, int playerId, int alterAmount) throws Exception {
 
+		Connection con = null;
+		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
 		try {	
@@ -208,7 +256,11 @@ public class LiveGames {
 			params.add(liveId);
 			params.add(alterAmount);
 						
-			rs = runQuery(query, params);
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
 			
 			if(rs.next()){
 				return true;
@@ -219,6 +271,8 @@ public class LiveGames {
 		} catch (Exception ex){
 			throw ex;
 		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
 			if (rs != null) rs.close();
 		}
 	}
@@ -226,6 +280,8 @@ public class LiveGames {
 	
 	public static boolean declareDead(String liveId, String token) throws Exception {
 
+		Connection con = null;
+		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
 		try {	
@@ -244,7 +300,11 @@ public class LiveGames {
 			params.add(token);
 			params.add(liveId);
 						
-			rs = runQuery(query, params);
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
 			
 			if(rs.next()){
 				return true;
@@ -255,6 +315,8 @@ public class LiveGames {
 		} catch (Exception ex){
 			throw ex;
 		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
 			if (rs != null) rs.close();
 		}
 	}
@@ -262,6 +324,8 @@ public class LiveGames {
 	
 	public static String getGameStatusAsJson(String liveId, String token, int playerId) throws Exception {
 
+		Connection con = null;
+		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
 		try {	
@@ -281,7 +345,11 @@ public class LiveGames {
 			List<Object> params = new ArrayList<>();
 			params.add(liveId);
 						
-			rs = runQuery(query, params);
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
 			
 			if(rs.next()){
 				return rs.getString("participants");
@@ -292,6 +360,8 @@ public class LiveGames {
 		} catch (Exception ex){
 			throw ex;
 		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
 			if (rs != null) rs.close();
 		}		
 	}

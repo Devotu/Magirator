@@ -4,6 +4,8 @@ import org.restlet.Application;
 import org.restlet.Restlet;
 import org.restlet.routing.Router;
 
+import magirator.api.live.StartNewGame;
+
 public class Root extends Application{
 
 	@Override
@@ -15,6 +17,7 @@ public class Root extends Application{
 		
 		//Game
 		router.attach("/gamestatus", CurrentGameStatus.class);
+		router.attach("/startnewgame", StartNewGame.class);
 		
 		return router;
 	}

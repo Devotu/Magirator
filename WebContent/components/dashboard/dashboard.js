@@ -66,6 +66,14 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 			$scope.goLiveGame = function(){
 				$location.url('/play');
 			}
+			
+			$scope.goStartGame = function(){
+				$location.url('/init');
+			}
+			
+			$scope.goJoinGame = function(){
+				$location.url('/join');
+			}
 		    
 		} else {
 			$scope.result = 'Not logged in, please log in and try again';

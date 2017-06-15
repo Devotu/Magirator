@@ -1,24 +1,17 @@
 package magirator.api.live;
 
-import java.util.List;
-
 import org.restlet.representation.Representation;
 import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import magirator.data.collections.PlayerStatus;
-import magirator.model.neo4j.Games;
 import magirator.model.neo4j.LiveGames;
 import magirator.support.Constants;
 import magirator.support.Json;
 
 public class StartNewGame extends ServerResource {
 
-
-    
     @Post("json")
     public String toJson(Representation rep) {
     	
@@ -32,8 +25,7 @@ public class StartNewGame extends ServerResource {
         	if (request == null){
         		response.addProperty(Constants.result, "A problem occured parsing the input.");
         		return response.toString();
-        	}
-        	
+        	}        	
         	
         	String playerName = request.get("player_name").getAsString();
         	int playerId = request.get("player_id").getAsInt();
@@ -50,9 +42,12 @@ public class StartNewGame extends ServerResource {
         		
         		response.addProperty(Constants.result, "A problem occured starting the game.");
         		
-        		if(LiveGames.startNewGame(deckId)){
+        		String token = LiveGames.startNewGame(deckId);
+        		
+        		if(!"".equals(token)){
         			
         			response.addProperty(Constants.result, Constants.success);
+        			response.addProperty("token", token);
         		}
         	}	
 			
