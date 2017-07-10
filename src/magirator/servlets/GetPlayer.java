@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import magirator.data.interfaces.IPlayer;
+import magirator.data.entities.Player;
 import magirator.support.Error;
 import magirator.support.Constants;
 
@@ -35,7 +35,7 @@ public class GetPlayer extends HttpServlet {
 		try {	
 
 			HttpSession session = request.getSession();
-			IPlayer player = (IPlayer)session.getAttribute("player");
+			Player player = (Player)session.getAttribute("player");
 			
 			if (player != null){
 				result.addProperty(Constants.result, Constants.success);

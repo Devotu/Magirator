@@ -14,12 +14,13 @@ import javax.naming.NamingException;
 import magirator.data.collections.Alteration;
 import magirator.data.entities.Deck;
 import magirator.data.entities.Minion;
+import magirator.data.entities.Player;
 import magirator.data.interfaces.IPlayer;
 import magirator.support.Database;
 
 public class Decks {
 
-	public static boolean addDeck(IPlayer player, Deck deck) throws SQLException, NamingException {
+	public static boolean addDeck(Player player, Deck deck) throws SQLException, NamingException {
 
 		Connection con = null;
 		Statement st = null;
@@ -59,7 +60,7 @@ public class Decks {
 		}
 	}
 
-	public static ArrayList<Deck> getPlayerDecks(IPlayer player) throws Exception {
+	public static ArrayList<Deck> getPlayerDecks(Player player) throws Exception {
 
 		Connection con = null;
 		Statement st = null;
@@ -76,7 +77,7 @@ public class Decks {
 					+ "OPTIONAL MATCH (d:Deck)<-[:Use]-(m:Minion) "
 					+ "WHERE id(m) = ? WITH collect(d) + d1 as d2 "
 					+ "UNWIND d2 as deck "
-					+ "RETURN id(deck), PROPERTIES(deck)";
+					+ "RETURN PROPERTIES(deck)";
 
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, player.getId());
@@ -87,7 +88,7 @@ public class Decks {
 			ArrayList<Deck> decks = new ArrayList<Deck>();
 
 			while (rs.next()) {
-				decks.add(new Deck(rs.getInt("id(deck)"), (Map) rs.getObject("PROPERTIES(deck)")));
+				decks.add(new Deck((Map <String, ?>) rs.getObject("PROPERTIES(deck)")));
 			}
 
 			return decks;
@@ -121,7 +122,7 @@ public class Decks {
 			Deck deck = null;
 
 			if (rs.next()) {
-				deck = new Deck(rs.getInt("id(d)"), (Map) rs.getObject("PROPERTIES(d)"));
+				deck = new Deck((Map) rs.getObject("PROPERTIES(d)"));
 			}
 
 			return deck;

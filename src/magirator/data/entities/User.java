@@ -16,7 +16,7 @@ public class User {
 	}
 	
 	public User(Map<String, ?> properties) {
-		this.id = (int) properties.get(id);
+		this.id = Math.toIntExact((long) properties.get("id"));
 		this.username = (String) properties.get("name");
 		this.password = (String) properties.get("password");
 	}
@@ -36,7 +36,7 @@ public class User {
 	/**
 	 * @return :User {name:?, password:?, created: TIMESTAMP()}
 	 */
-	public static String creator(){
+	public static String neoCreator(){
 		return ":User {id:?, name:?, password:?, created: TIMESTAMP()}";
 	}
 }

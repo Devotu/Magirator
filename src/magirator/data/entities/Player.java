@@ -15,7 +15,7 @@ public class Player {
 	}
 
 	public Player(Map<String, ?> properties) {
-		this.id = (int) properties.get(id);
+		this.id = Math.toIntExact((long) properties.get("id"));
 		this.name = (String) properties.get("name");
 	}
 

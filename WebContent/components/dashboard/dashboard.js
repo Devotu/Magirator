@@ -20,8 +20,9 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 				
 				if (response.data.result == "Success"){
 					$scope.playername = JSON.parse(response.data.player).name;
-					$scope.unconfirmed = JSON.parse(response.data.unconfirmed);
-					$scope.$emit('unconfirmed', $scope.unconfirmed);
+					console.log(JSON.parse(response.data.player));
+					//$scope.unconfirmed = JSON.parse(response.data.unconfirmed);
+					//$scope.$emit('unconfirmed', $scope.unconfirmed);
 				}
 		    	
 		    	}, 
