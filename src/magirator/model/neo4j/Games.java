@@ -57,7 +57,7 @@ public class Games {
 				
 				for (PlayerGameResult p : participants){
 					ps.setInt(1, gameId);
-					ps.setInt(2, p.getDeck().getDeckid());
+					ps.setInt(2, p.getDeck().getId());
 					ps.setInt(3, p.getResult().getPlace());
 					ps.setString(4, p.getResult().getComment());
 					ps.setBoolean(5, p.getResult().getConfirmed());
@@ -113,7 +113,7 @@ public class Games {
 					+ "RETURN DISTINCT id(r), PROPERTIES(r)";
 			
       		PreparedStatement ps = con.prepareStatement(query);
-      		ps.setInt(1, deck.getDeckid());
+      		ps.setInt(1, deck.getId());
 
       		rs = ps.executeQuery();
       		
@@ -410,7 +410,7 @@ public class Games {
 				
 				for (PlayerDeck p : participants){
 					ps.setInt(1, gameId);
-					ps.setInt(2, p.getDeck().getDeckid());
+					ps.setInt(2, p.getDeck().getId());
 					ps.setInt(3, initialLife);
 					
 					ps.executeUpdate();

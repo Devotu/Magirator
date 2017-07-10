@@ -11,7 +11,7 @@ import java.util.Map;
 
 import javax.naming.NamingException;
 
-import magirator.data.entities.Alteration;
+import magirator.data.collections.Alteration;
 import magirator.data.entities.Deck;
 import magirator.data.entities.Minion;
 import magirator.data.interfaces.IPlayer;
@@ -286,7 +286,7 @@ public class Decks {
 
 			PreparedStatement ps = con.prepareStatement(query);
 
-			ps.setInt(1, newDeck.getDeckid());
+			ps.setInt(1, newDeck.getId());
 			ps.setString(2, newDeck.getName());
 			ps.setString(3, newDeck.getFormat());
 			ps.setLong(4, newDeck.getBlackCards());

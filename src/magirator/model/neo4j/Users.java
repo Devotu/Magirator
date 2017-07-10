@@ -4,20 +4,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.naming.NamingException;
 
+import magirator.data.entities.Player;
 import magirator.data.entities.Reset;
 import magirator.data.entities.User;
-import magirator.data.interfaces.IPlayer;
 import magirator.logic.LoginCredentials;
 import magirator.support.Database;
 import magirator.view.PlayerName;
 
 public class Users {
 	
-	public static boolean checkIfAvailable(LoginCredentials requestedUser) throws NamingException, SQLException{
+	public static boolean nameIsAvailable(LoginCredentials requestedUser) throws NamingException, SQLException{
 		
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -26,15 +28,14 @@ public class Users {
 		try {
 			con = Database.getConnection();
 
-			String query = "MATCH (n:User) WHERE n.name = ? RETURN id(n)";
+			String query = "MATCH (u:User) WHERE u.name = ? RETURN u.id";
 
 			ps = con.prepareStatement(query);
 			ps.setString(1, requestedUser.getUsername());
 
-			rs = ps.executeQuery(); ps.close();
-
+			rs = ps.executeQuery();
 			
-			if (!rs.next()){ rs.close(); //Namnet är inte i användning
+			if (!rs.next()){ //Namnet är inte i användning
 				return true;
 			}
 			
@@ -47,7 +48,7 @@ public class Users {
 		}
 	}
 	
-	public static boolean signup(LoginCredentials requestedUser, PlayerName requestedPlayer) throws NamingException, SQLException{
+	public static boolean signup(LoginCredentials requestedUser, PlayerName requestedPlayer) throws Exception{
 		
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -57,15 +58,20 @@ public class Users {
 			con = Database.getConnection();				
 			
 			String query = ""
-					+ "CREATE (u:User {name:?, password:?, created: TIMESTAMP()})-[c:Created {created: TIMESTAMP()}]->(p:Player { name: ? }) "
+					+ "CREATE (u" + User.creator() + ")-[c:Created {created: TIMESTAMP()}]->(p" + Player.creator() + ") "
 					+ "CREATE (u)-[i:Is]->(p)"
-					+ "RETURN id(p)";
+					+ "RETURN p.id";
 			
 			ps = con.prepareStatement(query);
-
-			ps.setString(1, requestedUser.getUsername());
-			ps.setString(2, requestedUser.getPassword());
-			ps.setString(3, requestedPlayer.getPlayerName());
+			
+			List<Object> params = new ArrayList<>();
+			params.add(Utility.getUniqueId());
+			params.add(requestedUser.getUsername());
+			params.add(requestedUser.getPassword());
+			params.add(Utility.getUniqueId());
+			params.add(requestedPlayer.getPlayerName());
+			
+			ps = Database.setStatementParams(ps, params);
 		
 			rs = ps.executeQuery(); ps.close();
 			
@@ -96,7 +102,7 @@ public class Users {
 					+ "MATCH (u:User) "
 					+ "WHERE u.name = ? AND u.password = ? "
 					+ "SET u.login = TIMESTAMP() "
-					+ "RETURN id(u), PROPERTIES(u)";
+					+ "RETURN PROPERTIES(u)";
 
 			ps = con.prepareStatement(query);
       		ps.setString(1, loginCredentials.getUsername());
@@ -105,7 +111,7 @@ public class Users {
       		rs = ps.executeQuery();
 		
 			if (rs.next()) { //Användaren finns
-				return new User(rs.getInt("id(u)"), (Map)rs.getObject("PROPERTIES(u)"));
+				return new User((Map<String, ?>)rs.getObject("PROPERTIES(u)"));
 			}
 			
 			return null;
@@ -186,7 +192,7 @@ public class Users {
       		rs = ps.executeQuery();
 		
 			if (rs.next()) { //Reset skapad
-				return new Reset((Map)rs.getObject("PROPERTIES(rs)"));
+				return new Reset((Map<String, ?>)rs.getObject("PROPERTIES(rs)"));
 			}
 			
 			return null;
@@ -279,7 +285,7 @@ public class Users {
 		return true;
 	}
 
-	public static User getUser(IPlayer player) throws SQLException, NamingException {
+	public static User getUser(Player player) throws SQLException, NamingException {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -288,7 +294,7 @@ public class Users {
 		try {	
 			con = Database.getConnection();
 
-			String query = "MATCH (u:User)-[:Is]->(p:Player) WHERE id(p) = ? RETURN id(u), PROPERTIES(u)";
+			String query = "MATCH (u:User)-[:Is]->(p:Player) WHERE id(p) = ? RETURN PROPERTIES(u)";
 
 			ps = con.prepareStatement(query);
       		ps.setInt(1, player.getId());
@@ -296,7 +302,7 @@ public class Users {
       		rs = ps.executeQuery();
 		
 			if (rs.next()) { 
-				return new User( rs.getInt("id(u)"), (Map)rs.getObject("PROPERTIES(u)") );
+				return new User( (Map<String, ?>)rs.getObject("PROPERTIES(u)") );
 			}
 			
 			return null;

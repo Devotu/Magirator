@@ -8,9 +8,10 @@ public class Reset {
 	private String code;
 	private Date created;
 	
-	public Reset(Map resetMap) {
-		this.code = (String)resetMap.get("code");
-		long longTime = (Long)resetMap.get("created");
+	public Reset(Map<String, ?> properties) {
+		this.code = (String)properties.get("code");
+		
+		long longTime = (Long)properties.get("created");
 		this.created = new Date(longTime);
 	}
 

@@ -6,21 +6,14 @@ import java.util.Map;
 public class Game {
 	
 	private int id;
-	private Date datePlayed;//TODO Remove
 	private Date created;
 	private boolean draw;
-	
-	public Game(Map gameMap) {
-		long longTime = (Long)gameMap.get("created");
-		this.datePlayed = new Date(longTime);
-		this.draw = (Boolean)gameMap.get("draw");
-	}
 
-	public Game(int id, Map game) {
-		this.id = id;
-		this.draw = game.containsKey("draw") ? (Boolean)game.get("draw") : false;
+	public Game(Map<String, ?> properties) {
+		this.id = (int) properties.get(id);
+		this.draw = properties.containsKey("draw") ? (Boolean)properties.get("draw") : false;
 		
-		long longTime = (Long)game.get("created");
+		long longTime = (Long)properties.get("created");
 		this.created = (new Date(longTime));
 	}
 
@@ -34,33 +27,5 @@ public class Game {
 	
 	public boolean getDraw(){
 		return draw;
-	}
-	
-	
-	
-
-	//TODO remove
-	/**
-	 * @deprecated
-	 * @param id
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	/**
-	 * @deprecated
-	 * @return
-	 */
-	public Date getDatePlayed() {
-		return datePlayed;
-	}
-
-	/**
-	 * @deprecated
-	 * @param datePlayed
-	 */
-	public void setDatePlayed(Date datePlayed) {
-		this.datePlayed = datePlayed;
 	}
 }

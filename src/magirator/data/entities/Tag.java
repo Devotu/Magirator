@@ -16,7 +16,7 @@ public class Tag {
 		this.polarity = polarity;
 	}
 	
-	public Tag(int tagger, int tagged, Map properties) {
+	public Tag(int tagger, int tagged, Map<String, ?> properties) {
 		this.tagger = tagger;
 		this.tagged = tagged;
 		this.tag = (String)properties.get("tag");

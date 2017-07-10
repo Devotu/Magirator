@@ -9,23 +9,16 @@ public class User {
 	private int id;
 	private String username;
 	private String password;
-	
 
 	public User(JsonObject json) {
 		this.username = json.get("username").getAsString();
 		this.password = json.get("password").getAsString();
 	}
 	
-	public User(int id, Map properties) {
-		this.id = id;
+	public User(Map<String, ?> properties) {
+		this.id = (int) properties.get(id);
 		this.username = (String) properties.get("name");
 		this.password = (String) properties.get("password");
-	}
-	
-	public User(int id) {
-		this.id = id;
-		this.username = null;
-		this.password = null;
 	}
 
 	public int getId() {
@@ -38,5 +31,12 @@ public class User {
 
 	public String getPassword() {
 		return password;
+	}
+	
+	/**
+	 * @return :User {name:?, password:?, created: TIMESTAMP()}
+	 */
+	public static String creator(){
+		return ":User {id:?, name:?, password:?, created: TIMESTAMP()}";
 	}
 }

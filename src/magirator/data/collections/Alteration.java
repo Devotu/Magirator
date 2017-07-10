@@ -1,6 +1,8 @@
-package magirator.data.entities;
+package magirator.data.collections;
 
 import java.util.Date;
+
+import magirator.data.entities.Deck;
 
 /**
  * 
@@ -38,7 +40,7 @@ public class Alteration {
 	
 	public Alteration(Deck previousDeck, Deck currentDeck, String comment) throws Exception {
 		
-		this.id = currentDeck.getDeckid();
+		this.id = currentDeck.getId();
 		
 		this.nameWas = previousDeck.getName();
 		this.formatWas = previousDeck.getFormat();
