@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import magirator.data.entities.Alteration;
+import magirator.data.collections.Alteration;
 import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Decks;
 import magirator.support.Error;

@@ -19,8 +19,8 @@ public class Rating {
 		this.control = rating.has("control") ? rating.get("control").getAsInt() : 0;
 	}
 	
-	public Rating(int ratingId, Map properties) {
-		this.id = ratingId;
+	public Rating(Map<String, ?> properties) {
+		this.id = (int) properties.get(id);
 		this.speed = (int)(long)properties.get("speed");
 		this.strength = (int)(long)properties.get("strength");
 		this.synergy = (int)(long)properties.get("synergy");

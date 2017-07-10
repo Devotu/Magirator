@@ -1,0 +1,243 @@
+/*Based on three standard sizes where 3x large + margin fit in one row*/
+/*Large - s=28vw, m=2vw*/
+/*Medium (without suffix) - s=12vw, m=1vw => 2 * 2 can fit in the space of one large*/
+/*Small - s=6vw, m=0.5vw  => 2 * 2 can fit in the space of one medium*/
+
+/* -Setting- */
+body {
+    background-color: darkslategray;
+    margin: 0;
+    font-family: sans-serif;
+    color: #222;
+}
+
+/* -Rows- */
+.row-spaced {
+    display: flex;
+    justify-content: space-between;
+}
+
+.row-start {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.row-end {
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+
+
+.list {
+    /*TODO*/
+}
+
+/* -Tiles- */
+/*Layout*/
+.tiled {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/*Style*/
+.tile {
+    border-width: 0px;
+    background-color: orangered;
+    box-shadow: 0.2vw 0.2vw 0.5vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /*Default medium size*/
+    width: 12vw;
+    min-width: 90px;
+    max-width: 225px;
+    height: 12vw;
+    min-height: 90px;
+    max-height: 225px;
+    margin: 1vw;
+}
+
+/*Sizes*/
+.tile-large {
+    width: 28vw;
+    min-width: 210px;
+    max-width: 525px;
+    height: 28vw;
+    min-height: 210px;
+    max-height: 525px;
+    margin: 2vw;
+}
+
+.tile-medium {
+    width: 12vw;
+    min-width: 90px;
+    max-width: 225px;
+    height: 12vw;
+    min-height: 90px;
+    max-height: 225px;
+    margin: 1vw;
+}
+
+.tile-small {
+    width: 6vw;
+    min-width: 44px;
+    max-width: 112px;
+    height: 6vw;
+    min-height: 44px;
+    max-height: 112px;
+    margin: 0.5vw;
+}
+
+/*Aspect ration 2 to 3*/
+.tile-2-3-large {
+    width: 28vw;
+    min-width: 210px;
+    max-width: 525px;
+    height: 42vw;
+    min-height: 315px;
+    max-height: 787px;
+    margin: 3vw 2vw 3vw 2vw;
+}
+
+/*Medium width to small height*/
+.tile-medium-small {
+    width: 12vw;
+    min-width: 90px;
+    max-width: 225px;
+    height: 6vw;
+    min-height: 44px;
+    max-height: 112px;
+    margin: 0.5vw;
+}
+
+/*Medium width to large height*/
+.tile-medium-large {
+    width: 12vw;
+    min-width: 90px;
+    max-width: 225px;
+    height: 28vw;
+    min-height: 210px;
+    max-height: 525px;
+    margin: 0.5vw;
+}
+
+/*Large width to small height*/
+.tile-large-small {
+    width: 28vw;
+    min-width: 210px;
+    max-width: 525px;
+    height: 6vw;
+    min-height: 44px;
+    max-height: 112px;
+    margin: 0.5vw;
+}
+
+/*Modifiers*/
+.content {
+    margin: 0;
+}
+
+.margin-small {
+    margin: 0.5vw;
+}
+
+.margin-medium {
+    margin: 1vw;
+}
+
+.margin-large {
+    margin: 2vw;
+}
+
+/*Content alignment*/
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/*Content spread*/
+.around {
+    justify-content: space-around;
+}
+
+/*Flavors*/
+.very-positive {
+    background-color: limegreen;
+}
+
+.positive {
+    background-color:springgreen;
+}
+
+.average {
+    background-color: yellow;
+}
+
+.negative {
+    background-color: orange;
+}
+
+.very-negative {
+    background-color: red;
+}
+
+.neutral {
+    background-color: lightgray;
+}
+
+.transparent {
+    background-color: transparent;
+}
+
+/*Content*/
+
+/*Tabs*/
+.tab-first {
+    margin-left: 0;
+}
+
+.tab-last {
+    margin-right: 0;
+}
+
+.tab-top {
+    margin-bottom: 0px;
+}
+
+.tab-bottom {
+    margin-top: 0px;
+}
+
+/*Text*/
+/*Sizes*/
+.text-tiny {
+    font-size: 0.5em;
+}
+
+.text-small {
+    font-size: 1em;
+}
+
+.text-medium {
+    font-size: 2em;
+}
+
+.text-large {
+    font-size: 4em;
+}
+
+/*Style*/
+.text { /*To override browser defaults*/
+    color: #222;
+}

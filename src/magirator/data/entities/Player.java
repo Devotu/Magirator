@@ -4,9 +4,7 @@ import java.util.Map;
 
 import com.google.gson.JsonObject;
 
-import magirator.data.interfaces.IPlayer;
-
-public class Player implements IPlayer {
+public class Player {
 
 	private int id;
 	private String name;
@@ -16,24 +14,22 @@ public class Player implements IPlayer {
 		this.id = json.get("id").getAsInt();
 	}
 
-	public Player(int id, Map playerMap) {
-		this.id = id;
-		this.name = (String) playerMap.get("name");
+	public Player(Map<String, ?> properties) {
+		this.id = (int) properties.get(id);
+		this.name = (String) properties.get("name");
 	}
-	
-	/* (non-Javadoc)
-	 * @see magirator.dataobjects.IPlayer#getId()
-	 */
-	@Override
+
 	public int getId(){
 		return this.id;
 	}
 	
-	/* (non-Javadoc)
-	 * @see magirator.dataobjects.IPlayer#getName()
-	 */
-	@Override
 	public String getName() {
 		return name;
+	}
+
+	/** @return :Player { id:?, name:? }
+	 */
+	public static String creator() {
+		return ":Player { id:?, name:? }";
 	}
 }

@@ -27,7 +27,7 @@ public class ListDeck {
 	private int games;
 	
 	public ListDeck(Deck deck, int winrate, int games){
-		this.id = deck.getDeckid();
+		this.id = deck.getId();
 		this.name = deck.getName();
 		this.format = deck.getFormat();
 		this.blackCards = deck.getBlackCards();

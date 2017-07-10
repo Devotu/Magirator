@@ -13,13 +13,13 @@ public class Result {
 	private String comment;
 	private Date added;
 	
-	public Result(int resultId, Map resultMap) {
-		this.id = resultId;
-		this.place = Integer.valueOf( resultMap.get("place").toString() );
-		this.confirmed = (boolean) (resultMap.get("confirmed"));
-		this.comment = (String)resultMap.get("comment");
+	public Result(Map<String, ?> properties) {
+		this.id = (int) properties.get(id);
+		this.place = Integer.valueOf( properties.get("place").toString() );
+		this.confirmed = (boolean) (properties.get("confirmed"));
+		this.comment = (String)properties.get("comment");
 		
-		long longTime = (Long)resultMap.get("added");
+		long longTime = (Long)properties.get("added");
 		this.added = (new Date(longTime));
 	}
 	

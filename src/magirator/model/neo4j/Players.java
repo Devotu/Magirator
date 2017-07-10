@@ -12,7 +12,6 @@ import javax.naming.NamingException;
 
 import magirator.data.entities.Player;
 import magirator.data.entities.User;
-import magirator.data.interfaces.IPlayer;
 import magirator.support.Database;
 import magirator.view.PlayerName;
 
@@ -57,7 +56,7 @@ public class Players {
 		try {
 			con = Database.getConnection();			
 			
-			String query = "MATCH (u:User)-[i:Is]->(p:Player) WHERE id(u) = ? RETURN id(p), PROPERTIES(p)";
+			String query = "MATCH (u:User)-[i:Is]->(p:Player) WHERE id(u) = ? RETURN PROPERTIES(p)";
 
 			ps = con.prepareStatement(query);
 			ps.setInt(1, user.getId());
@@ -65,7 +64,7 @@ public class Players {
 			rs = ps.executeQuery();
 		
 			if (rs.next()) { //Success
-				return new Player( rs.getInt("id(p)"), (Map)rs.getObject("PROPERTIES(p)") );
+				return new Player( (Map<String, ?>)rs.getObject("PROPERTIES(p)") );
 			}
 			
 	        return null;
@@ -87,7 +86,7 @@ public class Players {
 		try {
 			con = Database.getConnection();			
 			
-			String query = "MATCH (p:Player) WHERE NOT id(p) = ? RETURN id(p), PROPERTIES(p)";
+			String query = "MATCH (p:Player) WHERE NOT id(p) = ? RETURN PROPERTIES(p)";
 
 			ps = con.prepareStatement(query);
 			ps.setInt(1, player.getId());
@@ -97,7 +96,7 @@ public class Players {
 			List<Player> players = new ArrayList<>();
 		
 			while (rs.next()) { //Success
-				players.add( new Player( rs.getInt("id(p)"), (Map)rs.getObject("PROPERTIES(p)") ) );
+				players.add( new Player( (Map<String, ?>)rs.getObject("PROPERTIES(p)") ) );
 			}
 			
 	        return players;

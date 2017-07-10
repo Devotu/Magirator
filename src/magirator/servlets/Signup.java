@@ -48,9 +48,7 @@ public class Signup extends HttpServlet {
 	
 					result.addProperty(Constants.result, "Username already in use, please try another one");
 					
-					boolean userAvailable = Users.checkIfAvailable(requestedUser);
-					
-					if (userAvailable){
+					if (Users.nameIsAvailable(requestedUser)){
 						
 						PlayerName requestedPlayer = new PlayerName(signupRequest);
 		

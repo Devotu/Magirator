@@ -6,6 +6,10 @@ import com.google.gson.JsonObject;
 
 import magirator.data.interfaces.IPlayer;
 
+/**
+ * @author ottu
+ * @deprecated
+ */
 public class Minion implements IPlayer {
 	
 	private int id;
@@ -16,9 +20,9 @@ public class Minion implements IPlayer {
 		this.id = json.has("id") ? json.get("id").getAsInt() : 0;
 	}
 
-	public Minion(int id, Map minionMap) {
-		this.id = id;
-		this.name = (String) minionMap.get("name");
+	public Minion(Map<String, ?> properties) {
+		this.id = (int) properties.get(id);
+		this.name = (String) properties.get("name");
 	}
 
 	/* (non-Javadoc)

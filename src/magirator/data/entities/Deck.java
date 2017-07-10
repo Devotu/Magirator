@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 
 public class Deck {
 
-	private int deckid;
+	private int id;
 	private String name;
 	private String format;
 	private long blackCards;
@@ -21,26 +21,26 @@ public class Deck {
 	private Date created;
 	
 	
-	public Deck(int id, Map deckMap) throws Exception {
-		this.deckid = id; //Hur får jag med korrekt?
-		this.name = (String)deckMap.get("name");
-		this.format = (String)deckMap.get("format");
-		this.blackCards = (long)deckMap.get("black");
-		this.whiteCards = (long)deckMap.get("white");
-		this.redCards = (long)deckMap.get("red");
-		this.greenCards = (long)deckMap.get("green");
-		this.blueCards = (long)deckMap.get("blue");
-		this.colorlessCards = (long)deckMap.get("colorless");
-		this.theme = (String)deckMap.get("theme");
-		this.active = (boolean)deckMap.get("active");
+	public Deck(Map<String, ?> properties) throws Exception {
+		this.id = (int) properties.get(id);
+		this.name = (String)properties.get("name");
+		this.format = (String)properties.get("format");
+		this.blackCards = (long)properties.get("black");
+		this.whiteCards = (long)properties.get("white");
+		this.redCards = (long)properties.get("red");
+		this.greenCards = (long)properties.get("green");
+		this.blueCards = (long)properties.get("blue");
+		this.colorlessCards = (long)properties.get("colorless");
+		this.theme = (String)properties.get("theme");
+		this.active = (boolean)properties.get("active");
 		
-		long longTime = (Long)deckMap.get("created");
+		long longTime = (Long)properties.get("created");
 		this.created = new Date(longTime);
 	}
 	
 	
 	public Deck(JsonObject deck) {
-		this.deckid = (deck.has("id") ? deck.get("id").getAsNumber() : 0).intValue();
+		this.id = (deck.has("id") ? deck.get("id").getAsNumber() : 0).intValue();
 		this.name = deck.get("name").getAsString();
 		this.format = deck.get("format").getAsString();
 		this.theme = (deck.has("theme") ? deck.get("theme").getAsString() : "");
@@ -57,58 +57,8 @@ public class Deck {
 		this.created = new Date(longTime);
 	}
 
-	//Set
-	public void setDeckid(int deckid) {
-		this.deckid = deckid;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public void setFormat(String format) {
-		this.format = format;
-	}
-	
-	public void setBlack(int black) {
-		this.blackCards = black;
-	}
-	
-	public void setWhite(int white) {
-		this.whiteCards = white;
-	}
-	
-	public void setRed(int red) {
-		this.redCards = red;
-	}
-	
-	public void setGreen(int green) {
-		this.greenCards = green;
-	}
-	
-	public void setBlue(int blue) {
-		this.blueCards = blue;
-	}
-	
-	public void setColorless(int colorless) {
-		this.colorlessCards = colorless;
-	}
-	
-	public void setTheme(String theme) {
-		this.theme = theme;
-	}
-	
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-	
-	public void setDate(Date created) {
-		this.created = created;
-	}
-	
-	//Get
-	public int getDeckid() {
-		return this.deckid;
+	public int getId() {
+		return this.id;
 	}
 	
 	public String getName() {
