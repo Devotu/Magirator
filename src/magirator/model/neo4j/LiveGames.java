@@ -190,6 +190,45 @@ public class LiveGames {
 	}
 	
 	
+	public static String getPlayerLiveGameToken(int playerId) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			String query = ""
+					+ "MATCH (p:Player)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game:Live) "
+					+ "WHERE p.id = ? "
+					+ "RETURN g.live_id AS token";
+			
+			List<Object> params = new ArrayList<>();
+			params.add(playerId);
+			
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
+			
+			if	(rs.next()){
+				
+				return rs.getString("token");
+			}
+			
+			return "";
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
+			if (rs != null) rs.close();
+		}
+	}
+	
+	
 	public static String getPlayerLiveId(String token) throws Exception {
 
 		Connection con = null;
@@ -197,11 +236,10 @@ public class LiveGames {
 		ResultSet rs = null;
 		
 		try {
-			int gameId = Utility.getUniqueId();
-						
+			
 			String query = ""
 					+ "MATCH (p:Player)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game) "
-					+ "WHERE p.live_token = ? "
+					+ "WHERE g.live_id = ? "
 					+ "RETURN g.live_id AS live_id";
 			
 			List<Object> params = new ArrayList<>();

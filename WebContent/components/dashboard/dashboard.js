@@ -74,6 +74,10 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 			$scope.goJoinGame = function(){
 				$location.url('/join');
 			}
+			
+			$scope.goToGame = function(){
+				$location.url('/play');
+			}
 		    
 		} else {
 			$scope.result = 'Not logged in, please log in and try again';

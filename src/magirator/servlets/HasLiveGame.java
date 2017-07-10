@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 
 import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Games;
+import magirator.model.neo4j.LiveGames;
 import magirator.support.Constants;
 import magirator.support.Error;
 
@@ -36,10 +37,16 @@ public class HasLiveGame extends HttpServlet {
 			//Player is logged in
 			if (player != null){
 				
-				try {									
-					String live = Games.getPlayerLiveGameToken(player.getId());
-					result.addProperty("live", live);
-									
+				result.addProperty("live", "none");
+				
+				try {
+					if (LiveGames.isPlayerInGame(player.getId())){
+						
+						String token = LiveGames.getPlayerLiveGameToken(player.getId());
+						
+						result.addProperty("live", LiveGames.getPlayerLiveId(token));
+					}
+
 					result.addProperty(Constants.result, Constants.success);
 					
 				} catch (Exception e) {
