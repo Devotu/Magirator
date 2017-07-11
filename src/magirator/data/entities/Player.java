@@ -29,7 +29,7 @@ public class Player {
 
 	/** @return :Player { id:?, name:? }
 	 */
-	public static String creator() {
+	public static String neoCreator() {
 		return ":Player { id:?, name:? }";
 	}
 }

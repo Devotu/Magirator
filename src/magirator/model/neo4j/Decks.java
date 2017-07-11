@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import javax.naming.NamingException;
@@ -20,7 +21,7 @@ import magirator.support.Database;
 
 public class Decks {
 
-	public static boolean addDeck(Player player, Deck deck) throws SQLException, NamingException {
+	public static boolean addDeck(Player player, Deck deck) throws Exception {
 
 		Connection con = null;
 		Statement st = null;
@@ -29,26 +30,36 @@ public class Decks {
 		try {
 			con = Database.getConnection();
 
-			String query = "MATCH (p:Player) WHERE id(p)=?";
-			query += "CREATE (d:Deck { name: ?, format: ?, black: ?, white: ?, red: ?, green: ?, blue: ? ,colorless: ?, theme: ?, created: TIMESTAMP(), active:true})";
-			query += "CREATE (p)-[r:Use]->(d)";
+			String query = ""
+					+ "MATCH (p:Player) WHERE id(p)=? "
+					+ "CREATE (d" + Deck.neoCreator() + ") "
+					+ "CREATE (p)-[r:Use]->(d) "
+					+ "RETURN d";
 
-			PreparedStatement ps = con.prepareStatement(query);
+			PreparedStatement ps = con.prepareStatement(query);			
+			
+			List<Object> params = new ArrayList<>();
+			params.add(player.getId());
+			params.add(Utility.getUniqueId());
+			params.add(deck.getName());
+			params.add(deck.getFormat());
+			params.add(deck.getBlackCards());
+			params.add(deck.getWhiteCards());
+			params.add(deck.getRedCards());
+			params.add(deck.getGreenCards());
+			params.add(deck.getBlueCards());
+			params.add(deck.getColorlessCards());
+			params.add(deck.getTheme());
+			
+			ps = Database.setStatementParams(ps, params);
+		
+			rs = ps.executeQuery();
 
-			ps.setInt(1, player.getId());
-			ps.setString(2, deck.getName());
-			ps.setString(3, deck.getFormat());
-			ps.setLong(4, deck.getBlackCards());
-			ps.setLong(5, deck.getWhiteCards());
-			ps.setLong(6, deck.getRedCards());
-			ps.setLong(7, deck.getGreenCards());
-			ps.setLong(8, deck.getBlueCards());
-			ps.setLong(9, deck.getColorlessCards());
-			ps.setString(10, deck.getTheme());
-
-			ps.executeUpdate();
-
-			return true;
+			if (rs.next()){
+				return true;
+			}
+			
+	        return false;
 
 		} finally {
 			if (rs != null)

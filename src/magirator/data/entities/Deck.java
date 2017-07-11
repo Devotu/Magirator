@@ -109,4 +109,11 @@ public class Deck {
 		return this.created.toString();
 	}
 	
+	
+	/** @return :Deck { name: ?, format: ?, black: ?, white: ?, red: ?, green: ?, blue: ? ,colorless: ?, theme: ?, created: TIMESTAMP(), active:true}
+	 */
+	public static String neoCreator() {
+		return ":Deck {id:?, name: ?, format: ?, black: ?, white: ?, red: ?, green: ?, blue: ? ,colorless: ?, theme: ?, created: TIMESTAMP(), active:true}";
+	}
+	
 }

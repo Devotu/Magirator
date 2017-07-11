@@ -58,7 +58,7 @@ public class Users {
 			con = Database.getConnection();				
 			
 			String query = ""
-					+ "CREATE (u" + User.neoCreator() + ")-[c:Created {created: TIMESTAMP()}]->(p" + Player.creator() + ") "
+					+ "CREATE (u" + User.neoCreator() + ")-[c:Created {created: TIMESTAMP()}]->(p" + Player.neoCreator() + ") "
 					+ "CREATE (u)-[i:Is]->(p)"
 					+ "RETURN p.id";
 			

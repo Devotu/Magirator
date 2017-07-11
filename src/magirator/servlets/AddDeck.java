@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.JsonObject;
 
 import magirator.data.entities.Deck;
+import magirator.data.entities.Player;
 import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Decks;
 import magirator.support.Error;
@@ -35,7 +36,7 @@ public class AddDeck extends HttpServlet {
 		result.addProperty(Constants.result, "Could not add deck, please log in first");
         
 		HttpSession session = request.getSession();
-		IPlayer player = (IPlayer)session.getAttribute("player");
+		Player player = (Player)session.getAttribute("player");
 		
 		//Player is logged in
 		if (player != null){

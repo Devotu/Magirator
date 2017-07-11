@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.management.BadAttributeValueExpException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -38,7 +39,14 @@ public class Database {
 
 				ps.setBoolean(order, (boolean)o);
 				
-			}
+			} else if(o instanceof Long){
+
+				ps.setLong(order, (long)o);
+				
+			} else {
+
+				throw new BadAttributeValueExpException(null);				
+			} 
 			
 			order++;
 		}
