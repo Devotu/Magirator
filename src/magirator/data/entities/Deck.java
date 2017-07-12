@@ -22,7 +22,7 @@ public class Deck {
 	
 	
 	public Deck(Map<String, ?> properties) throws Exception {
-		this.id = (int) properties.get(id);
+		this.id = Math.toIntExact((long) properties.get("id"));
 		this.name = (String)properties.get("name");
 		this.format = (String)properties.get("format");
 		this.blackCards = (long)properties.get("black");
@@ -110,7 +110,7 @@ public class Deck {
 	}
 	
 	
-	/** @return :Deck { name: ?, format: ?, black: ?, white: ?, red: ?, green: ?, blue: ? ,colorless: ?, theme: ?, created: TIMESTAMP(), active:true}
+	/** @return :Deck {id:?,  name: ?, format: ?, black: ?, white: ?, red: ?, green: ?, blue: ? ,colorless: ?, theme: ?, created: TIMESTAMP(), active:true}
 	 */
 	public static String neoCreator() {
 		return ":Deck {id:?, name: ?, format: ?, black: ?, white: ?, red: ?, green: ?, blue: ? ,colorless: ?, theme: ?, created: TIMESTAMP(), active:true}";

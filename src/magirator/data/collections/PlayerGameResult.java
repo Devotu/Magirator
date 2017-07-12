@@ -7,7 +7,7 @@ import magirator.data.entities.Game;
 import magirator.data.entities.Rating;
 import magirator.data.entities.Result;
 import magirator.data.entities.Tag;
-import magirator.data.interfaces.IPlayer;
+import magirator.data.entities.Player;
 
 /**
  * A PlayerGameResult is a result for a player who has played a game
@@ -20,7 +20,7 @@ import magirator.data.interfaces.IPlayer;
 public class PlayerGameResult {
 
 	//Core
-	private IPlayer player;
+	private Player player;
 	private Deck deck;
 	private Result result;
 	private Game game;
@@ -29,7 +29,7 @@ public class PlayerGameResult {
 	private Rating rating;
 	private ArrayList<Tag> tags;
 
-	public PlayerGameResult(IPlayer player, Deck deck, Result result, Game game) {
+	public PlayerGameResult(Player player, Deck deck, Result result, Game game) {
 		this.player = player;
 		this.deck = deck;
 		this.result = result;
@@ -37,7 +37,7 @@ public class PlayerGameResult {
 		this.tags = new ArrayList<Tag>();
 	}
 
-	public IPlayer getPlayer() {
+	public Player getPlayer() {
 		return player;
 	}
 

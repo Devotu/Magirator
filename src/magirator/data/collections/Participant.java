@@ -1,7 +1,7 @@
 package magirator.data.collections;
 
 import magirator.data.entities.Deck;
-import magirator.data.interfaces.IPlayer;
+import magirator.data.interfaces.Player;
 
 /**All parameters needed to keep track of a player during a game
  * @author ottu
@@ -9,14 +9,14 @@ import magirator.data.interfaces.IPlayer;
  */
 public class Participant {
 
-	private IPlayer player;
+	private Player player;
 	private Deck deck;
 	private int life;
 	private boolean minion;
 	private boolean confirmed;
 	private int place;
 
-	public Participant(IPlayer player, Deck deck, int life, boolean isMinion, boolean isConfirmed, int place) {
+	public Participant(Player player, Deck deck, int life, boolean isMinion, boolean isConfirmed, int place) {
 		this.player = player;
 		this.deck = deck;
 		this.life = life;
@@ -25,7 +25,7 @@ public class Participant {
 		this.place = place;
 	}
 
-	public IPlayer getPlayer() {
+	public Player getPlayer() {
 		return player;
 	}
 

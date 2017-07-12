@@ -4,13 +4,13 @@ import java.util.Map;
 
 import com.google.gson.JsonObject;
 
-import magirator.data.interfaces.IPlayer;
+import magirator.data.interfaces.Player;
 
 /**
  * @author ottu
  * @deprecated
  */
-public class Minion implements IPlayer {
+public class Minion implements Player {
 	
 	private int id;
 	private String name;

@@ -14,12 +14,12 @@ import magirator.data.collections.IPlayerGame;
 import magirator.data.entities.Game;
 import magirator.data.entities.Minion;
 import magirator.data.entities.Player;
-import magirator.data.interfaces.IPlayer;
+import magirator.data.interfaces.Player;
 import magirator.support.Database;
 
 public class IPlayers {
 
-	public static IPlayer getIPlayer(int playerId) throws NamingException, SQLException {
+	public static Player getIPlayer(int playerId) throws NamingException, SQLException {
 		
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -57,7 +57,7 @@ public class IPlayers {
 	}
 	
 	
-	public static List<IPlayerGame> getPlayerPreviousOpponents(IPlayer player) throws Exception{
+	public static List<IPlayerGame> getPlayerPreviousOpponents(Player player) throws Exception{
 		
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -79,7 +79,7 @@ public class IPlayers {
 	  		List<IPlayerGame> previous = new ArrayList<>();
 			
 			while (rs.next()) {
-				IPlayer p = new Player( rs.getInt("id(p)"), (Map)rs.getObject("PROPERTIES(p)") );
+				Player p = new Player( rs.getInt("id(p)"), (Map)rs.getObject("PROPERTIES(p)") );
 				Game g = new Game( rs.getInt("id(g)"), (Map)rs.getObject("PROPERTIES(g)") );
 				previous.add( new IPlayerGame(p, g) );
 			}

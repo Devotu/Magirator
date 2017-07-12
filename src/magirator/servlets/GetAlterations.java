@@ -14,7 +14,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import magirator.data.collections.Alteration;
-import magirator.data.interfaces.IPlayer;
+import magirator.data.entities.Player;
+import magirator.data.interfaces.Player;
 import magirator.model.neo4j.Decks;
 import magirator.support.Error;
 import magirator.support.Json;
@@ -38,7 +39,7 @@ public class GetAlterations extends HttpServlet {
 		result.addProperty(Constants.result, "Could not get Alterations, are you logged in?");
 		
 		HttpSession session = request.getSession();
-		IPlayer player = (IPlayer)session.getAttribute("player");
+		Player player = (Player)session.getAttribute("player");
 		
 		//Player is logged in
 		if (player != null){

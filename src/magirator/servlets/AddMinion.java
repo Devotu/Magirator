@@ -15,7 +15,7 @@ import com.google.gson.JsonObject;
 
 import magirator.data.entities.Minion;
 import magirator.data.entities.User;
-import magirator.data.interfaces.IPlayer;
+import magirator.data.interfaces.Player;
 import magirator.logic.Ranker;
 import magirator.model.neo4j.Minions;
 import magirator.model.neo4j.Users;
@@ -44,7 +44,7 @@ public class AddMinion extends HttpServlet {
 		result.addProperty(Constants.result, "Could not add Minion, please log in first");
 		
 		HttpSession session = request.getSession();
-		IPlayer player = (IPlayer)session.getAttribute("player");
+		Player player = (Player)session.getAttribute("player");
 		
 		if (player != null){
 
@@ -53,7 +53,7 @@ public class AddMinion extends HttpServlet {
 			try {
 				
 				JsonObject minionrequest = Json.parseRequestData(request);
-				IPlayer requestedMinion = new Minion(minionrequest);
+				Player requestedMinion = new Minion(minionrequest);
 							
 				result.addProperty(Constants.result, "Minion must have a name");
 				

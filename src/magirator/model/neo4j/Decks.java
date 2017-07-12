@@ -16,7 +16,7 @@ import magirator.data.collections.Alteration;
 import magirator.data.entities.Deck;
 import magirator.data.entities.Minion;
 import magirator.data.entities.Player;
-import magirator.data.interfaces.IPlayer;
+import magirator.data.interfaces.Player;
 import magirator.support.Database;
 
 public class Decks {
@@ -84,15 +84,15 @@ public class Decks {
 
 			String query = ""
 					+ "MATCH (p:Player)-[:Use]->(d:Deck) "
-					+ "WHERE id(p) = ? WITH collect(d) as d1 "
-					+ "OPTIONAL MATCH (d:Deck)<-[:Use]-(m:Minion) "
-					+ "WHERE id(m) = ? WITH collect(d) + d1 as d2 "
-					+ "UNWIND d2 as deck "
+					+ "WHERE id(p) = ? WITH collect(d) as decks "
+					//+ "OPTIONAL MATCH (d:Deck)<-[:Use]-(m:Minion) "
+					//+ "WHERE id(m) = ? WITH collect(d) + d1 as d2 "
+					+ "UNWIND decks as deck "
 					+ "RETURN PROPERTIES(deck)";
 
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, player.getId());
-			ps.setInt(2, player.getId());
+			//ps.setInt(2, player.getId());
 
 			rs = ps.executeQuery();
 
@@ -246,7 +246,7 @@ public class Decks {
 
 			while (rs.next()) {
 
-				Deck currentDeck = new Deck(rs.getInt("id(nd)"), (Map) rs.getObject("PROPERTIES(nd)"));
+				Deck currentDeck = new Deck( (Map<String, ?>) rs.getObject("PROPERTIES(nd)"));
 				String comment = "Created";
 
 				if (previousDeck != null && rs.getObject("PROPERTIES(e)") != null) { // Inte första
@@ -291,13 +291,30 @@ public class Decks {
 					"SET d.active = false " + 
 					"DELETE r " +
 					"CREATE (p)-[:Used]->(d) " + 
-					"CREATE (c:Deck { name: ?, format: ?, black: ?, white: ?, red: ?, green: ?, blue: ? ,colorless: ?, theme: ?, created: TIMESTAMP(), active:true}) " +
+					"CREATE (c" + Deck.neoCreator() + ") " +
 					"CREATE (d)-[e:Evolved {comment:?}]->(c) " + 
 					"CREATE (p)-[nr:Use]->(c) " + 
 					"RETURN id(c)";
 
 			PreparedStatement ps = con.prepareStatement(query);
+			
+			List<Object> params = new ArrayList<>();
+			params.add(newDeck.getId());
+			params.add(Utility.getUniqueId());
+			params.add(newDeck.getName());
+			params.add(newDeck.getFormat());
+			params.add(newDeck.getBlackCards());
+			params.add(newDeck.getWhiteCards());
+			params.add(newDeck.getRedCards());
+			params.add(newDeck.getGreenCards());
+			params.add(newDeck.getBlueCards());
+			params.add(newDeck.getColorlessCards());
+			params.add(newDeck.getTheme());
+			params.add(comment);
+			
+			ps = Database.setStatementParams(ps, params);
 
+			/*
 			ps.setInt(1, newDeck.getId());
 			ps.setString(2, newDeck.getName());
 			ps.setString(3, newDeck.getFormat());
@@ -309,6 +326,7 @@ public class Decks {
 			ps.setLong(9, newDeck.getColorlessCards());
 			ps.setString(10, newDeck.getTheme());
 			ps.setString(11, comment);
+			*/
 
 			rs = ps.executeQuery();
 
@@ -318,7 +336,7 @@ public class Decks {
 				newDeckId = rs.getInt("id(c)");
 			}
 
-			return newDeckId;
+			return newDeckId;			
 
 		} catch (Exception ex) {
 			throw ex;
@@ -369,7 +387,7 @@ public class Decks {
 		}
 	}
 	
-	public static Deck addMinionDeck(IPlayer minion, Deck deck) throws Exception {
+	public static Deck addMinionDeck(Player minion, Deck deck) throws Exception {
 
 		Connection con = null;
 		Statement st = null;

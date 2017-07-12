@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import magirator.data.interfaces.IPlayer;
+import magirator.data.interfaces.Player;
 
-public class Opponent implements IPlayer {
+public class Opponent implements Player {
 	
 	private int id;
 	private String name;
@@ -16,7 +16,7 @@ public class Opponent implements IPlayer {
 	private Date lastPlay;
 	
 	
-	public Opponent(IPlayer ip) {
+	public Opponent(Player ip) {
 		this.id = ip.getId();
 		this.name = ip.getName();
 		this.relevance = 0;

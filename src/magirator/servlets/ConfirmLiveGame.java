@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 
 import magirator.data.entities.Rating;
 import magirator.data.entities.Tag;
-import magirator.data.interfaces.IPlayer;
+import magirator.data.interfaces.Player;
 import magirator.model.neo4j.Games;
 import magirator.model.neo4j.Minions;
 import magirator.model.neo4j.Tags;
@@ -40,7 +40,7 @@ public class ConfirmLiveGame extends HttpServlet {
 		result.addProperty(Constants.result, "Could not confirm game, please log in first");
         
 		HttpSession session = request.getSession();
-		IPlayer player = (IPlayer)session.getAttribute("player");
+		Player player = (Player)session.getAttribute("player");
 		
 		//Player is logged in
 		if (player != null){

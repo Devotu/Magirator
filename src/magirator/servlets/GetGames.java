@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import magirator.data.collections.PlayerGameResult;
-import magirator.data.interfaces.IPlayer;
+import magirator.data.entities.Player;
 import magirator.model.neo4j.Games;
 import magirator.support.Error;
 import magirator.support.Json;
@@ -38,7 +38,7 @@ public class GetGames extends HttpServlet {
 		result.addProperty(Constants.result, "Could not get Games, are you logged in?");
 		
 		HttpSession session = request.getSession();
-		IPlayer player = (IPlayer)session.getAttribute("player");
+		Player player = (Player)session.getAttribute("player");
 		
 		//Player is logged in
 		if (player != null){

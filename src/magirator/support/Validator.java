@@ -1,7 +1,7 @@
 package magirator.support;
 
 import magirator.data.entities.Deck;
-import magirator.data.interfaces.IPlayer;
+import magirator.data.interfaces.Player;
 import magirator.logic.LoginCredentials;
 
 public class Validator {
@@ -15,7 +15,7 @@ public class Validator {
 		return false;
 	}
 
-	public static boolean isValidPlayer(IPlayer p){
+	public static boolean isValidPlayer(Player p){
 		validate: {
 			if( "".equals( p.getName() ) ){
 				break validate;
@@ -27,7 +27,7 @@ public class Validator {
 		return false;
 	}
 	
-	public static boolean isRegisterdPlayer(IPlayer p){
+	public static boolean isRegisterdPlayer(Player p){
 		validate: {
 			if( 0 == p.getId() ){
 				break validate;

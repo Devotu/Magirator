@@ -1,20 +1,20 @@
 package magirator.data.collections;
 
 import magirator.data.entities.Game;
-import magirator.data.interfaces.IPlayer;
+import magirator.data.interfaces.Player;
 
 public class IPlayerGame {
 	
-	private IPlayer player;
+	private Player player;
 	private Game game;
 	
-	public IPlayerGame(IPlayer player, Game game) {
+	public IPlayerGame(Player player, Game game) {
 		super();
 		this.player = player;
 		this.game = game;
 	}
 
-	public IPlayer getPlayer() {
+	public Player getPlayer() {
 		return player;
 	}
 

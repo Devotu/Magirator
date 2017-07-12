@@ -15,7 +15,7 @@ import com.google.gson.JsonObject;
 
 import magirator.data.collections.PlayerGameResult;
 import magirator.data.entities.Player;
-import magirator.data.interfaces.IPlayer;
+import magirator.data.interfaces.Player;
 import magirator.model.neo4j.Games;
 import magirator.support.Error;
 import magirator.support.Constants;

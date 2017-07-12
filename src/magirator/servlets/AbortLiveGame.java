@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.JsonObject;
 
-import magirator.data.interfaces.IPlayer;
+import magirator.data.interfaces.Player;
 import magirator.model.neo4j.Games;
 import magirator.support.Constants;
 import magirator.support.Error;
@@ -31,7 +31,7 @@ public class AbortLiveGame extends HttpServlet {
 		result.addProperty(Constants.result, "Could not abort game, please log in first");
         
 		HttpSession session = request.getSession();
-		IPlayer player = (IPlayer)session.getAttribute("player");
+		Player player = (Player)session.getAttribute("player");
 		
 		//Player is logged in
 		if (player != null){

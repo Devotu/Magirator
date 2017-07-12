@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 
 import magirator.data.collections.PlayerDeck;
 import magirator.data.entities.Deck;
-import magirator.data.interfaces.IPlayer;
+import magirator.data.interfaces.Player;
 import magirator.model.neo4j.Decks;
 import magirator.model.neo4j.Games;
 import magirator.model.neo4j.IPlayers;
@@ -41,7 +41,7 @@ public class StartGame extends HttpServlet {
 		result.addProperty(Constants.result, "Could not start game, please log in first");
         
 		HttpSession session = request.getSession();
-		IPlayer player = (IPlayer)session.getAttribute("player");
+		Player player = (Player)session.getAttribute("player");
 		
 		//Player is logged in
 		if (player != null){
@@ -59,7 +59,7 @@ public class StartGame extends HttpServlet {
 					
 					JsonObject o = e.getAsJsonObject();
 					
-					IPlayer p = IPlayers.getIPlayer(o.get("playerId").getAsInt());
+					Player p = IPlayers.getIPlayer(o.get("playerId").getAsInt());
 					Deck d = Decks.getDeck(o.get("deckId").getAsInt());
 					
 					participants.add( new PlayerDeck(p, d) );		

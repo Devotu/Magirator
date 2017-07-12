@@ -11,12 +11,12 @@ import java.util.Map;
 import magirator.data.entities.Minion;
 import magirator.data.entities.Player;
 import magirator.data.entities.User;
-import magirator.data.interfaces.IPlayer;
+import magirator.data.interfaces.Player;
 import magirator.support.Database;
 
 public class Minions {
 
-	public static Minion addMinion(User user, IPlayer minion) throws Exception {
+	public static Minion addMinion(User user, Player minion) throws Exception {
 
 		Connection con = null;
 		Statement st = null;

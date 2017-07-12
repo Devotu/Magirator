@@ -14,7 +14,7 @@ public class Result {
 	private Date added;
 	
 	public Result(Map<String, ?> properties) {
-		this.id = (int) properties.get(id);
+		this.id = Math.toIntExact((long) properties.get("id"));
 		this.place = Integer.valueOf( properties.get("place").toString() );
 		this.confirmed = (boolean) (properties.get("confirmed"));
 		this.comment = (String)properties.get("comment");

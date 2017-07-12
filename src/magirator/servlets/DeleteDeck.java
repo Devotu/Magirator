@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.JsonObject;
 
-import magirator.data.interfaces.IPlayer;
+import magirator.data.interfaces.Player;
 import magirator.model.neo4j.Decks;
 import magirator.support.Error;
 import magirator.support.Json;
@@ -37,7 +37,7 @@ public class DeleteDeck extends HttpServlet {
 		int deckId = Json.getInt(requestData, "id", 0);
 		
 		HttpSession session = request.getSession();
-		IPlayer player = (IPlayer)session.getAttribute("player");
+		Player player = (Player)session.getAttribute("player");
 		
 		//Player is logged in
 		if (player != null){

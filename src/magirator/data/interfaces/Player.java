@@ -4,7 +4,7 @@ package magirator.data.interfaces;
  * @author ottu
  * @deprecated
  */
-public interface IPlayer {
+public interface Player {
 
 	int getId();
 

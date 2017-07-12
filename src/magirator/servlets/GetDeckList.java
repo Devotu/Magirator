@@ -14,8 +14,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import magirator.data.entities.Deck;
+import magirator.data.entities.Player;
 import magirator.data.entities.Result;
-import magirator.data.interfaces.IPlayer;
 import magirator.model.neo4j.Decks;
 import magirator.model.neo4j.Games;
 import magirator.support.Error;
@@ -40,7 +40,7 @@ public class GetDeckList extends HttpServlet {
 		result.addProperty(Constants.result, "Could not get deck list, are you logged in?");
 		
 		HttpSession session = request.getSession();
-		IPlayer player = (IPlayer)session.getAttribute("player");
+		Player player = (Player)session.getAttribute("player");
 		
 		//Player is logged in
 		if (player != null){

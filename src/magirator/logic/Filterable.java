@@ -5,7 +5,7 @@ import java.util.Date;
 import magirator.data.collections.PlayerGameResult;
 import magirator.data.entities.Deck;
 import magirator.data.entities.Game;
-import magirator.data.interfaces.IPlayer;
+import magirator.data.interfaces.Player;
 
 /**
  * Contains values that can be filtered on
@@ -22,7 +22,7 @@ public class Filterable {
 	private Date date;
 	
 	
-	public Filterable(IPlayer player) {
+	public Filterable(Player player) {
 		playerId = player.getId();
 	}
 	

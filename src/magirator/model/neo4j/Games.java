@@ -23,7 +23,7 @@ import magirator.data.entities.Game;
 import magirator.data.entities.Player;
 import magirator.data.entities.Rating;
 import magirator.data.entities.Result;
-import magirator.data.interfaces.IPlayer;
+import magirator.data.interfaces.Player;
 import magirator.support.Database;
 
 public class Games {
@@ -109,8 +109,8 @@ public class Games {
 					+ "UNWIND nodes(dp) AS nd "
 					+ "WITH nd as deck "
 					+ "MATCH (deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
-					+ "WHERE NOT (g)-[:Runs]->(:Live) "
-					+ "RETURN DISTINCT id(r), PROPERTIES(r)";
+					+ "WHERE NOT (g:Live) "
+					+ "RETURN DISTINCT PROPERTIES(r)";
 			
       		PreparedStatement ps = con.prepareStatement(query);
       		ps.setInt(1, deck.getId());
@@ -120,7 +120,7 @@ public class Games {
       		ArrayList<Result> results = new ArrayList<Result>();
 			
 			while (rs.next()) {
-				results.add( new Result( rs.getInt("id(r)"), (Map)rs.getObject("PROPERTIES(r)") ) );
+				results.add( new Result( (Map<String, ?>)rs.getObject("PROPERTIES(r)") ) );
 			}
 
 			return results;
@@ -148,7 +148,7 @@ public class Games {
 					+ "UNWIND nodes(dp) AS nd "
 					+ "WITH nd as d "
 					+ "MATCH (p:Player)-[:Use|:Used]->(d)-[:Got]->(r:Result)-[:In]->(g:Game) "
-					+ "WHERE NOT (g)-[:Runs]->(:Live) "
+					+ "WHERE NOT (g:Live) "
 					+ "RETURN DISTINCT id(p), PROPERTIES(p), id(d), PROPERTIES(d), id(r), PROPERTIES(r), id(g), PROPERTIES(g)";
 
       		ps = con.prepareStatement(query);
@@ -159,10 +159,10 @@ public class Games {
       		ArrayList<PlayerGameResult> participations = new ArrayList<PlayerGameResult>();
 			
 			while (rs.next()) {
-				IPlayer player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
-				Deck deck = new Deck( rs.getInt("id(d)"), (Map) rs.getObject("PROPERTIES(d)") );
-				Result result = new Result( rs.getInt("id(r)"), (Map) rs.getObject("PROPERTIES(r)") );
-				Game game = new Game( rs.getInt("id(g)"), (Map) rs.getObject("PROPERTIES(g)") );
+				Player player = new Player( (Map<String, ?>) rs.getObject("PROPERTIES(p)") );
+				Deck deck = new Deck( (Map<String, ?>) rs.getObject("PROPERTIES(d)") );
+				Result result = new Result( (Map<String, ?>) rs.getObject("PROPERTIES(r)") );
+				Game game = new Game( (Map<String, ?>) rs.getObject("PROPERTIES(g)") );
 				
 				participations.add(new PlayerGameResult(player, deck, result, game));
 			}
@@ -202,7 +202,7 @@ public class Games {
       		ArrayList<PlayerGameResult> participants = new ArrayList<PlayerGameResult>();
 			
 			while (rs.next()) {
-				IPlayer player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
+				Player player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
 				Deck deck = new Deck( rs.getInt("id(d)"), (Map) rs.getObject("PROPERTIES(d)") );
 				Result result = new Result( rs.getInt("id(r)"), (Map) rs.getObject("PROPERTIES(r)") );
 				Game game = new Game( rs.getInt("id(g)"), (Map) rs.getObject("PROPERTIES(g)") );
@@ -256,7 +256,7 @@ public class Games {
       		ArrayList<PlayerGameResult> participants = new ArrayList<PlayerGameResult>();
 			
 			while (rs.next()) {
-				IPlayer player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
+				Player player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
 				Deck deck = new Deck( rs.getInt("id(d)"), (Map) rs.getObject("PROPERTIES(d)") );
 				Result result = new Result( rs.getInt("id(r)"), (Map) rs.getObject("PROPERTIES(r)") );
 				Game game = new Game( rs.getInt("id(g)"), (Map) rs.getObject("PROPERTIES(g)") );
@@ -343,7 +343,7 @@ public class Games {
       		GameBundle gb = null;
 			
 			while (rs.next()) {
-				IPlayer player = new Player( rs.getInt("id(pm)"), (Map) rs.getObject("PROPERTIES(pm)") );
+				Player player = new Player( rs.getInt("id(pm)"), (Map) rs.getObject("PROPERTIES(pm)") );
 				Deck deck = new Deck( rs.getInt("id(d)"), (Map) rs.getObject("PROPERTIES(d)") );
 				Result result = new Result( rs.getInt("id(r)"), (Map) rs.getObject("PROPERTIES(r)") );
 				Game game = new Game( rs.getInt("id(g)"), (Map) rs.getObject("PROPERTIES(g)") );
@@ -509,7 +509,7 @@ public class Games {
       		List<Participant> participants = new ArrayList<>();
 			
 			while (rs.next()) {
-				IPlayer player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
+				Player player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
 				Deck deck = new Deck( rs.getInt("id(d)"), (Map) rs.getObject("PROPERTIES(d)") );
 				int life = rs.getInt("cl.life");
 				boolean isMinon = rs.getBoolean("p:Minion");

@@ -10,7 +10,7 @@ public class Game {
 	private boolean draw;
 
 	public Game(Map<String, ?> properties) {
-		this.id = (int) properties.get(id);
+		this.id = Math.toIntExact((long) properties.get("id"));
 		this.draw = properties.containsKey("draw") ? (Boolean)properties.get("draw") : false;
 		
 		long longTime = (Long)properties.get("created");
