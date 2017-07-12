@@ -8,11 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import magirator.data.entities.Deck;
-import magirator.data.interfaces.Player;
+import magirator.data.entities.Player;
 import magirator.model.neo4j.Decks;
 import magirator.support.Error;
 import magirator.support.Json;

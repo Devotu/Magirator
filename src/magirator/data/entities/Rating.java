@@ -20,7 +20,7 @@ public class Rating {
 	}
 	
 	public Rating(Map<String, ?> properties) {
-		this.id = (int) properties.get(id);
+		this.id = Math.toIntExact((long) properties.get("id"));
 		this.speed = (int)(long)properties.get("speed");
 		this.strength = (int)(long)properties.get("strength");
 		this.synergy = (int)(long)properties.get("synergy");

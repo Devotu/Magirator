@@ -191,7 +191,7 @@ public class Games {
 					+ "MATCH (p:Player)-[:Use|:Used]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) " //TODO Used & Evolved
 					+ "WHERE id(g) = ? "
 					+ "OPTIONAL MATCH (p)-[:Gave]->(rt)-[to]->(r) "
-					+ "RETURN id(p), PROPERTIES(p), id(d), PROPERTIES(d), id(r), PROPERTIES(r), id(rt), PROPERTIES(rt), id(g), PROPERTIES(g) "
+					+ "RETURN PROPERTIES(p), PROPERTIES(d), PROPERTIES(r), PROPERTIES(rt), PROPERTIES(g) "
 					+ "ORDER BY r.place";
 
       		ps = con.prepareStatement(query);
@@ -202,19 +202,17 @@ public class Games {
       		ArrayList<PlayerGameResult> participants = new ArrayList<PlayerGameResult>();
 			
 			while (rs.next()) {
-				Player player = new Player( rs.getInt("id(p)"), (Map) rs.getObject("PROPERTIES(p)") );
-				Deck deck = new Deck( rs.getInt("id(d)"), (Map) rs.getObject("PROPERTIES(d)") );
-				Result result = new Result( rs.getInt("id(r)"), (Map) rs.getObject("PROPERTIES(r)") );
-				Game game = new Game( rs.getInt("id(g)"), (Map) rs.getObject("PROPERTIES(g)") );
-				
-
+				Player player = new Player( (Map<String, ?>) rs.getObject("PROPERTIES(p)") );
+				Deck deck = new Deck( (Map<String, ?>) rs.getObject("PROPERTIES(d)") );
+				Result result = new Result( (Map<String, ?>) (Map) rs.getObject("PROPERTIES(r)") );
+				Game game = new Game( (Map<String, ?>) rs.getObject("PROPERTIES(g)") );
 				
 				PlayerGameResult participant = new PlayerGameResult(player, deck, result, game);
 				
 				rs.getMetaData();
 				
-				if (rs.getObject("id(rt)") != null) {
-					Rating rating = new Rating(rs.getInt("id(rt)"), (Map) rs.getObject("PROPERTIES(rt)"));
+				if (rs.getObject("PROPERTIES(rt)") != null) {
+					Rating rating = new Rating( (Map<String, ?>) rs.getObject("PROPERTIES(rt)"));
 					participant.setRating(rating);
 				}
 				

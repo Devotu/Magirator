@@ -123,7 +123,10 @@ public class Decks {
 		try {
 			con = Database.getConnection();
 
-			String query = "MATCH (d:Deck) " + "WHERE id(d)=? " + "RETURN id(d), PROPERTIES(d)";
+			String query = ""
+					+ "MATCH (d:Deck) "
+					+ "WHERE d.id=? " 
+					+ "RETURN PROPERTIES(d)";
 
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, deckId);
@@ -159,7 +162,7 @@ public class Decks {
 		try {
 			con = Database.getConnection();
 
-			String query = "MATCH (d:Deck) " + "WHERE id(d)=? " + "SET d.active = NOT d.active";
+			String query = "MATCH (d:Deck) " + "WHERE d.id=? " + "SET d.active = NOT d.active";
 
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, deckid);
@@ -193,7 +196,7 @@ public class Decks {
 		try {
 			con = Database.getConnection();
 
-			String query = "MATCH (p:Player)-[use:Use]->(d:Deck) " + "WHERE id(d)=? " + "DELETE use "
+			String query = "MATCH (p:Player)-[use:Use]->(d:Deck) " + "WHERE d.id=? " + "DELETE use "
 					+ "CREATE (p)-[:Deleted]->(d)";
 
 			PreparedStatement ps = con.prepareStatement(query);
@@ -230,10 +233,10 @@ public class Decks {
 
 			String query = "" + 
 					"MATCH dp=(d)<-[r:Evolved*]-() " + 
-					"WHERE id(d)=? " + 
+					"WHERE d.id=? " + 
 					"UNWIND nodes(dp) AS nd " +  
 			        "OPTIONAL MATCH (nd)<-[e:Evolved]-() " +  
-					"RETURN DISTINCT id(nd), PROPERTIES(nd), PROPERTIES(e)" +
+					"RETURN DISTINCT PROPERTIES(nd), PROPERTIES(e)" +
 					"ORDER BY PROPERTIES(nd).created";
 
 			PreparedStatement ps = con.prepareStatement(query);
@@ -287,7 +290,7 @@ public class Decks {
 			con = Database.getConnection();
 
 			String query = "" +
-					"MATCH (p:Player)-[r:Use]->(d:Deck) WHERE id(d) = ? " + 
+					"MATCH (p:Player)-[r:Use]->(d:Deck) WHERE d.id = ? " + 
 					"SET d.active = false " + 
 					"DELETE r " +
 					"CREATE (p)-[:Used]->(d) " + 
@@ -359,7 +362,7 @@ public class Decks {
 		try {
 			con = Database.getConnection();			
 
-			String query = "MATCH (d)<-[e:Evolved]-(pd) WHERE id(d)=? RETURN PROPERTIES(d), id(pd), PROPERTIES(pd), e.comment";
+			String query = "MATCH (d)<-[e:Evolved]-(pd) WHERE d.id=? RETURN PROPERTIES(d), id(pd), PROPERTIES(pd), e.comment";
 
       		PreparedStatement ps = con.prepareStatement(query);
       		ps.setInt(1, alterationId);
@@ -369,8 +372,8 @@ public class Decks {
       		Alteration alteration = null;
 			
 			if (rs.next()) {
-				Deck currentDeck = new Deck(alterationId, (Map)rs.getObject("PROPERTIES(d)"));
-				Deck previousDeck = new Deck(rs.getInt("id(pd)"), (Map)rs.getObject("PROPERTIES(pd)"));
+				Deck currentDeck = new Deck( (Map<String, ?>) rs.getObject("PROPERTIES(d)"));
+				Deck previousDeck = new Deck( (Map<String, ?>) rs.getObject("PROPERTIES(pd)"));
 				String comment = rs.getString("e.comment");
 				
 				alteration = new Alteration(previousDeck, currentDeck, comment);
@@ -387,6 +390,9 @@ public class Decks {
 		}
 	}
 	
+	/**
+	 * @deprecated minion
+	 */
 	public static Deck addMinionDeck(Player minion, Deck deck) throws Exception {
 
 		Connection con = null;
@@ -434,6 +440,9 @@ public class Decks {
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public static Deck getPlayerDeckInLiveGame(int playerId) throws Exception {
 
 		Connection con = null;

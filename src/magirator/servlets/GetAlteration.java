@@ -13,7 +13,7 @@ import com.google.gson.JsonObject;
 
 import magirator.data.collections.Alteration;
 import magirator.data.entities.Deck;
-import magirator.data.interfaces.Player;
+import magirator.data.entities.Player;
 import magirator.model.neo4j.Decks;
 import magirator.support.Error;
 import magirator.support.Json;
