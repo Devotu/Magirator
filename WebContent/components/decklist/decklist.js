@@ -1,4 +1,4 @@
-ratorApp.controller('decklistController', function($scope, $http, $location, playerService, requestService, deckVarStorage) {
+ratorApp.controller('decklistController', function($scope, $http, $location, playerService, requestService, varStorage) {
 	
 	$scope.result = "Waiting for response";
 	
@@ -63,7 +63,7 @@ ratorApp.controller('decklistController', function($scope, $http, $location, pla
 			}
 			
 			$scope.goDeck = function(id){
-				deckVarStorage.setCurrentDeck(id);
+				varStorage.setCurrentDeck(id);
 				$location.url('/deck');
 			}
 			

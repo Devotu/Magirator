@@ -1,4 +1,4 @@
-ratorApp.controller('dashboardController', function($scope, $http, $location, playerService, requestService) {
+ratorApp.controller('dashboardController', function($scope, $http, $location, playerService, requestService, varStorage) {
 	
 	$scope.result = "Waiting for response";
 	
@@ -72,7 +72,26 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 			}
 			
 			$scope.goToGame = function(){
-				$location.url('/play');
+				
+				var getPlayerLiveGameTokenReq = requestService.buildRequest(
+						"GetPlayerLiveGameToken", 
+						{}
+						);
+				
+			    $http(getPlayerLiveGameTokenReq).then(function(response){
+			    	
+					$scope.result = response.data.result;
+					
+					if (response.data.result == "Success"){
+						console.log(response.data.token);
+						varStorage.setLiveToken(response.data.token);
+						$location.url('/play');
+					}
+			    	
+			    	}, 
+			    	function(){
+			    		$scope.result = 'Failure'
+			    	});				
 			}
 		    
 		} else {

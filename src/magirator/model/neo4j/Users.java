@@ -294,7 +294,7 @@ public class Users {
 		try {	
 			con = Database.getConnection();
 
-			String query = "MATCH (u:User)-[:Is]->(p:Player) WHERE id(p) = ? RETURN PROPERTIES(u)";
+			String query = "MATCH (u:User)-[:Is]->(p:Player) WHERE p.id = ? RETURN PROPERTIES(u)";
 
 			ps = con.prepareStatement(query);
       		ps.setInt(1, player.getId());

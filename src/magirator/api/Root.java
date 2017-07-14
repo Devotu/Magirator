@@ -5,6 +5,7 @@ import org.restlet.Restlet;
 import org.restlet.routing.Router;
 
 import magirator.api.live.GameStatus;
+import magirator.api.live.GetGameId;
 import magirator.api.live.StartNewGame;
 
 public class Root extends Application{
@@ -19,6 +20,7 @@ public class Root extends Application{
 		//Game
 		router.attach("/gamestatus", GameStatus.class);
 		router.attach("/startnewgame", StartNewGame.class);
+		router.attach("/playerlivegameid", GetGameId.class);
 		
 		return router;
 	}

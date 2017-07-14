@@ -1,11 +1,11 @@
-ratorApp.controller('viewdeckController', function($scope, $http, $location, playerService, requestService, deckVarStorage) {
+ratorApp.controller('viewdeckController', function($scope, $http, $location, playerService, requestService, varStorage) {
 	
 	$scope.result = "Waiting for response";
 	
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
 			
-			$scope.deckId = deckVarStorage.getCurrentDeck();
+			$scope.deckId = varStorage.getCurrentDeck();
 			
 			
 			// Deck
@@ -111,19 +111,19 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 			
 			$scope.goAddGame = function(){
 				
-				deckVarStorage.setCurrentDeck($scope.deckId);
+				varStorage.setCurrentDeck($scope.deckId);
 				$location.url('/addgame');
 			}
 			
 			$scope.goPrepareGame = function(){
 				
-				deckVarStorage.setCurrentDeck($scope.deckId);
+				varStorage.setCurrentDeck($scope.deckId);
 				$location.url('/prepare');
 			}
 			
 			$scope.goGame = function(gameId){
 				
-				deckVarStorage.setGoTo(gameId);
+				varStorage.setGoTo(gameId);
 				$location.url('/game');
 			}
 			
@@ -171,13 +171,13 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 			
 			$scope.goAlter = function(){
 				
-				deckVarStorage.setCurrentDeck($scope.deckId);
+				varStorage.setCurrentDeck($scope.deckId);
 				$location.url('/alterdeck');
 			}
 			
 			$scope.goAlteration = function(alterationId){
 				
-				deckVarStorage.setGoTo(alterationId);
+				varStorage.setGoTo(alterationId);
 				$location.url('/alteration');
 			}
 			

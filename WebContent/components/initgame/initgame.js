@@ -1,4 +1,4 @@
-ratorApp.controller('initGameController', function ($scope, $http, $location, playerService, requestService, deckVarStorage) {
+ratorApp.controller('initGameController', function ($scope, $http, $location, playerService, requestService, varStorage) {
 
 	playerService.getPlayer().then(function (data) {
 		if (data.result == "Success") {

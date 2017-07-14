@@ -1,11 +1,11 @@
-ratorApp.controller('alterationController', function($scope, $http, $location, playerService, requestService, deckVarStorage) {
+ratorApp.controller('alterationController', function($scope, $http, $location, playerService, requestService, varStorage) {
 	
 	$scope.result = "Waiting for response";
 	
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
 
-			$scope.alterationId = deckVarStorage.getGoTo();			
+			$scope.alterationId = varStorage.getGoTo();			
 				
 			$scope.getAlteration = function(){
 				

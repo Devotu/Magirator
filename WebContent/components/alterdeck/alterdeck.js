@@ -1,11 +1,11 @@
-ratorApp.controller('alterdeckController', function($scope, $http, $location, playerService, requestService, deckVarStorage) {
+ratorApp.controller('alterdeckController', function($scope, $http, $location, playerService, requestService, varStorage) {
 		
 		$scope.result = "Waiting for response";	
 		
 		playerService.getPlayer().then(function(data) {
 			if (data.result == "Success") {
 
-				$scope.deckId = deckVarStorage.getCurrentDeck();
+				$scope.deckId = varStorage.getCurrentDeck();
 				
 				$scope.getFormats = function(){
 				    
@@ -77,7 +77,7 @@ ratorApp.controller('alterdeckController', function($scope, $http, $location, pl
 						$scope.result = response.data;
 						
 							if (response.data.result == "Success"){
-								deckVarStorage.setCurrentDeck(response.data.newDeckId);
+								varStorage.setCurrentDeck(response.data.newDeckId);
 								$location.url('/deck');
 							}					
 						}, 

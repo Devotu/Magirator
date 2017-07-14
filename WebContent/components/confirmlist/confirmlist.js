@@ -1,4 +1,4 @@
-ratorApp.controller('confirmlistController', function($scope, $http, $location, playerService, requestService, deckVarStorage) {
+ratorApp.controller('confirmlistController', function($scope, $http, $location, playerService, requestService, varStorage) {
 	
 	$scope.result = "Waiting for response";
 	
@@ -31,7 +31,7 @@ ratorApp.controller('confirmlistController', function($scope, $http, $location, 
 			
 			$scope.goConfirm = function(gameId){
 				
-				deckVarStorage.setGoTo(gameId);
+				varStorage.setGoTo(gameId);
 				$location.url('/confirm');
 			}
 			

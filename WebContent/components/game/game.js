@@ -1,4 +1,4 @@
-ratorApp.controller('gameController', function($scope, $http, $location, playerService, requestService, deckVarStorage) {
+ratorApp.controller('gameController', function($scope, $http, $location, playerService, requestService, varStorage) {
 	
 	$scope.result = "Waiting for response";
 	
@@ -9,7 +9,7 @@ ratorApp.controller('gameController', function($scope, $http, $location, playerS
 
 			$scope.player = JSON.parse( data.player );
 
-			$scope.gameId = deckVarStorage.getGoTo();
+			$scope.gameId = varStorage.getGoTo();
 			
 			$scope.rating = {'speed': 0, 'strength': 0, 'synergy': 0, 'control': 0};
 			console.log($scope.rating);

@@ -1,11 +1,11 @@
-ratorApp.controller('confirmController', function($scope, $http, $location, playerService, requestService, deckVarStorage) {
+ratorApp.controller('confirmController', function($scope, $http, $location, playerService, requestService, varStorage) {
 	
 	$scope.result = "Waiting for response";	
 	
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
 
-			$scope.gameId = deckVarStorage.getGoTo();
+			$scope.gameId = varStorage.getGoTo();
 			$scope.player = JSON.parse( data.player );
 			
 			$scope.rating = {'speed': 0, 'strength': 0, 'synergy': 0, 'control': 0};

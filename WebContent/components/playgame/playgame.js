@@ -1,4 +1,4 @@
-ratorApp.controller('playGameController', function ($scope, $http, $location, playerService, requestService, deckVarStorage) {
+ratorApp.controller('playGameController', function ($scope, $http, $location, playerService, requestService, varStorage) {
 
 	playerService.getPlayer().then(function (data) {
 		if (data.result == "Success") {
@@ -44,7 +44,7 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 			
 				if (response.data.result == "Success") {
 					$scope.deck = JSON.parse(response.data.deck);
-					deckVarStorage.setCurrentDeck($scope.deck.deckid);
+					varStorage.setCurrentDeck($scope.deck.deckid);
 				}
 			},
 				function () {

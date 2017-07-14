@@ -31,7 +31,7 @@ public class Decks {
 			con = Database.getConnection();
 
 			String query = ""
-					+ "MATCH (p:Player) WHERE id(p)=? "
+					+ "MATCH (p:Player) WHERE p.id=? "
 					+ "CREATE (d" + Deck.neoCreator() + ") "
 					+ "CREATE (p)-[r:Use]->(d) "
 					+ "RETURN d";
@@ -84,7 +84,7 @@ public class Decks {
 
 			String query = ""
 					+ "MATCH (p:Player)-[:Use]->(d:Deck) "
-					+ "WHERE id(p) = ? WITH collect(d) as decks "
+					+ "WHERE p.id = ? WITH collect(d) as decks "
 					//+ "OPTIONAL MATCH (d:Deck)<-[:Use]-(m:Minion) "
 					//+ "WHERE id(m) = ? WITH collect(d) + d1 as d2 "
 					+ "UNWIND decks as deck "
@@ -297,7 +297,7 @@ public class Decks {
 					"CREATE (c" + Deck.neoCreator() + ") " +
 					"CREATE (d)-[e:Evolved {comment:?}]->(c) " + 
 					"CREATE (p)-[nr:Use]->(c) " + 
-					"RETURN id(c)";
+					"RETURN c.id";
 
 			PreparedStatement ps = con.prepareStatement(query);
 			
@@ -362,7 +362,7 @@ public class Decks {
 		try {
 			con = Database.getConnection();			
 
-			String query = "MATCH (d)<-[e:Evolved]-(pd) WHERE d.id=? RETURN PROPERTIES(d), id(pd), PROPERTIES(pd), e.comment";
+			String query = "MATCH (d)<-[e:Evolved]-(pd) WHERE d.id=? RETURN PROPERTIES(d), PROPERTIES(pd), e.comment";
 
       		PreparedStatement ps = con.prepareStatement(query);
       		ps.setInt(1, alterationId);

@@ -1,11 +1,11 @@
-ratorApp.controller('prepareGameController', function ($scope, $http, $location, playerService, requestService, deckVarStorage) {
+ratorApp.controller('prepareGameController', function ($scope, $http, $location, playerService, requestService, varStorage) {
 
 	playerService.getPlayer().then(function (data) {
 		if (data.result == "Success") {
 
 			//Variables
 			$scope.player = JSON.parse(data.player);
-			$scope.deckId = deckVarStorage.getCurrentDeck();
+			$scope.deckId = varStorage.getCurrentDeck();
 
 			$scope.participants = [ { 
 				playerId: $scope.player.id,

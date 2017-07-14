@@ -201,7 +201,7 @@ public class LiveGames {
 			String query = ""
 					+ "MATCH (p:Player)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game:Live) "
 					+ "WHERE p.id = ? "
-					+ "RETURN g.live_id AS token";
+					+ "RETURN p.live_token AS token";
 			
 			List<Object> params = new ArrayList<>();
 			params.add(playerId);
@@ -238,8 +238,8 @@ public class LiveGames {
 		try {
 			
 			String query = ""
-					+ "MATCH (p:Player)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game) "
-					+ "WHERE g.live_id = ? "
+					+ "MATCH (p:Player)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game:Live) "
+					+ "WHERE p.live_token = ? "
 					+ "RETURN g.live_id AS live_id";
 			
 			List<Object> params = new ArrayList<>();

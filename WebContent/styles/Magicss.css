@@ -38,6 +38,7 @@ body {
 /*Layout*/
 .tiled {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -46,7 +47,7 @@ body {
 .tile {
     border-width: 0px;
     background-color: orangered;
-    box-shadow: 0.2vw 0.2vw 0.5vw;
+    box-shadow: 0vw 0vw 0.5vw;
     display: flex;
     flex-direction: row;
     justify-content: center;

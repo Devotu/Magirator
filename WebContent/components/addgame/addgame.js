@@ -1,10 +1,10 @@
-ratorApp.controller('addGameController', function ($scope, $http, $location, playerService, requestService, deckVarStorage) {
+ratorApp.controller('addGameController', function ($scope, $http, $location, playerService, requestService, varStorage) {
 
 	playerService.getPlayer().then(function (data) {
 		if (data.result == "Success") {
 
 			$scope.player = JSON.parse(data.player);
-			$scope.deckId = deckVarStorage.getCurrentDeck();
+			$scope.deckId = varStorage.getCurrentDeck();
 
 			$scope.selfAdded = false;
 			$scope.addState = "Regular";
@@ -402,7 +402,7 @@ ratorApp.controller('addGameController', function ($scope, $http, $location, pla
 					$scope.result = response.data
 
 					if (response.data.result == "Success") {
-						deckVarStorage.setCurrentDeck($scope.deckId);
+						varStorage.setCurrentDeck($scope.deckId);
 						$location.url('/deck');
 					}
 
