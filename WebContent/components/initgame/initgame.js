@@ -50,10 +50,8 @@ ratorApp.controller('initGameController', function ($scope, $http, $location, pl
 					$scope.result = response.data;
 					
 						if (response.data.result == "Success"){
-							
-							var token = JSON.parse(response.data.token);
-							
-							$location.url('/livegame').search({token: 'token'});
+							varStorage.setLiveToken(response.data.token);
+							$location.url('/play');
 						}					
 					}, 
 					function(){

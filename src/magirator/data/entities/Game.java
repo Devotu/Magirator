@@ -28,4 +28,11 @@ public class Game {
 	public boolean getDraw(){
 		return draw;
 	}
+	
+	
+	/** @return :Game {id: ?, created: TIMESTAMP(), draw: ?, live_id: ?}
+	 */
+	public static String neoCreator() {
+		return ":Game {id: ?, created: TIMESTAMP(), draw: ?, live_id: ?}";
+	}
 }

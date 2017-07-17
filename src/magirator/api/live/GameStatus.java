@@ -27,29 +27,13 @@ public class GameStatus extends ServerResource {
         		return response.toString();
         	}        	
         	
-        	String playerName = request.get("player_name").getAsString();
-        	int playerId = request.get("player_id").getAsInt();
-        	String deckName = request.get("deck_name").getAsString();
-        	int deckId = request.get("deck_id").getAsInt();
-        	
-        	
-        	//Does player exist
-        	//If not create anonymous player
-        	
+        	String liveId = request.get("live_id").getAsString();
+        	        	
         	response.addProperty(Constants.result, "You are already in a game.");
         	
-        	if(!LiveGames.isPlayerInGame(playerId)){
-        		
-        		response.addProperty(Constants.result, "A problem occured starting the game.");
-        		
-        		String token = LiveGames.startNewGame(deckId);
-        		
-        		if(!"".equals(token)){
-        			
-        			response.addProperty(Constants.result, Constants.success);
-        			response.addProperty("token", token);
-        		}
-        	}	
+        	
+        	response.addProperty("participants", LiveGames.getGameStatusAsJson(liveId));        	
+        	response.addProperty(Constants.result, Constants.success);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

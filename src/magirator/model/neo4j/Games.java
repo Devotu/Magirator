@@ -402,7 +402,9 @@ public class Games {
 				query = ""
 						+ "MATCH (g:Game), (d:Deck) "
 						+ "WHERE id(g) = ? AND id(d) = ? "
-						+ "CREATE (d)-[:Got]->(r:Result {place: 0, comment: '', confirmed: false, added: TIMESTAMP() })-[:In]->(g), (r)-[:StartedWith]->(:Life {life:?})";
+						+ "CREATE (d)-[:Got]->"
+						+ "(r:Result {place: 0, comment: '', confirmed: false, added: TIMESTAMP() })-[:In]->(g), "
+						+ "(r)-[:StartedWith]->(:Life {life:?})";
 				
 				ps = con.prepareStatement(query);
 				

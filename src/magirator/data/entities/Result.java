@@ -52,5 +52,12 @@ public class Result {
 	public Date getAdded() {
 		return added;
 	}
+	
+	
+	/** @return :Result {id:?, place: ?, comment: ?, confirmed: ?, added: TIMESTAMP() }
+	 */
+	public static String neoCreator() {
+		return ":Result {id:?, place: ?, comment: ?, confirmed: ?, added: TIMESTAMP() }";
+	}
 
 }

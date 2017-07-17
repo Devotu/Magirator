@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import magirator.data.collections.PlayerStatus;
+import magirator.data.entities.Game;
+import magirator.data.entities.Life;
+import magirator.data.entities.Result;
+import magirator.servlets.GetUnconfirmed;
+import magirator.support.Constants;
 import magirator.support.Database;
 import magirator.support.Encryption;
 
@@ -99,7 +104,6 @@ public class LiveGames {
 		ResultSet rs = null;
 		
 		try {
-			int gameId = Utility.getUniqueId();
 						
 			String query = ""
 					+ "MATCH (p:Player)-[:Use]->(d:Deck) "
@@ -107,16 +111,24 @@ public class LiveGames {
 					+ "CREATE "
 					+ "(d)"
 					+ "-[:Got]->"
-					+ "(:Result {place: 0, comment: '', confirmed: false, added: TIMESTAMP() })"
+					+ "(r"+ Result.neoCreator() +")"
 					+ "-[:In]->"
-					+ "(:Game:Live {id: ?, created: TIMESTAMP(), draw: false, live_id: ?}) "
+					+ "(:Live"+ Game.neoCreator() +"), "
+					+ "(r)-[:StartedWith]->("+ Life.neoCreator() +")"
 					+ "SET p:InGame, p:GameAdmin, p.live_token = ? "
 					+ "RETURN p.live_token AS token";
 			
 			List<Object> params = new ArrayList<>();
 			params.add(deckId);
-			params.add(gameId);
+			params.add(Utility.getUniqueId());
+			params.add(0);
+			params.add("");
+			params.add(false);
+			params.add(Utility.getUniqueId());
+			params.add(false);
 			params.add(Encryption.generateLiveGameId());
+			params.add(Utility.getUniqueId());
+			params.add(Constants.startingLifeStandard);
 			params.add(Encryption.generateLiveToken());
 			
 			con = Database.getConnection();			
@@ -156,7 +168,7 @@ public class LiveGames {
 					+ "CREATE "
 					+ "(d)"
 					+ "-[:Got]->"
-					+ "(r:Result {place: 0, comment: '', confirmed: false, added: TIMESTAMP() })"
+					+ "(r"+ Result.neoCreator() +")"
 					+ "-[:In]->"
 					+ "(g) "
 					+ "SET p:InGame, p.live_token = ? "
@@ -165,6 +177,10 @@ public class LiveGames {
 			List<Object> params = new ArrayList<>();
 			params.add(liveId);
 			params.add(deckId);
+			params.add(Utility.getUniqueId());
+			params.add(0);
+			params.add("");
+			params.add(false);
 			params.add(Encryption.generateLiveToken());
 						
 			con = Database.getConnection();			
@@ -268,7 +284,7 @@ public class LiveGames {
 	}
 	
 	
-	public static boolean changeLife(String liveId, String token, int playerId, int alterAmount) throws Exception {
+	public static boolean changeLife(String liveId, String token, int playerId, int newLife) throws Exception {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -284,7 +300,7 @@ public class LiveGames {
 					+ "MATCH lifelog=(r)-[:StartedWith|:ChangedTo*0..]->(l:Life) "
 					+ "WHERE NOT (l)-->() AND length(lifelog) > 0 "
 					+ "WITH LAST(NODES(lifelog)[1..]) AS lastLife "
-					+ "CREATE (lastLife)-[:ChangedTo]->(newLife:Life {added: TIMESTAMP(), life: lastLife + ?}) "
+					+ "CREATE (lastLife)-[:ChangedTo]->(newLife"+ Life.neoCreator() +") "
 					+ "RETURN newLife";
 			
 			List<Object> params = new ArrayList<>();
@@ -292,7 +308,8 @@ public class LiveGames {
 			params.add(liveId);
 			params.add(playerId);
 			params.add(liveId);
-			params.add(alterAmount);
+			params.add(Utility.getUniqueId());
+			params.add(newLife);
 						
 			con = Database.getConnection();			
 			ps = con.prepareStatement(query);			
@@ -360,24 +377,32 @@ public class LiveGames {
 	}
 	
 	
-	public static String getGameStatusAsJson(String liveId, String token, int playerId) throws Exception {
+	public static String getGameStatusAsJson(String liveId) throws Exception {
 
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		try {	
+		try {	//TODO verkar tolka liveId korrekt. Om "xxx" fungerar det i browser
 			
 			String query = ""
 					+ "MATCH (g:Game)<-[:In]-(r:Result)<-[:Got]-(d:Deck)<-[:Use|:Used]-(p) "
-					+ "WHERE g.live_id=? "
+					+ "WHERE g.live_id='?' "
 					+ "MATCH lifelog=(r)-[:StartedWith|:ChangedTo*0..]->(life:Life) "
 					+ "WHERE NOT (life)-->() AND length(lifelog) > 0 "
 					+ "WITH p,d,r, LAST(NODES(lifelog)[1..]) AS currentLife "
 					+ "OPTIONAL MATCH (currentLife)-[ChangedTo]->(death:Death) "
 					+ "RETURN {"
-					+ "	number_of_participants: count(p), "
-					+ "	participants: collect({player_id: p.id, deck_id: d.id, life: currentLife.life, dead: death NOT IS NULL, place: r.place, confirmed: r.confirmed})"
+					+ "		number_of_participants: count(p), "
+					+ "		participants: collect("
+					+ "			{"
+					+ "				player_id: p.id, "
+					+ "				deck_id: d.id, "
+					+ "				life: currentLife.life, "
+					+ "				dead: NOT death IS NULL, "
+					+ "				place: r.place, "
+					+ "				confirmed: r.confirmed}"
+					+ "		)"
 					+ "} AS participants";
 			
 			List<Object> params = new ArrayList<>();
@@ -403,5 +428,50 @@ public class LiveGames {
 			if (rs != null) rs.close();
 		}		
 	}
+	
+	
+	//Leave Game
+	//The player is removed and if it is the last player the game is deleted
+	public static String leaveGame(String token) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {	
+			
+			String query = ""
+					+ "MATCH (p:Player)-[:Use|:Used]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game:Live), "
+					+ "(r)-[:StartedWith|:ChangedTo*0..]->(life:Life) "
+					+ "WHERE p.live_token = ? "
+					+ "DETACH DELETE r,life"; //TODO Game if last player //TODO remove player token (and admin)
+			
+			List<Object> params = new ArrayList<>();
+			params.add(token);
+						
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()){
+				return rs.getString("");
+			}
+			
+			return "";
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
+			if (rs != null) rs.close();
+		}		
+	}
+	
+	
+	//End Game (migth be)
+	//Admin can cancel game, all participants are removed and the game is deleted
 
 }
