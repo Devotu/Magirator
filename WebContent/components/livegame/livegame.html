@@ -1,51 +1,31 @@
 <div class="tiled">
-        <div class="tile tile-2-3-large transparent column">
+        <div class="tile tile-2-3-large transparent column" ng-repeat="participant in participants | orderBy:participant.place">
             <div class="row-spaced tile-large-small">
                 <button class="tile tile-medium-small tab-top tab-first neutral text text-medium">+/-</button>
                 <button class="tile tile-medium-small tab-top tab-last positive  text-medium">@</button>
             </div>
             <div class="tile-large column around content neutral">
                 <div class="row-spaced">
-                    <div class="tile tile-small positive text text-medium">7</div>
+                    <div class="tile tile-small positive text text-medium">0</div>
                     <div class="row-end">
                         <button class="tile tile-small positive text text-medium">+1</button>
                         <button class="tile tile-small positive text text-medium">+5</button>
                     </div>
                 </div>
                 <div class="row-spaced">
-                    <div class="tile tile-medium positive text text-large">19</div>
-                    <div class="tile tile-medium positive text text-small">Otto von Bismarck</div>
+                    <div class="tile tile-medium positive text text-large">{{participant.life}}</div>
+                    <div class="tile tile-medium positive text text-small">{{participant.player_name}}</div>
                 </div>
                 <div class="row-spaced">
-                    <div class="tile tile-small negative text text-medium">7</div>
+                    <div class="tile tile-small negative text text-medium">0</div>
                     <div class="row-end">
-                        <button class="tile tile-small negative text text-medium">-1</button>
+                        <button class="tile tile-small negative text text-medium" ng-click="updateStatus()">-1</button>
                         <button class="tile tile-small negative text text-medium">-5</button>
                     </div>
                 </div>
             </div>
             <div class="row-spaced">
                 <button class="tile tile-large-small tab-bottom tab-first tab-last very-negative text text-small">Declare dead</button>
-            </div>
-        </div>
-        <div class="tile tile-2-3-large transparent" ng-repeat="participant in participants | orderBy:participant.place">
-            <div class="row-spaced">
-            </div>
-            <div class="average v-center">
-                <div class="content">
-                    <div class="row-spaced">
-                        <button class="tile tile-small positive">+1</button>
-                        <button class="tile tile-small positive">+5</button>
-                    </div>
-                    <div class="text-small">Player name</div>
-                    <div class="text-large">20</div>
-                    <div class="row-spaced">
-                        <button class="tile tile-small negative">+1</button>
-                        <button class="tile tile-small negative">+5</button>
-                    </div>
-                </div>
-            </div>
-            <div class="row-spaced">
             </div>
         </div>
     </div>

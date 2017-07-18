@@ -3,8 +3,12 @@ package magirator.model.neo4j;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import com.google.gson.Gson;
 
 import magirator.data.collections.PlayerStatus;
 import magirator.data.entities.Game;
@@ -382,22 +386,24 @@ public class LiveGames {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		Statement st = null;
 		
-		try {	//TODO verkar tolka liveId korrekt. Om "xxx" fungerar det i browser
+		try {
 			
 			String query = ""
 					+ "MATCH (g:Game)<-[:In]-(r:Result)<-[:Got]-(d:Deck)<-[:Use|:Used]-(p) "
-					+ "WHERE g.live_id='?' "
+					+ "WHERE g.live_id=? "
 					+ "MATCH lifelog=(r)-[:StartedWith|:ChangedTo*0..]->(life:Life) "
 					+ "WHERE NOT (life)-->() AND length(lifelog) > 0 "
 					+ "WITH p,d,r, LAST(NODES(lifelog)[1..]) AS currentLife "
 					+ "OPTIONAL MATCH (currentLife)-[ChangedTo]->(death:Death) "
 					+ "RETURN {"
-					+ "		number_of_participants: count(p), "
 					+ "		participants: collect("
 					+ "			{"
 					+ "				player_id: p.id, "
+					+ "				player_name: p.name, "
 					+ "				deck_id: d.id, "
+					+ "				deck_name: d.name, "
 					+ "				life: currentLife.life, "
 					+ "				dead: NOT death IS NULL, "
 					+ "				place: r.place, "
@@ -411,11 +417,12 @@ public class LiveGames {
 			con = Database.getConnection();			
 			ps = con.prepareStatement(query);			
 			ps = Database.setStatementParams(ps, params);
-			
 			rs = ps.executeQuery();
 			
 			if(rs.next()){
-				return rs.getString("participants");
+				Map pMap = (Map) rs.getObject("participants");
+				String pJson = new Gson().toJson(pMap, Map.class);
+				return pJson;
 			}
 			
 			return "";

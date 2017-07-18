@@ -51,7 +51,14 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 			$scope.result = response.data.result;
 			
 			if (response.data.result == "Success"){
-				$scope.participants = response.data.participants;
+				var new_updated_participants = JSON.parse(response.data.participants).participants; //TODO Testa angular.toJson
+				if(new_updated_participants != $scope.participants){
+					console.log(new_updated_participants);
+					console.log($scope.participants);
+					console.log("updationg participants");
+					$scope.participants = JSON.parse(response.data.participants).participants;
+				}
+				
 				console.log($scope.participants);
 			}
 	    	
