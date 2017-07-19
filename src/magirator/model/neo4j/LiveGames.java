@@ -395,9 +395,10 @@ public class LiveGames {
 					+ "WHERE g.live_id=? "
 					+ "MATCH lifelog=(r)-[:StartedWith|:ChangedTo*0..]->(life:Life) "
 					+ "WHERE NOT (life)-->() AND length(lifelog) > 0 "
-					+ "WITH p,d,r, LAST(NODES(lifelog)[1..]) AS currentLife "
+					+ "WITH p,d,r,lifelog, LAST(NODES(lifelog)[1..]) AS currentLife "
 					+ "OPTIONAL MATCH (currentLife)-[ChangedTo]->(death:Death) "
 					+ "RETURN {"
+					+ "		checksum: length(lifelog), "
 					+ "		participants: collect("
 					+ "			{"
 					+ "				player_id: p.id, "
@@ -409,7 +410,7 @@ public class LiveGames {
 					+ "				place: r.place, "
 					+ "				confirmed: r.confirmed}"
 					+ "		)"
-					+ "} AS participants";
+					+ "} AS status";
 			
 			List<Object> params = new ArrayList<>();
 			params.add(liveId);
@@ -420,7 +421,7 @@ public class LiveGames {
 			rs = ps.executeQuery();
 			
 			if(rs.next()){
-				Map pMap = (Map) rs.getObject("participants");
+				Map pMap = (Map) rs.getObject("status");
 				String pJson = new Gson().toJson(pMap, Map.class);
 				return pJson;
 			}

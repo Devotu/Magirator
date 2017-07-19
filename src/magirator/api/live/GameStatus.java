@@ -32,7 +32,7 @@ public class GameStatus extends ServerResource {
         	response.addProperty(Constants.result, "You are already in a game.");
         	
         	
-        	response.addProperty("participants", LiveGames.getGameStatusAsJson(liveId));        	
+        	response.addProperty("status", LiveGames.getGameStatusAsJson(liveId));        	
         	response.addProperty(Constants.result, Constants.success);
 			
 		} catch (Exception e) {

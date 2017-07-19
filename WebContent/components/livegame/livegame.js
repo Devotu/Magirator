@@ -2,7 +2,9 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	
 	//INIT//
 	$scope.participants = [];
+	$scope.checksum = 0;
 	$scope.live_id = "";
+	$scope.lifeUpdates = [];
 	
 	//Hämta player live player token	
 	$scope.player_token = varStorage.getLiveToken();
@@ -31,11 +33,9 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
     		$scope.result = $scope.result + 'Failure getting Id';
     	});
 	
-	//Hämta current status
-    //Uppdatera vyn
+	//Get current status
+    //Update view if needed
 	$scope.updateStatus = function(){
-		
-		console.log("lvie id:" + $scope.live_id);
 		
 		var getStatusReq = requestService.buildRequest(
 			"API/gamestatus", 
@@ -44,22 +44,18 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 			}
 		);
 		
-		console.log(getStatusReq);
-		
 	    $http(getStatusReq).then(function(response){
 	    	
 			$scope.result = response.data.result;
 			
 			if (response.data.result == "Success"){
-				var new_updated_participants = JSON.parse(response.data.participants).participants; //TODO Testa angular.toJson
-				if(new_updated_participants != $scope.participants){
-					console.log(new_updated_participants);
-					console.log($scope.participants);
-					console.log("updationg participants");
-					$scope.participants = JSON.parse(response.data.participants).participants;
-				}
+				var new_updated_status = JSON.parse(response.data.status);
 				
-				console.log($scope.participants);
+				
+				if(new_updated_status.checksum != $scope.checksum){
+					$scope.participants = new_updated_status.participants;
+					$scope.checksum = new_updated_status.checksum;
+				}
 			}
 	    	
 	    	}, 
