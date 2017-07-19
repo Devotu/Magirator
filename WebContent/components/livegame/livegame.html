@@ -4,28 +4,28 @@
                 <button class="tile tile-medium-small tab-top tab-first neutral text text-medium">+/-</button>
                 <button class="tile tile-medium-small tab-top tab-last positive  text-medium">@</button>
             </div>
-            <div class="tile-large column around content neutral">
-                <div class="row-spaced">
-                    <div class="tile tile-small positive text text-medium">0</div>
+            <div class="tile-large column around content neutral" ng-init="change=0">
+                <div class="row-end">
+                    <div class="tile tile-small positive text text-medium" ng-hide="change <= 0">{{change}}</div>
                     <div class="row-end">
-                        <button class="tile tile-small positive text text-medium">+1</button>
-                        <button class="tile tile-small positive text text-medium">+5</button>
+                        <button class="tile tile-small positive text text-medium" ng-click="change = change + 1; addToLifeChange(participant.player_id, change)">+1</button>
+                        <button class="tile tile-small positive text text-medium" ng-click="change = change + 5; addToLifeChange(participant.player_id, change)">+5</button>
                     </div>
                 </div>
                 <div class="row-spaced">
                     <div class="tile tile-medium positive text text-large">{{participant.life}}</div>
                     <div class="tile tile-medium positive text text-small">{{participant.player_name}}</div>
                 </div>
-                <div class="row-spaced">
-                    <div class="tile tile-small negative text text-medium">0</div>
+                <div class="row-end">
+                    <div class="tile tile-small negative text text-medium" ng-hide="change >= 0">{{change}}</div>
                     <div class="row-end">
-                        <button class="tile tile-small negative text text-medium" ng-click="updateStatus()">-1</button>
-                        <button class="tile tile-small negative text text-medium">-5</button>
+                        <button class="tile tile-small negative text text-medium" ng-click="change = change - 1; addToLifeChange(participant.player_id, change)">-1</button>
+                        <button class="tile tile-small negative text text-medium" ng-click="change = change - 5; addToLifeChange(participant.player_id, change)">-5</button>
                     </div>
                 </div>
             </div>
             <div class="row-spaced">
                 <button class="tile tile-large-small tab-bottom tab-first tab-last very-negative text text-small">Declare dead</button>
-            </div>
+            </div>     
         </div>
     </div>
