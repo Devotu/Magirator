@@ -5,6 +5,7 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	$scope.checksum = 0;
 	$scope.live_id = "";
 	$scope.lifeUpdates = [];
+	$scope.is_admin = false;
 	
 	$scope.lifeUpdate = null;
 	
@@ -33,6 +34,27 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
     	}, 
     	function(){
     		$scope.result = $scope.result + 'Failure getting Id';
+    	});
+    
+	//Hämta om player är admin
+	var getPlayerIsAdminReq = requestService.buildRequest(
+		"API/isadmin",
+		{
+			token: $scope.player_token
+		}
+	);
+	
+    $http(getPlayerIsAdminReq).then(function(response){
+    	
+		$scope.result = response.data.result;
+		
+		if (response.data.result == "Success"){
+			$scope.is_admin = response.data.is_admin;
+		}
+    	
+    	}, 
+    	function(){
+    		$scope.result = $scope.result + 'Failure getting admin';
     	});
 	
 	//Get current status
@@ -111,8 +133,6 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	
 	$scope.alterLife = function(){
 
-		console.log($scope.live_id);
-		console.log("altering life");
 		clearInterval($scope.lifeUpdater);
 		
 		var alterLifeReq = requestService.buildRequest(
@@ -146,6 +166,34 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	//(Admin)
 	//Remove player
 	//Kill player
-	//End game
+	
+	//Abort game
+	$scope.cancelGame = function(){
+
+		console.log($scope.live_id);
+		console.log("altering life");
+		clearInterval($scope.lifeUpdater);
+		
+		var cancelGameReq = requestService.buildRequest(
+			"API/cancelgame", 
+			{
+				live_id: $scope.live_id,
+				token: $scope.player_token
+			}
+		);
+		
+	    $http(cancelGameReq).then(function(response){
+	    	
+			$scope.result = response.data.result;
+			
+			if (response.data.result == "Success"){
+				$location.url('/dashboard');
+			}
+	    	
+	    	}, 
+	    	function(){
+	    		$scope.result = 'Failure aborting game'
+	    	});				
+	}
 		
 });

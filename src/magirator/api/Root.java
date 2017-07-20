@@ -4,9 +4,11 @@ import org.restlet.Application;
 import org.restlet.Restlet;
 import org.restlet.routing.Router;
 
+import magirator.api.live.AdminCancelGame;
 import magirator.api.live.AlterLife;
 import magirator.api.live.GameStatus;
 import magirator.api.live.GetGameId;
+import magirator.api.live.IsAdmin;
 import magirator.api.live.StartNewGame;
 
 public class Root extends Application{
@@ -23,6 +25,8 @@ public class Root extends Application{
 		router.attach("/startnewgame", StartNewGame.class);
 		router.attach("/playerlivegameid", GetGameId.class);
 		router.attach("/alterlife", AlterLife.class);
+		router.attach("/isadmin", IsAdmin.class);
+		router.attach("/cancelgame", AdminCancelGame.class);		
 		
 		return router;
 	}

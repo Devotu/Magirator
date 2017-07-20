@@ -1,4 +1,9 @@
-<div class="tiled">
+<div class="tiled tile tile-full-medium" ng-show="is_admin">
+	<button class="tile tile-medium positive text text-medium" ng-click="cancelGame();">Cancel Game</button>
+	<button class="tile tile-medium positive text text-medium" ng-click="console.log('test');">Declare Dead</button>
+	<button class="tile tile-medium positive text text-medium" ng-click="console.log('test');">Remove Player</button>
+</div>
+<div class="tiled ">
         <div class="tile tile-2-3-large transparent column" ng-repeat="participant in participants | orderBy:participant.place">
             <div class="row-spaced tile-large-small">
                 <button class="tile tile-medium-small tab-top tab-first neutral text text-medium">+/-</button>
@@ -26,6 +31,6 @@
             </div>
             <div class="row-spaced">
                 <button class="tile tile-large-small tab-bottom tab-first tab-last very-negative text text-small">Declare dead</button>
-            </div>     
+            </div>
         </div>
     </div>

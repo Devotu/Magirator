@@ -4,15 +4,13 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import magirator.model.neo4j.LiveGames;
 import magirator.support.Constants;
 import magirator.support.Json;
 
-public class AdminCancelGame extends ServerResource {
+public class IsAdmin extends ServerResource {
 
     @Post("json")
     public String toJson(Representation rep) {
@@ -27,25 +25,14 @@ public class AdminCancelGame extends ServerResource {
         	if (request == null){
         		response.addProperty(Constants.result, "A problem occured parsing the input.");
         		return response.toString();
-        	}
-
-        	String live_id = request.get("live_id").getAsString();
-        	String token = request.get("token").getAsString();
+        	}        	
         	
-        	LiveGames
+        	String player_token = request.get("token").getAsString();
         	
-        	
-        	
-        	for	(JsonElement element : life_updates){
-        		JsonObject o = element.getAsJsonObject();
-        		
-            	if(LiveGames.changeLife(live_id, token, o.get("player_id").getAsInt(), o.get("new_life").getAsInt())){
-            		response.addProperty(Constants.result, Constants.success);
-            	} else {
-            		response.addProperty(Constants.result, "Could not update life of " );
-            	}
-        		
-        	}
+    		boolean is_admin = LiveGames.isAdmin(player_token);
+    		
+    		response.addProperty(Constants.result, Constants.success);
+			response.addProperty("is_admin", is_admin);	
 			
 		} catch (Exception e) {
 			e.printStackTrace();

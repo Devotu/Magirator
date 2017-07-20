@@ -477,9 +477,74 @@ public class LiveGames {
 			if (rs != null) rs.close();
 		}		
 	}
-	
+
+	public static boolean isAdmin(String token) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			String query = ""
+					+ "MATCH (p:Player:GameAdmin) "
+					+ "WHERE p.live_token = ? RETURN p";
+			
+			List<Object> params = new ArrayList<>();
+			params.add(token);
+			
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
+			
+			return rs.next();
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
+			if (rs != null) rs.close();
+		}
+	}	
 	
 	//End Game (migth be)
 	//Admin can cancel game, all participants are removed and the game is deleted
+	public static String cancelGame(String liveId, String token) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {	
+			
+			String query = ""
+					+ "";
+			
+			List<Object> params = new ArrayList<>();
+			params.add(playerId);
+						
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()){
+				return rs.getString("");
+			}
+			
+			return "";
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
+			if (rs != null) rs.close();
+		}		
+	}
 
 }

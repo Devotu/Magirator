@@ -43,6 +43,8 @@ body {
     justify-content: center;
 }
 
+/*TODO Refactor to lh, lw, sh, sw etc.*/
+
 /*Style*/
 .tile {
     border-width: 0px;
@@ -135,6 +137,17 @@ body {
     min-height: 44px;
     max-height: 112px;
     margin: 0.5vw;
+}
+
+/*Full width medium height*/
+.tile-full-medium {
+    width: 94vw;
+    max-width: 94vw;
+    min-width: 210px;
+    height: 12vw;
+    min-height: 90px;
+    max-height: 225px;
+    margin: 1vw;
 }
 
 /*Modifiers*/
