@@ -511,8 +511,14 @@ public class LiveGames {
 	}	
 	
 	//End Game (migth be)
-	//Admin can cancel game, all participants are removed and the game is deleted
-	public static String cancelGame(String liveId, String token) throws Exception {
+	
+	/**
+	 * All participants are removed and the game is deleted
+	 * @param liveId
+	 * @return true if the game is removed otherwise false
+	 * @throws Exception
+	 */
+	public static boolean cancelGame(String liveId) throws Exception {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -521,10 +527,17 @@ public class LiveGames {
 		try {	
 			
 			String query = ""
-					+ "";
+					+ "MATCH (p:Player:InGame)-[:Use|:Used]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game:Live), "
+					+ "(r)-[:StartedWith|:ChangedTo*]->(l:Life) "
+					+ "OPTIONAL MATCH "
+					+ "(gap:Player:GameAdmin)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game) "
+					+ "WHERE g.live_id = ? "
+					+ "REMOVE p:InGame, p.live_token, gap:GameAdmin "
+					+ "DETACH DELETE g,r,l "
+					+ "RETURN COUNT(g)";
 			
 			List<Object> params = new ArrayList<>();
-			params.add(playerId);
+			params.add(liveId);
 						
 			con = Database.getConnection();			
 			ps = con.prepareStatement(query);			
@@ -532,11 +545,13 @@ public class LiveGames {
 			
 			rs = ps.executeQuery();
 			
-			while(rs.next()){
-				return rs.getString("");
+			if(rs.next()){
+				if (rs.getInt("COUNT(g)") == 1) {
+					return true;
+				}				
 			}
 			
-			return "";
+			return false;
 			
 		} catch (Exception ex){
 			throw ex;

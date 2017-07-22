@@ -192,7 +192,9 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	    	
 	    	}, 
 	    	function(){
-	    		$scope.result = 'Failure aborting game'
+	    		$scope.result = 'Failure aborting game';
+	    		console.log($scope.result);
+	    			
 	    	});				
 	}
 		

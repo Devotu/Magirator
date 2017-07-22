@@ -32,20 +32,15 @@ public class AdminCancelGame extends ServerResource {
         	String live_id = request.get("live_id").getAsString();
         	String token = request.get("token").getAsString();
         	
-        	LiveGames
-        	
-        	
-        	
-        	for	(JsonElement element : life_updates){
-        		JsonObject o = element.getAsJsonObject();
+        	if (LiveGames.isAdmin(token)) {
         		
-            	if(LiveGames.changeLife(live_id, token, o.get("player_id").getAsInt(), o.get("new_life").getAsInt())){
-            		response.addProperty(Constants.result, Constants.success);
-            	} else {
-            		response.addProperty(Constants.result, "Could not update life of " );
-            	}
+        		response.addProperty(Constants.result, "Could not cancel game");
         		
-        	}
+        		if (LiveGames.cancelGame(live_id)) {
+					
+        			response.addProperty(Constants.result, Constants.success);
+				}
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
