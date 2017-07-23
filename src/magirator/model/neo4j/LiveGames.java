@@ -174,7 +174,8 @@ public class LiveGames {
 					+ "-[:Got]->"
 					+ "(r"+ Result.neoCreator() +")"
 					+ "-[:In]->"
-					+ "(g) "
+					+ "(g), "
+					+ "(r)-[:StartedWith]->("+ Life.neoCreator() +")"
 					+ "SET p:InGame, p.live_token = ? "
 					+ "RETURN p.live_token AS token";
 			
@@ -185,6 +186,8 @@ public class LiveGames {
 			params.add(0);
 			params.add("");
 			params.add(false);
+			params.add(Utility.getUniqueId());
+			params.add(Constants.startingLifeStandard);
 			params.add(Encryption.generateLiveToken());
 						
 			con = Database.getConnection();			
@@ -435,6 +438,11 @@ public class LiveGames {
 			if (ps != null) ps.close();
 			if (rs != null) rs.close();
 		}		
+	}
+	
+	public static String getGameStatusAsJson(String liveId, String player_token) throws Exception {
+		
+		return getGameStatusAsJson(liveId);
 	}
 	
 	

@@ -1,7 +1,8 @@
 <div class="tiled tile tile-fw tile-mh" ng-show="is_admin">
-    <button class="tile positive text " ng-click="cancelGame();">Cancel Game</button>
-    <button class="tile positive text " ng-click="console.log('test');">Declare Dead</button>
-    <button class="tile positive text " ng-click="console.log('test');">Remove Player</button>
+    <button class="tile tile-sh positive text " ng-click="cancelGame();">Cancel Game</button>
+    <button class="tile tile-sh positive text " ng-click="console.log('test');">Declare Dead</button>
+    <button class="tile tile-sh positive text " ng-click="console.log('test');">Remove Player</button>
+    <div class="tile tile-sh positive text">{{live_id}}</div>
 </div>
 <div class="tiled ">
     <div class="tile tile-lw tile-elh transparent column" ng-repeat="participant in participants | orderBy:participant.place">
@@ -58,7 +59,7 @@
                     <div class="tile positive text text-l">{{participant.life}}</div>
                 </div>
                 <div class="row-center">
-                    <button class="tile tile-mw tile-sh negative text ">Confirm</button>
+                    <button class="tile tile-mw tile-sh negative text" ng-click="confirmDead()">Confirm</button>
                 </div>
             </div>
         </div>

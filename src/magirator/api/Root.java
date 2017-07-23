@@ -9,6 +9,7 @@ import magirator.api.live.AlterLife;
 import magirator.api.live.GameStatus;
 import magirator.api.live.GetGameId;
 import magirator.api.live.IsAdmin;
+import magirator.api.live.JoinGame;
 import magirator.api.live.StartNewGame;
 
 public class Root extends Application{
@@ -26,7 +27,8 @@ public class Root extends Application{
 		router.attach("/playerlivegameid", GetGameId.class);
 		router.attach("/alterlife", AlterLife.class);
 		router.attach("/isadmin", IsAdmin.class);
-		router.attach("/cancelgame", AdminCancelGame.class);		
+		router.attach("/cancelgame", AdminCancelGame.class);
+		router.attach("/joingame", JoinGame.class);		
 		
 		return router;
 	}

@@ -27,12 +27,20 @@ public class GameStatus extends ServerResource {
         		return response.toString();
         	}        	
         	
-        	String liveId = request.get("live_id").getAsString();
+        	String live_id = request.get("live_id").getAsString();
+        	
+        	response.addProperty(Constants.result, "A problem occured fetching game data.");
+        	
+        	if (request.has("token")) {
+        		
+        		String player_token = request.get("token").getAsString();
+        		response.addProperty("status", LiveGames.getGameStatusAsJson(live_id, player_token));
+        		
+			} else {
+				
+				response.addProperty("status", LiveGames.getGameStatusAsJson(live_id));
+			}
         	        	
-        	response.addProperty(Constants.result, "You are already in a game.");
-        	
-        	
-        	response.addProperty("status", LiveGames.getGameStatusAsJson(liveId));        	
         	response.addProperty(Constants.result, Constants.success);
 			
 		} catch (Exception e) {

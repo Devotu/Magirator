@@ -10,7 +10,6 @@ public class Life {
 	public Life(Map<String, ?> properties) {
 		this.id = Math.toIntExact((long) properties.get("id"));
 		this.life = Math.toIntExact((long) properties.get("life"));
-
 	}
 
 	public int getId() {

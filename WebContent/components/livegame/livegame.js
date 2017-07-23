@@ -64,7 +64,8 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 		var getStatusReq = requestService.buildRequest(
 			"API/gamestatus", 
 			{
-				live_id: $scope.live_id
+				live_id: $scope.live_id,
+				token: $scope.player_token
 			}
 		);
 		
