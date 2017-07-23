@@ -6,8 +6,8 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	$scope.live_id = "";
 	$scope.lifeUpdates = [];
 	$scope.is_admin = false;
-	
 	$scope.lifeUpdate = null;
+	$scope.tab = 'Life';
 	
 	//Hämta player live player token	
 	$scope.player_token = varStorage.getLiveToken();
@@ -98,7 +98,6 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	//Repeat uppdatera
 	 
 	//Events
-	//Switch tab
 	//Update life
 	$scope.addToLifeChange = function(player_id, change){
 		

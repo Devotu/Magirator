@@ -27,7 +27,10 @@ body {
     justify-content: flex-end;
 }
 
-
+.row-center {
+    display: flex;
+    justify-content: center;
+}
 
 
 .list {
@@ -49,7 +52,7 @@ body {
 .tile {
     border-width: 0px;
     background-color: orangered;
-    box-shadow: 0vw 0vw 0.5vw;
+    /*box-shadow: 0vw 0vw 0.5vw;*/
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -65,90 +68,58 @@ body {
 }
 
 /*Sizes*/
-.tile-large {
+/*Width*/
+.tile-lw {
     width: 28vw;
     min-width: 210px;
     max-width: 525px;
-    height: 28vw;
-    min-height: 210px;
-    max-height: 525px;
-    margin: 2vw;
 }
 
-.tile-medium {
+.tile-mw {
     width: 12vw;
     min-width: 90px;
     max-width: 225px;
-    height: 12vw;
-    min-height: 90px;
-    max-height: 225px;
-    margin: 1vw;
 }
 
-.tile-small {
+.tile-sw {
     width: 6vw;
     min-width: 44px;
     max-width: 112px;
-    height: 6vw;
-    min-height: 44px;
-    max-height: 112px;
-    margin: 0.5vw;
 }
 
-/*Aspect ration 2 to 3*/
-.tile-2-3-large {
-    width: 28vw;
-    min-width: 210px;
-    max-width: 525px;
-    height: 42vw;
-    min-height: 315px;
-    max-height: 787px;
-    margin: 3vw 2vw 3vw 2vw;
-}
-
-/*Medium width to small height*/
-.tile-medium-small {
-    width: 12vw;
-    min-width: 90px;
-    max-width: 225px;
-    height: 6vw;
-    min-height: 44px;
-    max-height: 112px;
-    margin: 0.5vw;
-}
-
-/*Medium width to large height*/
-.tile-medium-large {
-    width: 12vw;
-    min-width: 90px;
-    max-width: 225px;
-    height: 28vw;
-    min-height: 210px;
-    max-height: 525px;
-    margin: 0.5vw;
-}
-
-/*Large width to small height*/
-.tile-large-small {
-    width: 28vw;
-    min-width: 210px;
-    max-width: 525px;
-    height: 6vw;
-    min-height: 44px;
-    max-height: 112px;
-    margin: 0.5vw;
-}
-
-/*Full width medium height*/
-.tile-full-medium {
+.tile-fw {
     width: 94vw;
     max-width: 94vw;
     min-width: 210px;
+}
+
+/*Height*/
+.tile-lh {
+    height: 28vw;
+    min-height: 210px;
+    max-height: 525px;
+}
+
+.tile-mh {
     height: 12vw;
     min-height: 90px;
     max-height: 225px;
-    margin: 1vw;
 }
+
+.tile-sh {
+    height: 6vw;
+    min-height: 44px;
+    max-height: 112px;
+}
+
+/*Aspect ration 2 to 3*/
+.tile-elh {
+    height: 42vw;
+    min-height: 315px;
+    max-height: 787px;
+}
+
+
 
 /*Modifiers*/
 .content {
@@ -233,22 +204,70 @@ body {
     margin-top: 0px;
 }
 
+
+
 /*Text*/
-/*Sizes*/
-.text-tiny {
-    font-size: 0.5em;
-}
-
-.text-small {
-    font-size: 1em;
-}
-
-.text-medium {
+.text {
     font-size: 2em;
 }
 
-.text-large {
+/*Sizes*/
+.text-t {
+    font-size: 0.5em;
+}
+
+.text-s {
+    font-size: 1em;
+}
+
+/* .text-m is default*/  
+
+.text-l {
     font-size: 4em;
+}
+
+@media screen and (max-width: 1000px) {
+
+	.text {
+	    font-size: 1.5em;
+	}
+	
+	/*Sizes*/
+	.text-t {
+	    font-size: 0.4em;
+	}
+	
+	.text-s {
+	    font-size: 0.75em;
+	}
+	
+	/* .text-m is default*/  
+	
+	.text-l {
+	    font-size: 3em;
+	}
+}
+
+@media screen and (max-width: 500px) {
+
+	.text {
+	    font-size: 1em;
+	}
+	
+	/*Sizes*/
+	.text-t {
+	    font-size: 0.3em;
+	}
+	
+	.text-s {
+	    font-size: 0.5em;
+	}
+	
+	/* .text-m is default*/  
+	
+	.text-l {
+	    font-size: 2em;
+	}
 }
 
 /*Style*/
