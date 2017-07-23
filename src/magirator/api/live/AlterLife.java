@@ -37,7 +37,7 @@ public class AlterLife extends ServerResource {
         	for	(JsonElement element : life_updates){
         		JsonObject o = element.getAsJsonObject();
         		
-            	if(LiveGames.changeLife(live_id, token, o.get("player_id").getAsInt(), o.get("new_life").getAsInt())){
+            	if(LiveGames.changeLife(live_id, token, o.get("player_token").getAsString(), o.get("new_life").getAsInt())){
             		response.addProperty(Constants.result, Constants.success);
             	} else {
             		response.addProperty(Constants.result, "Could not update life of " );

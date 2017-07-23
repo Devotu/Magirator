@@ -291,7 +291,7 @@ public class LiveGames {
 	}
 	
 	
-	public static boolean changeLife(String liveId, String token, int playerId, int newLife) throws Exception {
+	public static boolean changeLife(String liveId, String reporterToken, String updatedToken, int newLife) throws Exception {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -303,7 +303,7 @@ public class LiveGames {
 					+ "MATCH (rp:Player)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game) "
 					+ "WHERE rp.live_token = ? AND g.live_id = ? "
 					+ "MATCH (up)-[:Use|:Used]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
-					+ "WHERE up.id = ? AND g.live_id = ? "
+					+ "WHERE up.live_token = ? AND g.live_id = ? "
 					+ "MATCH lifelog=(r)-[:StartedWith|:ChangedTo*0..]->(l:Life) "
 					+ "WHERE NOT (l)-->() AND length(lifelog) > 0 "
 					+ "WITH LAST(NODES(lifelog)[1..]) AS lastLife "
@@ -311,9 +311,9 @@ public class LiveGames {
 					+ "RETURN newLife";
 			
 			List<Object> params = new ArrayList<>();
-			params.add(token);
+			params.add(reporterToken);
 			params.add(liveId);
-			params.add(playerId);
+			params.add(updatedToken);
 			params.add(liveId);
 			params.add(Utility.getUniqueId());
 			params.add(newLife);
@@ -400,20 +400,17 @@ public class LiveGames {
 					+ "WHERE NOT (life)-->() AND length(lifelog) > 0 "
 					+ "WITH p,d,r,lifelog, LAST(NODES(lifelog)[1..]) AS currentLife "
 					+ "OPTIONAL MATCH (currentLife)-[ChangedTo]->(death:Death) "
-					+ "RETURN {"
-					+ "		checksum: length(lifelog), "
-					+ "		participants: collect("
-					+ "			{"
-					+ "				player_id: p.id, "
-					+ "				player_name: p.name, "
-					+ "				deck_id: d.id, "
-					+ "				deck_name: d.name, "
-					+ "				life: currentLife.life, "
-					+ "				dead: NOT death IS NULL, "
-					+ "				place: r.place, "
-					+ "				confirmed: r.confirmed}"
-					+ "		)"
-					+ "} AS status";
+					+ "RETURN { "
+					+ "		checksum:  sum(length(lifelog)), "
+					+ "		participants: collect(	{"
+					+ "			player_name: p.name, "
+					+ "			player_token: p.live_token, "
+					+ "			life: currentLife.life, "
+					+ "			dead: NOT death IS NULL, "
+					+ "			place: r.place, "
+					+ "			confirmed: r.confirmed} "
+					+ "		) "
+					+ "} as status";
 			
 			List<Object> params = new ArrayList<>();
 			params.add(liveId);
@@ -541,8 +538,7 @@ public class LiveGames {
 					+ "(gap:Player:GameAdmin)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game) "
 					+ "WHERE g.live_id = ? "
 					+ "REMOVE p:InGame, p.live_token, gap:GameAdmin "
-					+ "DETACH DELETE g,r,l "
-					+ "RETURN COUNT(g)";
+					+ "DETACH DELETE g,r,l";
 			
 			List<Object> params = new ArrayList<>();
 			params.add(liveId);
@@ -553,13 +549,7 @@ public class LiveGames {
 			
 			rs = ps.executeQuery();
 			
-			if(rs.next()){
-				if (rs.getInt("COUNT(g)") == 1) {
-					return true;
-				}				
-			}
-			
-			return false;
+			return true;
 			
 		} catch (Exception ex){
 			throw ex;

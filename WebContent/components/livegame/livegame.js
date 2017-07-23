@@ -26,7 +26,6 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 		
 		if (response.data.result == "Success"){
 			$scope.live_id = response.data.id;
-			console.log($scope.live_id);
 			
 			$scope.updateStatus();
 		}
@@ -76,7 +75,6 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 			if (response.data.result == "Success"){
 				var new_updated_status = JSON.parse(response.data.status);
 				
-				
 				if(new_updated_status.checksum != $scope.checksum){
 					$scope.participants = new_updated_status.participants;
 					$scope.checksum = new_updated_status.checksum;
@@ -100,7 +98,7 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	 
 	//Events
 	//Update life
-	$scope.addToLifeChange = function(player_id, change){
+	$scope.addToLifeChange = function(player_token, change){
 		
 		clearInterval($scope.lifeUpdater);
 		
@@ -108,7 +106,7 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 		var done = false;
 		
 		while (i < $scope.lifeUpdates){
-	        if (player_id === $scope.lifeUpdates[i].player_id) {
+	        if (player_token === $scope.lifeUpdates[i].player_token) {
 	        	$scope.lifeUpdates[i].new_life = $scope.lifeUpdates[i].new_life + change;
 	        }
 	        i++;
@@ -117,16 +115,14 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 		if (!done){
 			
 			while (i < $scope.participants.length){
-		        if (player_id === $scope.participants[i].player_id) {
+		        if (player_token === $scope.participants[i].player_token) {
 		        	
-		        	$scope.lifeUpdates.push( { player_id: player_id, new_life: $scope.participants[i].life + change } );
+		        	$scope.lifeUpdates.push( { player_token: player_token, new_life: $scope.participants[i].life + change } );
 		        }
 		        i++;
 			}
 		}
-		
-		console.log($scope.lifeUpdates);
-		
+				
 		$scope.lifeUpdater = setInterval($scope.alterLife, 1000 * 2);
 	}
 	
@@ -169,9 +165,7 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	
 	//Abort game
 	$scope.cancelGame = function(){
-
-		console.log($scope.live_id);
-		console.log("altering life");
+		
 		clearInterval($scope.lifeUpdater);
 		
 		var cancelGameReq = requestService.buildRequest(
@@ -192,9 +186,7 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	    	
 	    	}, 
 	    	function(){
-	    		$scope.result = 'Failure aborting game';
-	    		console.log($scope.result);
-	    			
+	    		$scope.result = 'Failure aborting game';	    			
 	    	});				
 	}
 		
