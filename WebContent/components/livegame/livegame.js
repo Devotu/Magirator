@@ -72,6 +72,8 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	    	
 			$scope.result = response.data.result;
 			
+			console.log(response.data);
+			
 			if (response.data.result == "Success"){
 				var new_updated_status = JSON.parse(response.data.status);
 				

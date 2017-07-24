@@ -127,7 +127,6 @@ public class LiveGames {
 			params.add(Utility.getUniqueId());
 			params.add(0);
 			params.add("");
-			params.add(false);
 			params.add(Utility.getUniqueId());
 			params.add(false);
 			params.add(Encryption.generateLiveGameId());
@@ -185,7 +184,6 @@ public class LiveGames {
 			params.add(Utility.getUniqueId());
 			params.add(0);
 			params.add("");
-			params.add(false);
 			params.add(Utility.getUniqueId());
 			params.add(Constants.startingLifeStandard);
 			params.add(Encryption.generateLiveToken());
@@ -407,8 +405,8 @@ public class LiveGames {
 					+ "			player_token: p.live_token, "
 					+ "			life: currentLife.life, "
 					+ "			dead: NOT death IS NULL, "
-					+ "			place: r.place, "
-					+ "			confirmed: r.confirmed} "
+					+ "			place: r.place"
+					+ "			} "
 					+ "		) "
 					+ "} as status";
 			
@@ -437,9 +435,59 @@ public class LiveGames {
 		}		
 	}
 	
-	public static String getGameStatusAsJson(String liveId, String player_token) throws Exception {
+	public static String getGameStatusAsJson(String liveId, String token) throws Exception {
 		
-		return getGameStatusAsJson(liveId);
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Statement st = null;
+		
+		try {
+			
+			String query = ""
+					+ "MATCH (g:Game)<-[:In]-(r:Result)<-[:Got]-(d:Deck)<-[:Use|:Used]-(p) "
+					+ "WHERE g.live_id=? "
+					+ "MATCH lifelog=(r)-[:StartedWith|:ChangedTo*0..]->(life:Life) "
+					+ "WHERE NOT (life)-->() AND length(lifelog) > 0 "
+					+ "WITH p,d,r,lifelog, LAST(NODES(lifelog)[1..]) AS currentLife, p.live_token=? AS self "
+					+ "OPTIONAL MATCH (currentLife)-[ChangedTo]->(death:Death) "
+					+ "RETURN { "
+					+ "		checksum:  sum(length(lifelog)), "
+					+ "		participants: collect(	{"
+					+ "			player_name: p.name, "
+					+ "			player_token: p.live_token, "
+					+ "			life: currentLife.life, "
+					+ "			dead: NOT death IS NULL, "
+					+ "			place: r.place, "
+					+ "			self: self"
+					+ "			} "
+					+ "		) "
+					+ "} as status";
+			
+			List<Object> params = new ArrayList<>();
+			params.add(liveId);
+			params.add(token);
+						
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			rs = ps.executeQuery();
+			
+			if(rs.next()){
+				Map pMap = (Map) rs.getObject("status");
+				String pJson = new Gson().toJson(pMap, Map.class);
+				return pJson;
+			}
+			
+			return "";
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
+			if (rs != null) rs.close();
+		}
 	}
 	
 	
