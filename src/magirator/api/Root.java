@@ -6,6 +6,7 @@ import org.restlet.routing.Router;
 
 import magirator.api.live.AdminCancelGame;
 import magirator.api.live.AlterLife;
+import magirator.api.live.DeclareDead;
 import magirator.api.live.GameStatus;
 import magirator.api.live.GetGameId;
 import magirator.api.live.IsAdmin;
@@ -28,7 +29,8 @@ public class Root extends Application{
 		router.attach("/alterlife", AlterLife.class);
 		router.attach("/isadmin", IsAdmin.class);
 		router.attach("/cancelgame", AdminCancelGame.class);
-		router.attach("/joingame", JoinGame.class);		
+		router.attach("/joingame", JoinGame.class);	
+		router.attach("/declaredead", DeclareDead.class);	
 		
 		return router;
 	}

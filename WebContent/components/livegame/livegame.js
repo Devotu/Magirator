@@ -8,6 +8,7 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	$scope.is_admin = false;
 	$scope.lifeUpdate = null;
 	$scope.tab = 'Life';
+	$scope.next_death;
 	
 	//Hämta player live player token	
 	$scope.player_token = varStorage.getLiveToken();
@@ -75,11 +76,12 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 			console.log(response.data);
 			
 			if (response.data.result == "Success"){
-				var new_updated_status = JSON.parse(response.data.status);
+				var new_status = JSON.parse(response.data.status);
 				
-				if(new_updated_status.checksum != $scope.checksum){
-					$scope.participants = new_updated_status.participants;
-					$scope.checksum = new_updated_status.checksum;
+				if(new_status.checksum != $scope.checksum){
+					$scope.participants = new_status.participants;
+					$scope.checksum = new_status.checksum;
+					$scope.next_death = new_status.next_death;
 				}
 			}
 	    	
@@ -155,7 +157,33 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	    		$scope.result = 'Failure updating life'
 	    	});				
 	}
+	
 	//Declare dead
+	$scope.declareDead = function(player_token){
+		
+		var declareDeadReq = requestService.buildRequest(
+			"API/declaredead", 
+			{
+				live_id: $scope.live_id,
+				token: player_token,
+				place: $scope.next_death
+			}
+		);
+		
+	    $http(declareDeadReq).then(function(response){
+	    	
+			$scope.result = response.data.result;
+			
+			if (response.data.result == "Success"){
+				$scope.updateStatus();
+			}
+	    	
+	    	}, 
+	    	function(){
+	    		$scope.result = 'Failure declaring dead';	    			
+	    	});				
+	}
+	
 	//Add tags
 	//Rate game
 	//Leave game

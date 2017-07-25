@@ -62,13 +62,10 @@ public class GetDeckList extends HttpServlet {
 						
 						for (Result r : results){
 							
-							if (r.getConfirmed()){
-								
-								games++;
-								
-								if (r.getPlace() == 1){ //Win
-									wins++;
-								}
+							games++;
+							
+							if (r.getPlace() == 1){ //Win
+								wins++;
 							}
 						}
 						

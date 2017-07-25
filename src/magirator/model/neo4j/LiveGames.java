@@ -11,6 +11,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 
 import magirator.data.collections.PlayerStatus;
+import magirator.data.entities.Death;
 import magirator.data.entities.Game;
 import magirator.data.entities.Life;
 import magirator.data.entities.Result;
@@ -129,10 +130,10 @@ public class LiveGames {
 			params.add("");
 			params.add(Utility.getUniqueId());
 			params.add(false);
-			params.add(Encryption.generateLiveGameId());
+			params.add(Encryption.generateLiveGameId()); //TODO verify uniqeness
 			params.add(Utility.getUniqueId());
 			params.add(Constants.startingLifeStandard);
-			params.add(Encryption.generateLiveToken());
+			params.add(Encryption.generateLiveToken()); //TODO verify uniqeness
 			
 			con = Database.getConnection();			
 			ps = con.prepareStatement(query);			
@@ -338,50 +339,6 @@ public class LiveGames {
 	}
 	
 	
-	public static boolean declareDead(String liveId, String token) throws Exception {
-
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		
-		try {	
-			
-			String query = ""
-					+ "MATCH (p)-[:Use|:Used]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
-					+ "WHERE p.live_token = ? AND g.live_id = ? "
-					+ "MATCH lifelog=(r)-[:StartedWith|:ChangedTo*0..]->(l:Life) "
-					+ "WHERE NOT (l)-->() AND length(lifelog) > 0 "
-					+ "WITH LAST(NODES(lifelog)[1..]) AS lastLife "
-					+ "CREATE (lastLife)-[:ChangedTo]->(death:Death {added: TIMESTAMP()}) "
-					+ "SET r.confirmed = true "
-					+ "RETURN death";
-			
-			List<Object> params = new ArrayList<>();
-			params.add(token);
-			params.add(liveId);
-						
-			con = Database.getConnection();			
-			ps = con.prepareStatement(query);			
-			ps = Database.setStatementParams(ps, params);
-			
-			rs = ps.executeQuery();
-			
-			if(rs.next()){
-				return true;
-			}
-			
-			return false;
-			
-		} catch (Exception ex){
-			throw ex;
-		} finally {
-			if (con != null) con.close();
-			if (ps != null) ps.close();
-			if (rs != null) rs.close();
-		}
-	}
-	
-	
 	public static String getGameStatusAsJson(String liveId) throws Exception {
 
 		Connection con = null;
@@ -395,11 +352,11 @@ public class LiveGames {
 					+ "MATCH (g:Game)<-[:In]-(r:Result)<-[:Got]-(d:Deck)<-[:Use|:Used]-(p) "
 					+ "WHERE g.live_id=? "
 					+ "MATCH lifelog=(r)-[:StartedWith|:ChangedTo*0..]->(life:Life) "
-					+ "WHERE NOT (life)-->() AND length(lifelog) > 0 "
+					+ "WHERE NOT (life)-->() OR (life)-->(:Death) AND length(lifelog) > 0 "
 					+ "WITH p,d,r,lifelog, LAST(NODES(lifelog)[1..]) AS currentLife "
 					+ "OPTIONAL MATCH (currentLife)-[ChangedTo]->(death:Death) "
 					+ "RETURN { "
-					+ "		checksum:  sum(length(lifelog)), "
+					+ "		checksum:  sum(length(lifelog)) + count(death), "
 					+ "		participants: collect(	{"
 					+ "			player_name: p.name, "
 					+ "			player_token: p.live_token, "
@@ -407,7 +364,8 @@ public class LiveGames {
 					+ "			dead: NOT death IS NULL, "
 					+ "			place: r.place"
 					+ "			} "
-					+ "		) "
+					+ "		), "
+					+ "		next_death:count(p)-count(death) "
 					+ "} as status";
 			
 			List<Object> params = new ArrayList<>();
@@ -445,14 +403,14 @@ public class LiveGames {
 		try {
 			
 			String query = ""
-					+ "MATCH (g:Game)<-[:In]-(r:Result)<-[:Got]-(d:Deck)<-[:Use|:Used]-(p) "
+					+ "MATCH (g:Game)<-[:In]-(r:Result)<-[:Got]-(d:Deck)<-[:Use|:Used]-(p:Player) "
 					+ "WHERE g.live_id=? "
 					+ "MATCH lifelog=(r)-[:StartedWith|:ChangedTo*0..]->(life:Life) "
-					+ "WHERE NOT (life)-->() AND length(lifelog) > 0 "
+					+ "WHERE NOT (life)-->() OR (life)-->(:Death) AND length(lifelog) > 0 "
 					+ "WITH p,d,r,lifelog, LAST(NODES(lifelog)[1..]) AS currentLife, p.live_token=? AS self "
 					+ "OPTIONAL MATCH (currentLife)-[ChangedTo]->(death:Death) "
 					+ "RETURN { "
-					+ "		checksum:  sum(length(lifelog)), "
+					+ "		checksum:  sum(length(lifelog)) + count(death), "
 					+ "		participants: collect(	{"
 					+ "			player_name: p.name, "
 					+ "			player_token: p.live_token, "
@@ -461,7 +419,8 @@ public class LiveGames {
 					+ "			place: r.place, "
 					+ "			self: self"
 					+ "			} "
-					+ "		) "
+					+ "		), "
+					+ "		next_death:count(p)-count(death) "
 					+ "} as status";
 			
 			List<Object> params = new ArrayList<>();
@@ -584,9 +543,11 @@ public class LiveGames {
 					+ "(r)-[:StartedWith|:ChangedTo*]->(l:Life) "
 					+ "OPTIONAL MATCH "
 					+ "(gap:Player:GameAdmin)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game) "
+					+ "OPTIONAL MATCH "
+					+ "(currentLife)-[ChangedTo]->(d:Death) "
 					+ "WHERE g.live_id = ? "
 					+ "REMOVE p:InGame, p.live_token, gap:GameAdmin "
-					+ "DETACH DELETE g,r,l";
+					+ "DETACH DELETE g,r,l,d";
 			
 			List<Object> params = new ArrayList<>();
 			params.add(liveId);
@@ -606,6 +567,138 @@ public class LiveGames {
 			if (ps != null) ps.close();
 			if (rs != null) rs.close();
 		}		
+	}
+	
+	/**
+	 * @param liveId
+	 * @param token
+	 * @return place in game
+	 * @throws Exception
+	 */
+	public static int declareDead(String liveId, String token, int place) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {	
+			
+			String query = ""
+					+ "MATCH (p:Player:InGame)-[:Use|:Used]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game:Live) "
+					+ "WHERE p.live_token = ? AND g.live_id = ? "
+					+ "MATCH lifelog=(r)-[:StartedWith|:ChangedTo*0..]->(l:Life) "
+					+ "WHERE NOT (l)-->() AND length(lifelog) > 0 "
+					+ "WITH LAST(NODES(lifelog)[1..]) AS lastLife, r "
+					+ "CREATE (lastLife)-[:ChangedTo]->(self_death" + Death.neoCreator() + ") "
+					+ "SET r.place=? "
+					+ "RETURN r.place";
+			
+			List<Object> params = new ArrayList<>();
+			params.add(token);
+			params.add(liveId);
+			params.add(Utility.getUniqueId());
+			params.add(place);
+						
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()){
+				return rs.getInt("r.place");
+			}
+			
+			return 0;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
+			if (rs != null) rs.close();
+		}
+	}
+
+	public static boolean declareWinner(String liveId) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {	
+			
+			//TODO Verification single player left
+			String query = ""
+					+ "MATCH (g:Game:Live)<-[:In]-(r:Result) "
+					+ "WHERE g.live_id=? AND r.place=0 "
+					+ "SET r.place=1 "
+					+ "RETURN r";
+			
+			List<Object> params = new ArrayList<>();
+			params.add(liveId);
+						
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()){
+				return true;
+			}
+			
+			return false;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
+			if (rs != null) rs.close();
+		}
+	}
+	
+
+	public static boolean endGame(String liveId) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {	
+			
+			//TODO Verification no players left
+			String query = ""
+					+ "MATCH (p:Player:InGame)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game:Live) "
+					+ "OPTIONAL MATCH "
+					+ "(gap:Player:InGame:GameAdmin)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game:Live) "
+					+ "WHERE g.live_id = ? "
+					+ "REMOVE p:InGame, gap:GameAdmin "
+					+ "RETURN g";
+			
+			List<Object> params = new ArrayList<>();
+			params.add(liveId);
+						
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()){
+				return true;
+			}
+			
+			return false;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
+			if (rs != null) rs.close();
+		}
 	}
 
 }

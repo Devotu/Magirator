@@ -13,21 +13,6 @@ body {
 
 
 
-/* -Content alignment- */
-.row {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-.column {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-
-
 /* -Rows- */
 .row-spaced {
     display: flex;
@@ -223,4 +208,28 @@ body {
 
 .transparent {
     background-color: transparent;
+}
+
+
+
+/* -Content alignment- */
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+
+/*Overrides*/
+button:disabled,
+button[disabled]{
+  background-color: #eeeeec;
+  color: #888a85;
 }
