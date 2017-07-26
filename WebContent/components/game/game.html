@@ -10,6 +10,7 @@
 			ng-repeat="participant in participants | orderBy:participant.result.place"
 			class="list-group-item row">
 			<div>
+				<h1>{{ participant.result.place }}</h1>
 				<h3>
 					{{ participant.player.playername }} <span
 						class="glyphicon glyphicon-ok positive"

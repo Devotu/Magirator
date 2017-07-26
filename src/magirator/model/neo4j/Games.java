@@ -23,11 +23,13 @@ import magirator.data.entities.Game;
 import magirator.data.entities.Player;
 import magirator.data.entities.Rating;
 import magirator.data.entities.Result;
-import magirator.data.interfaces.Player;
 import magirator.support.Database;
 
 public class Games {
 	
+	/**
+	 * @deprecated
+	 */
 	public static int addGame(ArrayList<PlayerGameResult> participants, boolean draw, int initiatorId) throws Exception {
 		
 		Connection con = null;
@@ -105,7 +107,7 @@ public class Games {
 
 			String query = ""
 					+ "MATCH dp=(d:Deck)<-[r:Evolved*]-() "
-					+ "WHERE id(d)=? "
+					+ "WHERE d.id=? "
 					+ "UNWIND nodes(dp) AS nd "
 					+ "WITH nd as deck "
 					+ "MATCH (deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
@@ -144,12 +146,12 @@ public class Games {
 
 			String query = ""
 					+ "MATCH dp=(cd:Deck)<-[r:Evolved*0..]-() "
-					+ "WHERE id(cd)=? "
+					+ "WHERE cd.id=? "
 					+ "UNWIND nodes(dp) AS nd "
 					+ "WITH nd as d "
 					+ "MATCH (p:Player)-[:Use|:Used]->(d)-[:Got]->(r:Result)-[:In]->(g:Game) "
 					+ "WHERE NOT (g:Live) "
-					+ "RETURN DISTINCT id(p), PROPERTIES(p), id(d), PROPERTIES(d), id(r), PROPERTIES(r), id(g), PROPERTIES(g)";
+					+ "RETURN DISTINCT PROPERTIES(p), PROPERTIES(d), PROPERTIES(r), PROPERTIES(g)";
 
       		ps = con.prepareStatement(query);
       		ps.setInt(1, deckId);
@@ -189,7 +191,7 @@ public class Games {
 
 			String query = ""
 					+ "MATCH (p:Player)-[:Use|:Used]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) " //TODO Used & Evolved
-					+ "WHERE id(g) = ? "
+					+ "WHERE g.id = ? "
 					+ "OPTIONAL MATCH (p)-[:Gave]->(rt)-[to]->(r) "
 					+ "RETURN PROPERTIES(p), PROPERTIES(d), PROPERTIES(r), PROPERTIES(rt), PROPERTIES(g) "
 					+ "ORDER BY r.place";
@@ -230,6 +232,9 @@ public class Games {
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public static ArrayList<PlayerGameResult> getUnconfirmedParticipations(int playerId) throws Exception {
 
 		Connection con = null;
@@ -273,6 +278,9 @@ public class Games {
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public static boolean confirmGame(int resultId, boolean confirm, String comment, Rating rating) throws Exception {
 
 		Connection con = null;
@@ -326,11 +334,11 @@ public class Games {
 
 			String query = ""
 					+ "MATCH (player:Player)"
-					+ "WHERE id(player) = ?"
+					+ "WHERE player.id = ?"
 					+ "MATCH (player)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game)"
 					+ "MATCH (pm)-[:Use]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g)"
-					+ "RETURN id(pm), PROPERTIES(pm), id(d), PROPERTIES(d), id(r), PROPERTIES(r), id(g), PROPERTIES(g)"
-					+ "ORDER BY id(g)";
+					+ "RETURN PROPERTIES(pm), PROPERTIES(d), PROPERTIES(r), PROPERTIES(g)"
+					+ "ORDER BY g.id";
 
       		ps = con.prepareStatement(query);
       		ps.setInt(1, playerId);
@@ -341,10 +349,10 @@ public class Games {
       		GameBundle gb = null;
 			
 			while (rs.next()) {
-				Player player = new Player( rs.getInt("id(pm)"), (Map) rs.getObject("PROPERTIES(pm)") );
-				Deck deck = new Deck( rs.getInt("id(d)"), (Map) rs.getObject("PROPERTIES(d)") );
-				Result result = new Result( rs.getInt("id(r)"), (Map) rs.getObject("PROPERTIES(r)") );
-				Game game = new Game( rs.getInt("id(g)"), (Map) rs.getObject("PROPERTIES(g)") );
+				Player player = new Player( (Map) rs.getObject("PROPERTIES(pm)") );
+				Deck deck = new Deck( (Map) rs.getObject("PROPERTIES(d)") );
+				Result result = new Result( (Map) rs.getObject("PROPERTIES(r)") );
+				Game game = new Game( (Map) rs.getObject("PROPERTIES(g)") );
 				
 				PlayerGameResult p = new PlayerGameResult(player, deck, result, game);
 				
@@ -377,7 +385,9 @@ public class Games {
 		}
 	}
 
-	
+	/**
+	 * @deprecated
+	 */
 	public static int startGame(ArrayList<PlayerDeck> participants, int initiatorId, String gameToken, int initialLife) throws Exception {
 		
 		Connection con = null;
@@ -445,6 +455,9 @@ public class Games {
 	}
 
 
+	/**
+	 * @deprecated
+	 */
 	public static String getPlayerLiveGameToken(int playerId) throws Exception {
 
 		Connection con = null;
@@ -482,6 +495,9 @@ public class Games {
 		}
 	}
 	
+	/**
+	 * @deprecated
+	 */
 	public static List<Participant> getPlayerLiveGameParticipants(int playerId) throws Exception {
 
 		Connection con = null;
@@ -530,7 +546,9 @@ public class Games {
 		}
 	}
 	
-	
+	/**
+	 * @deprecated
+	 */
 	public static boolean updateLivePlayerLife(int updatedPlayerId, int reportingPlayerId, int newLife, long time) throws Exception{
 		
 		Connection con = null;
@@ -570,7 +588,9 @@ public class Games {
 		}
 	}
 	
-	
+	/**
+	 * @deprecated
+	 */
 	public static boolean updateLiveGameAttributes(int playerId, boolean draw) throws Exception{
 		
 		Connection con = null;
@@ -607,7 +627,9 @@ public class Games {
 		}
 	}
 	
-	
+	/**
+	 * @deprecated
+	 */
 	public static int confirmLiveGame(int playerId, int place, String comment, Rating rating) throws Exception {
 
 		Connection con = null;
@@ -657,6 +679,9 @@ public class Games {
 		}
 	}
 	
+	/**
+	 * @deprecated
+	 */
 	public static boolean endLiveGame(int playerId) throws Exception {
 
 		Connection con = null;
@@ -704,6 +729,9 @@ public class Games {
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public static boolean abortLiveGame(int playerId) throws Exception {
 
 		Connection con = null;
@@ -735,6 +763,9 @@ public class Games {
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public static List<PlayerStatus> getGameStatus(String token) throws Exception {
 		
 		Connection con = null;
@@ -774,6 +805,9 @@ public class Games {
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public static int getPlayerLiveGameId(int playerId) throws Exception {
 
 		Connection con = null;
@@ -822,7 +856,7 @@ public class Games {
 			
 			String query = ""
 					+ "MATCH (g:Game) "
-					+ "WHERE id(g) = ?"
+					+ "WHERE g.id = ?"
 					+ "RETURN g.draw";
 
       		ps = con.prepareStatement(query);
@@ -856,7 +890,7 @@ public class Games {
 			
 			String query = ""
 					+ "MATCH (r:Result)-[:In]->(g:Game) "
-					+ "WHERE id(g) = ? "
+					+ "WHERE g.id = ? "
 					+ "RETURN count(r)";
 
       		ps = con.prepareStatement(query);
@@ -870,7 +904,7 @@ public class Games {
       			
       			query = ""
     					+ "MATCH (rc:Result)-[:In]->(g:Game) "
-    					+ "WHERE id(g) = ? AND rc.confirmed = true "
+    					+ "WHERE g.id = ? "
     					+ "RETURN count(rc)";
       			
       			ps = con.prepareStatement(query);
@@ -909,8 +943,8 @@ public class Games {
 			con = Database.getConnection();			
 			
 			String query = ""
-					+ "MATCH (p)-[:Use|:Used]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
-					+ "WHERE id(p)=? AND id(g)=? "
+					+ "MATCH (p:Player)-[:Use|:Used]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game) "
+					+ "WHERE p.id=? AND g.id=? "
 					+ "RETURN r.place";
 
       		ps = con.prepareStatement(query);

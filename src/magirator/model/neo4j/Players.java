@@ -26,7 +26,7 @@ public class Players {
 		try {
 			con = Database.getConnection();			
 			
-			String query = "MATCH (p:Player) WHERE p.name = ? RETURN id(p)";
+			String query = "MATCH (p:Player) WHERE p.name = ? RETURN p.id";
 
 			ps = con.prepareStatement(query);
 			ps.setString(1, requestedPlayer.getPlayerName());
@@ -56,7 +56,7 @@ public class Players {
 		try {
 			con = Database.getConnection();			
 			
-			String query = "MATCH (u:User)-[i:Is]->(p:Player) WHERE id(u) = ? RETURN PROPERTIES(p)";
+			String query = "MATCH (u:User)-[i:Is]->(p:Player) WHERE u.id = ? RETURN PROPERTIES(p)";
 
 			ps = con.prepareStatement(query);
 			ps.setInt(1, user.getId());
@@ -86,7 +86,7 @@ public class Players {
 		try {
 			con = Database.getConnection();			
 			
-			String query = "MATCH (p:Player) WHERE NOT id(p) = ? RETURN PROPERTIES(p)";
+			String query = "MATCH (p:Player) WHERE NOT p.id = ? RETURN PROPERTIES(p)";
 
 			ps = con.prepareStatement(query);
 			ps.setInt(1, player.getId());
