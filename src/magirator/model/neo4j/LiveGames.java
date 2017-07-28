@@ -14,6 +14,7 @@ import magirator.data.collections.PlayerStatus;
 import magirator.data.entities.Death;
 import magirator.data.entities.Game;
 import magirator.data.entities.Life;
+import magirator.data.entities.Player;
 import magirator.data.entities.Result;
 import magirator.servlets.GetUnconfirmed;
 import magirator.support.Constants;
@@ -417,7 +418,7 @@ public class LiveGames {
 					+ "			life: currentLife.life, "
 					+ "			dead: NOT death IS NULL, "
 					+ "			place: r.place, "
-					+ "			self: self"
+					+ "			self: self "
 					+ "			} "
 					+ "		), "
 					+ "		next_death:count(p)-count(death) "
@@ -700,5 +701,79 @@ public class LiveGames {
 			if (rs != null) rs.close();
 		}
 	}
+	
+	public static Player getLivePlayer(String token) throws Exception {
 
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {	
+			
+			String query = ""
+					+ "MATCH (p:Player:InGame) "
+					+ "WHERE p.live_token=? "
+					+ "RETURN PROPERTIES(p)";
+			
+			List<Object> params = new ArrayList<>();
+			params.add(token);
+						
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()){
+				return new Player( (Map<String, ?>)rs.getObject("PROPERTIES(p)") );
+			}
+			
+			return null;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
+			if (rs != null) rs.close();
+		}
+	}
+	
+	public static Result getPlayerResultInGame(String token, String live_id) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {	
+			
+			String query = ""
+					+ "MATCH (p:Player:InGame)-[:Use|:Used]->(:Deck)-[:Got]->(r:Result)-[:In]->(g:Game:Live) "
+					+ "WHERE p.live_token=? AND g.live_id=? "
+					+ "RETURN PROPERTIES(r)";
+			
+			List<Object> params = new ArrayList<>();
+			params.add(token);
+			params.add(live_id);
+						
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()){
+				return new Result( (Map<String, ?>)rs.getObject("PROPERTIES(r)") );
+			}
+			
+			return null;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
+			if (rs != null) rs.close();
+		}
+	}
 }

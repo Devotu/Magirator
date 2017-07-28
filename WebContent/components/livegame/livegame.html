@@ -1,7 +1,7 @@
 <div class="tiled tile tile-mh tile-fw container-h" ng-show="is_admin">
 	<button class="tile positive text " ng-click="cancelGame();">Cancel Game</button>
 	<button class="tile positive text " ng-click="console.log('test');">Declare Draw</button>
-	<button class="tile positive text " ng-click="console.log('test');">Declare Dead</button>
+	<button class="tile positive text " ng-click="console.log('test');">Declare Player Dead</button>
 	<button class="tile positive text " ng-click="console.log('test');">Remove Player</button>
 	<div class="tile positive text">Game Id: {{live_id}}</div>
 </div>
@@ -9,7 +9,7 @@
 	<div class="tile tile-msw tile-lsh column transparent" ng-repeat="participant in participants | orderBy:participant.place">
 		<div ng-show="participant.self" ng-init="change=0">
 
-			<div id="content_life" class="tile tile-lh tile-msw column neutral" ng-show="tab == 'Life'">
+			<div id="content_life" class="tile tile-lh tile-lw column neutral" ng-show="tab == 'Life'">
 				<div class="row-center">
 					<button class="tile tile-sw tile-sh positive text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change + 1; addToLifeChange(participant.player_token, change)">+1</button>
 					<button class="tile tile-sw tile-sh positive text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change + 5; addToLifeChange(participant.player_token, change)">+5</button>
@@ -34,19 +34,30 @@
 				</div>
 			</div>
 
-			<div id="content_death" class="tile tile-lh tile-msw column very-negative" ng-show="tab == 'Death'">
+			<div id="content_death" class="tile tile-lh tile-lw column very-negative" ng-show="tab == 'Death'">
 				<button class="tile tile-mw tile-sh negative text" ng-click="declareDead(participant.player_token)">Confirm</button>
 				<div class="tile positive text text-l"># {{next_death}}</div>
-
+			</div>
+			
+			<div id="content_tag" class="tile tile-lh tile-lw column neutral" ng-show="tab == 'Tag'">
+				<div class="tile tile-lh tile-lw row-center transparent">
+					<button class="tile tile-sw tile-sh negative text" ng-click="addTag(participant.player_token, tag, 'positive'); tag=''">-</button>
+					<input class="tile tile-sh" type="text" ng-model="tag">
+					<button class="tile tile-sw tile-sh positive text" ng-click="addTag(participant.player_token, tag, 'positive'); tag=''">+</button>
+				</div>
+				<ul>					
+					<li ng-repeat="tag in self_tags" class="tile tile-th text text-s">{{ tag.text }}  <span ng-click="deleteTag(tag.id)">  (x)</span></li>
+				</ul>
 			</div>
 
-			<div id="content_rate" class="tile tile-lh tile-msw column positive" ng-show="tab == 'Rate'">
+			<div id="content_rate" class="tile tile-lh tile-lw column positive" ng-show="tab == 'Rate'">
 				Rate
 			</div>
 
 			<div class="row-spaced">
 				<button class="tile tile-sw tile-sh neutral text" ng-click="tab = 'Life'">+/-</button>
-				<button class="tile tile-sw tile-sh very-negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="tab = 'Death'">#</button>
+				<button class="tile tile-sw tile-sh very-negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="tab = 'Death'">§</button>
+				<button class="tile tile-sw tile-sh neutral text" ng-click="tab = 'Tag'">#</button>
 				<button class="tile tile-sw tile-sh positive text" ng-click="tab = 'Rate'">@</button>
 			</div>
 

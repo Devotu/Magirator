@@ -95,6 +95,10 @@ body {
     height: 6vw;
 }
 
+.tile-th {
+    height: 3vw;
+}
+
 .tile-lmh {
     height: 46vw;
 }

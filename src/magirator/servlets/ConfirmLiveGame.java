@@ -25,6 +25,7 @@ import magirator.support.Json;
 import magirator.support.Constants;
 
 /**
+ * @deprecated
  * Servlet implementation class ConfirmGame
  */
 @WebServlet("/ConfirmLiveGame")

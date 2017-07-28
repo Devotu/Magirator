@@ -9,6 +9,7 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	$scope.lifeUpdate = null;
 	$scope.tab = 'Life';
 	$scope.next_death;
+	$scope.self_tags = [{id:1, text:"hk", polarity:1}, {id:2, text:"hk2", polarity:-1}];
 	
 	//Hämta player live player token	
 	$scope.player_token = varStorage.getLiveToken();
@@ -29,6 +30,7 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 			$scope.live_id = response.data.id;
 			
 			$scope.updateStatus();
+			$scope.updateTags();			
 		}
     	
     	}, 
@@ -184,7 +186,61 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	    	});				
 	}
 	
-	//Add tags
+	$scope.updateTags = function(){
+		
+		console.log("updating tags");
+		
+		var getTagReq = requestService.buildRequest(
+			"API/gettags", 
+			{
+				live_id: $scope.live_id,
+				token: $scope.player_token
+			}
+		);
+		
+	    $http(getTagReq).then(function(response){
+	    	
+			$scope.result = response.data.result;
+			console.log(response.data);
+			
+			if (response.data.result == "Success"){
+				$scope.self_tags = JSON.parse(response.data.tags);
+			}
+	    	
+	    	}, 
+	    	function(){
+	    		$scope.result = 'Failure fetching tags.';	    			
+	    	});				
+	}
+	
+	$scope.addTag = function(token, text, polarity){
+		
+		console.log("adding tag");
+		
+		var addTagReq = requestService.buildRequest(
+			"API/addtag", 
+			{
+				live_id: $scope.live_id,
+				token: token,
+				text: text,
+				polarity: polarity
+			}
+		);
+		
+	    $http(addTagReq).then(function(response){
+	    	
+			$scope.result = response.data.result;
+			
+			if (response.data.result == "Success"){
+				$scope.updateTags();
+			}
+	    	
+	    	}, 
+	    	function(){
+	    		$scope.result = 'Failure adding tag';	    			
+	    	});				
+	}
+	
 	//Rate game
 	//Leave game
 	

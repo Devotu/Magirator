@@ -19,6 +19,7 @@ import magirator.support.Error;
 import magirator.support.Json;
 
 /**
+ * @deprecated
  * Servlet implementation class GetDeckinLiveGame
  */
 @WebServlet("/GetDeckinLiveGame")

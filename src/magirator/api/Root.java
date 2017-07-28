@@ -9,6 +9,7 @@ import magirator.api.live.AlterLife;
 import magirator.api.live.DeclareDead;
 import magirator.api.live.GameStatus;
 import magirator.api.live.GetGameId;
+import magirator.api.live.GetLiveGameTags;
 import magirator.api.live.IsAdmin;
 import magirator.api.live.JoinGame;
 import magirator.api.live.StartNewGame;
@@ -18,6 +19,7 @@ public class Root extends Application{
 	@Override
 	public Restlet getInboundRoot() {
 		Router router = new Router(getContext());
+		
 		//Graph
 		router.attach("/graphoptions", GraphOptions.class);
 		router.attach("/graph", GenerateGraph.class);
@@ -30,7 +32,11 @@ public class Root extends Application{
 		router.attach("/isadmin", IsAdmin.class);
 		router.attach("/cancelgame", AdminCancelGame.class);
 		router.attach("/joingame", JoinGame.class);	
-		router.attach("/declaredead", DeclareDead.class);	
+		router.attach("/declaredead", DeclareDead.class);
+		router.attach("/addtag", AddLiveGameTag.class);
+		router.attach("/gettags", GetLiveGameTags.class);
+		
+		//General
 		
 		return router;
 	}
