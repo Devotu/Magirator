@@ -1,4 +1,4 @@
-package magirator.api;
+package magirator.api.live;
 
 import org.restlet.representation.Representation;
 import org.restlet.resource.Post;
@@ -14,7 +14,7 @@ import magirator.model.neo4j.Tags;
 import magirator.support.Constants;
 import magirator.support.Json;
 
-public class AddLiveGameTag extends ServerResource {
+public class AddTag extends ServerResource {
 
     @Post("json")
     public String toJson(Representation rep) {

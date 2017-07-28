@@ -241,6 +241,33 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	    	});				
 	}
 	
+	$scope.deleteTag = function(tag_id){
+		
+		console.log("removing tag");
+		
+		var removeTagReq = requestService.buildRequest(
+			"API/removetag", 
+			{
+				live_id: $scope.live_id,
+				token: $scope.player_token,
+				tag_id: tag_id
+			}
+		);
+		
+	    $http(removeTagReq).then(function(response){
+	    	
+			$scope.result = response.data.result;
+			
+			if (response.data.result == "Success"){
+				$scope.updateTags();
+			}
+	    	
+	    	}, 
+	    	function(){
+	    		$scope.result = 'Failure adding tag';	    			
+	    	});				
+	}
+	
 	//Rate game
 	//Leave game
 	

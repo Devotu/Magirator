@@ -107,17 +107,20 @@ public class Tags {
 		try {
 			
 			String query = ""
+					+ ""
 					+ "MATCH (tagger), (entity) "
 					+ "WHERE tagger.id=? AND entity.id=? "
-					+ "CREATE (tagger)-[:Put]->(t" + Tag.neoCreator() + ")-[:On]->(entity) "
+					+ "MERGE (tagger)-[:Put]->(t"+ Tag.neoMerge() +") "
+					+ "SET t.id=?  "
+					+ "CREATE (t)-[:On]->(entity)"
 					+ "RETURN t";
 			
 			List<Object> params = new ArrayList<>();
 			params.add(tag.getTagger());
 			params.add(tag.getTagged());
-			params.add(Utility.getUniqueId());
 			params.add(tag.getPolarity());
 			params.add(tag.getText());
+			params.add(Utility.getUniqueId());
 						
 			con = Database.getConnection();			
 			ps = con.prepareStatement(query);			
@@ -178,6 +181,91 @@ public class Tags {
 			}
 			
 			return "";
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
+			if (rs != null) rs.close();
+		}
+	}
+	
+
+	/**
+	 * @param tag_id
+	 * @param entity_id
+	 * @return number of entities still tagged with this tag
+	 * @throws Exception
+	 */
+	public static int removeTagFromEntity(int tag_id, int entity_id) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			String query = ""
+					+ "MATCH (t:Tag)-[on:On]->(e) "
+					+ "WHERE t.id=? AND e.id=? "
+					+ "DETACH DELETE on "
+					+ "WITH t "
+					+ "MATCH (t:Tag)-[all_on:On]->() "
+					+ "RETURN count(all_on) AS count_current";
+			
+			List<Object> params = new ArrayList<>();
+			params.add(tag_id);
+			params.add(entity_id);
+						
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()){
+				return rs.getInt("count_current");
+			}
+			
+			return 0;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
+			if (rs != null) rs.close();
+		}
+	}
+	
+	
+	/**
+	 * Warning, this will remove the tag completely and will thus dissapear from all entities tagged as such
+	 * @param tag_id
+	 * @throws Exception
+	 */
+	public static void deleteTag(int tag_id) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			String query = ""
+					+ "MATCH (t:Tag) "
+					+ "WHERE t.id=? "
+					+ "DETACH DELETE t";
+			
+			List<Object> params = new ArrayList<>();
+			params.add(tag_id);
+						
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
 			
 		} catch (Exception ex){
 			throw ex;

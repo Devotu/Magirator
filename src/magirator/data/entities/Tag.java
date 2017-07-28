@@ -42,4 +42,11 @@ public class Tag {
 	public static String neoCreator() {
 		return ":Tag {id:?, polarity:?, text:?}";
 	}
+	
+	/** Special creator to be used on merges as the unique id will be treated as a new entity
+	 *  @return :Tag {polarity:?, text:?}
+	 */
+	public static String neoMerge() {
+		return ":Tag {polarity:?, text:?}";
+	}
 }

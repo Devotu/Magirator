@@ -36,7 +36,7 @@ public class DeclareDead extends ServerResource {
         	response.addProperty(Constants.result, "Could not declare " + token + " dead.");        	
         	int place_in_game = LiveGames.declareDead(live_id, token, place);
         	
-        	if (place_in_game == 2) { //Place is second => only winner is left
+        	if (place_in_game <= 2) { //Place is second => only winner is left
         		
         		wrap_up_game: {
         			
