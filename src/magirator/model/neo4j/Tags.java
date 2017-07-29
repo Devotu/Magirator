@@ -275,5 +275,54 @@ public class Tags {
 			if (rs != null) rs.close();
 		}
 	}
+	
+	
+	/**
+	 * @param tagger_id
+	 * @return Json list of tags
+	 * @throws Exception
+	 */
+	public static String getTaggerTagsAsJson(int tagger_id) throws Exception {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			String query = ""
+					+ "MATCH (tagger)-[:Put]->(t:Tag) "
+					+ "WHERE tagger.id=? "
+					+ "RETURN collect({"
+					+ "			id: t.id, "
+					+ "			text: t.text, "
+					+ "			polarity: t.polarity"
+					+ "	}) AS tags";
+			
+			List<Object> params = new ArrayList<>();
+			params.add(tagger_id);
+						
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()){				
+				List tMap = (List) rs.getObject("tags");
+				String tJson = new Gson().toJson(tMap, List.class);
+				return tJson;
+			}
+			
+			return "";
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
+			if (rs != null) rs.close();
+		}
+	}
 
 }

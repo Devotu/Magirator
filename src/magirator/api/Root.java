@@ -10,7 +10,8 @@ import magirator.api.live.AlterLife;
 import magirator.api.live.DeclareDead;
 import magirator.api.live.GameStatus;
 import magirator.api.live.GetGameId;
-import magirator.api.live.GetLiveGameTags;
+import magirator.api.live.GetGameTags;
+import magirator.api.live.GetPreviousTags;
 import magirator.api.live.IsAdmin;
 import magirator.api.live.JoinGame;
 import magirator.api.live.RemoveTag;
@@ -36,8 +37,10 @@ public class Root extends Application{
 		router.attach("/joingame", JoinGame.class);	
 		router.attach("/declaredead", DeclareDead.class);
 		router.attach("/addtag", AddTag.class);
-		router.attach("/gettags", GetLiveGameTags.class);
+		router.attach("/previoustags", GetPreviousTags.class);
+		router.attach("/tags", GetGameTags.class);
 		router.attach("/removetag", RemoveTag.class);
+		
 		
 		//General
 		

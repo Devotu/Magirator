@@ -9,7 +9,8 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	$scope.lifeUpdate = null;
 	$scope.tab = 'Life';
 	$scope.next_death;
-	$scope.self_tags = [{id:1, text:"hk", polarity:1}, {id:2, text:"hk2", polarity:-1}];
+	$scope.previous_tags = [];
+	$scope.self_tags = [];
 	
 	//Hämta player live player token	
 	$scope.player_token = varStorage.getLiveToken();
@@ -30,7 +31,8 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 			$scope.live_id = response.data.id;
 			
 			$scope.updateStatus();
-			$scope.updateTags();			
+			$scope.updateTags();
+			$scope.getPreviousTags();
 		}
     	
     	}, 
@@ -57,7 +59,8 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
     	}, 
     	function(){
     		$scope.result = $scope.result + 'Failure getting admin';
-    	});
+    	});    
+    
 	
 	//Get current status
     //Update view if needed
@@ -186,12 +189,39 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	    	});				
 	}
 	
+	//Tags
+	$scope.getPreviousTags = function(){
+		
+		console.log("fetching previous tags");
+		
+		var getTagReq = requestService.buildRequest(
+			"API/previoustags", 
+			{
+				token: $scope.player_token
+			}
+		);
+		
+	    $http(getTagReq).then(function(response){
+	    	
+			$scope.result = response.data.result;
+			console.log(response.data);
+			
+			if (response.data.result == "Success"){
+				$scope.previous_tags = JSON.parse(response.data.tags);
+			}
+	    	
+	    	}, 
+	    	function(){
+	    		$scope.result = 'Failure fetching previous tags.';	    			
+	    	});				
+	}
+	
 	$scope.updateTags = function(){
 		
 		console.log("updating tags");
 		
 		var getTagReq = requestService.buildRequest(
-			"API/gettags", 
+			"API/tags", 
 			{
 				live_id: $scope.live_id,
 				token: $scope.player_token
@@ -213,7 +243,7 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	    	});				
 	}
 	
-	$scope.addTag = function(token, text, polarity){
+	$scope.addTag = function(text, polarity){
 		
 		console.log("adding tag");
 		
@@ -221,7 +251,7 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 			"API/addtag", 
 			{
 				live_id: $scope.live_id,
-				token: token,
+				token: $scope.player_token,
 				text: text,
 				polarity: polarity
 			}
@@ -239,6 +269,22 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	    	function(){
 	    		$scope.result = 'Failure adding tag';	    			
 	    	});				
+	}
+	
+	$scope.addFromPreviousTag = function(id){
+		
+		console.log("adding tag from previous");
+		
+		for (var tidx in $scope.previous_tags) {
+			console.log("tag index: " +tidx); console.log("tag id: " +id); console.log("list id: " + $scope.previous_tags[tidx].id);
+			if (id == $scope.previous_tags[tidx].id) {
+				console.log("found it");
+				var tag = $scope.previous_tags.pop(tidx); //TODO get and remove from list
+				console.log(tag);
+				$scope.addTag(tag.text, tag.polarity);
+				break;
+			}
+		}
 	}
 	
 	$scope.deleteTag = function(tag_id){
