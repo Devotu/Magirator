@@ -12,30 +12,6 @@ body {
 }
 
 
-
-/* -Rows- */
-.row-spaced {
-    display: flex;
-    justify-content: space-between;
-}
-
-.row-start {
-    display: flex;
-    justify-content: flex-start;
-}
-
-.row-end {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.row-center {
-    display: flex;
-    justify-content: center;
-}
-
-
-
 .list {
     /*TODO*/
 }
@@ -77,6 +53,19 @@ body {
     width: 6vw;
 }
 
+.tile-tw {
+    width: 3vw;
+}
+
+.tile-dotw {
+    width: 1vw;
+}
+
+.tile-autow {
+    width: auto;
+    padding:1vw;
+}
+
 .tile-fw {
     width: 93vw;
 }
@@ -99,6 +88,10 @@ body {
     height: 3vw;
 }
 
+.tile-doth {
+    height: 1vw;
+}
+
 .tile-lmh {
     height: 46vw;
 }
@@ -118,6 +111,15 @@ body {
 	width: calc(100% + 1vw);
 }
 
+
+/*Content types*/
+.input {
+	text-align: center;
+}
+
+.tight-list {
+	padding: 0px;
+}
 
 
 /*Text*/
@@ -229,6 +231,27 @@ body {
     justify-content: center;
 }
 
+.wrap {
+	flex-wrap: wrap;
+}
+
+
+/* -Rows- */
+.content-spaced {
+    justify-content: space-between;
+}
+
+.content-start {
+    justify-content: flex-start;
+}
+
+.content-end {
+    justify-content: flex-end;
+}
+
+.content-center{
+    justify-content: center;
+}
 
 
 /*Overrides*/
