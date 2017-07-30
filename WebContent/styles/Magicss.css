@@ -5,17 +5,11 @@
 
 /* -Setting- */
 body {
-    background-color: whitesmoke;
+    background-color: #322e27;
     margin: 0;
     font-family: sans-serif;
     color: #222;
 }
-
-
-.list {
-    /*TODO*/
-}
-
 
 
 /* -Tiles- */
@@ -189,11 +183,11 @@ body {
 
 /*Flavors*/
 .very-positive {
-    background-color: limegreen;
+    background-color: #5ee516;
 }
 
 .positive {
-    background-color:springgreen;
+    background-color:#8ce171;
 }
 
 .average {
@@ -201,15 +195,23 @@ body {
 }
 
 .negative {
-    background-color: orange;
+    background-color: #e57a16;
 }
 
 .very-negative {
-    background-color: red;
+    background-color: #e53d16;
 }
 
-.neutral {
-    background-color: lightgray;
+.neutral-light {
+    background-color: #e7d7b6;
+}
+
+.neutral-medium {
+    background-color: #a79884;
+}
+
+.neutral-dark {
+    background-color: #726858;
 }
 
 .transparent {
