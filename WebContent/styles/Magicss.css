@@ -35,16 +35,16 @@ a {
     justify-content: center;
     align-items: center;
     /*Default medium size*/
-    width: 15vw;
-    height: 15vw;
-    margin: 0.5vw;
+    width: 14vw;
+    height: 14vw;
+    margin: 1vw;
 }
 
 /*Sizes*/
 /*Width*/
 /* Medium is default*/
 .tile-lw {
-    width: 31vw;
+    width: 30vw;
 }
 
 .tile-sw {
@@ -59,22 +59,18 @@ a {
     width: 1vw;
 }
 
-.tile-autow {
-    width: auto;
-}
-
 .tile-fw {
-    width: 93vw;
+    width: 96vw;
 }
 
 .tile-msw {
-    width: 23vw;
+    width: 22vw;
 }
 
 /*Height*/
 /* Medium is default*/
 .tile-lh {
-    height: 31vw;
+    height: 30vw;
 }
 
 .tile-sh {
@@ -90,7 +86,7 @@ a {
 }
 
 .tile-lmh {
-    height: 46vw;
+    height: 44vw;
 }
 
 .tile-lsh {
@@ -100,12 +96,20 @@ a {
 
 
 /*Containers*/
+.container {
+	height: calc(100% + 1vw);
+	width: calc(100% + 1vw);
+	padding: 1vw;
+}
+
 .container-h {
 	height: calc(100% + 1vw);
+	padding: 1vw;
 }
 
 .container-w {
 	width: calc(100% + 1vw);
+	padding: 1vw;
 }
 
 
@@ -260,11 +264,11 @@ a {
     padding:1vw;
 }
 
-.h-padded {	
+.padded-h {	
     padding:1vw 0 1vw 0;
 }
 
-.w-padded {
+.padded-w {
     padding:0 1vw 0 1vw;
 }
 
@@ -308,6 +312,20 @@ a {
 
 .content-between{
     justify-content: space-between;
+}
+
+
+/*Independent sizes*/
+.auto-w {
+    width: auto;
+}
+
+.auto-h {
+    heigth: auto;
+}
+
+.spacer {
+	margin: 1vw;
 }
 
 

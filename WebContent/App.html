@@ -53,16 +53,22 @@
 
 <body ng-controller="mainController" class="column">
 
-	<div class='tile tile-sh tile-fw container-h tile-neutral-medium content-between'>
-		<div class="text row tile-autow">
-			<a href='#dashboard' class='tile tile-sh tile-autow tile-neutral-medium text'>Magirator 0.4</a>
-			<span class="tile tile-sh tile-autow tile-negative w-padded">ALPHA</span>
-		</div>
-		<div class="text row tile-autow">
-			<a class="tile tile-sh tile-sw tile-positive text text-s" href="#dashboard">H</a>
-			<a class="tile tile-sh tile-sw tile-positive text text-s" href="#login">L</a>
-		</div>			 
+	<div class="spacer"></div>
+
+	<div class="tile-fw tile-sh row">
+		<div class="container content-between tile-neutral-medium row">
+			<div class="auto-w row">
+				<a href='#dashboard' class='tile tile-sh auto-w tile-neutral-medium text'>Magirator 0.4</a>
+				<span class="tile tile-sh auto-w tile-negative w-padded">ALPHA</span>
+			</div>
+			<div class="auto-w row">
+				<a class="tile tile-sh tile-sw tile-positive text text-s" href="#dashboard">H</a>
+				<a class="tile tile-sh tile-sw tile-positive text text-s" href="#login">L</a>
+			</div>
+		</div>	
 	</div>
+	
+	<div class="spacer"></div>
 
 	<!-- MAIN CONTENT AND INJECTED VIEWS -->
 	<div id="main" class="tile-fw text-center">
