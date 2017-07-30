@@ -5,7 +5,7 @@
 <html ng-app="magiratorApp">
 
 <head>
-	<link rel="stylesheet" href="styles/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="styles/bootstrap.min.css"> -->
 	<link rel="stylesheet" href="styles/font-awesome.css" />
 	<link rel="stylesheet" type="text/css" href="styles/Magirator.css">
 	<link rel="stylesheet" type="text/css" href="styles/Magicss.css">
@@ -51,55 +51,21 @@
 
 </head>
 
-<body ng-controller="mainController">
+<body ng-controller="mainController" class="column">
 
-	<div class='navbar navbar-inverse navbar-static-top'>
-		<div class='container'>
-			<div class="navbar-header">
-				<a href='#dashboard' class='navbar-brand'>Magirator 0.4</a><span class="navbar-brand unmissable"> ALPHA</span>
-				<button type="button" class="navbar-toggle" 
-					data-toggle="collapse" 
-					data-target=".navbar-collapse">
-
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-			</div>
-
-			<ul class='nav navbar-nav navbar-right collapse navbar-collapse'>
-				<li>
-					<a href="#dashboard">
-						<span class="glyphicon glyphicon-home on-dark" aria-hidden="true"></span>
-					</a>
-				</li>
-				<li>
-					<a href="#login">
-						<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-					</a>
-				</li>
-				<li>
-					<a href="#">
-						<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-					</a>
-				</li>
-				<li>
-					<a href="#">
-						<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-					</a>
-				</li>
-				<li>
-					<a href="#confirm">
-						<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
-						<span class="badge">{{ unconfirmed }}</span>
-					</a>
-				</li>
-			</ul>
+	<div class='tile tile-sh tile-fw container-h tile-neutral-medium content-between'>
+		<div class="text row tile-autow">
+			<a href='#dashboard' class='tile tile-sh tile-autow tile-neutral-medium text'>Magirator 0.4</a>
+			<span class="tile tile-sh tile-autow tile-negative w-padded">ALPHA</span>
 		</div>
+		<div class="text row tile-autow">
+			<a class="tile tile-sh tile-sw tile-positive text text-s" href="#dashboard">H</a>
+			<a class="tile tile-sh tile-sw tile-positive text text-s" href="#login">L</a>
+		</div>			 
 	</div>
 
 	<!-- MAIN CONTENT AND INJECTED VIEWS -->
-	<div id="main" class="text-center">
+	<div id="main" class="tile-fw text-center">
 		<div ng-view></div>
 	</div>
 

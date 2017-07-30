@@ -11,6 +11,10 @@ body {
     color: #222;
 }
 
+a {
+	text-decoration-line: none;
+}
+
 
 /* -Tiles- */
 /*Layout*/
@@ -57,7 +61,6 @@ body {
 
 .tile-autow {
     width: auto;
-    padding:1vw;
 }
 
 .tile-fw {
@@ -182,42 +185,88 @@ body {
 
 
 /*Flavors*/
-.very-positive {
+.tile-very-positive {
     background-color: #5ee516;
 }
 
-.positive {
+.tile-positive {
     background-color:#8ce171;
 }
 
-.average {
+.tile-average {
     background-color: yellow;
 }
 
-.negative {
+.tile-negative {
     background-color: #e57a16;
 }
 
-.very-negative {
+.tile-very-negative {
     background-color: #e53d16;
 }
 
-.neutral-light {
+.tile-neutral-light {
     background-color: #e7d7b6;
 }
 
-.neutral-medium {
+.tile-neutral-medium {
     background-color: #a79884;
 }
 
-.neutral-dark {
+.tile-neutral-dark {
     background-color: #726858;
 }
 
-.transparent {
+.tile-transparent {
     background-color: transparent;
 }
 
+
+/*Colors*/
+.very-positive {
+    color: #5ee516;
+}
+
+.positive {
+    color:#8ce171;
+}
+
+.average {
+    color: yellow;
+}
+
+.negative {
+    color: #e57a16;
+}
+
+.very-negative {
+    color: #e53d16;
+}
+
+.neutral-light {
+    color: #e7d7b6;
+}
+
+.neutral-medium {
+    color: #a79884;
+}
+
+.neutral-dark {
+    color: #726858;
+}
+
+
+.padded {	
+    padding:1vw;
+}
+
+.h-padded {	
+    padding:1vw 0 1vw 0;
+}
+
+.w-padded {
+    padding:0 1vw 0 1vw;
+}
 
 
 /* -Content alignment- */
@@ -225,12 +274,14 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
 }
 
 .column {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 .wrap {
@@ -253,6 +304,10 @@ body {
 
 .content-center{
     justify-content: center;
+}
+
+.content-between{
+    justify-content: space-between;
 }
 
 

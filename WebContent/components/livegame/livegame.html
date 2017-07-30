@@ -1,20 +1,20 @@
 <div class="tiled tile tile-mh tile-fw container-h" ng-show="is_admin">
-	<button class="tile positive text " ng-click="cancelGame();">Cancel Game</button>
-	<button class="tile positive text " ng-click="console.log('test');">Declare Draw</button>
-	<button class="tile positive text " ng-click="console.log('test');">Declare Player Dead</button>
-	<button class="tile positive text " ng-click="console.log('test');">Remove Player</button>
-	<div class="tile positive text">Game Id: {{live_id}}</div>
+	<button class="tile tile-positive text " ng-click="cancelGame();">Cancel Game</button>
+	<button class="tile tile-positive text " ng-click="console.log('test');">Declare Draw</button>
+	<button class="tile tile-positive text " ng-click="console.log('test');">Declare Player Dead</button>
+	<button class="tile tile-positive text " ng-click="console.log('test');">Remove Player</button>
+	<div class="tile tile-positive text">Game Id: {{live_id}}</div>
 </div>
 <div class="tiled">
-	<div class="tile tile-msw tile-lsh column  content-start transparent" ng-repeat="participant in participants | orderBy:participant.place">
+	<div class="tile tile-msw tile-lsh column content-start tile-transparent" ng-repeat="participant in participants | orderBy:participant.place">
 		<div ng-show="participant.self" ng-init="change=0">
 
-			<div id="content_life" class="tile tile-lh tile-lw column neutral-dark" ng-show="tab == 'Life'">
+			<div id="content_life" class="tile tile-lh tile-lw column tile-neutral-dark" ng-show="tab == 'Life'">
 				<div class="row content-center">
-					<button class="tile tile-sw tile-sh positive text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change + 1; addToLifeChange(participant.player_token, change)">+1</button>
-					<button class="tile tile-sw tile-sh positive text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change + 5; addToLifeChange(participant.player_token, change)">+5</button>
+					<button class="tile tile-sw tile-sh tile-positive text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change + 1; addToLifeChange(participant.player_token, change)">+1</button>
+					<button class="tile tile-sw tile-sh tile-positive text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change + 5; addToLifeChange(participant.player_token, change)">+5</button>
 				</div>
-				<div class="tile neutral-medium text">
+				<div class="tile tile-neutral-medium text">
 					<div ng-show="!participant.dead || !participant.place == 1">
 						<span class="text-l">{{participant.life}}</span>
 						<span ng-hide="change <= 0">+</span>
@@ -28,52 +28,52 @@
 					</div>
 				</div>
 				<div class="row content-center">
-					<button class="tile tile-sw tile-sh negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change - 1; addToLifeChange(participant.player_token, change)">-1</button>
-					<button class="tile tile-sw tile-sh negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change - 5; addToLifeChange(participant.player_token, change)">-5</button>
+					<button class="tile tile-sw tile-sh tile-negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change - 1; addToLifeChange(participant.player_token, change)">-1</button>
+					<button class="tile tile-sw tile-sh tile-negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change - 5; addToLifeChange(participant.player_token, change)">-5</button>
 				</div>
 			</div>
 			
-			<div id="content_tag" class="tile tile-lh tile-lw column neutral-dark column content-start" ng-show="tab == 'Tag'">
+			<div id="content_tag" class="tile tile-lh tile-lw column tile-neutral-dark column content-start" ng-show="tab == 'Tag'">
 				<div class="row wrap">
-					<div ng-repeat="ptag in previous_tags" class="tile tile-autow tile-th text text-s positive" ng-click="addFromPreviousTag(ptag.id)">
+					<div ng-repeat="ptag in previous_tags" class="tile tile-autow tile-th text text-s tile-positive" ng-click="addFromPreviousTag(ptag.id)">
 						{{ ptag.text }}
 					</div>
 				</div>
-				<div class="tile tile-sh tile-lw row content-center transparent">
-					<button class="tile tile-sw tile-sh negative text" ng-click="addTag(tag_text, 'negative'); tag=''">-</button>
-					<input class="tile tile-sh neutral-light input text" type="text" ng-model="tag_text" placeholder="Tag text">
-					<button class="tile tile-sw tile-sh positive text" ng-click="addTag(tag_text, 'positive'); tag=''">+</button>
+				<div class="tile tile-sh tile-lw row content-center tile-transparent">
+					<button class="tile tile-sw tile-sh tile-negative text" ng-click="addTag(tag_text, 'negative'); tag=''">-</button>
+					<input class="tile tile-sh tile-neutral-light input text" type="text" ng-model="tag_text" placeholder="Tag text">
+					<button class="tile tile-sw tile-sh tile-positive text" ng-click="addTag(tag_text, 'positive'); tag=''">+</button>
 				</div>
 				<div class="row wrap">
-					<div ng-repeat="tag in self_tags" class="tile tile-autow tile-th text text-s positive">
-						{{ tag.text }}  <span class="tile tile-doth tile-dotw negative" ng-click="deleteTag(tag.id)">x</span>
+					<div ng-repeat="tag in self_tags" class="tile tile-autow tile-th text text-s tile-positive">
+						{{ tag.text }}  <span class="tile tile-doth tile-dotw tile-negative" ng-click="deleteTag(tag.id)">x</span>
 					</div>
 				</div>
 			</div>
 
-			<div id="content_rate" class="tile tile-lh tile-lw column neutral-dark" ng-show="tab == 'Rate'">
+			<div id="content_rate" class="tile tile-lh tile-lw column tile-neutral-dark" ng-show="tab == 'Rate'">
 				Rate
 			</div>
 
-			<div id="content_death" class="tile tile-lh tile-lw column negative" ng-show="tab == 'Death'">
-				<button class="tile tile-mw tile-sh very-negative text" ng-click="declareDead(participant.player_token)">Confirm</button>
+			<div id="content_death" class="tile tile-lh tile-lw column tile-negative" ng-show="tab == 'Death'">
+				<button class="tile tile-mw tile-sh tile-very-negative text" ng-click="declareDead(participant.player_token)">Confirm</button>
 				<div class="tile very-negative text">
 					#<span class="text-l">{{next_death}}</span>
 				</div>
 			</div>
 
 			<div class="row content-spaced">
-				<button class="tile tile-sw tile-sh neutral-medium text" ng-click="tab = 'Life'">+/-</button>
-				<button class="tile tile-sw tile-sh neutral-medium text" ng-click="tab = 'Tag'">#</button>
-				<button class="tile tile-sw tile-sh neutral-medium text" ng-click="tab = 'Rate'">@</button>
-				<button class="tile tile-sw tile-sh negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="tab = 'Death'">§</button>
+				<button class="tile tile-sw tile-sh tile-neutral-medium text" ng-click="tab = 'Life'">+/-</button>
+				<button class="tile tile-sw tile-sh tile-neutral-medium text" ng-click="tab = 'Tag'">#</button>
+				<button class="tile tile-sw tile-sh tile-neutral-medium text" ng-click="tab = 'Rate'">@</button>
+				<button class="tile tile-sw tile-sh tile-negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="tab = 'Death'">§</button>
 			</div>
 
 		</div>
 		<div ng-show="!participant.self" class="tile tile-lh column content-start" ng-init="change=0">
-			<div id="content_life" class="container-h container-w neutral-dark">
-				<div class="tile tile-sh neutral-medium text text-s">{{participant.player_name}}</div>
-				<div class="tile neutral-medium text">
+			<div id="content_life" class="container-h container-w tile-neutral-dark">
+				<div class="tile tile-sh tile-neutral-medium text text-s">{{participant.player_name}}</div>
+				<div class="tile tile-neutral-medium text">
 					<div ng-show="!participant.dead || !participant.place == 1">
 						<span class="text-l">{{participant.life}}</span>
 						<span ng-hide="change <= 0">+</span>
@@ -87,8 +87,8 @@
 					</div>
 				</div>
 				<div class="row content-center">
-					<button class="tile tile-sw tile-sh negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change - 1; addToLifeChange(participant.player_token, change)">-1</button>
-					<button class="tile tile-sw tile-sh positive text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change + 1; addToLifeChange(participant.player_token, change)">+1</button>
+					<button class="tile tile-sw tile-sh tile-negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change - 1; addToLifeChange(participant.player_token, change)">-1</button>
+					<button class="tile tile-sw tile-sh tile-positive text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change + 1; addToLifeChange(participant.player_token, change)">+1</button>
 				</div>
 			</div>
 		</div>
