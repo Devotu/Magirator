@@ -15,10 +15,7 @@
 		<div ng-show="participant.self" ng-init="change=0">
 
 			<div id="content_life" class="tile tile-lh tile-lw column tile-neutral-dark" ng-show="tab == 'Life'">
-				<div class="row content-center">
-					<button class="tile tile-sw tile-sh tile-positive text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change + 1; addToLifeChange(participant.player_token, change)">+1</button>
-					<button class="tile tile-sw tile-sh tile-positive text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change + 5; addToLifeChange(participant.player_token, change)">+5</button>
-				</div>
+				<div class="tile tile-sh tile-neutral-medium text text-s">{{participant.player_name}}</div>
 				<div class="tile tile-neutral-medium text">
 					<div ng-show="!participant.dead || !participant.place == 1">
 						<span class="text-l">{{participant.life}}</span>
@@ -33,8 +30,10 @@
 					</div>
 				</div>
 				<div class="row content-center">
-					<button class="tile tile-sw tile-sh tile-negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change - 1; addToLifeChange(participant.player_token, change)">-1</button>
 					<button class="tile tile-sw tile-sh tile-negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change - 5; addToLifeChange(participant.player_token, change)">-5</button>
+					<button class="tile tile-sw tile-sh tile-negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change - 1; addToLifeChange(participant.player_token, change)">-1</button>
+					<button class="tile tile-sw tile-sh tile-positive text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change + 1; addToLifeChange(participant.player_token, change)">+1</button>
+					<button class="tile tile-sw tile-sh tile-positive text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change + 5; addToLifeChange(participant.player_token, change)">+5</button>
 				</div>
 			</div>
 			
@@ -92,8 +91,10 @@
 						</div>
 					</div>
 					<div class="row content-center">
+						<button class="tile tile-sw tile-sh tile-negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change - 5; addToLifeChange(participant.player_token, change)">-5</button>
 						<button class="tile tile-sw tile-sh tile-negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change - 1; addToLifeChange(participant.player_token, change)">-1</button>
 						<button class="tile tile-sw tile-sh tile-positive text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change + 1; addToLifeChange(participant.player_token, change)">+1</button>
+						<button class="tile tile-sw tile-sh tile-positive text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change + 5; addToLifeChange(participant.player_token, change)">+5</button>
 					</div>
 				</div>
 		</div>
