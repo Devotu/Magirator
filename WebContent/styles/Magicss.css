@@ -202,11 +202,11 @@ a {
 }
 
 .tile-negative {
-    background-color: #e57a16;
+    background-color: #ff6d46;
 }
 
 .tile-very-negative {
-    background-color: #e53d16;
+    background-color: #d73009;
 }
 
 .tile-neutral-light {
@@ -240,11 +240,11 @@ a {
 }
 
 .negative {
-    color: #e57a16;
+    color: #ff6d46;
 }
 
 .very-negative {
-    color: #e53d16;
+    color: #d73009;
 }
 
 .neutral-light {
