@@ -40,7 +40,7 @@
 				
 				<div id="content_tag" class="container column tile-neutral-dark column content-start" ng-show="tab == 'Tag'">
 					<div class="row wrap">
-						<div ng-repeat="ptag in previous_tags" class="tile auto-w padded-w tile-th text text-s tile-positive" ng-click="addFromPreviousTag(ptag.id)">
+						<div ng-repeat="ptag in previous_tags | limitTo:5" class="tile auto-w padded-w tile-th text text-s tile-positive" ng-click="addFromPreviousTag(ptag.id)">
 							{{ ptag.text }}
 						</div>
 					</div>

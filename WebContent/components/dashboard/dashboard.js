@@ -37,8 +37,6 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 				$http(hasLiveGameReq).then(function(response){
 					$scope.result = response.data;
 					
-					console.log(response.data);
-					
 						if (response.data.result == "Success"){
 							$scope.result = response.data.result;
 							$scope.liveGame = response.data.live;

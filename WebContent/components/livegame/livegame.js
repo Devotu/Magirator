@@ -1,4 +1,4 @@
-ratorApp.controller('liveGameController', function ($scope, $http, $location, requestService, varStorage) {
+ratorApp.controller('liveGameController', function ($scope, $http, $location, requestService, varStorage, $timeout) {
 	
 	//INIT//
 	$scope.participants = [];
@@ -7,10 +7,12 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	$scope.lifeUpdates = [];
 	$scope.is_admin = false;
 	$scope.lifeUpdate = null;
+	$scope.statusUpdater = null;
 	$scope.tab = 'Life';
 	$scope.next_death;
 	$scope.previous_tags = [];
 	$scope.self_tags = [];
+	
 	
 	//Hämta player live player token	
 	$scope.player_token = varStorage.getLiveToken();
@@ -29,10 +31,11 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 		
 		if (response.data.result == "Success"){
 			$scope.live_id = response.data.id;
-			
+						
 			$scope.updateStatus();
 			$scope.updateTags();
 			$scope.getPreviousTags();
+			$scope.statusUpdater = setInterval($scope.updateStatus, 1000 * 5);
 		}
     	
     	}, 
@@ -95,12 +98,6 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	    		$scope.result = 'Failure getting status'
 	    	});				
 	}
-	
-	//$scope.updater = setInterval($scope.updateStatus, 1000 * 2 * 5);
-	//clearInterval($scope.updater);
-	
-	//$scope.updateStatus();
-	
 	
 	//RUN//
 	//Repeat uppdatera
@@ -326,6 +323,7 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	$scope.cancelGame = function(){
 		
 		clearInterval($scope.lifeUpdater);
+		clearInterval($scope.statusUpdater);
 		
 		var cancelGameReq = requestService.buildRequest(
 			"API/cancelgame", 
@@ -348,5 +346,12 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	    		$scope.result = 'Failure aborting game';	    			
 	    	});				
 	}
+	
+	
+	//Cleanup 
+    $scope.$on("$destroy", function() {    	
+    	clearInterval($scope.lifeUpdater);
+		clearInterval($scope.statusUpdater);
+    });
 		
 });
