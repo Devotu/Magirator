@@ -189,8 +189,6 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	//Tags
 	$scope.getPreviousTags = function(){
 		
-		console.log("fetching previous tags");
-		
 		var getTagReq = requestService.buildRequest(
 			"API/previoustags", 
 			{
@@ -214,8 +212,6 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	}
 	
 	$scope.updateTags = function(){
-		
-		console.log("updating tags");
 		
 		var getTagReq = requestService.buildRequest(
 			"API/tags", 
@@ -241,9 +237,7 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	}
 	
 	$scope.addTag = function(text, polarity){
-		
-		console.log("adding tag");
-		
+
 		var addTagReq = requestService.buildRequest(
 			"API/addtag", 
 			{
@@ -264,20 +258,16 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	    	
 	    	}, 
 	    	function(){
-	    		$scope.result = 'Failure adding tag';	    			
+	    		$scope.result = 'Failure adding tag'; 			
 	    	});				
 	}
 	
 	$scope.addFromPreviousTag = function(id){
 		
-		console.log("adding tag from previous");
-		
 		for (var tidx in $scope.previous_tags) {
-			console.log("tag index: " +tidx); console.log("tag id: " +id); console.log("list id: " + $scope.previous_tags[tidx].id);
+			
 			if (id == $scope.previous_tags[tidx].id) {
-				console.log("found it");
-				var tag = $scope.previous_tags.pop(tidx); //TODO get and remove from list
-				console.log(tag);
+				var tag = $scope.previous_tags.splice(tidx,1)[0];
 				$scope.addTag(tag.text, tag.polarity);
 				break;
 			}
@@ -285,8 +275,6 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	}
 	
 	$scope.deleteTag = function(tag_id){
-		
-		console.log("removing tag");
 		
 		var removeTagReq = requestService.buildRequest(
 			"API/removetag", 
