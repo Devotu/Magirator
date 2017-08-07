@@ -25,7 +25,7 @@
 						<div class="tile-msh tile-mw mss-column">
 							<div class="tile tile-sh tile-neutral-medium text text-s">{{participant.player_name}}</div>
 							<div class="tile tile-neutral-medium text">
-								<div class="text-l ng-show="!participant.dead || !participant.place == 1">
+								<div class="text-l" ng-show="!participant.dead || !participant.place == 1">
 									{{participant.life}}
 								</div>
 								<div ng-show="participant.dead" class="text">
@@ -98,14 +98,14 @@
 					<div class="tile-msh tile-mw mss-column">
 						<div class="tile tile-sh tile-neutral-medium text text-s">{{participant.player_name}}</div>
 						<div class="tile tile-neutral-medium text">
-							<div class="text-l ng-show="!participant.dead || !participant.place == 1">
+							<div class="text-l" ng-show="!participant.dead || !participant.place == 1">
 								{{participant.life}}
 							</div>
 							<div ng-show="participant.dead" class="text">
 								#<span class="text-l">{{participant.place}}</span>
 							</div>
 							<div ng-show="participant.place == 1">
-								<span class="text-l">Win!</span>
+								<span class="text-l">Win</span>
 							</div>
 						</div>
 					</div>

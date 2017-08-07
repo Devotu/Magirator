@@ -1,24 +1,11 @@
-
-<div class="jumbotron text-center">
-
-	<!--Signin-->
-	<div id="signinForm">
-		<h1 id="title">Welcome</h1>
-
-		<form ng-submit="login()">
-
-			<div class="form-group text-center">
-				<label for="username">Username (email):</label> <input
-					ng-model="username" type="text" class="form-control" autofocus>
-				<label for="password">Password:</label> <input ng-model="password"
-					type="password" class="form-control">
-			</div>
-
-			<button type="submit" class="btn btn-primary">Login</button>
-			<button class="btn btn-primary" ng-click="goSignup()">Signup</button>
-		</form>
-		<button class="btn btn-default btn-xs" ng-click="goReset()">Forgot password?</button>
-	</div>
+<div id="signinForm" class="tiled mss-column">
+	<form class="tile tile-lh tile-lw tile-neutral-dark mss-column" ng-submit="login()">
+		<input class="tile tile-sh tile-neutral-light input text text-s" type="text" ng-model="username" placeholder="Username (email)">
+		<input class="tile tile-sh tile-neutral-light input text text-s" type="password" ng-model="password" placeholder="Password">
+		<button type="submit" class="tile tile-sh tile-positive">Login</button>
+	</form>
+	<button class="tile tile-sh tile-positive" ng-click="goSignup()">Signup</button>
+	<button class="tile tile-sh tile-neutral-medium" ng-click="goReset()">Forgot password?</button>
 </div>
 
 <p class='debug-text'>Result: {{ result }}</p>

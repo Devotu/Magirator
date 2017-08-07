@@ -1,36 +1,32 @@
-<div class="jumbotron text-center">
-
-	<h1>Welcome {{ playername }}</h1>
-
-	<div class="container">
-		<div class="mss-row">
-			<form class="col-sm-4" ng-show="liveGame != 'none'">
-				<button class="btn btn-block btn-primary" ng-click="goToGame()">
-					<h2>To live game</h2>
-				</button>
-			</form>
-			<form class="col-sm-4" ng-show="liveGame == 'none'">
-				<button class="btn btn-block btn-primary" ng-click="goStartGame()">
-					<h2>Start new game</h2>
-				</button>
-			</form>
-			<form class="col-sm-4" ng-show="liveGame == 'none'">
-				<button class="btn btn-block btn-primary" ng-click="goJoinGame()">
-					<h2>Join game</h2>
-				</button>
-			</form>
-			<form class="col-sm-4">
-				<button class="btn btn-block btn-primary" ng-click="goAddDeck()">
-					<h2>Add Deck</h2>
-				</button>
-			</form>
-			<form class="col-sm-4">
-				<button class="btn btn-block btn-primary" ng-click="goDeckList()">
-					<h2>View Decks</h2>
-				</button>
-			</form>
-		</div>
+<div class="tiled mss-column">
+	<div class="mss-row">
+		<form ng-show="liveGame != 'none'">
+			<button class="tile tile-lh tile-lw tile-neutral-medium" ng-click="goToGame()">
+				<h2>To live game</h2>
+			</button>
+		</form>
+		<form ng-show="liveGame == 'none'">
+			<button class="tile tile-lh tile-lw tile-neutral-medium" ng-click="goStartGame()">
+				<h2>Start new game</h2>
+			</button>
+		</form>
+		<form ng-show="liveGame == 'none'">
+			<button class="tile tile-lh tile-lw tile-neutral-medium" ng-click="goJoinGame()">
+				<h2>Join game</h2>
+			</button>
+		</form>
+		<form>
+			<button class="tile tile-lh tile-lw tile-neutral-medium" ng-click="goAddDeck()">
+				<h2>Add Deck</h2>
+			</button>
+		</form>
+		<form>
+			<button class="tile tile-lh tile-lw tile-neutral-medium" ng-click="goDeckList()">
+				<h2>View Decks</h2>
+			</button>
+		</form>
 	</div>
 </div>
 
+<p class='debug-text'>Logged in as: {{ playername }}</p>
 <p class='debug-text'>Result: {{ result }}</p>
