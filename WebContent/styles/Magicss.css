@@ -29,7 +29,8 @@ a {
 .tile {
     border-width: 0px;
     background-color: orangered;
-    /*box-shadow: 0vw 0vw 0.5vw;*/
+    color: #171410;
+    /*box-shadow: 0 0 0.2vw;*/
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -237,6 +238,30 @@ a {
     background-color: transparent;
 }
 
+.tile-mana-black {
+    background-color: black;
+}
+
+.tile-mana-white {
+    background-color: white;
+}
+
+.tile-mana-red {
+    background-color: red;
+}
+
+.tile-mana-green {
+    background-color: green;
+}
+
+.tile-mana-blue {
+    background-color: blue;
+}
+
+.tile-mana-colorless {
+    background-color: gray;
+}
+
 
 /*Colors*/
 .very-positive {
@@ -269,6 +294,30 @@ a {
 
 .neutral-dark {
     color: #726858;
+}
+
+.mana-black {
+    color: black;
+}
+
+.mana-white {
+    color: white;
+}
+
+.mana-red {
+    color: red;
+}
+
+.mana-green {
+    color: green;
+}
+
+.mana-blue {
+    color: blue;
+}
+
+.mana-colorless {
+    color: gray;
 }
 
 

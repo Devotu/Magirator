@@ -1,27 +1,47 @@
-<div class="jumbotron text-center">
-	<h1>Add deck</h1>
+<div class="mss-column">
+	<h1 class="tile tile-sh tile-lw tile-neutral-medium text">Add deck</h1>
 
-	<form ng-submit="addDeck()">
-		<div class="form-group">
-			<label for="name">Name:</label>
-			<input ng-model="deck.name" type="text" class="form-control" autofocus>
+	<form class="mss-column" ng-submit="addDeck()">
+		<div class="tile tile-sh tile-msw input mss-column tile-neutral-dark">
+			<label class="text text-s" for="name">Name:</label>
+			<input class="tile-mw" ng-model="deck.name" type="text" autofocus>
 		</div>
-		<div class="form-group">
-			<label for="format">Format:</label>
-			<select ng-options="format for format in formats" ng-model="deck.format" class="form-control"></select>
+		<div class="tile tile-sh tile-msw input mss-column tile-neutral-dark">
+			<label class="text text-s" for="format">Format:</label>
+			<select class="tile-mw" ng-options="format for format in formats" ng-model="deck.format"></select>
 		</div>
-		<div class=".checkbox-inline" ng-show="colormode == 'Simple'">
-			<label class="block">Colors:</label>
-			<label class="checkbox-label colorframed black-frame"><input class="inline-checkbox" type="checkbox" ng-model="deck.blackCards"><span>Black</span></label>
-			<label class="checkbox-label colorframed white-frame"><input class="inline-checkbox" type="checkbox" ng-model="deck.whiteCards">White</label>
-			<label class="checkbox-label colorframed red-frame"><input class="inline-checkbox" type="checkbox" ng-model="deck.redCards">Red</label>
-			<label class="checkbox-label colorframed green-frame"><input class="inline-checkbox" type="checkbox" ng-model="deck.greenCards">Green</label>
-			<label class="checkbox-label colorframed blue-frame"><input class="inline-checkbox" type="checkbox" ng-model="deck.blueCards">Blue</label>
-			<label class="checkbox-label colorframed colorless-frame"><input class="inline-checkbox" type="checkbox" ng-model="deck.colorlessCards">Colorless</label>
-			<span class="glyphicon glyphicon-option-horizontal" ng-click="toggleColor()"></span>
+		<div class="tile tile-lw tile-neutral-dark mss-column" ng-show="colormode == 'Simple'">
+			<label class="text text-s">Colors:</label>
+			<div class="container mss-row wrap">
+				<div class="tile tile-sh tile-sw mss-column tile-mana-black">
+					<div class="text text-s">Black</div>
+					<input class="inline-checkbox" type="checkbox" ng-model="deck.blackCards">
+				</div>				
+				<div class="tile tile-sh tile-sw mss-column tile-mana-white">
+					<div class="text text-s">White</div>
+					<input class="inline-checkbox" type="checkbox" ng-model="deck.whiteCards">
+				</div>			
+				<div class="tile tile-sh tile-sw mss-column tile-mana-red">
+					<div class="text text-s">Red</div>
+					<input class="inline-checkbox" type="checkbox" ng-model="deck.redCards">
+				</div>
+				<div class="tile tile-sh tile-sw mss-column tile-mana-green">
+					<div class="text text-s">Green</div>
+					<input class="inline-checkbox" type="checkbox" ng-model="deck.greenCards">
+				</div>
+				<div class="tile tile-sh tile-sw mss-column tile-mana-blue">
+					<div class="text text-s">Blue</div>
+					<input class="inline-checkbox" type="checkbox" ng-model="deck.blueCards">
+				</div>
+				<div class="tile tile-sh tile-sw mss-column tile-mana-colorless">
+					<div class="text text-s">Colorless</div>
+					<input class="inline-checkbox" type="checkbox" ng-model="deck.colorlessCards">
+				</div>
+			</div>
+			<span class="text text-s" ng-click="toggleColor()">...</span>
 		</div>
 		<div ng-show="colormode == 'Advanced'">
-			<label class="block">Colors:</label>
+			<label class="text text-s" class="block">Colors:</label>
 			<span class="glyphicon glyphicon-option-horizontal" ng-click="toggleColor()"></span>
 			<div>
 				<div class="colorframed black-frame cardbox">
@@ -55,11 +75,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="form-group">
-			<label for="theme">Theme:</label>
-			<input type="text" class="form-control" ng-model="deck.theme">
+		<div class="tile tile-msw input mss-column tile-neutral-dark">
+			<label class="text text-s" for="theme">Theme:</label>
+			<input  class="tile-mw" type="text" ng-model="deck.theme"> <!-- TODO multiline -->
 		</div>
-		<button class="btn btn-primary" type="submit">Add Deck</button>
+		<button class="tile tile-sh tile-positive" type="submit">Add Deck</button>
 	</form>
 </div>
 

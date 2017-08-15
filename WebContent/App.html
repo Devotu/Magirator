@@ -51,15 +51,15 @@
 
 </head>
 
-<body ng-controller="mainController" class="mss-column">
+<body ng-controller="mainController" class="tiled mss-column">
 
 	<div class="spacer"></div>
 
-	<div class="tile-fw tile-sh mss-row">
+	<div class="tile-fw tile-sh tiled">
 		<div class="container content-between tile-neutral-medium mss-row">
-			<div class="auto-w mss-row">
+			<div class="tile tile-sh auto-w mss-row tile-transparent">
 				<a href='#dashboard' class='tile tile-sh auto-w tile-neutral-medium text'>Magirator 0.4.1</a>
-				<span class="tile tile-sh auto-w tile-negative padded-w">Alpha</span>
+				<span class="tile tile-sh tile-negative padded-w">Alpha</span>
 			</div>
 			<div class="auto-w mss-row">
 				<a class="tile tile-sh tile-sw tile-positive text text-s" href="#dashboard">
@@ -79,6 +79,7 @@
 		</div>	
 	</div>
 	
+	<div class="spacer"></div>
 	<div class="spacer"></div>
 
 	<!-- MAIN CONTENT AND INJECTED VIEWS -->
