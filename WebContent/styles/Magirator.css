@@ -48,6 +48,12 @@ div .header {
 }
 
 /*Tile exceptions*/
+/*Sizes*/
+div .q14 {	
+	grid-column: span 3;
+	height: 21vw;	
+}
+
 /*Heights*/
 div .h-auto {
 	height: auto;
