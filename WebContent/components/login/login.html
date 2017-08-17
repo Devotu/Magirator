@@ -1,11 +1,10 @@
-<div id="signinForm" class="tiled mss-column">
-	<form class="tile tile-lh tile-lw tile-neutral-dark mss-column" ng-submit="login()">
-		<input class="tile tile-sh tile-neutral-light input text text-s" type="text" ng-model="username" placeholder="Username (email)">
-		<input class="tile tile-sh tile-neutral-light input text text-s" type="password" ng-model="password" placeholder="Password">
-		<button type="submit" class="tile tile-sh tile-positive">Login</button>
-	</form>
-	<button class="tile tile-sh tile-positive" ng-click="goSignup()">Signup</button>
-	<button class="tile tile-sh tile-neutral-medium" ng-click="goReset()">Forgot password?</button>
+<div class="w-sfull h-half">
+	<h3 class="neutral-medium">Login/Sign up</h3>
 </div>
+<input class="h-half mid-13" type="text" ng-model="username" placeholder="Username (email)">
+<input class="h-half mid-13" type="password" ng-model="password" placeholder="Password">
+<div class="mid-13" ng-click="login()">Login</div>
+<div class="mid-16L" ng-click="goSignup()">Signup</div>
+<div class="mid-16R" ng-click="goReset()">Forgot password?</div>
 
 <p class='debug-text'>Result: {{ result }}</p>

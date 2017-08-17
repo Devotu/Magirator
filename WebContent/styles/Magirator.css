@@ -4,6 +4,7 @@ body {
     margin: 1.5vw;
     font-family: sans-serif;
     color: #222;
+    font-size: 1vw;
 }
 
 /*Universal*/
@@ -11,32 +12,87 @@ a {
 	text-decoration-line: none;
 }
 
+div {
+	font-size: 1.5em;
+}
+
 
 /*Tile basics*/
 .tiled {
 	display: grid;
-	grid-template-columns: repeat(6, 15vw);
+	grid-template-columns: repeat(12, 7vw);
 	grid-gap: 1vw;
 	margin: 1vw;
 }
 
-.tiled > div {
-	background-color: #666;
-	height: 15vw;
+.tiled > div,input,button {
+	grid-column: span 2;
+	height: 14vw;
 	padding: 1vw;
 }
 
+
+/*Tile elements*/
+.tiled > div,button {
+	background-color: #666;
+}
+
+.tiled > input {
+	background-color: #fff;
+}
+
+div .header {
+	background-color: #444;
+	color: #ccc;
+    font-size: 2em;
+}
+
 /*Tile exceptions*/
-div .ha {
+/*Heights*/
+div .h-auto {
 	height: auto;
 }
 
+div .h-half {
+	height: 7vw;
+}
 
-
-.w2 {
+/*Widths*/
+div .w-16 {
 	grid-column: span 2;
 }
 
-.wf {
-	grid-column: span 6;
+div .w-23 {
+	grid-column: span 8;
+}
+
+div .w-sfull {
+	grid-column: span 12;
+}
+
+/*Placement*/
+div .mid-13 {
+	grid-column: 5/9;
+}
+
+div .mid-16L {
+	grid-column: 5/7;
+}
+
+div .mid-16RL {
+	grid-column: 7/9;
+}
+
+
+/*Other*/
+/*Text*/
+
+/*Flavors*/
+.positive {
+	color: #696;
+}
+
+/*Misc*/
+.debug-text {
+	grid-column: span 12;
 }
