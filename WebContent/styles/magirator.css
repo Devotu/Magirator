@@ -16,6 +16,10 @@ div {
 	font-size: 1.5em;
 }
 
+input {
+	border: 0;
+}
+
 
 /*Tile basics*/
 .tiled {
@@ -25,19 +29,29 @@ div {
 	margin: 1vw;
 }
 
-.tiled > div,input,button {
+.tiled > div,button,select {
 	grid-column: span 2;
 	height: 14vw;
 	padding: 1vw;
 }
 
+.tiled > input {
+	grid-column: span 2;
+	height: 14vw;
+	padding: 0.75vw;
+}
 
-/*Tile elements*/
+
+/*Tile variations*/
 .tiled > div,button {
 	background-color: #666;
 }
 
-.tiled > input {
+.tiled > button {
+	border: none;
+}
+
+.tiled > input,select {
 	background-color: #fff;
 }
 
@@ -45,11 +59,21 @@ div .header {
 	background-color: #444;
 	color: #ccc;
     font-size: 2em;
+	height: 6vw;
+	grid-column: span 12;
+}
+
+
+.inner-tiled {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	grid-gap: 0.5vw;
+	margin: 0vw;
 }
 
 /*Tile exceptions*/
 /*Sizes*/
-div .q14 {	
+div .q1-4 {	
 	grid-column: span 3;
 	height: 21vw;	
 }
@@ -59,39 +83,92 @@ div .h-auto {
 	height: auto;
 }
 
+div .h-standard {
+	height: 14vw;
+}
+
 div .h-half {
-	height: 7vw;
+	height: 6vw;
 }
 
 /*Widths*/
-div .w-16 {
+.w-100 {
+	width: 100%;
+}
+
+.w-67 {
+	width: 67%;
+}
+
+.w-50 {
+	width: 50%;
+}
+
+/*Placement*/
+/*Width*/
+div .w-1-6 {
 	grid-column: span 2;
 }
 
-div .w-23 {
+div .w-1-3 {
+	grid-column: span 4;
+}
+
+div .w-1-2 {
+	grid-column: span 6;
+}
+
+div .w-2-3 {
 	grid-column: span 8;
+}
+
+div .w-1-12 {
+	grid-column: span 1;
+}
+
+div .w-11-12 {
+	grid-column: span 11;
 }
 
 div .w-sfull {
 	grid-column: span 12;
 }
 
-/*Placement*/
-div .mid-13 {
+/*Specified*/
+div .L-1-2 {
+	grid-column: 1/7;
+}
+
+div .R-1-2 {
+	grid-column: 7/13;
+}
+
+div .C-1-3 {
 	grid-column: 5/9;
 }
 
-div .mid-16L {
+div .CL-1-6 {
 	grid-column: 5/7;
 }
 
-div .mid-16RL {
+div .CR-1-6 {
 	grid-column: 7/9;
 }
+
+/*Height*/
+div .h-2 {
+	grid-row: span 2;
+}
+
+/*Specified*/
 
 
 /*Other*/
 /*Text*/
+div .title {
+    font-size: 3em;
+}
+
 
 /*Flavors*/
 .positive {
