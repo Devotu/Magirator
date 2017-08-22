@@ -1,142 +1,62 @@
-<div class="alert alert-danger fade in" ng-show="showDelete">
-	<strong>Warning!</strong> Do you really want to delete this deck?
-	<button data-dismiss="alert" ng-click="deleteDeck()">Yes,
-		delete</button>
-	<button data-dismiss="alert" ng-click="toggleDeleteDialog()">No,
-		keep</button>
+<div class="inner-tiled">
+	<span class="w-full sub-title">Format</span>
+	<span class="w-full">{{ deck.format }}</span>
+</div>
+<div class="inner-tiled">
+	<span class="w-full sub-title">Created</span>
+	<span class="w-full">{{ deck.created }}</span>
+</div>
+<div class="inner-tiled w-2-3">
+	<span class="w-full sub-title">Theme</span>
+	<span class="w-full">{{ deck.theme }}</span>
 </div>
 
-<div class="gap">
+<div class="header w-full">
+	Colors
+</div>
+<div ng-show="deck.blackCards > 0">
+	<svg viewBox="0 0 100 100" class="mana-image">
+		<circle cx="50" cy="50" r="40" fill="black" />
+	</svg>
+</div>
+<div ng-show="deck.whiteCards > 0">
+	<svg viewBox="0 0 100 100" class="mana-image">
+		<circle cx="50" cy="50" r="40" fill="white" />
+	</svg>
+</div>
+<div ng-show="deck.redCards > 0">
+	<svg viewBox="0 0 100 100" class="mana-image">
+		<circle cx="50" cy="50" r="40" fill="red" />
+	</svg>
+</div>
+<div ng-show="deck.greenCards > 0">
+	<svg viewBox="0 0 100 100" class="mana-image">
+		<circle cx="50" cy="50" r="40" fill="green" />
+	</svg>
+</div>
+<div ng-show="deck.blueCards > 0">
+	<svg viewBox="0 0 100 100" class="mana-image">
+		<circle cx="50" cy="50" r="40" fill="blue" />
+	</svg>
+</div>
+<div ng-show="deck.colorlessCards > 0">
+	<svg viewBox="0 0 100 100" class="mana-image">
+		<circle cx="50" cy="50" r="40" fill="#444" />
+	</svg>
+</div>
 
-	<div class="includer">
-		<span class="glyphicon glyphicon-trash top-right" ng-click="showDeleteDialog()"></span>
-	</div>
-
-	<label for="name">Name:</label>
-	<p>{{ deck.name }}</p>
-	<label for="name">Format:</label>
-	<p>{{ deck.format }}</p>
-	<label for="name">Colors:</label>
-	<div>
-		<table class="center">
-			<tr>
-				<th>
-					<div ng-switch="deck.blackCards > 0">
-						<div ng-switch-when="true">
-							<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="black" />
-									
-						
-						</div>
-						<div ng-switch-default>
-							<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="lightgray"
-									stroke-width="4" fill="lightgray" />
-									
-						
-						</div>
-					</div>
-				</th>
-				<th>
-					<div ng-switch="deck.whiteCards > 0">
-						<div ng-switch-when="true">
-							<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="white" />
-									
-						
-						</div>
-						<div ng-switch-default>
-							<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="lightgray"
-									stroke-width="4" fill="lightgray" />
-									
-						
-						</div>
-					</div>
-				</th>
-				<th>
-					<div ng-switch="deck.redCards > 0">
-						<div ng-switch-when="true">
-							<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="red" />
-									
-						
-						</div>
-						<div ng-switch-default>
-							<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="lightgray"
-									stroke-width="4" fill="lightgray" />
-									
-						
-						</div>
-					</div>
-				</th>
-				<th>
-					<div ng-switch="deck.greenCards > 0">
-						<div ng-switch-when="true">
-							<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="green" />
-									
-						
-						</div>
-						<div ng-switch-default>
-							<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="lightgray"
-									stroke-width="4" fill="lightgray" />
-									
-						
-						</div>
-					</div>
-				</th>
-				<th>
-					<div ng-switch="deck.blueCards > 0">
-						<div ng-switch-when="true">
-							<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="blue" />
-									
-						
-						</div>
-						<div ng-switch-default>
-							<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="lightgray"
-									stroke-width="4" fill="lightgray" />
-									
-						
-						</div>
-					</div>
-				</th>
-				<th>
-					<div ng-switch="deck.colorlessCards > 0">
-						<div ng-switch-when="true">
-							<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-									fill="colorless" />
-									
-						
-						</div>
-						<div ng-switch-default>
-							<svg viewBox="0 0 100 100" class="mana-image">
-											<circle cx="50" cy="50" r="40" stroke="lightgray"
-									stroke-width="4" fill="lightgray" />
-									
-						
-						</div>
-					</div>
-				</th>
-			</tr>
-		</table>
-	</div>
-
-	<label for="name">Theme:</label>
-	<p>{{ deck.theme }}</p>
-	<label for="name">Created:</label>
-	<p>{{ deck.created }}</p>
-	<label for="name">
-		<input type="checkbox" class="inline-checkbox" ng-model="deck.active" ng-click="toggleActive()"> Active
-	</label>
+<div class="header w-full">
+	Options
+</div>
+<div class="inner-tiled" ng-click="toggleActive()">
+	<span class="w-full sub-title">Active</span>
+	<span class="w-full">{{ deck.active }}</span>
+</div>
+<div class="inner-tiled" ng-click="showDeleteDialog()" ng-show="!showDelete">
+	<span class="w-full sub-title">Delete</span>
+</div>
+<div class="inner-tiled w-1-3 alert" ng-show="showDelete">
+	<span class="w-full"><strong>Warning!</strong> Do you really want to delete this deck?</span>
+	<button class="h-half w-1-2 positive" ng-click="deleteDeck()">Yes</button>
+	<button class="h-half w-1-2 negative" ng-click="toggleDeleteDialog()">No</button>
 </div>
