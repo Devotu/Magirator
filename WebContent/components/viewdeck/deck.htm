@@ -1,62 +1,62 @@
-<div class="inner-tiled">
-	<span class="w-full sub-title">Format</span>
-	<span class="w-full">{{ deck.format }}</span>
+<div class="tile inner-tiled">
+	<span class="tile h-50 w-full sub-title">Format</span>
+	<span class="tile h-50 w-full">{{ deck.format }}</span>
 </div>
-<div class="inner-tiled">
-	<span class="w-full sub-title">Created</span>
-	<span class="w-full">{{ deck.created }}</span>
+<div class="tile inner-tiled">
+	<span class="tile h-50 w-full sub-title">Created</span>
+	<span class="tile h-50 w-full">{{ deck.created }}</span>
 </div>
-<div class="inner-tiled w-2-3">
-	<span class="w-full sub-title">Theme</span>
-	<span class="w-full">{{ deck.theme }}</span>
+<div class="tile inner-tiled w-2-3">
+	<span class="tile h-50 w-full sub-title">Theme</span>
+	<span class="tile h-50 w-full">{{ deck.theme }}</span>
 </div>
 
-<div class="header w-full">
+<div class="tile header w-full">
 	Colors
 </div>
-<div ng-show="deck.blackCards > 0">
-	<svg viewBox="0 0 100 100" class="mana-image">
+<div class="tile" ng-show="deck.blackCards > 0">
+	<svg viewBox="0 0 100 100">
 		<circle cx="50" cy="50" r="40" fill="black" />
 	</svg>
 </div>
-<div ng-show="deck.whiteCards > 0">
-	<svg viewBox="0 0 100 100" class="mana-image">
+<div class="tile" ng-show="deck.whiteCards > 0">
+	<svg viewBox="0 0 100 100">
 		<circle cx="50" cy="50" r="40" fill="white" />
 	</svg>
 </div>
-<div ng-show="deck.redCards > 0">
-	<svg viewBox="0 0 100 100" class="mana-image">
+<div class="tile" ng-show="deck.redCards > 0">
+	<svg viewBox="0 0 100 100">
 		<circle cx="50" cy="50" r="40" fill="red" />
 	</svg>
 </div>
-<div ng-show="deck.greenCards > 0">
-	<svg viewBox="0 0 100 100" class="mana-image">
+<div class="tile" ng-show="deck.greenCards > 0">
+	<svg viewBox="0 0 100 100">
 		<circle cx="50" cy="50" r="40" fill="green" />
 	</svg>
 </div>
-<div ng-show="deck.blueCards > 0">
-	<svg viewBox="0 0 100 100" class="mana-image">
+<div class="tile" ng-show="deck.blueCards > 0">
+	<svg viewBox="0 0 100 100">
 		<circle cx="50" cy="50" r="40" fill="blue" />
 	</svg>
 </div>
-<div ng-show="deck.colorlessCards > 0">
-	<svg viewBox="0 0 100 100" class="mana-image">
+<div class="tile" ng-show="deck.colorlessCards > 0">
+	<svg viewBox="0 0 100 100">
 		<circle cx="50" cy="50" r="40" fill="#444" />
 	</svg>
 </div>
 
-<div class="header w-full">
+<div class="tile header w-full">
 	Options
 </div>
-<div class="inner-tiled" ng-click="toggleActive()">
-	<span class="w-full sub-title">Active</span>
-	<span class="w-full">{{ deck.active }}</span>
+<div class="tile inner-tiled" ng-click="toggleActive()">
+	<span class="h-50 tile w-full sub-title">Active</span>
+	<span class="h-50 tile w-full">{{ deck.active }}</span>
 </div>
-<div class="inner-tiled" ng-click="showDeleteDialog()" ng-show="!showDelete">
-	<span class="w-full sub-title">Delete</span>
+<div class="tile inner-tiled" ng-click="showDeleteDialog()" ng-show="!showDelete">
+	<span class="tile h-50 w-full sub-title">Delete</span>
 </div>
-<div class="inner-tiled w-1-3 alert" ng-show="showDelete">
-	<span class="w-full"><strong>Warning!</strong> Do you really want to delete this deck?</span>
-	<button class="h-half w-1-2 positive" ng-click="deleteDeck()">Yes</button>
-	<button class="h-half w-1-2 negative" ng-click="toggleDeleteDialog()">No</button>
+<div class="tile inner-tiled w-1-3 alert" ng-show="showDelete">
+	<span class="tile h-50 w-full"><strong>Warning!</strong> Delete this deck?</span>
+	<button class="tile h-half w-1-2 positive" ng-click="deleteDeck()">Yes</button>
+	<button class="tile h-half w-1-2 negative" ng-click="toggleDeleteDialog()">No</button>
 </div>

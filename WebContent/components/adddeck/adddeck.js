@@ -17,17 +17,6 @@ ratorApp.controller('addDeckController', function ($scope, $http, $location, pla
 					$scope.result += "Could not get formats";
 				});
 
-			$scope.colormode = "Simple";
-			$scope.toggleColor = function () {
-
-				if ($scope.colormode != "Advanced") {
-					$scope.colormode = "Advanced";
-				} else {
-					$scope.colormode = "Simple";
-				}
-
-			};
-
 			$scope.getColorValue = function (cards, lands) {
 
 				if (cards > 0) {

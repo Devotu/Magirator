@@ -1,18 +1,17 @@
-<div class="q1-4" ng-show="liveGame != 'none'" ng-click="goToGame()">
+<div class="tile q1-4" ng-show="liveGame != 'none'" ng-click="goToGame()">
 	To game
 </div>
-<div class="q1-4" ng-show="liveGame == 'none'" ng-click="goStartGame()">
+<div class="tile q1-4" ng-show="liveGame == 'none'" ng-click="goStartGame()">
 	New game
 </div>
-<div class="q1-4" ng-show="liveGame == 'none'" ng-click="goJoinGame()">
+<div class="tile q1-4" ng-show="liveGame == 'none'" ng-click="goJoinGame()">
 	Join game
 </div>
-<div class="q1-4" ng-click="goAddDeck()">
+<div class="tile q1-4" ng-click="goAddDeck()">
 	Add Deck
 </div>
-<div class="q1-4" ng-click="goDeckList()">
+<div class="tile q1-4" ng-click="goDeckList()">
 	View Decks
 </div>
 
-<p class='debug-text'>Logged in as: {{ playername }}</p>
-<p class='debug-text'>Result: {{ result }}</p>
+<p class='tile debug-text'>Result: {{ result }}</p>

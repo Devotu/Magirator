@@ -1,26 +1,26 @@
 
-<div class="header w-1-3">
+<div class="tile header w-1-3">
 	{{ deckname }}
 </div>
-<div class="h-half w-1-6 tab" ng-class="{ 'active': isSet(1) }" ng-click="setTab(1)">
+<div class="tile h-half w-1-6 tab" ng-class="{ 'active': isSet(1) }" ng-click="setTab(1)">
 	info
 </div>
-<div class="h-half w-1-6 tab" ng-class="{ 'active': isSet(2) }" ng-click="setTab(2)">
+<div class="tile h-half w-1-6 tab" ng-class="{ 'active': isSet(2) }" ng-click="setTab(2)">
 	Games
 </div>
-<div class="h-half w-1-6 tab" ng-class="{ 'active': isSet(3) }" ng-click="setTab(3)">
+<div class="tile h-half w-1-6 tab" ng-class="{ 'active': isSet(3) }" ng-click="setTab(3)">
 	Stats
 </div>
-<div class="h-half w-1-6 tab" ng-class="{ 'active': isSet(4) }" ng-click="setTab(4)">
+<div class="tile h-half w-1-6 tab" ng-class="{ 'active': isSet(4) }" ng-click="setTab(4)">
 	Alter
 </div>
 
-	<ng-include class="inner-tiled w-full" src="'components/viewdeck/deck.htm'" onload="getDeck()" ng-show="isSet(1)"></ng-include>
+	<ng-include class="include-tiled w-full" src="'components/viewdeck/deck.htm'" onload="getDeck()" ng-show="isSet(1)"></ng-include>
 
-	<ng-include class="inner-tiled w-full" src="'components/viewdeck/games.htm'" onload="getGames()" ng-show="isSet(2)"></ng-include>
+	<ng-include class="include-tiled w-full" src="'components/viewdeck/games.htm'" onload="getGames()" ng-show="isSet(2)"></ng-include>
 	
-	<ng-include class="inner-tiled w-full" src="'components/viewdeck/deckstats.htm'" onload="getStats()" ng-show="isSet(3)"></ng-include>
+	<ng-include class="include-tiled w-full" src="'components/viewdeck/deckstats.htm'" onload="getStats()" ng-show="isSet(3)"></ng-include>
 
-	<ng-include class="inner-tiled w-full" src="'components/viewdeck/alterations.htm'" onload="getAlterations()" ng-show="isSet(4)"></ng-include>
+	<ng-include class="include-tiled w-full" src="'components/viewdeck/alterations.htm'" onload="getAlterations()" ng-show="isSet(4)"></ng-include>
 
 <p class='debug-text'>Result: {{ result }}</p>
