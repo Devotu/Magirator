@@ -1,8 +1,9 @@
-<ul class="list-group gap">
-	<li class="list-group-item main-item" ng-click="goAlter()">
-		<span class="glyphicon glyphicon-pencil"></span> Alter Deck
-	</li>
-	<li ng-repeat="alteration in alterations | orderBy:'created'"
-		class="list-group-item" ng-click="goAlteration(alteration.id)">{{alteration.comment}}
-	</li>
-</ul>
+<div ng-click="goAlter()">
+	<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+		<polygon points="50,450 50,350 350,50 450,150 150,450" /> Alter
+	</svg>
+</div>
+
+<div ng-repeat="alteration in alterations | orderBy:'created'" class="inner-tiled" ng-click="goAlteration(alteration.id)">
+	<span class="w-full sub-title">{{alteration.comment}}</span>
+</div>
