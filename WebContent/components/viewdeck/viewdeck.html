@@ -15,12 +15,12 @@
 	Alter
 </div>
 
-	<ng-include class="include-tiled w-full" src="'components/viewdeck/deck.htm'" onload="getDeck()" ng-show="isSet(1)"></ng-include>
+	<ng-include class="inline-tile-wrapper w-full" src="'components/viewdeck/deck.htm'" onload="getDeck()" ng-show="isSet(1)"></ng-include>
 
-	<ng-include class="include-tiled w-full" src="'components/viewdeck/games.htm'" onload="getGames()" ng-show="isSet(2)"></ng-include>
+	<ng-include class="inline-tile-wrapper w-full" src="'components/viewdeck/games.htm'" onload="getGames()" ng-show="isSet(2)"></ng-include>
 	
-	<ng-include class="include-tiled w-full" src="'components/viewdeck/deckstats.htm'" onload="getStats()" ng-show="isSet(3)"></ng-include>
+	<ng-include class="inline-tile-wrapper w-full" src="'components/viewdeck/deckstats.htm'" onload="getStats()" ng-show="isSet(3)"></ng-include>
 
-	<ng-include class="include-tiled w-full" src="'components/viewdeck/alterations.htm'" onload="getAlterations()" ng-show="isSet(4)"></ng-include>
+	<ng-include class="inline-tile-wrapper w-full" src="'components/viewdeck/alterations.htm'" onload="getAlterations()" ng-show="isSet(4)"></ng-include>
 
 <p class='debug-text'>Result: {{ result }}</p>

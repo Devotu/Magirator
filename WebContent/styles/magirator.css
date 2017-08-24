@@ -68,9 +68,6 @@ button.tile {
 
 
 /*Tile variations*/
-.tiled > div,button {
-	background-color: #666;
-}
 
 .tile.header {
 	background-color: #444;
@@ -83,7 +80,6 @@ button.tile {
 .inner-tiled {
 	display: grid;
 	grid-template-columns: repeat(12, 1fr);
-	grid-gap: 1vw;
 	margin: 0vw;
 }
 
@@ -92,6 +88,14 @@ button.tile {
 	grid-template-columns: repeat(12, 7vw);
 	grid-gap: 1vw;
 	margin: 0vw;
+}
+
+.inline-tile-wrapper {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	grid-gap: 1vw;
+	margin: 0vw;
+	grid-column: span 12;	
 }
 
 /*Sizes*/
@@ -140,24 +144,24 @@ button.tile {
 
 /*Placement*/
 /*Width*/
+.tile.w-1-12 {
+	grid-column: span 1;
+}
+
+.tile.w-5-12 {
+	grid-column: span 5;
+}
+
+.tile.w-11-12 {
+	grid-column: span 11;
+}
+
 .tile.w-1-6 {
 	grid-column: span 2;
 }
 
 .tile.w-5-6 {
 	grid-column: span 10;
-}
-
-.tile.w-1-2 {
-	grid-column: span 6;
-}
-
-.tile.w-1-3 {
-	grid-column: span 4;
-}
-
-.tile.w-2-3 {
-	grid-column: span 8;
 }
 
 .tile.w-1-4 {
@@ -168,12 +172,16 @@ button.tile {
 	grid-column: span 9;
 }
 
-.tile.w-1-12 {
-	grid-column: span 1;
+.tile.w-1-3 {
+	grid-column: span 4;
 }
 
-.tile.w-11-12 {
-	grid-column: span 11;
+.tile.w-2-3 {
+	grid-column: span 8;
+}
+
+.tile.w-1-2 {
+	grid-column: span 6;
 }
 
 .tile.w-full {
