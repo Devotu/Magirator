@@ -11,7 +11,7 @@ a {
 	text-decoration-line: none;
 }
 
-div {
+div, span {
 	font-size: 3vmin;
 }
 
@@ -250,7 +250,7 @@ button.tile {
 /*Other*/
 /*Text*/
 .tile.title {
-    font-size: 3em;
+    font-size: 5vmin;
 }
 
 .sub-title {

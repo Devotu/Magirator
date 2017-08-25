@@ -1,15 +1,47 @@
-<div class="jumbotron text-center">
-	<h1>Select deck</h1>
-	
-	<div class=".checkbox-inline">
-		<label><input class="inline-checkbox" type="checkbox" data-ng-model="order.reverse"/>Reverse</label>
-	</div>
-	
-	<ul class="list-group">
-		<li ng-repeat="deck in decks | orderBy:deckOrder:order.reverse"
-			class="list-group-item" ng-click="goWithDeck(deck.name, deck.id)">{{deck.name}}
-		</li>
-	</ul>
+<div class="tile h-half w-1-12" ng-click="sort = !sort">
+	<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+		<polygon points="50,50 450,50 300,250 300,450 200,450 200,250" /> Sort
+	</svg>
+</div>
+<div class="tile header w-11-12">
+	Select deck
 </div>
 
-<p class='debug-text'>Result: {{ result }}</p>
+<div class="tile inner-tiled w-1-3" ng-show="sort">
+	<div class="tile h-50 w-3-4">
+		Sort by
+	</div>
+	<div class="tile h-100 w-1-4" ng-click="order.reverse = !order.reverse">
+		<div>
+			<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+				<polygon points="225,450 50,275 100,225 175,300 175,50 225,50" />
+				<polygon points="275,50 450,225 400,275 325,200 325,450 275,450" /> Reverse
+			</svg>
+		</div>
+	</div>
+
+	<select class="tile h-half w-full" id="sorter" data-ng-model="order.field">
+		<option value="winrate" selected>Winrate</option>
+		<option value="name">Name</option>
+		<option value="active">Active</option>
+		<option value="format">Format</option>
+		<option value="games">Games</option>
+		<option value="created">Created</option>
+		<option value="blackCards">Black</option>
+		<option value="whiteCards">White</option>
+		<option value="redCards">Red</option>
+		<option value="greenCards">Green</option>
+		<option value="blueCards">Blue</option>
+		<option value="colorlessCards">Colorless</option>
+		<option value="theme">Theme</option>
+	</select>
+
+</div>
+
+<div ng-repeat="deck in decks | orderBy:deckOrder:order.reverse" class="tile inner-tiled" ng-click="goWithDeck(deck.name, deck.id)">
+	<span class="tile h-50 w-full sub-title">{{deck.name}}</span>
+	<span class="tile h-50 w-full" ng-class="{'strong': deck.badge=='yes' || deck.badge>0}">{{ deck.badge }}</span>
+</div>
+
+
+<p class='tile debug-text'>Result: {{ result }}</p>
