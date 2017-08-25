@@ -45,6 +45,8 @@ ratorApp.controller('gameController', function($scope, $http, $location, playerS
 				$http(getGameReq).then(function(response){
 					$scope.result = response.data;
 					
+					console.log(response.data);
+					
 						if (response.data.result == "Success"){
 							$scope.result = 'Success';
 							$scope.participants = JSON.parse(response.data.participants);

@@ -1,316 +1,57 @@
-<div class="jumbotron text-center">
-	<h1>Game</h1>
+<div class="tile header w-full">
+	Game 
+	<span ng-show="draw">(Draw)</span>
+</div>
 
-	<div class="form-group" ng-show="draw">
-		<label>Draw:</label> <input type="checkbox" ng-model="draw" />
+<div class="tile q1-2 inline-tile-wrapper" ng-repeat="participant in participants | orderBy:participant.result.place">
+	<div class="tile w-1-6 h-half sub-title highlight">
+		#{{ participant.result.place }}
 	</div>
+	<div class="tile w-5-6 h-half sub-title highlight">
+		{{ participant.player.name }}
+	</div>
+	<div class="tile w-1-2 h-half highlight">
+		{{ participant.deck.name }}
+	</div>
+	<div class="tile w-1-6 h-half highlight" ng-show="participant.deck.blackCards > 0">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="black" />
+		</svg>
+	</div>
+	<div class="tile w-1-6 h-half highlight" ng-show="participant.deck.whiteCards > 0">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="white" />
+		</svg>
+	</div>
+	<div class="tile w-1-6 h-half highlight" ng-show="participant.deck.redCards > 0">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="red" />
+		</svg>
+	</div>
+	<div class="tile w-1-6 h-half highlight" ng-show="participant.deck.greenCards > 0">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="green" />
+		</svg>
+	</div>
+	<div class="tile w-1-6 h-half highlight" ng-show="participant.deck.blueCards > 0">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="blue" />
+		</svg>
+	</div>
+	<div class="tile w-1-6 h-half highlight" ng-show="participant.deck.colorlessCards > 0">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="#444" />
+		</svg>
+	</div>	
 
-	<ol class="list-group">
-		<li
-			ng-repeat="participant in participants | orderBy:participant.result.place"
-			class="list-group-item row">
-			<div>
-				<h1>{{ participant.result.place }}</h1>
-				<h3>
-					{{ participant.player.playername }} <span
-						class="glyphicon glyphicon-ok positive"
-						ng-show="participant.result.confirmed"></span>
-				</h3>
-				<p>{{ participant.deck.name }}</p>
-				<table class="center">
-					<tr>
-						<th>
-							<div ng-switch="participant.deck.blackCards > 0">
-								<div ng-switch-when="true">
-									<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-										viewBox="0 0 100 100" class="mana-image"
-										preserveAspectRatio="none">
-										<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-											fill="black" />
-									</svg>
-								</div>
-								<div ng-switch-default>
-									<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-										viewBox="0 0 100 100" class="mana-image"
-										preserveAspectRatio="none">
-										<circle cx="50" cy="50" r="40" stroke="lightgray"
-											stroke-width="4" fill="lightgray" />
-									</svg>
-								</div>
-							</div>
-						</th>
-						<th>
-							<div ng-switch="participant.deck.whiteCards > 0">
-								<div ng-switch-when="true">
-									<svg viewBox="0 0 100 100" class="mana-image">
-										<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-											fill="white" />
-
-
-								
-								
-								
-								
-								</div>
-								<div ng-switch-default>
-									<svg viewBox="0 0 100 100" class="mana-image">
-										<circle cx="50" cy="50" r="40" stroke="lightgray"
-											stroke-width="4" fill="lightgray" />
-
-
-								
-								
-								
-								
-								</div>
-							</div>
-						</th>
-						<th>
-							<div ng-switch="participant.deck.redCards > 0">
-								<div ng-switch-when="true">
-									<svg viewBox="0 0 100 100" class="mana-image">
-										<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-											fill="red" />
-
-
-								
-								
-								
-								
-								</div>
-								<div ng-switch-default>
-									<svg viewBox="0 0 100 100" class="mana-image">
-										<circle cx="50" cy="50" r="40" stroke="lightgray"
-											stroke-width="4" fill="lightgray" />
-
-
-								
-								
-								
-								
-								</div>
-							</div>
-						</th>
-						<th>
-							<div ng-switch="participant.deck.greenCards > 0">
-								<div ng-switch-when="true">
-									<svg viewBox="0 0 100 100" class="mana-image">
-										<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-											fill="green" />
-
-
-								
-								
-								
-								
-								</div>
-								<div ng-switch-default>
-									<svg viewBox="0 0 100 100" class="mana-image">
-										<circle cx="50" cy="50" r="40" stroke="lightgray"
-											stroke-width="4" fill="lightgray" />
-
-
-								
-								
-								
-								
-								</div>
-							</div>
-						</th>
-						<th>
-							<div ng-switch="participant.deck.blueCards > 0">
-								<div ng-switch-when="true">
-									<svg viewBox="0 0 100 100" class="mana-image">
-										<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-											fill="blue" />
-
-
-								
-								
-								
-								
-								</div>
-								<div ng-switch-default>
-									<svg viewBox="0 0 100 100" class="mana-image">
-										<circle cx="50" cy="50" r="40" stroke="lightgray"
-											stroke-width="4" fill="lightgray" />
-
-
-								
-								
-								
-								
-								</div>
-							</div>
-						</th>
-						<th>
-							<div ng-switch="participant.deck.colorlessCards > 0">
-								<div ng-switch-when="true">
-									<svg viewBox="0 0 100 100" class="mana-image">
-										<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4"
-											fill="colorless" />
-
-
-								
-								
-								
-								
-								</div>
-								<div ng-switch-default>
-									<svg viewBox="0 0 100 100" class="mana-image">
-										<circle cx="50" cy="50" r="40" stroke="lightgray"
-											stroke-width="4" fill="lightgray" />
-
-
-								
-								
-								
-								
-								</div>
-							</div>
-						</th>
-					</tr>
-				</table>
-				<p>{{ participant.result.comment }}</p>
-
-				<div ng-hide="participant.rating == undefined">
-					<label>Rating: </label><span
-						class="glyphicon glyphicon-option-horizontal"
-						ng-click="toggleRatingSystem()"></span>
-					<div ng-show="ratingSystem == 'General'">
-						<label>Rating: </label>
-						<button class="rating-star" ng-click="rate('general',1)">
-							<span class="glyphicon" aria-hidden="true"
-								ng-class="{'glyphicon-star': (generalRating() >= 1), 'glyphicon-star-empty': (generalRating() < 1)}"></span>
-						</button>
-						<button class="rating-star" ng-click="rate('general',2)">
-							<span class="glyphicon" aria-hidden="true"
-								ng-class="{'glyphicon-star': (generalRating() >= 2), 'glyphicon-star-empty': (generalRating() < 2)}"></span>
-						</button>
-						<button class="rating-star" ng-click="rate('general',3)">
-							<span class="glyphicon" aria-hidden="true"
-								ng-class="{'glyphicon-star': (generalRating() >= 3), 'glyphicon-star-empty': (generalRating() < 3)}"></span>
-						</button>
-						<button class="rating-star" ng-click="rate('general',4)">
-							<span class="glyphicon" aria-hidden="true"
-								ng-class="{'glyphicon-star': (generalRating() >= 4), 'glyphicon-star-empty': (generalRating() < 4)}"></span>
-						</button>
-						<button class="rating-star" ng-click="rate('general',5)">
-							<span class="glyphicon" aria-hidden="true"
-								ng-class="{'glyphicon-star': (generalRating() >= 5), 'glyphicon-star-empty': (generalRating() < 5)}"></span>
-						</button>
-					</div>
-					<div ng-show="ratingSystem == 'SSSC'">
-						<div>
-							<label>Speed: </label>
-							<button class="rating-star" ng-click="rate('speed',1)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['speed'] >= 1), 'glyphicon-star-empty': (rating['speed'] < 1)}"></span>
-							</button>
-							<button class="rating-star" ng-click="rate('speed',2)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['speed'] >= 2), 'glyphicon-star-empty': (rating['speed'] < 2)}"></span>
-							</button>
-							<button class="rating-star" ng-click="rate('speed',3)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['speed'] >= 3), 'glyphicon-star-empty': (rating['speed'] < 3)}"></span>
-							</button>
-							<button class="rating-star" ng-click="rate('speed',4)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['speed'] >= 4), 'glyphicon-star-empty': (rating['speed'] < 4)}"></span>
-							</button>
-							<button class="rating-star" ng-click="rate('speed',5)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['speed'] >= 5), 'glyphicon-star-empty': (rating['speed'] < 5)}"></span>
-							</button>
-						</div>
-						<div>
-							<label>Strength: </label>
-							<button class="rating-star" ng-click="rate('strength',1)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['strength'] >= 1), 'glyphicon-star-empty': (rating['strength'] < 1)}"></span>
-							</button>
-							<button class="rating-star" ng-click="rate('strength',2)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['strength'] >= 2), 'glyphicon-star-empty': (rating['strength'] < 2)}"></span>
-							</button>
-							<button class="rating-star" ng-click="rate('strength',3)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['strength'] >= 3), 'glyphicon-star-empty': (rating['strength'] < 3)}"></span>
-							</button>
-							<button class="rating-star" ng-click="rate('strength',4)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['strength'] >= 4), 'glyphicon-star-empty': (rating['strength'] < 4)}"></span>
-							</button>
-							<button class="rating-star" ng-click="rate('strength',5)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['strength'] >= 5), 'glyphicon-star-empty': (rating['strength'] < 5)}"></span>
-							</button>
-						</div>
-						<div>
-							<label>Synergy: </label>
-							<button class="rating-star" ng-click="rate('synergy',1)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['synergy'] >= 1), 'glyphicon-star-empty': (rating['synergy'] < 1)}"></span>
-							</button>
-							<button class="rating-star" ng-click="rate('synergy',2)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['synergy'] >= 2), 'glyphicon-star-empty': (rating['synergy'] < 2)}"></span>
-							</button>
-							<button class="rating-star" ng-click="rate('synergy',3)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['synergy'] >= 3), 'glyphicon-star-empty': (rating['synergy'] < 3)}"></span>
-							</button>
-							<button class="rating-star" ng-click="rate('synergy',4)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['synergy'] >= 4), 'glyphicon-star-empty': (rating['synergy'] < 4)}"></span>
-							</button>
-							<button class="rating-star" ng-click="rate('synergy',5)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['synergy'] >= 5), 'glyphicon-star-empty': (rating['synergy'] < 5)}"></span>
-							</button>
-						</div>
-						<div>
-							<label>Control: </label>
-							<button class="rating-star" ng-click="rate('control',1)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['control'] >= 1), 'glyphicon-star-empty': (rating['control'] < 1)}"></span>
-							</button>
-							<button class="rating-star" ng-click="rate('control',2)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['control'] >= 2), 'glyphicon-star-empty': (rating['control'] < 2)}"></span>
-							</button>
-							<button class="rating-star" ng-click="rate('control',3)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['control'] >= 3), 'glyphicon-star-empty': (rating['control'] < 3)}"></span>
-							</button>
-							<button class="rating-star" ng-click="rate('control',4)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['control'] >= 4), 'glyphicon-star-empty': (rating['control'] < 4)}"></span>
-							</button>
-							<button class="rating-star" ng-click="rate('control',5)">
-								<span class="glyphicon" aria-hidden="true"
-									ng-class="{'glyphicon-star': (rating['control'] >= 5), 'glyphicon-star-empty': (rating['control'] < 5)}"></span>
-							</button>
-						</div>
-					</div>
-				</div>
-
-				<div class="form-group col-sm-6">
-					<label>Positive</label>
-					<p class="positive base-wide center"
-						ng-repeat="tag in participant.tags | postiveTags">{{ tag }}</p>
-				</div>
-				<div class="form-group col-sm-6">
-					<label>Negative</label>
-					<p class="negative base-wide center"
-						ng-repeat="tag in participant.tags | negativeTags">{{ tag }}</p>
-				</div>
-
-			</div>
-		</li>
-	</ol>
-
+	<div class="tile w-full h-half highlight" ng-show="participant.result.comment != ''">
+		"{{ participant.result.comment }}"
+	</div>
+	<div class="tile w-full free-flow">
+		<div class="tile tag" ng-class="tag.polarity == 1 ? 'bg-positive' : 'bg-negative'" ng-repeat="tag in participant.tags ">
+			{{tag.text}}
+		</div>
+	</div>
 </div>
 
 <p class='debug-text'>Result: {{ result }}</p>

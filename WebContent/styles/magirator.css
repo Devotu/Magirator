@@ -4,7 +4,6 @@ body {
     margin: 1.5vw;
     font-family: sans-serif;
     color: #222;
-    font-size: 1vw;
 }
 
 /*Universal*/
@@ -13,7 +12,7 @@ a {
 }
 
 div {
-	font-size: 1.5em;
+	font-size: 3vmin;
 }
 
 input {
@@ -68,7 +67,6 @@ button.tile {
 
 
 /*Tile variations*/
-
 .tile.header {
 	background-color: #444;
 	color: #ccc;
@@ -95,13 +93,34 @@ button.tile {
 	grid-template-columns: repeat(12, 1fr);
 	grid-gap: 1vw;
 	margin: 0vw;
-	grid-column: span 12;	
+	grid-column: span 12;
+	align-content: baseline;
+}
+
+.free-flow {
+	display: flex;
+	flex-wrap: wrap;
 }
 
 /*Sizes*/
+.tile.q1-12 {	
+	grid-column: span 1;
+	height: 6vw;	
+}
+
+.tile.q1-6 {	
+	grid-column: span 2;
+	height: 6vw;	
+}
+
 .tile.q1-4 {	
 	grid-column: span 3;
 	height: 21vw;	
+}
+
+.tile.q1-2 {	
+	grid-column: span 6;
+	height: 42vw;	
 }
 
 /*Heights*/
@@ -126,6 +145,10 @@ button.tile {
 }
 
 /*Widths*/
+.tile.w-auto {
+	height: auto;
+}
+
 .tile.w-100 {
 	width: 100%;
 }
@@ -214,7 +237,14 @@ button.tile {
 	grid-row: span 2;
 }
 
-/*Specified*/
+/*Special*/
+.tile.tag {
+	color: #fff;
+    width: auto;
+    height: 3vw;
+    padding: 1vw;
+    margin: 0.5vw;
+}
 
 
 /*Other*/
@@ -234,13 +264,26 @@ button.tile {
 
 /*Flavors*/
 .positive {
-	color: #020;
+	color: #696;
 }
 
 .negative {
-	color: #200;
+	color: #966;
 }
 
+.bg-positive {
+	background-color: #696;
+}
+
+.bg-negative {
+	background-color: #966;
+}
+
+.highlight {
+	background-color: #777;
+}
+
+/*Tabs*/
 .tile.tab {	
 	border: 2px solid #666;
     box-sizing: border-box;
