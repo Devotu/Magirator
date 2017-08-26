@@ -1,16 +1,106 @@
-<div class="tile-fw mss-row">
-	<div class="container content-between tile-neutral-medium mss-row" ng-show="is_admin">
-		<button class="tile tile-positive text " ng-click="cancelGame();">Cancel Game</button>
-		<button class="tile tile-positive text " ng-click="console.log('test');">Declare Draw</button>
-		<button class="tile tile-positive text " ng-click="console.log('test');">Declare Player Dead</button>
-		<button class="tile tile-positive text " ng-click="console.log('test');">Remove Player</button>
-		<div class="tile tile-positive text">Game Id: {{live_id}}</div>
-	</div>
+<div class="inline-tile-wrapper w-full" ng-show="is_admin">
+	<div class="tile" ng-click="cancelGame();">Cancel Game</div>
+	<div class="tile" ng-click="console.log('test');">Declare Draw</div>
+	<div class="tile" ng-click="console.log('test');">Declare Player Dead</div>
+	<div class="tile" ng-click="console.log('test');">Remove Player</div>
+	<div class="tile w-1-3">Game Id: {{live_id}}</div>
 </div>
 
-<div class="spacer"></div>
+<div class="inline-tile-wrapper dual-wrapper w-full">
 
-<div class="tiled">
+	<div ng-repeat="participant in participants | orderBy:participant.place" class="tile w-1 h-x5 bg-negative" ng-init="change=0">
+		<div id="content_life" class="tile inline-tile-live-wrapper w-full h-x4" ng-show="tab == 'Life'">
+			<div class="live-tile player-name">{{participant.player_name}}</div>
+			<div class="live-tile current-life">
+				<div class="text-l" ng-show="!participant.dead || !participant.place == 1">
+					{{participant.life}}
+				</div>
+				<div ng-show="participant.dead" class="text">
+					#<span class="text-l">{{participant.place}}</span>
+				</div>
+				<div ng-show="participant.place == 1">
+					<span class="text-l">Win!</span>
+				</div>
+			</div>
+			<div class="live-tile alter-life">
+				<div class="tile tile-sw tile-sh hidden" ng-class="{'positive visible': change > 0}">+{{change}}</div>
+				<div class="tile tile-sw tile-sh hidden" ng-class="{'negative visible': change < 0}">{{change}}</div>
+			</div>
+			<div class="live-tile add-1" 	ng-disabled="participant.dead || participant.place == 1" ng-click="change = change +1; addToLifeChange(participant.player_token, change)">+1</div>
+			<div class="live-tile add-5" 	ng-disabled="participant.dead || participant.place == 1" ng-click="change = change +5; addToLifeChange(participant.player_token, change)">+5</div>
+			<div class="live-tile remove-1" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change -1; addToLifeChange(participant.player_token, change)">-1</div>
+			<div class="live-tile remove-5" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change -5; addToLifeChange(participant.player_token, change)">-5</div>
+			<div class="live-tile LL-1">L</div>
+			<div class="live-tile LL-2">i</div>
+			<div class="live-tile LL-3">f</div>
+			<div class="live-tile LL-4">e</div>
+			<div class="live-tile LL-5">l</div>
+			<div class="live-tile LL-6">g</div>
+		</div>
+		<div id="content_tag" class="tile inline-tile-live-wrapper w-full h-x4" ng-show="tab == 'Tag'">
+			<div class="live-tile currentlife">Tag</div>
+			<div class="live-tile addlife">Add life</div>
+			<div class="live-tile add1">+1</div>
+			<div class="live-tile add5">+5</div>
+			<div class="live-tile remove1">-1</div>
+			<div class="live-tile remove5">-5</div>
+			<div class="live-tile LL1">1</div>
+			<div class="live-tile LL2">2</div>
+			<div class="live-tile LL3">3</div>
+			<div class="live-tile LL4">4</div>
+			<div class="live-tile LL5">5</div>
+			<div class="live-tile LL6">6</div>
+			<div class="live-tile LL7">7</div>
+			<div class="live-tile LL8">8</div>
+			<div class="live-tile LL9">9</div>
+		</div>
+		<div id="content_rate" class="tile inline-tile-live-wrapper w-full h-x4" ng-show="tab == 'Rate'">
+			<div class="live-tile currentlife">Rate</div>
+			<div class="live-tile addlife">Add life</div>
+			<div class="live-tile add1">+1</div>
+			<div class="live-tile add5">+5</div>
+			<div class="live-tile remove1">-1</div>
+			<div class="live-tile remove5">-5</div>
+			<div class="live-tile LL1">1</div>
+			<div class="live-tile LL2">2</div>
+			<div class="live-tile LL3">3</div>
+			<div class="live-tile LL4">4</div>
+			<div class="live-tile LL5">5</div>
+			<div class="live-tile LL6">6</div>
+			<div class="live-tile LL7">7</div>
+			<div class="live-tile LL8">8</div>
+			<div class="live-tile LL9">9</div>
+		</div>
+		<div id="content_death" class="tile inline-tile-live-wrapper w-full h-x4" ng-show="tab == 'Death'">
+			<div class="live-tile currentlife">Death</div>
+			<div class="live-tile addlife">Add life</div>
+			<div class="live-tile add1">+1</div>
+			<div class="live-tile add5">+5</div>
+			<div class="live-tile remove1">-1</div>
+			<div class="live-tile remove5">-5</div>
+			<div class="live-tile LL1">1</div>
+			<div class="live-tile LL2">2</div>
+			<div class="live-tile LL3">3</div>
+			<div class="live-tile LL4">4</div>
+			<div class="live-tile LL5">5</div>
+			<div class="live-tile LL6">6</div>
+			<div class="live-tile LL7">7</div>
+			<div class="live-tile LL8">8</div>
+			<div class="live-tile LL9">9</div>
+		</div>
+		<div ng-show="participant.self" class="tile inline-tile-tab-wrapper w-full highlight">
+			<div class="live-tile tab life" ng-click="tab = 'Life'">Life</div>
+			<div class="live-tile tab tags" ng-click="tab = 'Tag'">Tags</div>
+			<div class="live-tile tab rating" ng-click="tab = 'Rate'">Rating</div>
+			<div class="live-tile tab confirm" ng-disabled="participant.dead || participant.place == 1" ng-click="tab = 'Death'">Confirm</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+<div>
 	<div class="tile tile-lsh tile-lw mss-column content-start tile-transparent" ng-repeat="participant in participants | orderBy:participant.place">
 		<div ng-show="participant.self" ng-init="change=0">
 
@@ -40,14 +130,14 @@
 							<!-- Lifelog -->
 						</div>
 					</div>
-					<div class="mss-row">					
+					<div class="mss-row">
 						<button class="tile tile-sw tile-sh tile-negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change - 5; addToLifeChange(participant.player_token, change)">-5</button>
 						<button class="tile tile-sw tile-sh tile-negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change - 1; addToLifeChange(participant.player_token, change)">-1</button>
 						<button class="tile tile-sw tile-sh tile-positive text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change + 1; addToLifeChange(participant.player_token, change)">+1</button>
 						<button class="tile tile-sw tile-sh tile-positive text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change + 5; addToLifeChange(participant.player_token, change)">+5</button>
 					</div>
 				</div>
-				
+
 				<div id="content_tag" class="container mss-column tile-neutral-dark mss-column content-start" ng-show="tab == 'Tag'">
 					<div class="mss-row wrap">
 						<div ng-repeat="ptag in previous_tags | limitTo:5" class="tile auto-w padded-w tile-th text text-s tile-positive" ng-click="addFromPreviousTag(ptag.id)">
@@ -61,32 +151,32 @@
 					</div>
 					<div class="mss-row wrap">
 						<div ng-repeat="tag in self_tags" class="tile auto-w padded-w tile-th text text-s tile-positive">
-							{{ tag.text }}  <span class="tile tile-doth tile-dotw tile-negative" ng-click="deleteTag(tag.id)">x</span>
+							{{ tag.text }} <span class="tile tile-doth tile-dotw tile-negative" ng-click="deleteTag(tag.id)">x</span>
 						</div>
 					</div>
 				</div>
-	
+
 				<div id="content_rate" class="container mss-column tile-neutral-dark" ng-show="tab == 'Rate'">
 					Rate
 				</div>
-	
+
 				<div id="content_death" class="container mss-column tile-negative" ng-show="tab == 'Death'">
 					<button class="tile tile-mw tile-sh tile-very-negative text" ng-click="declareDead(participant.player_token)">Confirm</button>
 					<div class="tile tile-neutral-medium text">
 						#<span class="text-l">{{next_death}}</span>
 					</div>
-				</div>	
+				</div>
 			</div>
-			
+
 			<div class="mss-row content-spaced">
 				<button class="tile tile-sw tile-sh tile-neutral-medium text" ng-click="tab = 'Life'">+/-</button>
 				<button class="tile tile-sw tile-sh tile-neutral-medium text" ng-click="tab = 'Tag'">#</button>
 				<button class="tile tile-sw tile-sh tile-neutral-medium text" ng-click="tab = 'Rate'">@</button>
 				<button class="tile tile-sw tile-sh tile-negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="tab = 'Death'">§</button>
 			</div>
-			
+
 		</div>
-		
+
 		<div ng-show="!participant.self" ng-init="change=0" class="tile tile-lh tile-lw">
 			<div id="content_life" class="container mss-column tile-neutral-dark" ng-show="tab == 'Life'">
 				<div class="mss-row tile-lw content-spaced">
@@ -113,7 +203,7 @@
 						<!-- Lifelog -->
 					</div>
 				</div>
-				<div class="mss-row">					
+				<div class="mss-row">
 					<button class="tile tile-sw tile-sh tile-negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change - 5; addToLifeChange(participant.player_token, change)">-5</button>
 					<button class="tile tile-sw tile-sh tile-negative text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change - 1; addToLifeChange(participant.player_token, change)">-1</button>
 					<button class="tile tile-sw tile-sh tile-positive text" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change + 1; addToLifeChange(participant.player_token, change)">+1</button>
