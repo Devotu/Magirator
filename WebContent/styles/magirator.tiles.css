@@ -177,9 +177,10 @@
 .tile.tag {
 	color: #fff;
     width: auto;
-    height: 3vw;
+    height: auto;
     padding: 1vw;
-    margin: 0.5vw;
+    margin: auto;
+    grid-column: auto;
 }
 
 /*Other*/
