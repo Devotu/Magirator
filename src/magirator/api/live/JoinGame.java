@@ -29,7 +29,8 @@ public class JoinGame extends ServerResource {
         	
         	int playerId = request.get("player_id").getAsInt();
         	int deckId = request.get("deck_id").getAsInt();
-        	String live_id = request.get("live_id").getAsString();        	
+        	String live_id = request.get("live_id").getAsString();
+        	
         	
         	//Does player exist
         	//If not create anonymous player
