@@ -188,3 +188,7 @@
 	border-color: #ccc;
 }
 
+.tile.transparent {
+	background-color: transparent;
+}
+

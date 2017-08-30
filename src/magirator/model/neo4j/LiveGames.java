@@ -675,7 +675,7 @@ public class LiveGames {
 					+ "OPTIONAL MATCH "
 					+ "(gap:Player:InGame:GameAdmin)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game:Live) "
 					+ "WHERE g.live_id = ? "
-					+ "REMOVE p:InGame, gap:GameAdmin, g:Live "
+					+ "REMOVE p:InGame, gap:InGame, gap:GameAdmin, g:Live "
 					+ "RETURN g";
 			
 			List<Object> params = new ArrayList<>();

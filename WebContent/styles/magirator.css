@@ -11,7 +11,7 @@ a {
 	text-decoration-line: none;
 }
 
-div, span {
+div, span, input {
 	font-size: 3vmin;
 }
 
@@ -120,6 +120,16 @@ button.tile {
 	color: #fff;
 }
 
+.large {
+	font-size: 5vmin;
+	font-weight: bold;
+}
+
+.giant {
+	font-size: 15vmin;
+	font-weight: bold;
+}
+
 
 /*Flavors*/
 .positive {
@@ -127,7 +137,7 @@ button.tile {
 }
 
 .negative {
-	color: #966;
+	color: #e35454;
 }
 
 .bg-positive {
@@ -136,6 +146,10 @@ button.tile {
 
 .bg-negative {
 	background-color: #966;
+}
+
+.dark {
+	background-color: #444;
 }
 
 .highlight {
