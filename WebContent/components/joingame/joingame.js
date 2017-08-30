@@ -34,6 +34,37 @@ ratorApp.controller('joinGameController', function ($scope, $http, $location, pl
 		    
 		    $scope.reverseOrder = false;
 		    
+		    var bool_order = {
+		            true: 0,
+		            false: 1
+		        };
+		    
+		    var bool_badge = {
+		            true: 'yes',
+		            false: 'no'
+		        };
+			
+			
+			$scope.deckOrder = function(deck) {
+				var sorter = $scope.order.field;
+				var sortval = deck[sorter];
+				deck.badge = sortval;		
+
+				// Special cases value
+				if (sortval === true || sortval === false){
+					boolval = sortval;
+					sortval = bool_order[boolval];
+					deck.badge = bool_badge[boolval];
+				}
+				
+				// Special cases sorter
+				if (sorter == 'name'){// Name is always displayed
+					deck.badge = "";
+				}		
+				
+		        return sortval;
+			}
+		    
 		    		    
 		    //Start game
 		    $scope.goWithDeck = function(deck_name, deck_id){

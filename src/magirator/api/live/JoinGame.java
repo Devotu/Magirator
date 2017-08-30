@@ -29,26 +29,23 @@ public class JoinGame extends ServerResource {
         	
         	int playerId = request.get("player_id").getAsInt();
         	int deckId = request.get("deck_id").getAsInt();
-        	String live_id = request.get("live_id").getAsString();
-        	
+        	String live_id = request.get("live_id").getAsString();        	
         	
         	//Does player exist
         	//If not create anonymous player
-        	
         	response.addProperty(Constants.result, "You are already in a game.");
-        	
-        	if(!LiveGames.isPlayerInGame(playerId)){
-        		
-        		response.addProperty(Constants.result, "A problem occured joining the game.");
-        		
-        		String token = LiveGames.joinGame(deckId, live_id);
-        		
-        		if(!"".equals(token)){
-        			
-        			response.addProperty(Constants.result, Constants.success);
-        			response.addProperty("token", token);
-        		}
-        	}	
+			if (!LiveGames.isPlayerInGame(playerId)) {
+
+				response.addProperty(Constants.result, "A problem occured joining the game.");
+
+				String token = LiveGames.joinGame(deckId, live_id);
+
+				if (!"".equals(token)) {
+
+					response.addProperty(Constants.result, Constants.success);
+					response.addProperty("token", token);
+				}
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
