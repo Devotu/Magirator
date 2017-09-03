@@ -672,10 +672,7 @@ public class LiveGames {
 			//TODO Verification no players left
 			String query = ""
 					+ "MATCH (p:Player:InGame)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game:Live) "
-					//+ "OPTIONAL MATCH "
-					//+ "(gap:Player:InGame:GameAdmin)-[:Use|:Used]->(:Deck)-[:Got]->(:Result)-[:In]->(g:Game:Live) "
 					+ "WHERE g.live_id = ? "
-					//+ "REMOVE p:InGame, gap:InGame, gap:GameAdmin, g:Live "
 					+ "REMOVE p:InGame, p:GameAdmin, g:Live "
 					+ "RETURN g";
 			
