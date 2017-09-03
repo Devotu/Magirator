@@ -4,6 +4,7 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 	
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
+			$scope.updatePlayer(data.player);
 			
 			// Get updated info
 			var getUpdatesReq = requestService.buildRequest(
@@ -93,6 +94,7 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 			}
 		    
 		} else {
+			$scope.clearPlayer();
 			$scope.result = 'Not logged in, please log in and try again';
 			$location.url('/');
 		}

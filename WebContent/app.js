@@ -3,21 +3,36 @@ ratorApp = angular.module('magiratorApp', [ 'ngRoute' ]);
 
 ratorApp.controller('mainController', function($scope, $http, $location, playerService) {
 	
+	$scope.player = undefined;
 	$scope.result = "Waiting for response";
 	
-	$scope.$on('unconfirmed', function (event, data) {
-	    $scope.unconfirmed = data;
-	  });
 	
-	$scope.$on('logged_in', function (event, data) {
-	    $scope.logged_in = data;
-	  });
+	$scope.verifyPlayer = function() {
+		$scope.reloadPlayer();
+	};
 	
-	playerService.getPlayer().then(function(data) {
-		if (data.result == "Success") {
-			$location.url('/dashboard');
-		} else {
-			$location.url('/');
-		}
-	});
+	$scope.reloadPlayer = function(fetchedPlayer) {
+		playerService.getPlayer().then(function(data) {
+			if (data.result == "Success") {
+				$scope.player = JSON.parse(data.player);
+				$location.url('/dashboard');
+			} else {
+				$location.url('/');
+			}
+		});
+	};
+	
+	$scope.reloadPlayer();
+	
+	$scope.updatePlayer = function(newPlayer) {
+		$scope.player = newPlayer;
+	}
+	
+	$scope.clearPlayer = function() {
+		$scope.player = undefined;
+	};
+	
+	$scope.loggedIn = function(){
+		$scope.player.hasOwnProperty('id'); //Not really a proper solution...
+	}
 });
