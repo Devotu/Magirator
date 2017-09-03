@@ -5,6 +5,8 @@ ratorApp.controller('decklistController', function($scope, $http, $location, pla
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
 			
+			$scope.sort = false;
+			
 			// Get decks
 			var getDecksReq = requestService.buildRequest(
 					"GetDeckList", 

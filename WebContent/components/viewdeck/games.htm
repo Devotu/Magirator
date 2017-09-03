@@ -1,9 +1,3 @@
-<ul class="list-group gap">
-	<li class="list-group-item main-item" ng-click="goPrepareGame()">
-		<span class="glyphicon glyphicon-plus"></span> Add new Game
-	</li>
-	
-	<li ng-repeat="participation in participations | orderBy:'participation.game.created'"
-		class="list-group-item" ng-click="goGame(participation.game.id)">{{ participation.game.created }}
-	</li>
-</ul>
+<div ng-repeat="participation in participations | orderBy:'participation.game.created'" class="tile inner-tiled" ng-click="goGame(participation.game.id)">
+	<span class="w-full sub-title">{{ participation.game.created }}</span>
+</div>

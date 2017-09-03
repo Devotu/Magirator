@@ -19,7 +19,7 @@ public class Tag {
 	public Tag(int tagger, int tagged, Map<String, ?> properties) {
 		this.tagger = tagger;
 		this.tagged = tagged;
-		this.text = (String)properties.get("tag");
+		this.text = (String)properties.get("text");
 		this.polarity = (int)(long)properties.get("polarity");
 	}
 

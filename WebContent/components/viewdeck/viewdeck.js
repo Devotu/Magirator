@@ -40,7 +40,8 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 				// Toggle deck
 				var toggleDeckReq = requestService.buildRequest(
 						"ToggleDeck", 
-						{id:$scope.deck.deckid}
+						{
+							id:$scope.deck.deckid}
 						);
 
 				$http(toggleDeckReq).then(function(response){
@@ -48,6 +49,7 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 					
 						if (response.data.result == "Success"){
 							$scope.result = 'Success';
+							$scope.deck.active = !$scope.deck.active;
 						}					
 					}, 
 					function(){

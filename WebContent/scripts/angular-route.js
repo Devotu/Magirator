@@ -102,7 +102,7 @@ function $RouteProvider(){
    *      be injected into the controller. If any of these dependencies are promises, the router
    *      will wait for them all to be resolved or one to be rejected before the controller is
    *      instantiated.
-   *      If all the promises are resolved successfully, the values of the resolved promises are
+   *      If all the promises are resolved succesfully, the values of the resolved promises are
    *      injected and {@link ngRoute.$route#$routeChangeSuccess $routeChangeSuccess} event is
    *      fired. If any of the promises are rejected the
    *      {@link ngRoute.$route#$routeChangeError $routeChangeError} event is fired. The map object
@@ -619,7 +619,7 @@ ngRouteModule.provider('$routeParams', $RouteParamsProvider);
  * The service guarantees that the identity of the `$routeParams` object will remain unchanged
  * (but its properties will likely change) even when a route change occurs.
  *
- * Note that the `$routeParams` are only updated *after* a route change completes successfully.
+ * Note that the `$routeParams` are only updated *after* a route change completes succesfully.
  * This means that you cannot rely on `$routeParams` being correct in route resolve functions.
  * Instead you can use `$route.current.params` to access the new route's parameters.
  *

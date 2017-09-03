@@ -1,86 +1,68 @@
-<div class="mss-column">
-	<h1 class="tile tile-sh tile-lw tile-neutral-medium text">Add deck</h1>
-
-	<form class="mss-column" ng-submit="addDeck()">
-		<div class="tile tile-sh tile-msw input mss-column tile-neutral-dark">
-			<label class="text text-s" for="name">Name:</label>
-			<input class="tile-mw" ng-model="deck.name" type="text" autofocus>
-		</div>
-		<div class="tile tile-sh tile-msw input mss-column tile-neutral-dark">
-			<label class="text text-s" for="format">Format:</label>
-			<select class="tile-mw" ng-options="format for format in formats" ng-model="deck.format"></select>
-		</div>
-		<div class="tile tile-lw tile-neutral-dark mss-column" ng-show="colormode == 'Simple'">
-			<label class="text text-s">Colors:</label>
-			<div class="container mss-row wrap">
-				<div class="tile tile-sh tile-sw mss-column tile-mana-black">
-					<div class="text text-s">Black</div>
-					<input class="inline-checkbox" type="checkbox" ng-model="deck.blackCards">
-				</div>				
-				<div class="tile tile-sh tile-sw mss-column tile-mana-white">
-					<div class="text text-s">White</div>
-					<input class="inline-checkbox" type="checkbox" ng-model="deck.whiteCards">
-				</div>			
-				<div class="tile tile-sh tile-sw mss-column tile-mana-red">
-					<div class="text text-s">Red</div>
-					<input class="inline-checkbox" type="checkbox" ng-model="deck.redCards">
-				</div>
-				<div class="tile tile-sh tile-sw mss-column tile-mana-green">
-					<div class="text text-s">Green</div>
-					<input class="inline-checkbox" type="checkbox" ng-model="deck.greenCards">
-				</div>
-				<div class="tile tile-sh tile-sw mss-column tile-mana-blue">
-					<div class="text text-s">Blue</div>
-					<input class="inline-checkbox" type="checkbox" ng-model="deck.blueCards">
-				</div>
-				<div class="tile tile-sh tile-sw mss-column tile-mana-colorless">
-					<div class="text text-s">Colorless</div>
-					<input class="inline-checkbox" type="checkbox" ng-model="deck.colorlessCards">
-				</div>
-			</div>
-			<span class="text text-s" ng-click="toggleColor()">...</span>
-		</div>
-		<div ng-show="colormode == 'Advanced'">
-			<label class="text text-s" class="block">Colors:</label>
-			<span class="glyphicon glyphicon-option-horizontal" ng-click="toggleColor()"></span>
-			<div>
-				<div class="colorframed black-frame cardbox">
-					<input type="number" ng-model="deck.blackCards" placeholder="Cards">
-					<input type="number" ng-model="deck.blackLands" placeholder="Lands">
-				</div>
-
-				<div class="colorframed white-frame cardbox">
-					<input type="number" ng-model="deck.whiteCards" placeholder="Cards">
-					<input type="number" ng-model="deck.whiteLands" placeholder="Lands">
-				</div>
-
-				<div class="colorframed red-frame cardbox">
-					<input type="number" ng-model="deck.redCards" placeholder="Cards">
-					<input type="number" ng-model="deck.redLands" placeholder="Lands">
-				</div>
-
-				<div class="colorframed green-frame cardbox">
-					<input type="number" ng-model="deck.greenCards" placeholder="Cards">
-					<input type="number" ng-model="deck.greenLands" placeholder="Lands">
-				</div>
-
-				<div class="colorframed blue-frame cardbox">
-					<input type="number" ng-model="deck.blueCards" placeholder="Cards">
-					<input type="number" ng-model="deck.blueLands" placeholder="Lands">
-				</div>
-
-				<div class="colorframed colorless-frame cardbox">
-					<input type="number" ng-model="deck.colorlessCards" placeholder="Cards">
-					<input type="number" ng-model="deck.colorlessLands" placeholder="Lands">
-				</div>
-			</div>
-		</div>
-		<div class="tile tile-msw input mss-column tile-neutral-dark">
-			<label class="text text-s" for="theme">Theme:</label>
-			<input  class="tile-mw" type="text" ng-model="deck.theme"> <!-- TODO multiline -->
-		</div>
-		<button class="tile tile-sh tile-positive" type="submit">Add Deck</button>
-	</form>
+<div class="tile header w-11-12">
+	Colors
+</div>
+<div class="tile h-half w-1-12" ng-init="color_details = false" ng-click="color_details = !color_details">
+	<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+		<polygon points="50,200 200,200 200,50 300,50 300,200 300,200 450,200 450,300 300,300 300,450 200,450 200,300 50,300" /> Adv.
+	</svg>
+</div>
+<div class="tile inner-tiled">
+	<div class="tile h-50 w-full">
+		Black
+	</div>
+	<input class="tile h-half w-100 C-1-3" type="checkbox" ng-model="deck.blackCards" ng-show="!color_details">
+	<input class="tile h-half w-100 L-1-2" ng-model="deck.blackCards" placeholder="Cards" ng-show="color_details">
+	<input class="tile h-half w-100 R-1-2" ng-model="deck.blackLands" placeholder="Lands" ng-show="color_details">
+</div>
+<div class="tile inner-tiled">
+	<div class="tile h-50 w-full">
+		White
+	</div>
+	<input class="tile h-half w-100 C-1-3" type="checkbox" ng-model="deck.whiteCards" ng-show="!color_details">
+	<input class="tile h-half w-100 L-1-2" ng-model="deck.whiteCards" placeholder="Cards" ng-show="color_details">
+	<input class="tile h-half w-100 R-1-2" ng-model="deck.whiteLands" placeholder="Lands" ng-show="color_details">
+</div>
+<div class="tile inner-tiled">
+	<div class="tile h-50 w-full">
+		Red
+	</div>
+	<input class="tile h-half w-100 C-1-3" type="checkbox" ng-model="deck.redCards" ng-show="!color_details">
+	<input class="tile h-half w-100 L-1-2" ng-model="deck.redCards" placeholder="Cards" ng-show="color_details">
+	<input class="tile h-half w-100 R-1-2" ng-model="deck.redLands" placeholder="Lands" ng-show="color_details">
+</div>
+<div class="tile inner-tiled">
+	<div class="tile h-50 w-full">
+		Green
+	</div>
+	<input class="tile h-half w-100 C-1-3" type="checkbox" ng-model="deck.greenCards" ng-show="!color_details">
+	<input class="tile h-half w-100 L-1-2" ng-model="deck.greenCards" placeholder="Cards" ng-show="color_details">
+	<input class="tile h-half w-100 R-1-2" ng-model="deck.greenLands" placeholder="Lands" ng-show="color_details">
+</div>
+<div class="tile tile inner-tiled">
+	<div class="tile h-50 w-full">
+		Blue
+	</div>
+	<input class="tile h-half w-100 C-1-3" type="checkbox" ng-model="deck.blueCards" ng-show="!color_details">
+	<input class="tile h-half w-100 L-1-2" ng-model="deck.blueCards" placeholder="Cards" ng-show="color_details">
+	<input class="tile h-half w-100 R-1-2" ng-model="deck.blueLands" placeholder="Lands" ng-show="color_details">
+</div>
+<div class="tile inner-tiled">
+	<div class="tile h-50 w-full">
+		Colorles
+	</div>
+	<input class="tile h-half w-100 C-1-3" type="checkbox" ng-model="deck.colorlessCards" ng-show="!color_details">
+	<input class="tile h-half w-100 L-1-2" ng-model="deck.colorlessCards" placeholder="Cards" ng-show="color_details">
+	<input class="tile h-half w-100 R-1-2" ng-model="deck.colorlessLands" placeholder="Lands" ng-show="color_details">
 </div>
 
-<p class='debug-text'>Result: {{ result }}</p>
+<div class="tile header">Details</div>
+<input class="tile h-half w-1-3" ng-model="deck.name" type="text" placeholder="Name" autofocus>
+<select class="tile w-1-3" ng-options="format for format in formats" ng-model="deck.format" placeholder="Name">
+	<option value="" disabled selected>Format</option>
+</select>
+<div class="tile w-1-3 h-2" ng-click="addDeck()">Add Deck</div>
+<input class="tile h-half w-2-3" type="text" ng-model="deck.theme" placeholder="Theme">
+
+
+
+<p class='tile debug-text'>Result: {{ result }}</p>

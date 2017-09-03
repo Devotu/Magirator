@@ -1,0 +1,175 @@
+/*Main*/
+body {
+    background-color: #171410;
+    margin: 1.5vw;
+    font-family: sans-serif;
+    color: #222;
+}
+
+/*Universal*/
+a {
+	text-decoration-line: none;
+}
+
+div, span, input {
+	font-size: 3vmin;
+}
+
+input {
+	border: 0;
+}
+
+input,select {
+	background-color: #fff;
+}
+
+button {
+	border: none;
+}
+
+
+/*Tile basics*/
+.tiled {
+	display: grid;
+	grid-template-columns: repeat(12, 7vw);
+	grid-gap: 1vw;
+	margin: 1vw;
+}
+
+.tile {
+	grid-column: span 2;
+	height: 14vw;
+	padding: 1vw;
+	background-color: #666;	
+}
+
+input.tile,select.tile {
+	padding: 0.75vw;
+}
+
+select.tile {
+	border: none;
+	height: auto;
+}
+
+input.tile {
+	border: 0;
+}
+
+input.tile,select.tile {
+	background-color: #fff;
+}
+
+button.tile {
+	border: none;
+	background-color: #fff;
+}
+
+
+/*Tile variations*/
+.tile.header {
+	background-color: #444;
+	color: #ccc;
+    font-size: 4vmin;
+	height: 6vw;
+	grid-column: span 12;
+}
+
+.inner-tiled {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	margin: 0vw;
+}
+
+.include-tiled {
+	display: grid;
+	grid-template-columns: repeat(12, 7vw);
+	grid-gap: 1vw;
+	margin: 0vw;
+}
+
+.inline-tile-wrapper {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	grid-gap: 1vw;
+	margin: 0vw;
+	grid-column: span 12;
+	align-content: baseline;
+}
+
+.dual-wrapper {
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.free-flow {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+
+/*Text*/
+.tile.title {
+    font-size: 5vmin;
+}
+
+.sub-title {
+	color: #ccc;
+}
+
+.strong {
+	color: #fff;
+}
+
+.large {
+	font-size: 5vmin;
+	font-weight: bold;
+}
+
+.giant {
+	font-size: 15vmin;
+	font-weight: bold;
+}
+
+
+/*Flavors*/
+.positive {
+	color: #696;
+}
+
+.negative {
+	color: #e35454;
+}
+
+.bg-positive {
+	background-color: #696;
+}
+
+.bg-negative {
+	background-color: #966;
+}
+
+.dark {
+	background-color: #444;
+}
+
+.highlight {
+	background-color: #777;
+}
+
+
+/*Visibility*/
+.hidden{
+	display: none;
+}
+  
+.visible{
+	display: inline;
+}
+
+
+
+/*Misc*/
+.debug-text {
+	grid-column: span 12;
+	background-color: transparent;
+}

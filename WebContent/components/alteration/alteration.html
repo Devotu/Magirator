@@ -1,166 +1,130 @@
-<div class="jumbotron text-center">
-	<h1>Alteration</h1>
+<div class="tile header w-full">
+	Alteration
+</div>
+<div class="tile w-full">
+	{{alteration.comment}}
+</div>
 
-	<div class="form-group list-group-item main-concern">
-		<label>Comment:</label>
-		<p>{{alteration.comment}}</p>
+<div class="inline-tile-wrapper" ng-show="alteration.nameIs != alteration.nameWas">
+	<div class="tile header w-full">
+		Name
 	</div>
-
-	<div class="form-group list-group-item">
-		<label>Name:</label>
-		<div ng-switch="alteration.nameIs == alteration.nameWas">
-			<div ng-switch-when="true">
-				<p>{{alteration.nameIs}}</p>
-			</div>
-			<div ng-switch-default>
-				<p>{{alteration.nameWas}}</p>
-				<label>became</label>
-				<p>{{alteration.nameIs}}</p>
-			</div>
-		</div>
+	<div class="tile w-5-12">
+		{{alteration.nameWas}}
 	</div>
-
-	<div class="form-group list-group-item">
-		<label>Format:</label>
-		<div ng-switch="alteration.formatIs == alteration.formatWas">
-			<div ng-switch-when="true">
-				<p>{{alteration.formatIs}}</p>
-			</div>
-			<div ng-switch-default>
-				<p>{{alteration.formatWas}}</p>
-				<label>became</label>
-				<p>{{alteration.formatIs}}</p>
-			</div>
-		</div>
+	<div class="tile">
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+			<polygon points="50,50 300,50 450,250 300,450 50,450" /> Became
+		</svg>
 	</div>
-
-	<div class="form-group list-group-item">
-		<label>Colors:</label>
-		<div ng-switch="alteration.colorPatternIs == alteration.colorPatternWas">
-			<div ng-switch-when="true">
-				<table class="center">
-					<tr>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.blackIs">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="black" />
-							</svg>
-						</td>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.whiteIs">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="white" />
-							</svg>
-						</td>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.redIs">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="red" />
-							</svg>
-						</td>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.greenIs">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="green" />
-							</svg>
-						</td>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.blueIs">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="blue" />
-							</svg>
-						</td>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.colorlessIs">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="colorless" />
-							</svg>
-						</td>
-					</tr>
-				</table>
-			</div>
-			<div ng-switch-default>
-				<table class="center">
-					<tr>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.blackWas">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="black" />
-							</svg>
-						</td>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.whiteWas">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="white" />
-							</svg>
-						</td>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.redWas">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="red" />
-							</svg>
-						</td>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.greenWas">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="green" />
-							</svg>
-						</td>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.blueWas">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="blue" />
-							</svg>
-						</td>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.colorlessWas">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="colorless" />
-							</svg>
-						</td>
-					</tr>
-				</table>
-				<label>became</label>
-				<table class="center">
-					<tr>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.blackIs">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="black" />
-							</svg>
-						</td>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.whiteIs">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="white" />
-							</svg>
-						</td>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.redIs">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="red" />
-							</svg>
-						</td>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.greenIs">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="green" />
-							</svg>
-						</td>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.blueIs">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="blue" />
-							</svg>
-						</td>
-						<td>
-							<svg viewBox="0 0 100 100" class="mana-image" ng-show="alteration.colorlessIs">
-								<circle cx="50" cy="50" r="40" stroke="gray" stroke-width="4" fill="colorless" />
-							</svg>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</div>
+	<div class="tile w-5-12">
+		{{alteration.nameIs}}
 	</div>
+</div>
 
-	<div class="form-group list-group-item">
-		<label>Theme:</label>
-		<div ng-switch="alteration.themeIs == alteration.themeWas">
-			<div ng-switch-when="true">
-				<p>{{alteration.themeIs}}</p>
-			</div>
-			<div ng-switch-default>
-				<p>{{alteration.themeWas}}</p>
-				<label>became</label>
-				<p>{{alteration.themeIs}}</p>
-			</div>
-		</div>
+<div class="inline-tile-wrapper" ng-show="alteration.formatIs != alteration.formatWas">
+	<div class="tile header w-full">
+		Format
 	</div>
+	<div class="tile w-5-12">
+		{{alteration.formatWas}}
+	</div>
+	<div class="tile">
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+			<polygon points="50,50 300,50 450,250 300,450 50,450" /> Became
+		</svg>
+	</div>
+	<div class="tile w-5-12">
+		{{alteration.formatIs}}
+	</div>
+</div>
 
+<div class="inline-tile-wrapper" ng-show="alteration.themeIs != alteration.themeWas">
+	<div class="tile header w-full">
+		Theme
+	</div>
+	<div class="tile w-5-12">
+		{{alteration.themeWas}}
+	</div>
+	<div class="tile">
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+			<polygon points="50,50 300,50 450,250 300,450 50,450" /> Became
+		</svg>
+	</div>
+	<div class="tile w-5-12">
+		{{alteration.themeIs}}
+	</div>
+</div>
+
+<div class="inline-tile-wrapper" ng-show="alteration.colorPatternIs != alteration.colorPatternWas">
+	<div class="tile header w-full">
+		Colors
+	</div>
+	<div class="tile" ng-show="alteration.blackWas">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="black" />
+		</svg>
+	</div>
+	<div class="tile" ng-show="alteration.whiteWas">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="white" />
+		</svg>
+	</div>
+	<div class="tile" ng-show="alteration.redWas">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="red" />
+		</svg>
+	</div>
+	<div class="tile" ng-show="alteration.greenWas">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="green" />
+		</svg>
+	</div>
+	<div class="tile" ng-show="alteration.blueWas">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="blue" />
+		</svg>
+	</div>
+	<div class="tile" ng-show="alteration.colorlessWas">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="#444" />
+		</svg>
+	</div>
+	<div class="tile">
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+			<polygon points="50,50 300,50 450,250 300,450 50,450" /> Became
+		</svg>
+	</div>
+	<div class="tile" ng-show="alteration.blackIs">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="black" />
+		</svg>
+	</div>
+	<div class="tile" ng-show="alteration.whiteIs">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="white" />
+		</svg>
+	</div>
+	<div class="tile" ng-show="alteration.redIs">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="red" />
+		</svg>
+	</div>
+	<div class="tile" ng-show="alteration.greenIs">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="green" />
+		</svg>
+	</div>
+	<div class="tile" ng-show="alteration.blueIs">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="blue" />
+		</svg>
+	</div>
+	<div class="tile" ng-show="alteration.colorlessIs">
+		<svg viewBox="0 0 100 100">
+			<circle cx="50" cy="50" r="40" fill="#444" />
+		</svg>
+	</div>
 </div>
 
 <p class='debug-text'>Result: {{ result }}</p>

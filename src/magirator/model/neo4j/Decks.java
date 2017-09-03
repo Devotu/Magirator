@@ -317,26 +317,12 @@ public class Decks {
 			
 			ps = Database.setStatementParams(ps, params);
 
-			/*
-			ps.setInt(1, newDeck.getId());
-			ps.setString(2, newDeck.getName());
-			ps.setString(3, newDeck.getFormat());
-			ps.setLong(4, newDeck.getBlackCards());
-			ps.setLong(5, newDeck.getWhiteCards());
-			ps.setLong(6, newDeck.getRedCards());
-			ps.setLong(7, newDeck.getGreenCards());
-			ps.setLong(8, newDeck.getBlueCards());
-			ps.setLong(9, newDeck.getColorlessCards());
-			ps.setString(10, newDeck.getTheme());
-			ps.setString(11, comment);
-			*/
-
 			rs = ps.executeQuery();
 
 			int newDeckId = -1;
 
 			if (rs.next()) {
-				newDeckId = rs.getInt("id(c)");
+				newDeckId = rs.getInt("c.id");
 			}
 
 			return newDeckId;			
