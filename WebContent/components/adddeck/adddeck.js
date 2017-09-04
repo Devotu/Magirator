@@ -2,6 +2,20 @@ ratorApp.controller('addDeckController', function ($scope, $http, $location, pla
 
 	playerService.getPlayer().then(function (data) {
 		if (data.result == "Success") {
+			
+			$scope.deck = {
+					name: "",
+					format: "",
+					theme: "",
+					black: 0,
+					white: 0,
+					red: 0,
+					green: 0,
+					blue: 0,
+					colorless: 0
+			}
+			
+			$scope.color_details = false;
 
 			// Get formats
 			var getFormatsReq = requestService.buildRequest(
@@ -13,17 +27,16 @@ ratorApp.controller('addDeckController', function ($scope, $http, $location, pla
 				$scope.formats = response.data;
 				$scope.format = $scope.formats[0];
 			},
-				function () {
-					$scope.result += "Could not get formats";
-				});
-
-			$scope.getColorValue = function (cards, lands) {
-
-				if (cards > 0) {
-					return cards + 0;
-				} else {
-					return 0;
-				}
+			function () {
+				$scope.result += "Could not get formats";
+			});
+			
+			
+			$scope.toggleColor = function(color){
+				
+				if(!$scope.color_details){
+					$scope.deck[color] == 1 ? $scope.deck[color] = 0 : $scope.deck[color] = 1;
+				}				
 			}
 
 			// Add deck
@@ -36,12 +49,12 @@ ratorApp.controller('addDeckController', function ($scope, $http, $location, pla
 						deck: {
 							'name': $scope.deck.name,
 							'format': $scope.deck.format,
-							'black': $scope.getColorValue($scope.deck.blackCards, $scope.deck.blackLands),
-							'white': $scope.getColorValue($scope.deck.whiteCards, $scope.deck.whiteLands),
-							'red': $scope.getColorValue($scope.deck.redCards, $scope.deck.redLands),
-							'green': $scope.getColorValue($scope.deck.greenCards, $scope.deck.greenLands),
-							'blue': $scope.getColorValue($scope.deck.blueCards, $scope.deck.blueLands),
-							'colorless': $scope.getColorValue($scope.deck.colorlessCards, $scope.deck.colorlessLands),
+							'black': $scope.black,
+							'white': $scope.white,
+							'red': $scope.red,
+							'green': $scope.green,
+							'blue': $scope.blue,
+							'colorless': $scope.colorless,
 							'theme': $scope.deck.theme,
 							'created': Date.now()
 						}

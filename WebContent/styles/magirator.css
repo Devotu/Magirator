@@ -11,8 +11,8 @@ a {
 	text-decoration-line: none;
 }
 
-div, span, input {
-	font-size: 3vmin;
+div, span, input, select {
+	font-size: 4vmin;
 }
 
 input {
@@ -52,6 +52,7 @@ input.tile,select.tile {
 select.tile {
 	border: none;
 	height: auto;
+	margin-bottom: 0.5vw;
 }
 
 input.tile {
@@ -60,6 +61,7 @@ input.tile {
 
 input.tile,select.tile {
 	background-color: #fff;
+	color: #444;
 }
 
 button.tile {
@@ -72,7 +74,7 @@ button.tile {
 .header {
 	background-color: #333;
     font-size: 4vmin;
-	height: 7vw;
+	height: 9vw;
 	grid-column: span 12;
 }
 
@@ -153,7 +155,27 @@ button.tile {
 	background-color: #444;
 }
 
-.highlight {
+.black {
+	background-color: #222;
+}
+
+.white {
+	background-color: #ccc;
+}
+
+.red {
+	background-color: #977;
+}
+
+.green {
+	background-color: #797;
+}
+
+.blue {
+	background-color: #779;
+}
+
+.colorless {
 	background-color: #777;
 }
 
@@ -169,6 +191,13 @@ button.tile {
 
 .block {
 	display: block;
+}
+
+
+/*States*/
+.selected {	
+	color: black;
+	border: 0.5vmin solid sandybrown;
 }
 
 

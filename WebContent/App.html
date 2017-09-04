@@ -57,15 +57,15 @@
 <body ng-controller="mainController">
 
 	<div class="tiled">
-		<div class="tile w-3-4 h-standard header" href='#dashboard'><span class="title logo">Magirator</span><span class="block">0.6.0.0</span>{{player.name}}{{player}}</div>
-		<div class="tile" ng-hide="loggedIn()">
+		<div class="tile w-3-4 h-standard header" href='#dashboard'><span class="title logo">Magirator</span><span class="block">0.6.0.1</span>{{player.name}}{{player}} logged in: {{loggedIn()}}</div>
+		<div class="tile" ng-hide="!loggedIn()">
 			<a href="#dashboard" class="positive">
 				<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
 					<polygon points="120,460 120,250 70,250 250,70 430,250 380,250 380,460"/> Home
 				</svg>
 			</a>
 		</div>
-		<div class="tile" ng-hide="!loggedIn()">
+		<div class="tile" ng-hide="loggedIn()">
 			<a href="#login">
 				<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
 					<polygon points="100,325 100,175 175,200 175,175 225,250 175,325 175,300"/>

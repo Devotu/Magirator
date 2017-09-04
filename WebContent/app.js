@@ -3,7 +3,7 @@ ratorApp = angular.module('magiratorApp', [ 'ngRoute' ]);
 
 ratorApp.controller('mainController', function($scope, $http, $location, playerService) {
 	
-	$scope.player = undefined;
+	$scope.player = {};
 	$scope.result = "Waiting for response";
 	
 	
@@ -33,6 +33,6 @@ ratorApp.controller('mainController', function($scope, $http, $location, playerS
 	};
 	
 	$scope.loggedIn = function(){
-		$scope.player.hasOwnProperty('id'); //Not really a proper solution...
+		return $scope.player.hasOwnProperty('id'); //Not really a proper solution...		
 	}
 });
