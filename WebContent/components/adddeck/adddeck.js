@@ -49,12 +49,12 @@ ratorApp.controller('addDeckController', function ($scope, $http, $location, pla
 						deck: {
 							'name': $scope.deck.name,
 							'format': $scope.deck.format,
-							'black': $scope.black,
-							'white': $scope.white,
-							'red': $scope.red,
-							'green': $scope.green,
-							'blue': $scope.blue,
-							'colorless': $scope.colorless,
+							'black': $scope.deck.black,
+							'white': $scope.deck.white,
+							'red': $scope.deck.red,
+							'green': $scope.deck.green,
+							'blue': $scope.deck.blue,
+							'colorless': $scope.deck.colorless,
 							'theme': $scope.deck.theme,
 							'created': Date.now()
 						}
@@ -68,7 +68,7 @@ ratorApp.controller('addDeckController', function ($scope, $http, $location, pla
 						$location.url('/dashboard');
 					}
 
-				},
+					},
 					function () {
 						$scope.result = 'Failure'
 					});

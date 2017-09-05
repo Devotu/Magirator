@@ -15,42 +15,42 @@
 	<div class="tile h-50 w-full black">
 		Black
 	</div>
-	<input class="tile h-half w-100 L-12" ng-model="deck.black" placeholder="Cards" ng-show="color_details">
+	<input type="number" class="tile h-half w-100 L-12" ng-model="deck.black" placeholder="Cards" ng-show="color_details">
 </div>
 
 <div class="tile inner-tiled white" ng-click="toggleColor('white')" ng-class="{'selected': deck.white > 0}">
 	<div class="tile h-50 w-full white">
 		White
 	</div>
-	<input class="tile h-half w-100 L-12" ng-model="deck.white" placeholder="Cards" ng-show="color_details">
+	<input type="number" class="tile h-half w-100 L-12" ng-model="deck.white" placeholder="Cards" ng-show="color_details">
 </div>
 
 <div class="tile inner-tiled red" ng-click="toggleColor('red')" ng-class="{'selected': deck.red > 0}">
 	<div class="tile h-50 w-full red">
 		Red
 	</div>
-	<input class="tile h-half w-full" ng-model="deck.red" placeholder="Cards" ng-show="color_details">
+	<input type="number" class="tile h-half w-100 L-12" ng-model="deck.red" placeholder="Cards" ng-show="color_details">
 </div>
 
 <div class="tile inner-tiled green" ng-click="toggleColor('green')" ng-class="{'selected': deck.green > 0}">
 	<div class="tile h-50 w-full green">
 		Green
 	</div>
-	<input class="tile h-half w-100 L-12" ng-model="deck.green" placeholder="Cards" ng-show="color_details">
+	<input type="number" class="tile h-half w-100 L-12" ng-model="deck.green" placeholder="Cards" ng-show="color_details">
 </div>
 
 <div class="tile tile inner-tiled blue" ng-click="toggleColor('blue')" ng-class="{'selected': deck.blue > 0}">
 	<div class="tile h-50 w-full blue">
 		Blue
 	</div>
-	<input class="tile h-half w-100 L-12" ng-model="deck.blue" placeholder="Cards" ng-show="color_details">
+	<input type="number" class="tile h-half w-100 L-12" ng-model="deck.blue" placeholder="Cards" ng-show="color_details">
 </div>
 
 <div class="tile inner-tiled colorless" ng-click="toggleColor('colorless')" ng-class="{'selected': deck.colorless > 0}">
 	<div class="tile h-50 w-full colorless">
 		Colorless
 	</div>
-	<input class="tile h-half w-100 L-12" ng-model="deck.colorless" placeholder="Cards" ng-show="color_details">
+	<input type="number" class="tile h-half w-100 L-12" ng-model="deck.colorless" placeholder="Cards" ng-show="color_details">
 </div>
 
 <div class="tile header">

@@ -44,7 +44,8 @@ public class GetDeck extends HttpServlet {
 			
 			try {
 				
-				Deck deck = Decks.getDeck(deckId);				
+				Deck deck = Decks.getDeck(deckId);
+				
 				result.addProperty("deck", new Gson().toJson(deck));				
 				
 				result.addProperty(Constants.result, Constants.success);

@@ -4,7 +4,7 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 	
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
-			$scope.updatePlayer(data.player);
+			$scope.updatePlayer(JSON.parse(data.player));
 			
 			// Get updated info
 			var getUpdatesReq = requestService.buildRequest(

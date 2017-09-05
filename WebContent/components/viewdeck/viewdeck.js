@@ -24,7 +24,9 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 					
 						if (response.data.result == "Success"){
 							$scope.result = 'Success';
-							$scope.deck = JSON.parse(response.data.deck);							
+							$scope.deck = JSON.parse(response.data.deck);
+							var datebits = $scope.deck.created.split(" ");
+							$scope.deck.created = datebits[0] + " " + datebits[1] + " " + datebits[2]
 							$scope.deckname = $scope.deck.name;
 						}					
 					}, 
