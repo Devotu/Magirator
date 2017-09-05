@@ -33,6 +33,6 @@ ratorApp.controller('mainController', function($scope, $http, $location, playerS
 	};
 	
 	$scope.loggedIn = function(){
-		return $scope.player.hasOwnProperty('id'); //Not really a proper solution...		
+		return $scope.player.id > 0; //Not really a proper solution...		
 	}
 });

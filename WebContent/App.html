@@ -5,19 +5,15 @@
 <html ng-app="magiratorApp">
 
 <head>
-	<!-- <link rel="stylesheet" href="styles/bootstrap.min.css">  -->
-	<!-- <link rel="stylesheet" href="styles/font-awesome.css" /> -->
 	<link rel="stylesheet" type="text/css" href="styles/reset.css">
 	<link rel="stylesheet" type="text/css" href="styles/magirator.css">
 	<link rel="stylesheet" type="text/css" href="styles/magirator.tiles.css">
 	<link rel="stylesheet" type="text/css" href="styles/magirator.live.tiles.css">
-	<!-- <link rel="stylesheet" type="text/css" href="styles/Magicss.css">  -->
 
-	<script src="scripts/jquery.min.js"></script>
-	<script src="scripts/bootstrap.min.js"></script>
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
 
-	<script src="scripts/angular.min.js"></script>
-	<script src="scripts/angular-route.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
 
 	<!-- Magirator -->
 	<script src="app.js"></script>
@@ -57,7 +53,7 @@
 <body ng-controller="mainController">
 
 	<div class="tiled">
-		<div class="tile w-3-4 h-standard header" href='#dashboard'><span class="title logo">Magirator</span><span class="block">0.6.0.1</span>{{player.name}}{{player}} logged in: {{loggedIn()}}</div>
+		<div class="tile w-3-4 h-standard header" href='#dashboard'><span class="title logo">Magirator</span><span class="block">0.6.0.2</span>{{player.name}}{{player}} logged in: {{loggedIn()}}</div>
 		<div class="tile" ng-hide="!loggedIn()">
 			<a href="#dashboard" class="positive">
 				<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
