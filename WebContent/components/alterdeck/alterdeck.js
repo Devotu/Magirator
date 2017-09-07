@@ -62,6 +62,7 @@ ratorApp.controller('alterdeckController', function($scope, $http, $location, pl
 				
 				
 				$scope.alterDeck = function(){
+					console.log($scope.comment);
 					
 					// Alter deck
 					var AlterDeckReq = requestService.buildRequest(
@@ -80,7 +81,7 @@ ratorApp.controller('alterdeckController', function($scope, $http, $location, pl
 									'theme': $scope.deck.theme,
 									'created': Date.now()
 								},
-								comment: $scope.comment
+								comment: $scope.comment == undefined ? "" : $scope.comment
 							});
 		
 					$http(AlterDeckReq).then(function(response){

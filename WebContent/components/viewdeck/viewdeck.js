@@ -139,12 +139,11 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 						{id:$scope.deckId}
 						);
 
-				$http(getAlterationsReq).then(function(response){
+				$http(getStatsReq).then(function(response){
 					$scope.result = response.data;
 					
 						if (response.data.result == "Success"){
 							$scope.result = response.data.result;
-							$scope.alterations = JSON.parse(response.data.alterations);
 						}					
 					}, 
 					function(){

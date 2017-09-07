@@ -76,6 +76,7 @@ button.tile {
     font-size: 4vmin;
 	height: 9vw;
 	grid-column: span 12;
+	color: sandybrown;
 }
 
 .inner-tiled {
@@ -160,19 +161,19 @@ button.tile {
 }
 
 .white {
-	background-color: #ccc;
+	background-color: #ddd;
 }
 
 .red {
-	background-color: #977;
+	background-color: #a77;
 }
 
 .green {
-	background-color: #797;
+	background-color: #7a7;
 }
 
 .blue {
-	background-color: #779;
+	background-color: #77a;
 }
 
 .colorless {
@@ -203,6 +204,23 @@ button.tile {
 
 
 /*Misc*/
+svg.discrete {
+	fill: #333;
+    stroke: #000;
+    stroke-width: 2vw;
+}
+
+svg.prominent {
+	fill: sandybrown;
+    stroke: #333;
+    stroke-width: 2vw;
+}
+
+.svg-center-height {
+	margin: 30% 0;
+}
+
+
 .debug-text {
 	grid-column: span 12;
 	background-color: transparent;
