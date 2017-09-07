@@ -1,1 +1,0 @@
-"MATCH (u:User)-[r:Use]->(d:Deck) WHERE id(u)=? RETURN d.name, id(d), d.format"

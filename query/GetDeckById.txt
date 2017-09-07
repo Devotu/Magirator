@@ -1,1 +1,0 @@
-MATCH (d:Deck) WHERE id(d)=? RETURN PROPERTIES(d)

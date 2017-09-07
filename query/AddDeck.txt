@@ -1,3 +1,0 @@
-MATCH (u:User) WHERE id(u)=?
-CREATE (d:Deck { name: ?, format: ?, black: ?, white: ?, red: ?, green: ?, blue: ? ,colorless: ?, theme: ?, created: TIMESTAMP(), active:true})
-CREATE (u)-[r:Use]->(d)

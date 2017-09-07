@@ -1,4 +1,0 @@
-MATCH (u:User)
-WHERE NOT id(u) = 0
-MATCH (u)-->(d:Deck)
-RETURN u.name, id(u), d.name, id(d)

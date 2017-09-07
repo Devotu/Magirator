@@ -1,3 +1,0 @@
-MATCH (u:User)-->(d:Deck)
-WHERE id(d) = 2
-RETURN u
