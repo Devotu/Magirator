@@ -3,8 +3,8 @@
 	<span ng-show="draw">(Draw)</span>
 </div>
 
-<div class="tile q1-2 inline-tile-wrapper" ng-repeat="participant in participants | orderBy:participant.result.place">
-	<div class="tile w-1-6 h-half sub-title highlight">
+<div class="tile dark q1-2 h-x4 inline-tile-wrapper" ng-repeat="participant in participants | orderBy:participant.result.place">
+	<div class="tile w-1-6 h-half title sub-title">
 		#{{ participant.result.place }}
 	</div>
 	<div class="tile w-5-6 h-half sub-title highlight">
@@ -13,41 +13,17 @@
 	<div class="tile w-1-2 h-half highlight">
 		{{ participant.deck.name }}
 	</div>
-	<div class="tile w-1-6 h-half highlight" ng-show="participant.deck.blackCards > 0">
-		<svg viewBox="0 0 100 100">
-			<circle cx="50" cy="50" r="40" fill="black" />
-		</svg>
-	</div>
-	<div class="tile w-1-6 h-half highlight" ng-show="participant.deck.whiteCards > 0">
-		<svg viewBox="0 0 100 100">
-			<circle cx="50" cy="50" r="40" fill="white" />
-		</svg>
-	</div>
-	<div class="tile w-1-6 h-half highlight" ng-show="participant.deck.redCards > 0">
-		<svg viewBox="0 0 100 100">
-			<circle cx="50" cy="50" r="40" fill="red" />
-		</svg>
-	</div>
-	<div class="tile w-1-6 h-half highlight" ng-show="participant.deck.greenCards > 0">
-		<svg viewBox="0 0 100 100">
-			<circle cx="50" cy="50" r="40" fill="green" />
-		</svg>
-	</div>
-	<div class="tile w-1-6 h-half highlight" ng-show="participant.deck.blueCards > 0">
-		<svg viewBox="0 0 100 100">
-			<circle cx="50" cy="50" r="40" fill="blue" />
-		</svg>
-	</div>
-	<div class="tile w-1-6 h-half highlight" ng-show="participant.deck.colorlessCards > 0">
-		<svg viewBox="0 0 100 100">
-			<circle cx="50" cy="50" r="40" fill="#444" />
-		</svg>
-	</div>	
+	<div class="tile w-1-6 h-half highlight black" ng-show="participant.deck.blackCards > 0"></div>
+	<div class="tile w-1-6 h-half highlight white" ng-show="participant.deck.whiteCards > 0"></div>
+	<div class="tile w-1-6 h-half highlight red" ng-show="participant.deck.redCards > 0"></div>
+	<div class="tile w-1-6 h-half highlight green" ng-show="participant.deck.greenCards > 0"></div>
+	<div class="tile w-1-6 h-half highlight blue" ng-show="participant.deck.blueCards > 0"></div>
+	<div class="tile w-1-6 h-half highlight colorless" ng-show="participant.deck.colorlessCards > 0"></div>	
 
 	<div class="tile w-full h-half highlight" ng-show="participant.result.comment != ''">
 		"{{ participant.result.comment }}"
 	</div>
-	<div class="tile w-full free-flow">
+	<div class="tile w-full free-flow h-15">
 		<div class="tile tag" ng-class="tag.polarity == 1 ? 'bg-positive' : 'bg-negative'" ng-repeat="tag in participant.tags ">
 			{{tag.text}}
 		</div>

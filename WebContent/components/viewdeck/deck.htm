@@ -6,7 +6,7 @@
 	<span class="tile h-50 w-full sub-title">Created</span>
 	<span class="tile h-50 w-full">{{ deck.created }}</span>
 </div>
-<div class="tile inner-tiled w-2-3">
+<div class="tile inner-tiled w-1-2">
 	<span class="tile h-50 w-full sub-title">Theme</span>
 	<span class="tile h-50 w-full">{{ deck.theme }}</span>
 </div>
@@ -14,36 +14,12 @@
 <div class="tile header w-full">
 	Colors
 </div>
-<div class="tile" ng-show="deck.blackCards > 0">
-	<svg viewBox="0 0 100 100">
-		<circle cx="50" cy="50" r="40" fill="black" />
-	</svg>
-</div>
-<div class="tile" ng-show="deck.whiteCards > 0">
-	<svg viewBox="0 0 100 100">
-		<circle cx="50" cy="50" r="40" fill="white" />
-	</svg>
-</div>
-<div class="tile" ng-show="deck.redCards > 0">
-	<svg viewBox="0 0 100 100">
-		<circle cx="50" cy="50" r="40" fill="red" />
-	</svg>
-</div>
-<div class="tile" ng-show="deck.greenCards > 0">
-	<svg viewBox="0 0 100 100">
-		<circle cx="50" cy="50" r="40" fill="green" />
-	</svg>
-</div>
-<div class="tile" ng-show="deck.blueCards > 0">
-	<svg viewBox="0 0 100 100">
-		<circle cx="50" cy="50" r="40" fill="blue" />
-	</svg>
-</div>
-<div class="tile" ng-show="deck.colorlessCards > 0">
-	<svg viewBox="0 0 100 100">
-		<circle cx="50" cy="50" r="40" fill="#444" />
-	</svg>
-</div>
+<div class="tile black" ng-show="deck.blackCards > 0"></div>
+<div class="tile white" ng-show="deck.whiteCards > 0"></div>
+<div class="tile red" ng-show="deck.redCards > 0"></div>
+<div class="tile green" ng-show="deck.greenCards > 0"></div>
+<div class="tile blue" ng-show="deck.blueCards > 0"></div>
+<div class="tile colorless" ng-show="deck.colorlessCards > 0"></div>
 
 <div class="tile header w-full">
 	Options

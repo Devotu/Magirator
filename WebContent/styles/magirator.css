@@ -3,7 +3,7 @@ body {
     background-color: #171410;
     margin: 1.5vw;
     font-family: sans-serif;
-    color: #222;
+    color: linen;
 }
 
 /*Universal*/
@@ -11,8 +11,8 @@ a {
 	text-decoration-line: none;
 }
 
-div, span, input {
-	font-size: 3vmin;
+div, span, input, select {
+	font-size: 4vmin;
 }
 
 input {
@@ -37,10 +37,12 @@ button {
 }
 
 .tile {
-	grid-column: span 2;
-	height: 14vw;
+	grid-column: span 3;
+	height: 21vw;
 	padding: 1vw;
-	background-color: #666;	
+	background-color: #666;
+	color: linen;
+	font-variant: small-caps;
 }
 
 input.tile,select.tile {
@@ -50,6 +52,7 @@ input.tile,select.tile {
 select.tile {
 	border: none;
 	height: auto;
+	margin-bottom: 0.5vw;
 }
 
 input.tile {
@@ -58,6 +61,7 @@ input.tile {
 
 input.tile,select.tile {
 	background-color: #fff;
+	color: #444;
 }
 
 button.tile {
@@ -67,12 +71,12 @@ button.tile {
 
 
 /*Tile variations*/
-.tile.header {
-	background-color: #444;
-	color: #ccc;
+.header {
+	background-color: #333;
     font-size: 4vmin;
-	height: 6vw;
+	height: 9vw;
 	grid-column: span 12;
+	color: sandybrown;
 }
 
 .inner-tiled {
@@ -108,12 +112,12 @@ button.tile {
 
 
 /*Text*/
-.tile.title {
-    font-size: 5vmin;
+.title.logo {
+    font-size: 8vmin;
 }
 
-.sub-title {
-	color: #ccc;
+.title {
+	color: sandybrown;
 }
 
 .strong {
@@ -152,23 +156,71 @@ button.tile {
 	background-color: #444;
 }
 
-.highlight {
+.black {
+	background-color: #222;
+}
+
+.white {
+	background-color: #ddd;
+}
+
+.red {
+	background-color: #a77;
+}
+
+.green {
+	background-color: #7a7;
+}
+
+.blue {
+	background-color: #77a;
+}
+
+.colorless {
 	background-color: #777;
 }
 
 
 /*Visibility*/
-.hidden{
+.hidden {
 	display: none;
 }
   
-.visible{
+.visible {
 	display: inline;
+}
+
+.block {
+	display: block;
+}
+
+
+/*States*/
+.selected {	
+	color: black;
+	border: 0.5vmin solid sandybrown;
 }
 
 
 
 /*Misc*/
+svg.discrete {
+	fill: #333;
+    stroke: #000;
+    stroke-width: 2vw;
+}
+
+svg.prominent {
+	fill: sandybrown;
+    stroke: #333;
+    stroke-width: 2vw;
+}
+
+.svg-center-height {
+	margin: 30% 0;
+}
+
+
 .debug-text {
 	grid-column: span 12;
 	background-color: transparent;

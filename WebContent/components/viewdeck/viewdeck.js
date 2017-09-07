@@ -24,7 +24,9 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 					
 						if (response.data.result == "Success"){
 							$scope.result = 'Success';
-							$scope.deck = JSON.parse(response.data.deck);							
+							$scope.deck = JSON.parse(response.data.deck);
+							var datebits = $scope.deck.created.split(" ");
+							$scope.deck.created = datebits[0] + " " + datebits[1] + " " + datebits[2]
 							$scope.deckname = $scope.deck.name;
 						}					
 					}, 
@@ -137,12 +139,11 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 						{id:$scope.deckId}
 						);
 
-				$http(getAlterationsReq).then(function(response){
+				$http(getStatsReq).then(function(response){
 					$scope.result = response.data;
 					
 						if (response.data.result == "Success"){
 							$scope.result = response.data.result;
-							$scope.alterations = JSON.parse(response.data.alterations);
 						}					
 					}, 
 					function(){

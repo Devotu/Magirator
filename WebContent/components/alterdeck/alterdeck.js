@@ -51,7 +51,18 @@ ratorApp.controller('alterdeckController', function($scope, $http, $location, pl
 				$scope.getDeck();
 				
 				
+				$scope.toggleColor = function(color){
+					
+					color = color + "Cards";
+					
+					if(!$scope.color_details){
+						$scope.deck[color] == 1 ? $scope.deck[color] = 0 : $scope.deck[color] = 1;
+					}				
+				}
+				
+				
 				$scope.alterDeck = function(){
+					console.log($scope.comment);
 					
 					// Alter deck
 					var AlterDeckReq = requestService.buildRequest(
@@ -70,7 +81,7 @@ ratorApp.controller('alterdeckController', function($scope, $http, $location, pl
 									'theme': $scope.deck.theme,
 									'created': Date.now()
 								},
-								comment: $scope.comment
+								comment: $scope.comment == undefined ? "" : $scope.comment
 							});
 		
 					$http(AlterDeckReq).then(function(response){
