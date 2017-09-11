@@ -42,24 +42,24 @@ public class Login extends HttpServlet {
 			
 			LoginCredentials loginCredentials = new LoginCredentials(credentials);
 			
-			loginCredentials.encryptPassword();
-			
-			User user = Users.login(loginCredentials);
-			
-			if (user != null){ //Inloggningen gick bra
-				
-				result.addProperty(Constants.result, "Could not find player");
-				
-				Player player = Players.getPlayer(user);
-				
-				if (player != null) {
-					
-					HttpSession session = request.getSession();
-					session.setAttribute("player", player);
-					result.addProperty(Constants.result, Constants.success);
-					
-					Users.clearReset(loginCredentials);
-				}
+			if (loginCredentials.isValidLogin()) {
+				loginCredentials.encryptPassword();
+				User user = Users.login(loginCredentials);
+				if (user != null) { //Inloggningen gick bra
+
+					result.addProperty(Constants.result, "Could not find player");
+
+					Player player = Players.getPlayer(user);
+
+					if (player != null) {
+
+						HttpSession session = request.getSession();
+						session.setAttribute("player", player);
+						result.addProperty(Constants.result, Constants.success);
+
+						Users.clearReset(loginCredentials);
+					}
+				} 
 			}
 			
 		} catch (Exception e) {

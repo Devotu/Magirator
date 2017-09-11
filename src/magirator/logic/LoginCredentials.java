@@ -8,6 +8,8 @@ import magirator.support.Encryption;
 
 public class LoginCredentials {
 	
+	private static final int MIN_PASSWORD = 8;
+	
 	private String username;
 	private String password;
 	private String retype;
@@ -35,6 +37,13 @@ public class LoginCredentials {
 	
 	public String getCode() {
 		return code;
+	}
+	
+	public boolean isValidLogin(){
+		if(username == null || password == null || password.length() < 8){
+			return false;
+		}
+		return true;
 	}
 	
 	public void encryptPassword() throws NoSuchAlgorithmException{

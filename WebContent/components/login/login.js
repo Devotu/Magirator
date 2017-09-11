@@ -1,30 +1,49 @@
 ratorApp.controller('loginController', function($scope, $http, $location, requestService) {
 	
+	$scope.result = "";
+	
 	// Login
 	$scope.login = function(){
 		
-		$scope.result = "Waiting for response";
+		var valid_username = $scope.username != undefined && $scope.username.length > 1;
+		var valid_password = $scope.password != undefined && $scope.password.length >= 8;
 		
-		var loginReq = requestService.buildRequest(
-				"Login", 
-				{
-					'username': $scope.username,
-					'password': $scope.password
+		
+		if(valid_username && valid_password){
+		
+			$scope.result = "Waiting for response";
+			
+			var loginReq = requestService.buildRequest(
+					"Login", 
+					{
+						'username': $scope.username,
+						'password': $scope.password
+					}
+				);
+	
+			$http(loginReq).then(function(response){
+				$scope.result = response.data.result;
+				
+				if (response.data.result == "Success"){
+					$scope.$emit('logged_in', true);
+					$location.url('/dashboard');		
 				}
-			);
-
-		$http(loginReq).then(function(response){
-			$scope.result = response.data.result;
+				
+				}, 
+				function(){
+					$scope.result = 'Failure';
+				});
 			
-			if (response.data.result == "Success"){
-				$scope.$emit('logged_in', true);
-				$location.url('/dashboard');		
+		} else {
+			
+			if(!valid_username){
+				$scope.result = "Username is invalid";
+			} else if (!valid_password){
+				$scope.result = "Password is invalid, min characters i 8";
+			} else {
+				$scope.result = "Something is fishy";
 			}
-			
-			}, 
-			function(){
-				$scope.result = 'Failure';
-			});
+		}
 	};
 	
     $scope.goSignup = function() {

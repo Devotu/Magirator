@@ -17,8 +17,6 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	//Hämta player live player token	
 	$scope.player_token = varStorage.getLiveToken();
 	
-	console.log($scope.player_token);
-	
 	//Hämta player live game id	
 	var getPlayerLiveGameIdReq = requestService.buildRequest(
 		"API/playerlivegameid",
@@ -199,7 +197,6 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	    $http(getTagReq).then(function(response){
 	    	
 			$scope.result = response.data.result;
-			console.log(response.data);
 			
 			if (response.data.result == "Success"){
 				$scope.previous_tags = JSON.parse(response.data.tags);
@@ -224,7 +221,6 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	    $http(getTagReq).then(function(response){
 	    	
 			$scope.result = response.data.result;
-			console.log(response.data);
 			
 			if (response.data.result == "Success"){
 				$scope.self_tags = JSON.parse(response.data.tags);
