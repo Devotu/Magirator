@@ -136,19 +136,19 @@ button.tile {
 
 
 /*Flavors*/
-.positive {
+div.positive {
 	color: #696;
 }
 
-.negative {
+div.negative {
 	color: #e35454;
 }
 
-.bg-positive {
+div.bg-positive {
 	background-color: #696;
 }
 
-.bg-negative {
+div.bg-negative {
 	background-color: #966;
 }
 

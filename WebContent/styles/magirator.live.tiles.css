@@ -26,7 +26,7 @@
 	margin: 0vw;
 	grid-column: span 12;
 	align-content: baseline;
-	height: 10vw;
+	height: 8vw;
 }
 
 .live-tile {
@@ -38,6 +38,13 @@
 
 .live-tile.w-full {
 	grid-column: span 6;
+}
+
+.live-header {
+	background-color: #333;
+    font-size: 4vmin;
+	grid-column: span 12;
+	color: sandybrown;
 }
 
 /*Life*/
