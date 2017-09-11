@@ -82,7 +82,6 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 					$scope.result = response.data.result;
 					
 					if (response.data.result == "Success"){
-						console.log(response.data.token);
 						varStorage.setLiveToken(response.data.token);
 						$location.url('/play');
 					}

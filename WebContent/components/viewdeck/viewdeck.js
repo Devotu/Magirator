@@ -37,8 +37,6 @@ ratorApp.controller('viewdeckController', function($scope, $http, $location, pla
 						
 			$scope.toggleActive = function(){
 				
-				console.log($scope.deck.deckid);
-				
 				// Toggle deck
 				var toggleDeckReq = requestService.buildRequest(
 						"ToggleDeck", 

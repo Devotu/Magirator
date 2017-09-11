@@ -12,7 +12,6 @@ ratorApp.controller('gameController', function($scope, $http, $location, playerS
 			$scope.gameId = varStorage.getGoTo();
 			
 			$scope.rating = {'speed': 0, 'strength': 0, 'synergy': 0, 'control': 0};
-			console.log($scope.rating);
 			
 			$scope.generalRating = function(){
 				var total = 0;
@@ -44,8 +43,6 @@ ratorApp.controller('gameController', function($scope, $http, $location, playerS
 		
 				$http(getGameReq).then(function(response){
 					$scope.result = response.data;
-					
-					console.log(response.data);
 					
 						if (response.data.result == "Success"){
 							$scope.result = 'Success';

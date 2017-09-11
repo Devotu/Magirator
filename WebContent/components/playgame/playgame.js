@@ -79,7 +79,6 @@ ratorApp.controller('playGameController', function ($scope, $http, $location, pl
 			//RUNNING
 			$scope.getGameStatus = function(){
 				
-				console.log('Getting game status');
 				var getGameStatusReq = requestService.buildRequest(
 						"API/gamestatus", 
 							{

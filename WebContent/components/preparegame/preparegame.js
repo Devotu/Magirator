@@ -165,8 +165,6 @@ ratorApp.controller('prepareGameController', function ($scope, $http, $location,
 						deckName: $scope.addDeck.name
 					}
 				);
-				
-				console.log($scope.participants);
 
 				//Remove to avoid duplicates
 				var opponentz = $scope.opponents.map(function (o) { return o.id; });

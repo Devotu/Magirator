@@ -62,7 +62,6 @@ ratorApp.controller('alterdeckController', function($scope, $http, $location, pl
 				
 				
 				$scope.alterDeck = function(){
-					console.log($scope.comment);
 					
 					// Alter deck
 					var AlterDeckReq = requestService.buildRequest(
