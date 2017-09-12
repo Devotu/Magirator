@@ -99,5 +99,10 @@ ratorApp.config(function($routeProvider) {
 		templateUrl : 'components/joingame/joingame.html',
 		controller : 'joinGameController'
 	})
+	
+	.when('/stats', {
+		templateUrl : 'components/viewstats/viewstats.html',
+		controller : 'viewStatsController'
+	})
 	;
 });

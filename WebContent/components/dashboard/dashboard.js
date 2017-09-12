@@ -70,6 +70,10 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 				$location.url('/join');
 			}
 			
+			$scope.goStats = function(){
+				$location.url('/stats');
+			}
+			
 			$scope.goToGame = function(){
 				
 				var getPlayerLiveGameTokenReq = requestService.buildRequest(
