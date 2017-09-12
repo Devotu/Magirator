@@ -2,15 +2,15 @@
 	<div class="tile" ng-click="cancelGame();">Cancel Game</div>
 	<div class="tile" ng-click="console.log('test');">Declare Draw</div>
 	<div class="tile" ng-click="console.log('test');">Declare Player Dead</div>
-	<div class="tile" ng-click="console.log('test');">Remove Player</div>	
+	<div class="tile" ng-click="console.log('test');">Remove Player</div>
 </div>
 <div class="tile header w-full">Game Id: {{live_id}}</div>
 
 <div class="inline-tile-wrapper dual-wrapper w-full">
 
 	<div ng-repeat="participant in participants | orderBy:participant.place" class="tile w-1 h-x5 transparent" ng-init="change=0">
-	
-		<div id="content_life" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-show="tab == 'Life'">
+
+		<div id="content_life" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-show="tab == 'Life'" ng-class="{'selected': participant.self}">
 			<div class="live-tile player-name sub-title">{{participant.player_name}}</div>
 			<div class="live-tile current-life sub-title">
 				<div class="giant" ng-show="!participant.dead || !participant.place == 1">
@@ -27,19 +27,19 @@
 				<div class="tile tile-sw tile-sh hidden large" ng-class="{'positive visible': change > 0}">+{{change}}</div>
 				<div class="tile tile-sw tile-sh hidden large" ng-class="{'negative visible': change < 0}">{{change}}</div>
 			</div>
-			<div class="live-tile add-1 positive large" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change +1; addToLifeChange(participant.player_token, change)">+1</div>
-			<div class="live-tile add-5 positive large" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change +5; addToLifeChange(participant.player_token, change)">+5</div>
-			<div class="live-tile remove-1 negative large" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change -1; addToLifeChange(participant.player_token, change)">-1</div>
-			<div class="live-tile remove-5 negative large" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change -5; addToLifeChange(participant.player_token, change)">-5</div>
-			<div class="live-tile LL-1">L</div>
-			<div class="live-tile LL-2">i</div>
-			<div class="live-tile LL-3">f</div>
-			<div class="live-tile LL-4">e</div>
-			<div class="live-tile LL-5">l</div>
-			<div class="live-tile LL-6">g</div>
+			<div class="live-tile add-1 positive large clickable" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change +1; addToLifeChange(participant.player_token, change)">+1</div>
+			<div class="live-tile add-5 positive large clickable" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change +5; addToLifeChange(participant.player_token, change)">+5</div>
+			<div class="live-tile remove-1 negative large clickable" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change -1; addToLifeChange(participant.player_token, change)">-1</div>
+			<div class="live-tile remove-5 negative large clickable" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change -5; addToLifeChange(participant.player_token, change)">-5</div>
+			<div class="live-tile LL-1"></div>
+			<div class="live-tile LL-2"></div>
+			<div class="live-tile LL-3"></div>
+			<div class="live-tile LL-4"></div>
+			<div class="live-tile LL-5"></div>
+			<div class="live-tile LL-6"></div>
 		</div>
-		
-		<div id="content_tag" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-show="tab == 'Tag'">
+
+		<div id="content_tag" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-show="tab == 'Tag'" ng-class="{'selected': participant.self}">
 
 			<div class="live-tile live-header w-full">
 				Previous
@@ -54,13 +54,13 @@
 			<div class="live-tile live-header w-full">
 				Add
 			</div>
-						<div class="live-tile h-half" ng-click="addTag(tag_text, 'negative'); tag_text=''">
+			<div class="live-tile h-half clickable" ng-click="addTag(tag_text, 'negative'); tag_text=''">
 				<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
 					<polygon points="50,200 450,200 450,300 50,300" /> Negative
 				</svg>
 			</div>
 			<input class="tile h-half w-1-3 tag-input" ng-model="tag_text" type="text" placeholder="Tag" autofocus>
-			<div class="live-tile h-half" ng-click="addTag(tag_text, 'positive'); tag_text=''">
+			<div class="live-tile h-half clickable" ng-click="addTag(tag_text, 'positive'); tag_text=''">
 				<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
 					<polygon points="50,200 200,200 200,50 300,50 300,200 300,200 450,200 450,300 300,300 300,450 200,450 200,300 50,300" /> Positive
 				</svg>
@@ -78,21 +78,39 @@
 			</div>
 
 		</div>
-		
-		<div id="content_rate" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-show="tab == 'Rate'">
+
+		<div id="content_rate" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-show="tab == 'Rate'" ng-class="{'selected': participant.self}">
 			<div class="live-tile">Rating</div>
 		</div>
-		<div id="content_death" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-show="tab == 'Death'">
-					
+		<div id="content_death" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-show="tab == 'Death'" ng-class="{'selected': participant.self}">
+
 			<div class="live-tile current-place sub-title large">#{{next_death}}</div>
-			<div class="live-tile confirm sub-title large" ng-click="declareDead(participant.player_token)">Confirm</div>
+			<div class="live-tile confirm sub-title large clickable" ng-click="declareDead(participant.player_token)">Confirm</div>
 		</div>
-		
+
 		<div ng-show="participant.self" class="tile inline-tile-tab-wrapper w-full transparent">
-			<div class="tab dark" ng-click="tab = 'Life'">Life</div>
-			<div class="tab dark" ng-click="tab = 'Tag'">Tags</div>
-			<div class="tab dark" ng-click="tab = 'Rate'">Rate</div>
-			<div class="tab dark" ng-disabled="participant.dead || participant.place == 1" ng-click="tab = 'Death'">Conf.</div>
+			<div class="tab dark" ng-click="tab = 'Life'">
+				<svg class="prominent" svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+					<polygon points="125,50 175,50 175,125 250,125 250,175 175,175 175,250 125,250 125,175 50,175 50,125 125,125"/>
+					<polygon points="85,385 385,85 415,115 115,415"/>
+					<polygon points="250,325 450,325 450,375 250,375"/> Positive
+				</svg>
+			</div>
+			<div class="tab dark" ng-click="tab = 'Tag'">
+				<svg class="prominent" svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+					<polygon points="50,50 200,50 450,300 300,450 50,200" /> Positive
+				</svg>
+			</div>
+			<div class="tab dark" ng-click="tab = 'Rate'">
+				<svg class="prominent" svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+					<polygon points="0,183 193,183 250,0 314,183 500,183 347,297 409,473 250,367 96,473 156,297" /> Positive
+				</svg>
+			</div>
+			<div class="tab dark" ng-disabled="participant.dead || participant.place == 1" ng-click="tab = 'Death'">
+				<svg class="prominent" svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+					<polygon points="100,150 200,150 200,50 300,50 300,150 400,150 400,250 300,250 300,450 200,450 200,250 100,250" /> Positive
+				</svg>
+			</div>
 		</div>
 	</div>
 

@@ -180,6 +180,11 @@ div.bg-negative {
 	background-color: #777;
 }
 
+.clickable {
+	box-sizing: border-box;
+    border: 0.5vw solid #333;
+}
+
 
 /*Visibility*/
 .hidden {
@@ -197,7 +202,6 @@ div.bg-negative {
 
 /*States*/
 .selected {	
-	color: black;
 	border: 0.5vmin solid sandybrown;
 }
 
