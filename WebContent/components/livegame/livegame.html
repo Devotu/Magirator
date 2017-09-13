@@ -27,10 +27,10 @@
 				<div class="tile tile-sw tile-sh hidden large" ng-class="{'positive visible': change > 0}">+{{change}}</div>
 				<div class="tile tile-sw tile-sh hidden large" ng-class="{'negative visible': change < 0}">{{change}}</div>
 			</div>
-			<div class="live-tile add-1 positive large clickable" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change +1; addToLifeChange(participant.player_token, change)">+1</div>
-			<div class="live-tile add-5 positive large clickable" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change +5; addToLifeChange(participant.player_token, change)">+5</div>
-			<div class="live-tile remove-1 negative large clickable" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change -1; addToLifeChange(participant.player_token, change)">-1</div>
-			<div class="live-tile remove-5 negative large clickable" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change -5; addToLifeChange(participant.player_token, change)">-5</div>
+			<div class="live-tile add-1 positive large clickable" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change +1; addToLifeChange(participant.player_token, 1)">+1</div>
+			<div class="live-tile add-5 positive large clickable" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change +5; addToLifeChange(participant.player_token, 5)">+5</div>
+			<div class="live-tile remove-1 negative large clickable" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change -1; addToLifeChange(participant.player_token, -1)">-1</div>
+			<div class="live-tile remove-5 negative large clickable" ng-disabled="participant.dead || participant.place == 1" ng-click="change = change -5; addToLifeChange(participant.player_token, -5)">-5</div>
 			<div class="live-tile LL-1"></div>
 			<div class="live-tile LL-2"></div>
 			<div class="live-tile LL-3"></div>

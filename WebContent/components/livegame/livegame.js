@@ -109,9 +109,11 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 		var i = 0;
 		var done = false;
 		
-		while (i < $scope.lifeUpdates){
-	        if (player_token === $scope.lifeUpdates[i].player_token) {
+		while (i < $scope.lifeUpdates.length){
+	        if (player_token == $scope.lifeUpdates[i].player_token) {
 	        	$scope.lifeUpdates[i].new_life = $scope.lifeUpdates[i].new_life + change;
+	        	done = true;
+	        	break;
 	        }
 	        i++;
 		}
@@ -119,9 +121,10 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 		if (!done){
 			
 			while (i < $scope.participants.length){
-		        if (player_token === $scope.participants[i].player_token) {
+		        if (player_token == $scope.participants[i].player_token) {
 		        	
 		        	$scope.lifeUpdates.push( { player_token: player_token, new_life: $scope.participants[i].life + change } );
+		        	break;
 		        }
 		        i++;
 			}
@@ -134,6 +137,7 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	$scope.alterLife = function(){
 
 		clearInterval($scope.lifeUpdater);
+		console.log($scope.lifeUpdates);
 		
 		var alterLifeReq = requestService.buildRequest(
 			"API/alterlife", 
@@ -149,6 +153,7 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 			$scope.result = response.data.result;
 			
 			if (response.data.result == "Success"){
+				$scope.lifeUpdates = [];
 				$scope.updateStatus();
 			}
 	    	
