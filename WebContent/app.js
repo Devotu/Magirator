@@ -36,3 +36,13 @@ ratorApp.controller('mainController', function($scope, $http, $location, playerS
 		return $scope.player.id > 0; //Not really a proper solution...		
 	}
 });
+
+ratorApp.controller('helpController', function ($scope) {
+    
+	$scope.help = {};
+
+    $scope.initHelpController = function(help) {
+    	console.log(help);
+        $scope.help = help;
+    }
+});
