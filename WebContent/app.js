@@ -39,10 +39,9 @@ ratorApp.controller('mainController', function($scope, $http, $location, playerS
 
 ratorApp.controller('helpController', function ($scope) {
     
-	$scope.help = {};
-
     $scope.initHelpController = function(help) {
     	console.log(help);
         $scope.help = help;
+    	console.log($scope.help);
     }
 });
