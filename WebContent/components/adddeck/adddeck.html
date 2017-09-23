@@ -11,18 +11,11 @@
 	</svg>
 </div>
 
-<div class="tile helper w-11-12">
-	{{helps.colors.text}}
+<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="initHelpController(
+	helps.adddeck_colors,
+	'Select which colors are in your deck. To be specify number of cards press the +.'
+	)" ng-if="helps" ng-show="helps.adddeck_colors.display" class="include-tiled helper">
 </div>
-<div class="tile help-end h-half" ng-click="">
-	<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
-		<polygon points="100,50 250,200 400,50 450,100 300,250 450,400 400,450 250,300 100,450 50,400 200,250 50,100" /> Dismiss
-	</svg>
-</div>
-
-
-<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="initHelpController(helps.colors)" ng-if="helps" class="tile helper"></div>
-
 
 <div class="tile inner-tiled black" ng-click="toggleColor('black')" ng-class="{'selected': deck.black > 0}">
 	<div class="tile h-50 w-full black">
@@ -71,7 +64,11 @@
 	Details
 </div>
 
-<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="initHelpController(helps.details)" ng-if="helps" class="tile helper"></div>
+<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="initHelpController(
+	helps.adddeck_details,
+	'Name and format are mandatory, theme and colors optional. Click Add to add deck to your list of decks'
+	)" ng-if="helps" ng-show="helps.adddeck_details.display" class="include-tiled helper">
+</div>
 
 
 <input class="tile h-half w-1-3" ng-model="deck.name" type="text" placeholder="Name" autofocus>

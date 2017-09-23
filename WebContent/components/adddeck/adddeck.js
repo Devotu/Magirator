@@ -4,8 +4,8 @@ ratorApp.controller('addDeckController', function ($scope, $http, $location, pla
 		if (data.result == "Success") {			
 			
 			$scope.helps = {
-					colors: {text: "Either select colors or press the + sign to enter number of cards for each colhortz. Ännu mera text så att det blri hela tre rader!! sp mycket"},
-					details: {text: "Select name, format and theme."}
+					adddeck_colors: {name: 'adddeck_colors', display: true},
+					adddeck_details: {name: 'adddeck_details', display: true}
 			}
 
 			$scope.deck = {

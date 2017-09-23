@@ -25,6 +25,10 @@
 }
 
 /*Heights*/
+.tile.h-in-half {
+	height: 7vw;
+}
+
 .tile.h-half {
 	height: 9vw;
 }
