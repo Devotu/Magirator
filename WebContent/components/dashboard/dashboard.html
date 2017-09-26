@@ -1,3 +1,9 @@
+<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="help_initController(
+	settings.helps.dashboard,
+	'Welcome to Magirator. To dismiss help press the x. To reenable them visit settings.'
+	)" ng-if="settings.help" ng-show="settings.help.dashboard" class="include-tiled helper">
+</div>
+
 <div class="tile q1-3" ng-show="liveGame != 'none'" ng-click="goToGame()">
 	To game
 </div>

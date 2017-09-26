@@ -13,7 +13,7 @@
 
 <div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="initHelpController(
 	helps.adddeck_colors,
-	'Select which colors are in your deck. To be specify number of cards press the +.'
+	'Select which colors are in your deck. To specify number of cards press the +.'
 	)" ng-if="helps" ng-show="helps.adddeck_colors.display" class="include-tiled helper">
 </div>
 
@@ -64,7 +64,7 @@
 	Details
 </div>
 
-<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="initHelpController(
+<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="help_initController(
 	helps.adddeck_details,
 	'Name and format are mandatory, theme and colors optional. Click Add to add deck to your list of decks'
 	)" ng-if="helps" ng-show="helps.adddeck_details.display" class="include-tiled helper">

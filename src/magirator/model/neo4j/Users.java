@@ -10,8 +10,11 @@ import java.util.Map;
 
 import javax.naming.NamingException;
 
+import magirator.data.collections.SettingsBundle;
+import magirator.data.entities.Help;
 import magirator.data.entities.Player;
 import magirator.data.entities.Reset;
+import magirator.data.entities.Settings;
 import magirator.data.entities.User;
 import magirator.logic.LoginCredentials;
 import magirator.support.Database;
@@ -59,7 +62,8 @@ public class Users {
 			
 			String query = ""
 					+ "CREATE (u" + User.neoCreator() + ")-[c:Created {created: TIMESTAMP()}]->(p" + Player.neoCreator() + ") "
-					+ "CREATE (u)-[i:Is]->(p)"
+					+ "CREATE (u)-[i:Is]->(p) "
+					+ "CREATE (u)-[:Prefers]->(s " + Settings.neoCreator() + ")-[:Includes]->(h" + Help.neoCreator() + ") "
 					+ "RETURN p.id";
 			
 			ps = con.prepareStatement(query);
@@ -303,6 +307,42 @@ public class Users {
 		
 			if (rs.next()) { 
 				return new User( (Map<String, ?>)rs.getObject("PROPERTIES(u)") );
+			}
+			
+			return null;
+			
+		} finally {
+			if (rs != null) rs.close();
+			if (ps != null) ps.close();
+			if (con != null) con.close();
+		}
+	}
+	
+	
+	public static SettingsBundle getSettings(Player player) throws SQLException, NamingException{
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {	
+			con = Database.getConnection();
+
+			String query = ""
+					+ "MATCH (h:Help)<-[:Includes]-(s:Settings)<-[:Prefers]-(:User)-[:Is]->(p:Player) "
+					+ "WHERE p.id = ? "
+					+ "RETURN PROPERTIES(h), PROPERTIES(s)";
+
+			ps = con.prepareStatement(query);
+      		ps.setInt(1, player.getId());
+
+      		rs = ps.executeQuery();      		
+      		
+			if (rs.next()) {
+				Settings settings = new Settings( (Map<String, ?>)rs.getObject("PROPERTIES(s)") );
+				Help help = new Help( (Map<String, ?>)rs.getObject("PROPERTIES(h)"));				
+				
+				return new SettingsBundle(settings, help);
 			}
 			
 			return null;

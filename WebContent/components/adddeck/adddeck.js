@@ -1,4 +1,4 @@
-ratorApp.controller('addDeckController', function ($scope, $http, $location, playerService, requestService) {
+ratorApp.controller('addDeckController', function ($scope, $http, $location, playerService, requestService, settingsService) {
 
 	playerService.getPlayer().then(function (data) {
 		if (data.result == "Success") {			

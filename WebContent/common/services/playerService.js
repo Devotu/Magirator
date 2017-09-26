@@ -13,4 +13,5 @@ ratorApp.factory('playerService', function($http, requestService){
 			});
 		}
 	}
+
 });
