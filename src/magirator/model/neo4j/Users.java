@@ -340,7 +340,7 @@ public class Users {
       		
 			if (rs.next()) {
 				Settings settings = new Settings( (Map<String, ?>)rs.getObject("PROPERTIES(s)") );
-				Help help = new Help( (Map<String, ?>)rs.getObject("PROPERTIES(h)"));				
+				Help help = new Help( (Map<String, Boolean>)rs.getObject("PROPERTIES(h)"));				
 				
 				return new SettingsBundle(settings, help);
 			}
@@ -352,6 +352,43 @@ public class Users {
 			if (ps != null) ps.close();
 			if (con != null) con.close();
 		}
+	}
+
+	public static boolean dismissHelp(Player player, String helpId) throws SQLException, NamingException {
+
+		if (Help.isValidSection(helpId)) {//To prevent sql injection
+			
+			Connection con = null;
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			try {
+				con = Database.getConnection();
+
+				String query = "" + "MATCH (h:Help)<-[:Includes]-(:Settings)<-[:Prefers]-(:User)-[:Is]->(p:Player) "
+						+ "WHERE p.id = ? " 
+						+ "SET h." + helpId + " = false " //Cannot find a way to set this by prepared statement
+						+ "RETURN h." + helpId;
+
+				ps = con.prepareStatement(query);
+				ps.setInt(1, player.getId());
+
+				rs = ps.executeQuery();
+
+				if (rs.next()) {
+					return !rs.getBoolean("h." + helpId);
+				}
+
+			} finally {
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+				if (con != null)
+					con.close();
+			} 
+		}
+
+		return false;
 	}
 
 }

@@ -2,37 +2,40 @@ ratorApp.factory('settingsService', function($http, requestService){
 	
 	var settings = {};
 	
+	var loadSettings = function(){
+		
+		var loadSettingsReq = requestService.buildRequest(
+				"GetSettings",
+				{ }
+		);
+		
+		return $http(loadSettingsReq).then(function(response){
+			
+			this.settings = JSON.parse(response.data.settings);
+			
+			return this.settings;
+		});
+	}
+	
 	return {	
-		loadSettings: function(){
-			
-			var loadSettingsReq = requestService.buildRequest(
-					"GetSettings",
-					{ }
-			);
-			
-			return $http(loadSettingsReq).then(function(response){
-				
-				this.settings = JSON.parse(response.data.settings);
-				
-				return this.settings;
-			});
-		},	
+		loadSettings: loadSettings,	
 		getSettings: function(){
 			
 			return this.settings;
 		},
-		dismissHelp: function(help_name){
-			
-			console.log('dismissing ' + help_name);
+		dismissHelp: function(help_id){
 			
 			var dismissHelpReq = requestService.buildRequest(
 					"DismissHelp",
 					{
-						name: help_name
+						id: help_id
 					}
 			);
 			
-			$http(dismissHelpReq);
+			$http(dismissHelpReq).then(function(response){
+				
+				loadSettings();
+			});
 		}
 	}
 	
