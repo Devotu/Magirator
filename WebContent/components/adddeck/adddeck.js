@@ -3,9 +3,17 @@ ratorApp.controller('addDeckController', function ($scope, $http, $location, pla
 	playerService.getPlayer().then(function (data) {
 		if (data.result == "Success") {			
 			
-			$scope.helps = {
+/*			$scope.helps = {
 					adddeck_colors: {name: 'adddeck_colors', display: true},
 					adddeck_details: {name: 'adddeck_details', display: true}
+			}*/
+			
+			$scope.settings = settingsService.getSettings();
+
+			if ($scope.settings == undefined) {
+				settingsService.loadSettings().then(function(data) {
+					$scope.settings = data;
+				});
 			}
 
 			$scope.deck = {

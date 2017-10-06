@@ -4,14 +4,14 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 	
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
+			$scope.updatePlayer(JSON.parse(data.player)); 
 			
 			$scope.settings = settingsService.getSettings();
 			
 			if ($scope.settings == undefined){
 				settingsService.loadSettings().then(function(data) {
 					$scope.settings = data;
-				});
-				
+				});				
 			}
 			
 			// Get updated info

@@ -24,6 +24,13 @@
 <div class="tile header w-full">
 	Options
 </div>
+
+<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="help_initController(
+	'viewdeck_options',
+	'Active is used for various sorting options. Press to toggle'
+	)" ng-if="settings.help" ng-show="settings.help.sections.viewdeck_options" ng-click="settings.help.sections.viewdeck_options=false" class="include-tiled helper animate-show-hide">
+</div>
+
 <div class="tile inner-tiled" ng-click="toggleActive()">
 	<span class="h-50 tile w-full sub-title">Active</span>
 	<span class="h-50 tile w-full">{{ deck.active }}</span>

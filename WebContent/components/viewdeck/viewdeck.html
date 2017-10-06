@@ -15,6 +15,12 @@
 	Alter
 </div>
 
+<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="help_initController(
+	'viewdeck',
+	'Here you can view all data regarding this deck divided into four tabs (Info, Games, Stats and Alterations).'
+	)" ng-if="settings.help" ng-show="settings.help.sections.viewdeck" ng-click="settings.help.sections.viewdeck=false" class="include-tiled helper animate-show-hide">
+</div>
+
 	<ng-include class="inline-tile-wrapper w-full" src="'components/viewdeck/deck.htm'" onload="getDeck()" ng-show="isSet(1)"></ng-include>
 
 	<ng-include class="inline-tile-wrapper w-full" src="'components/viewdeck/games.htm'" onload="getGames()" ng-show="isSet(2)"></ng-include>

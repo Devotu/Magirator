@@ -5,13 +5,14 @@ import java.util.Map;
 
 public class Help {
 	
-	public enum sectionName { DASHBOARD, ADDDECK_COLORS, ADDDECK_DETAILS };	
+	public enum sectionName { 
+		DASHBOARD, ADDDECK_COLORS, ADDDECK_DETAILS, DECKLIST, VIEWDECK, 
+		VIEWDECK_OPTIONS, VIEWDECK_STATS, VIEWDECK_GAMES, VIEWDECK_ALTERATIONS 
+		};
+		
 	private Map<String, Boolean> sections = new HashMap<String, Boolean>();
 	
 	public Help(Map<String, Boolean> properties) {
-		this.sections.put("dashboard", (Boolean) properties.get("dashboard"));
-		this.sections.put("adddeck_colors", (Boolean) properties.get("adddeck_colors"));
-		this.sections.put("adddeck_details", (Boolean) properties.get("adddeck_details"));
 		
 		for (sectionName sn : sectionName.values()) {
 			this.sections.put(sn.toString().toLowerCase(), (Boolean) properties.get(sn.toString().toLowerCase()));
