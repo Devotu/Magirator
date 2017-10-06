@@ -12,6 +12,10 @@ public class Help {
 		this.sections.put("dashboard", (Boolean) properties.get("dashboard"));
 		this.sections.put("adddeck_colors", (Boolean) properties.get("adddeck_colors"));
 		this.sections.put("adddeck_details", (Boolean) properties.get("adddeck_details"));
+		
+		for (sectionName sn : sectionName.values()) {
+			this.sections.put(sn.toString().toLowerCase(), (Boolean) properties.get(sn.toString().toLowerCase()));
+		}
 	}
 	
 	//To avoid sql injection vulnerability
@@ -31,11 +35,18 @@ public class Help {
 	 * All sections are set to true when created
 	 */
 	public static String neoCreator() {
-		return ":Help { "
-				+ "dashboard: true,"
-				+ "adddeck_colors: true,"
-				+ "adddeck_details: true"
-				+ "} ";
+		
+		String creator = ":Help { ";
+		
+		for (sectionName sn : sectionName.values()) {
+			creator += sn.toString().toLowerCase() + ":true, ";
+		}
+		
+		creator = creator.substring(0, creator.lastIndexOf(","));
+		
+		creator += "} ";
+		
+		return creator;
 	}
 
 }

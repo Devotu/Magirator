@@ -364,10 +364,11 @@ public class Users {
 			try {
 				con = Database.getConnection();
 
-				String query = "" + "MATCH (h:Help)<-[:Includes]-(:Settings)<-[:Prefers]-(:User)-[:Is]->(p:Player) "
-						+ "WHERE p.id = ? " 
-						+ "SET h." + helpId + " = false " //Cannot find a way to set this by prepared statement
-						+ "RETURN h." + helpId;
+				String query = "" + 
+						"MATCH (h:Help)<-[:Includes]-(:Settings)<-[:Prefers]-(:User)-[:Is]->(p:Player) " +
+						"WHERE p.id = ? " + 
+						"SET h." + helpId + " = false " +//Cannot find a way to set this by prepared statement
+						"RETURN h." + helpId;
 
 				ps = con.prepareStatement(query);
 				ps.setInt(1, player.getId());
