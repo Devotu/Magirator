@@ -3,6 +3,12 @@
 	<span ng-show="draw">(Draw)</span>
 </div>
 
+<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="help_initController(
+	'game',
+	'Place, Name, Deck, Deck colors, Comment (if exists), Tags (if exists).'
+	)" ng-if="settings.help" ng-show="settings.help.sections.game" ng-click="settings.help.sections.game=false" class="include-tiled helper animate-show-hide">
+</div>
+
 <div class="tile dark q1-2 h-x4 inline-tile-wrapper" ng-repeat="participant in participants | orderBy:participant.result.place">
 	<div class="tile w-1-6 h-half title sub-title">
 		#{{ participant.result.place }}
