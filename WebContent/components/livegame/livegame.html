@@ -1,16 +1,39 @@
+<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="help_initController(
+	'livegame_admin',
+	'You are the game admin and thus have four additional options.'
+	)" ng-if="settings.help" ng-show="settings.help.sections.livegame_admin && is_admin" ng-click="settings.help.sections.livegame_admin=false" class="include-tiled helper animate-show-hide">
+</div>
+
+
 <div class="inline-tile-wrapper w-full" ng-show="is_admin">
 	<div class="tile" ng-click="cancelGame();">Cancel Game</div>
 	<div class="tile" ng-click="console.log('test');">Declare Draw</div>
 	<div class="tile" ng-click="console.log('test');">Declare Player Dead</div>
 	<div class="tile" ng-click="console.log('test');">Remove Player</div>
 </div>
-<div class="tile header w-full">Game Id: {{live_id}}</div>
+
+<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="help_initController(
+	'livegame_admin_invite',
+	'For other players to join your game they use their button Join Game and use the Game Id displayed below.'
+	)" ng-if="settings.help" ng-show="settings.help.sections.livegame_admin_invite && is_admin" ng-click="settings.help.sections.livegame_admin_invite=false" class="include-tiled helper animate-show-hide">
+</div>
+
+<div class="tile header w-11-12">Game Id: {{live_id}}</div>
+<div class="tile h-half w-1-12" ng-init="show_help = false" ng-click="show_help = !show_help">
+	<span class="text_icon">?</span>
+</div>
+
+<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="help_initController(
+	'livegame',
+	'This is a live game. Any changes to any participant will be shared. For further help press the ? above.'
+	)" ng-if="settings.help" ng-show="settings.help.sections.livegame" ng-click="settings.help.sections.livegame=false" class="include-tiled helper animate-show-hide">
+</div>
 
 <div class="inline-tile-wrapper dual-wrapper w-full">
 
 	<div ng-repeat="participant in participants | orderBy:participant.place" class="tile w-1 h-x5 transparent" ng-init="change=0">
 
-		<div id="content_life" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-show="tab == 'Life'" ng-class="{'selected': participant.self}">
+		<div id="content_life" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-show="tab == 'Life'" ng-class="{'selected': participant.self, 'not-selected': !participant.self}">
 			<div class="live-tile player-name sub-title">{{participant.player_name}}</div>
 			<div class="live-tile current-life sub-title">
 				<div class="giant" ng-show="!participant.dead || !participant.place == 1">
@@ -112,6 +135,7 @@
 				</svg>
 			</div>
 		</div>
+		
 	</div>
 
 </div>

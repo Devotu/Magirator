@@ -141,6 +141,11 @@ button.tile {
 	fill: linen;
 }
 
+.text_icon {
+	font-size: 10vmin;
+	color: #222; 
+}
+
 
 /*Flavors*/
 div.positive {
@@ -210,6 +215,10 @@ div.bg-negative {
 /*States*/
 .selected {	
 	border: 0.5vmin solid sandybrown;
+}
+
+.not-selected {	
+	border: 0.5vmin solid transparent;
 }
 
 
