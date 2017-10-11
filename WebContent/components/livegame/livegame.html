@@ -4,12 +4,20 @@
 	)" ng-if="settings.help" ng-show="settings.help.sections.livegame_admin && is_admin" ng-click="settings.help.sections.livegame_admin=false" class="include-tiled helper animate-show-hide">
 </div>
 
-
-<div class="inline-tile-wrapper w-full" ng-show="is_admin">
+<!-- Buttons -->
+<div class="inline-tile-wrapper w-full" ng-show="is_admin && !show_help">
 	<div class="tile" ng-click="cancelGame();">Cancel Game</div>
 	<div class="tile" ng-click="console.log('test');">Declare Draw</div>
 	<div class="tile" ng-click="console.log('test');">Declare Player Dead</div>
 	<div class="tile" ng-click="console.log('test');">Remove Player</div>
+</div>
+
+<!-- Buttons -->
+<div class="inline-tile-wrapper w-full" ng-show="is_admin && show_help">
+	<div class="tile help" ng-click="cancelGame();">Removes the game with all content and results</div>
+	<div class="tile help" ng-click="console.log('test');">Declares that the game is a draw (not yet available)</div>
+	<div class="tile help" ng-click="console.log('test');">Sets player X dead (not yet available)</div>
+	<div class="tile help" ng-click="console.log('test');">Removes player X from the game (not yet available)</div>
 </div>
 
 <div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="help_initController(
@@ -29,12 +37,17 @@
 	)" ng-if="settings.help" ng-show="settings.help.sections.livegame" ng-click="settings.help.sections.livegame=false" class="include-tiled helper animate-show-hide">
 </div>
 
+
+
 <div class="inline-tile-wrapper dual-wrapper w-full">
 
 	<div ng-repeat="participant in participants | orderBy:participant.place" class="tile w-1 h-x5 transparent" ng-init="change=0">
 
 		<!-- Life Content -->
-		<div id="content_life" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-show="!show_help && tab == 'Life' || !participant.self" ng-hide="show_help && participant.self" ng-class="{'selected': participant.self, 'not-selected': !participant.self}">
+		<div id="content_life" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-class="{'selected': participant.self, 'not-selected': !participant.self}"
+			ng-show="tab == 'Life' && !show_help && participant.self || !participant.self" 
+			ng-hide="tab != 'Life' && participant.self || show_help && participant.self" >
+			
 			<div class="live-tile player-name sub-title">{{participant.player_name}}</div>
 			<div class="live-tile current-life sub-title">
 				<div class="giant" ng-show="!participant.dead || !participant.place == 1">
@@ -64,7 +77,10 @@
 		</div>
 		
 		<!-- Life Help -->
-		<div id="content_life" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-show="tab == 'Life' && show_help && participant.self" ng-hide="!show_help || tab != 'Life' || !participant.self" ng-class="{'selected': participant.self, 'not-selected': !participant.self}">
+		<div id="content_life" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-class="{'selected': participant.self, 'not-selected': !participant.self}"
+			ng-show="tab == 'Life' && show_help && participant.self" 
+			ng-hide="tab != 'Life' || !show_help || !participant.self" >
+			
 			<div class="live-tile player-name sub-title help">Player name</div>
 			<div class="live-tile current-life sub-title help">
 				<div ng-show="!participant.dead || !participant.place == 1">
@@ -81,7 +97,10 @@
 			<div class="live-tile LL-1-to-6 help">L i f e l o g</div>
 		</div>
 
-		<div id="content_tag" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-show="tab == 'Tag'" ng-class="{'selected': participant.self}">
+		<!-- Tags Content -->
+		<div id="content_tag" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-class="{'selected': participant.self}" 
+			ng-show="tab == 'Tag' && !show_help && participant.self" 
+			ng-hide="tab != 'Tag' || show_help || !participant.self" >
 
 			<div class="live-tile live-header w-full">
 				Previous
@@ -120,14 +139,69 @@
 			</div>
 
 		</div>
+		
+		<!-- Tags Help -->
+		<div id="content_tag" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-class="{'selected': participant.self}" 
+			ng-show="tab == 'Tag' && show_help && participant.self" 
+			ng-hide="tab != 'Tag' || !show_help || !participant.self" >
 
-		<div id="content_rate" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-show="tab == 'Rate'" ng-class="{'selected': participant.self}">
+			<div class="live-tile live-header w-full">
+				Previous
+			</div>
+			<div class="live-tile tags inline-tile-tag-wrapper help">
+				Previously used tags. Click one to use
+			</div>
+
+
+			<div class="live-tile live-header w-full">
+				Add
+			</div>
+			<div class="live-tile tags inline-tile-tag-wrapper help">
+				Tag text. Assign as positive or negative
+			</div>
+
+
+			<div class="live-tile live-header w-full">
+				This game
+			</div>
+			<div class="live-tile tags inline-tile-tag-wrapper help">
+				Tags given to this game
+			</div>
+
+		</div>
+
+		<!-- Tabs Content -->
+		<div id="content_rate" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-class="{'selected': participant.self}" 
+			ng-show="tab == 'Rate' && !show_help && participant.self" 
+			ng-hide="tab != 'Rate' || show_help || !participant.self" >
+			
 			<div class="live-tile">Rating</div>
 		</div>
-		<div id="content_death" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-show="tab == 'Death'" ng-class="{'selected': participant.self}">
+		
+		<!-- Tabs Help -->
+		<div id="content_rate" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-class="{'selected': participant.self}" 
+			ng-show="tab == 'Rate' && show_help && participant.self" 
+			ng-hide="tab != 'Rate' || !show_help || !participant.self" >
+			
+			<div class="live-tile w-full help">Rating is not yet available</div>
+		</div>
+		
+		<!-- Death Content -->
+		<div id="content_death" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-class="{'selected': participant.self}" 
+			ng-show="tab == 'Death' && !show_help && participant.self" 
+			ng-hide="tab != 'Death' || show_help || !participant.self" >
 
 			<div class="live-tile current-place sub-title large">#{{next_death}}</div>
 			<div class="live-tile confirm sub-title large clickable" ng-click="declareDead(participant.player_token)">Confirm</div>
+		</div>
+		
+		<!-- Death Help -->
+		<div id="content_death" class="tile inline-tile-live-wrapper w-full h-x4 dark" ng-class="{'selected': participant.self}" 
+			ng-show="tab == 'Death' && show_help && participant.self" 
+			ng-hide="tab != 'Death' || !show_help || !participant.self" >
+
+			<div class="live-tile current-place sub-title large help">Current last place</div>
+			<div class="live-tile confirm sub-title large clickable help" ng-click="declareDead(participant.player_token)">Confirms that you died</div>
 		</div>
 
 		<!-- Tabs Content -->
