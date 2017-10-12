@@ -1,4 +1,4 @@
-ratorApp.controller('joinGameController', function ($scope, $http, $location, playerService, requestService, varStorage) {
+ratorApp.controller('joinGameController', function ($scope, $http, $location, playerService, requestService, varStorage, settingsService) {
 	
 	$scope.live_id = "";
 
@@ -6,6 +6,14 @@ ratorApp.controller('joinGameController', function ($scope, $http, $location, pl
 		if (data.result == "Success") {
 			
 			$scope.player = JSON.parse(data.player);
+			
+			$scope.settings = settingsService.getSettings();
+
+			if ($scope.settings == undefined) {
+				settingsService.loadSettings().then(function(data) {
+					$scope.settings = data;
+				});
+			}
 			
 			// Get decks
 			var getDecksReq = requestService.buildRequest(
