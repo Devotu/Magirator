@@ -1,4 +1,4 @@
-ratorApp.controller('loginController', function($scope, $http, $location, requestService) {
+ratorApp.controller('loginController', function($scope, $http, $location, requestService, playerService, settingsService) {
 	
 	$scope.result = "";
 	
@@ -25,7 +25,9 @@ ratorApp.controller('loginController', function($scope, $http, $location, reques
 				$scope.result = response.data.result;
 				
 				if (response.data.result == "Success"){
-					$scope.$emit('logged_in', true);
+					
+					settingsService.getSettings();					
+					$scope.$emit('logged_in', true);					
 					$location.url('/dashboard');		
 				}
 				

@@ -1,0 +1,55 @@
+<div class="include-tiled w-full">
+	<div class="tile header w-11-12">
+		Graph
+	</div>
+
+	<div class="tile h-half w-1-12" ng-init="color_details = false" ng-click="color_details = !color_details">
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="!color_details">
+			<polygon points="50,200 200,200 200,50 300,50 300,200 300,200 450,200 450,300 300,300 300,450 200,450 200,300 50,300" /> Extend graph type
+		</svg>
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="color_details">
+			<polygon points="50,200 450,200 450,300 50,300" /> Fold graph type
+		</svg>
+	</div>
+	<div class="tile header w-11-12">
+		With
+	</div>
+
+	<div class="tile h-half w-1-12" ng-init="color_details = false" ng-click="color_details = !color_details">
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="!color_details">
+			<polygon points="50,200 200,200 200,50 300,50 300,200 300,200 450,200 450,300 300,300 300,450 200,450 200,300 50,300" /> Extend graph type
+		</svg>
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="color_details">
+			<polygon points="50,200 450,200 450,300 50,300" /> Fold graph type
+		</svg>
+	</div>
+	<div class="tile header w-11-12">
+		Against
+	</div>
+
+	<div class="tile h-half w-1-12" ng-init="color_details = false" ng-click="color_details = !color_details">
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="!color_details">
+			<polygon points="50,200 200,200 200,50 300,50 300,200 300,200 450,200 450,300 300,300 300,450 200,450 200,300 50,300" /> Extend graph type
+		</svg>
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="color_details">
+			<polygon points="50,200 450,200 450,300 50,300" /> Fold graph type
+		</svg>
+	</div>
+	<div class="tile header w-11-12">
+		Within
+	</div>
+
+	<div class="tile h-half w-1-12" ng-init="color_details = false" ng-click="color_details = !color_details">
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="!color_details">
+			<polygon points="50,200 200,200 200,50 300,50 300,200 300,200 450,200 450,300 300,300 300,450 200,450 200,300 50,300" /> Extend graph type
+		</svg>
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="color_details">
+			<polygon points="50,200 450,200 450,300 50,300" /> Fold graph type
+		</svg>
+	</div>
+</div>
+<div class="">
+<canvas id="graph" width="500" height="300" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+</div>

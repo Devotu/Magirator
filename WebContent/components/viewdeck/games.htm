@@ -1,3 +1,9 @@
+<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="help_initController(
+	'viewdeck_games',
+	'This is a list of all games played with this deck so far. Sorted by date'
+	)" ng-if="settings.help" ng-show="settings.help.sections.viewdeck_games" ng-click="settings.help.sections.viewdeck_games=false" class="include-tiled helper animate-show-hide">
+</div>
+
 <div ng-repeat="participation in participations | orderBy:'participation.game.created'" class="tile inner-tiled" ng-click="goGame(participation.game.id)">
 	<span class="w-full sub-title">{{ participation.game.created }}</span>
 </div>

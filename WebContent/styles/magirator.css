@@ -129,9 +129,26 @@ button.tile {
 	font-weight: bold;
 }
 
+.larger {
+	font-size: 10vmin;
+	font-weight: bold;
+}
+
 .giant {
 	font-size: 15vmin;
 	font-weight: bold;
+}
+
+.help {
+	background-color: #7a7;
+    font-size: 3vmin;
+	color: linen;
+	fill: linen;
+}
+
+.text_icon {
+	font-size: 10vmin;
+	color: #222; 
 }
 
 
@@ -140,12 +157,24 @@ div.positive {
 	color: #696;
 }
 
+div.neutral {
+	color: #f1c83e;
+}
+
 div.negative {
 	color: #e35454;
 }
 
+div.solid {
+	color: #222;
+}
+
 div.bg-positive {
 	background-color: #696;
+}
+
+div.bg-neutral {
+	background-color: #f1c83e;
 }
 
 div.bg-negative {
@@ -205,6 +234,10 @@ div.bg-negative {
 	border: 0.5vmin solid sandybrown;
 }
 
+.not-selected {	
+	border: 0.5vmin solid transparent;
+}
+
 
 
 /*Misc*/
@@ -222,6 +255,23 @@ svg.prominent {
 
 .svg-center-height {
 	margin: 30% 0;
+}
+
+.helper {
+	background-color: #7a7;
+    font-size: 3vmin;
+	height: 9vw;
+	grid-column: span 12;
+	color: linen;
+}
+
+.animate-show-hide.ng-hide {
+  opacity: 0;
+}
+
+.animate-show-hide.ng-hide-add,
+.animate-show-hide.ng-hide-remove {
+  transition: all linear 0.5s;
 }
 
 

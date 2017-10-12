@@ -1,4 +1,4 @@
-ratorApp.controller('alterdeckController', function($scope, $http, $location, playerService, requestService, varStorage) {
+ratorApp.controller('alterdeckController', function($scope, $http, $location, playerService, requestService, varStorage, settingsService) {
 		
 		$scope.result = "Waiting for response";	
 		
@@ -6,6 +6,14 @@ ratorApp.controller('alterdeckController', function($scope, $http, $location, pl
 			if (data.result == "Success") {
 
 				$scope.deckId = varStorage.getCurrentDeck();
+				
+				$scope.settings = settingsService.getSettings();
+
+				if ($scope.settings == undefined) {
+					settingsService.loadSettings().then(function(data) {
+						$scope.settings = data;
+					});
+				}
 				
 				$scope.getFormats = function(){
 				    

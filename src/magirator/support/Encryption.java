@@ -10,6 +10,8 @@ public class Encryption {
 	private static int RESET_MIN_LENGTH = 14;
 	private static int LIVE_TOKEN_ARITY = 4;
 	private static int LIVE_ID_ARITY = 4;
+	private static int VERIFICATION_LENGTH = 20;
+	private static int VERIFICATION_ARITY = 5;
 	
 	private static String[] WORDS = new String[]{
 			"banana", "monkey", "donkey", "soup", "sorcery", "instant", "creature", "madness", "heroic", "dredge", "camel", "wine", "artifact", "flying", "bear", 
@@ -24,7 +26,8 @@ public class Encryption {
             "pizza", "mojna", "skostorlek", "wither", "exalted", "extort", "theros", "ravnica", "7th", "10th", "cool", "gorgon", "zendikar", "kamigawa", "end",
             "kval", "snooze", "elixir", "statue", "tank", "steve", "vader", "dinosaur", "kid", "grass", "hippo", "club", "cup", "lace", "mask", "erdwal", "attack",
             "mammoth", "bar", "color", "while", "paste", "tooth", "neonate", "eternal", "final", "gorgon", "head", "tail", "sting", "prodigal", "wojek", "cultist",
-            "carnivore", "piranha", "wolf", "83", "big", "jackal", "amonkhet", "druid", "cycling", "cat", "naga", "camel", "drake", "illusion", "scorpion", "ice"
+            "carnivore", "piranha", "wolf", "83", "big", "jackal", "amonkhet", "druid", "cycling", "cat", "naga", "camel", "drake", "illusion", "scorpion", "ice",
+            "dinosaur, jungle, pastry, piano, hole, bacon, ship, wood, lazy, bark, plask, plast, te, the, lamp, wall, suspicus, wrogn, misspled, sneaky"
 	};
 	
 
@@ -70,6 +73,15 @@ public class Encryption {
     public static String generateLiveGameId(){
     	
     	return generateRandomNumberOfArity(LIVE_ID_ARITY);
+    }
+    
+    public static String generateVerificationCode(){
+    	
+    	if (Math.random()%2 == 1) {
+			return generateRandomStringOfLength(VERIFICATION_LENGTH);
+		}
+    	
+    	return generateRandomNumberOfArity(VERIFICATION_ARITY);
     }
     
     private static String generateRandomNumberOfArity(int arity){

@@ -1,9 +1,17 @@
-ratorApp.controller('initGameController', function ($scope, $http, $location, playerService, requestService, varStorage) {
+ratorApp.controller('initGameController', function ($scope, $http, $location, playerService, requestService, varStorage, settingsService) {
 
 	playerService.getPlayer().then(function (data) {
 		if (data.result == "Success") {
 			
 			$scope.player = JSON.parse(data.player);
+			
+			$scope.settings = settingsService.getSettings();
+
+			if ($scope.settings == undefined) {
+				settingsService.loadSettings().then(function(data) {
+					$scope.settings = data;
+				});
+			}
 			
 			// Get decks
 			var getDecksReq = requestService.buildRequest(

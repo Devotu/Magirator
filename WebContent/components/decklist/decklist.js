@@ -1,9 +1,18 @@
-ratorApp.controller('decklistController', function($scope, $http, $location, playerService, requestService, varStorage) {
+ratorApp.controller('decklistController', function($scope, $http, $location, playerService, requestService, varStorage, settingsService) {
 	
 	$scope.result = "Waiting for response";
 	
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
+			
+			$scope.settings = settingsService.getSettings();
+
+			if ($scope.settings == undefined) {
+				settingsService.loadSettings().then(function(data) {
+					$scope.settings = data;
+					console.log($scope.settings);
+				});
+			}
 			
 			$scope.sort = false;
 			
