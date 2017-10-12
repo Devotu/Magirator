@@ -50,13 +50,13 @@
 			
 			<div class="live-tile player-name sub-title">{{participant.player_name}}</div>
 			<div class="live-tile current-life sub-title">
-				<div class="giant" ng-show="!participant.dead || !participant.place == 1">
+				<div class="giant positive" ng-show="!participant.dead || !participant.place == 1" ng-class="{'neutral': participant.life < 14, 'negative': participant.life < 6}">
 					{{participant.life}}
 				</div>
-				<div ng-show="participant.dead" class="sub-title large">
-					#{{participant.place}}
+				<div ng-show="participant.dead" class="sub-title giant solid">
+					<span class="larger">#</span>{{participant.place}}
 				</div>
-				<div ng-show="participant.place == 1" class="sub-title large">
+				<div ng-show="participant.place == 1" class="sub-title larger positive">
 					Win!
 				</div>
 			</div>
@@ -201,7 +201,7 @@
 			ng-hide="tab != 'Death' || !show_help || !participant.self" >
 
 			<div class="live-tile current-place sub-title large help">Current last place</div>
-			<div class="live-tile confirm sub-title large clickable help" ng-click="declareDead(participant.player_token)">Confirms that you died</div>
+			<div class="live-tile confirm sub-title large clickable help" ng-click="declareDead(participant.player_token)">Confirms that you are out of the game</div>
 		</div>
 
 		<!-- Tabs Content -->
