@@ -43,7 +43,7 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 			$scope.updateStatus();
 			$scope.updateTags();
 			$scope.getPreviousTags();
-			//$scope.statusUpdater = setInterval($scope.updateStatus, 1000 * 5);
+			$scope.statusUpdater = setInterval($scope.updateStatus, 1000 * 5);
 		}
     	
     	}, 
