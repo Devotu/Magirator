@@ -76,6 +76,7 @@ ratorApp.controller('joinGameController', function ($scope, $http, $location, pl
 		    		    
 		    //Start game
 		    $scope.goWithDeck = function(deck_name, deck_id){
+		    	$scope.result = '';		    	
 				
 				var joinLiveGameReq = requestService.buildRequest(
 						"API/joingame", 
@@ -89,7 +90,7 @@ ratorApp.controller('joinGameController', function ($scope, $http, $location, pl
 						);
 		
 				$http(joinLiveGameReq).then(function(response){
-					$scope.result = response.data;
+					$scope.result = response.data.result;
 					
 						if (response.data.result == "Success"){
 							varStorage.setLiveToken(response.data.token);

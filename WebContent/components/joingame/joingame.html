@@ -52,5 +52,4 @@
 	<span class="tile h-50 w-full" ng-class="{'strong': deck.badge=='yes' || deck.badge>0}">{{ deck.badge }}</span>
 </div>
 
-
-<p class='tile debug-text'>Result: {{ result }}</p>
+<div class="tile w-full header negative" ng-show="result != '' && result != 'Success'">{{result}}</div>
