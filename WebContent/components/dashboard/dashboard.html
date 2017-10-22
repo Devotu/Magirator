@@ -4,15 +4,6 @@
 	)" ng-if="settings.help" ng-show="settings.help.sections.dashboard" ng-click="settings.help.sections.dashboard=false" class="include-tiled helper animate-show-hide">
 </div>
 
-<div class="tile q1-3" ng-show="liveGame != 'none'" ng-click="goToGame()">
-	To game
-</div>
-<div class="tile q1-3" ng-show="liveGame == 'none'" ng-click="goStartGame()">
-	New game
-</div>
-<div class="tile q1-3" ng-show="liveGame == 'none'" ng-click="goJoinGame()">
-	Join game
-</div>
 <div class="tile q1-3" ng-click="goAddDeck()">
 	Add Deck
 </div>
@@ -22,4 +13,12 @@
 <div class="tile q1-3" ng-click="goStats()">
 	View Stats
 </div>
-
+<div class="tile q1-3" ng-show="liveGame == 'none'" ng-click="goStartGame()">
+	New game
+</div>
+<div class="tile q1-3" ng-show="liveGame == 'none'" ng-click="goJoinGame()">
+	Join game
+</div>
+<div class="tile q1-3" ng-show="liveGame != 'none'" ng-click="goToGame()">
+	To game
+</div>

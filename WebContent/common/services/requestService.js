@@ -1,7 +1,7 @@
 ratorApp.factory('requestService', function(){
 		
-	//var base_path = "/";
-	var base_path = "/Magirator/"; //Debug
+	var base_path = "/";
+	base_path = "/Magirator/"; //Debug
 	
 	return {
 		buildRequest : function(endpoint, data) {
