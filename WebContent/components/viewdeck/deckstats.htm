@@ -1,3 +1,8 @@
+<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="help_initController(
+	'viewdeck_stats',
+	'Stats are not yet available.'
+	)" ng-if="settings.help" ng-show="settings.help.sections.viewdeck_stats" ng-click="settings.help.sections.viewdeck_stats=false" class="include-tiled helper animate-show-hide">
+</div>
+	
 <div class="tile inner-tiled">
-	<span class="w-full sub-title">Stats are not yet available</span>
 </div>

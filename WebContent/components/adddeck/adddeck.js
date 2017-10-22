@@ -1,8 +1,21 @@
-ratorApp.controller('addDeckController', function ($scope, $http, $location, playerService, requestService) {
+ratorApp.controller('addDeckController', function ($scope, $http, $location, playerService, requestService, settingsService) {
 
 	playerService.getPlayer().then(function (data) {
-		if (data.result == "Success") {
+		if (data.result == "Success") {			
 			
+/*			$scope.helps = {
+					adddeck_colors: {name: 'adddeck_colors', display: true},
+					adddeck_details: {name: 'adddeck_details', display: true}
+			}*/
+			
+			$scope.settings = settingsService.getSettings();
+
+			if ($scope.settings == undefined) {
+				settingsService.loadSettings().then(function(data) {
+					$scope.settings = data;
+				});
+			}
+
 			$scope.deck = {
 					name: "",
 					format: "",

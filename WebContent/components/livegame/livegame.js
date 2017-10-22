@@ -1,4 +1,4 @@
-ratorApp.controller('liveGameController', function ($scope, $http, $location, requestService, varStorage, $timeout) {
+ratorApp.controller('liveGameController', function ($scope, $http, $location, requestService, varStorage, $timeout, settingsService) {
 	
 	//INIT//
 	$scope.participants = [];
@@ -12,6 +12,14 @@ ratorApp.controller('liveGameController', function ($scope, $http, $location, re
 	$scope.next_death;
 	$scope.previous_tags = [];
 	$scope.self_tags = [];
+	
+	$scope.settings = settingsService.getSettings();
+
+	if ($scope.settings == undefined) {
+		settingsService.loadSettings().then(function(data) {
+			$scope.settings = data;
+		});
+	}
 	
 	
 	//Hämta player live player token	

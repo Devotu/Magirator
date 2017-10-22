@@ -156,3 +156,29 @@
     padding: 1vw;
 }
 
+
+/*Help*/
+.live-tile.help {
+	background-color: #7a7;
+    font-size: 3vmin;
+	color: linen;
+	fill: linen;
+}
+
+.LL-1-to-6 {
+	grid-row: 2 / span 6;
+	grid-column: 1;
+	letter-spacing: 1vmin;
+}
+
+.tab-help {
+	position: relative;
+}
+
+.tab-help-text {
+	position: absolute;
+    bottom: 1vmin;
+    width: 7vmin;
+    height: 3vmin;
+    padding: 0.5vmin;
+}

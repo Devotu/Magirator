@@ -1,10 +1,18 @@
-ratorApp.controller('dashboardController', function($scope, $http, $location, playerService, requestService, varStorage) {
+ratorApp.controller('dashboardController', function($scope, $http, $location, playerService, settingsService, requestService, varStorage) {
 	
 	$scope.result = "Waiting for response";
 	
 	playerService.getPlayer().then(function(data) {
 		if (data.result == "Success") {
-			$scope.updatePlayer(JSON.parse(data.player));
+			$scope.updatePlayer(JSON.parse(data.player)); 
+			
+			$scope.settings = settingsService.getSettings();
+			
+			if ($scope.settings == undefined){
+				settingsService.loadSettings().then(function(data) {
+					$scope.settings = data;
+				});				
+			}
 			
 			// Get updated info
 			var getUpdatesReq = requestService.buildRequest(
@@ -97,7 +105,6 @@ ratorApp.controller('dashboardController', function($scope, $http, $location, pl
 			}
 		    
 		} else {
-			$scope.clearPlayer();
 			$scope.result = 'Not logged in, please log in and try again';
 			$location.url('/');
 		}
