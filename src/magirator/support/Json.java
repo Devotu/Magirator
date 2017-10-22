@@ -64,4 +64,9 @@ public class Json {
 			return null;
 		}	
 	}
+	
+	public static JsonObject parseJsonString(String json){
+		JsonParser parser = new JsonParser();
+		return (JsonObject) parser.parse(json);
+	}
 }

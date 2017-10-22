@@ -13,6 +13,10 @@ import javax.naming.NamingException;
 
 import org.neo4j.jdbc.Array;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import magirator.data.collections.GameBundle;
 import magirator.data.collections.Participant;
 import magirator.data.collections.PlayerGameResult;
@@ -23,7 +27,9 @@ import magirator.data.entities.Game;
 import magirator.data.entities.Player;
 import magirator.data.entities.Rating;
 import magirator.data.entities.Result;
+import magirator.support.Constants;
 import magirator.support.Database;
+import magirator.support.Json;
 
 public class Games {
 	
@@ -966,6 +972,75 @@ public class Games {
 			if (rs != null) rs.close();
 			if (ps != null) ps.close();
 			if (con != null) con.close();
+		}
+	}
+	
+	
+	public static JsonArray getPlayerGamesAsJson(int playerId) throws Exception {
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Statement st = null;
+		
+		try {			
+			String query = ""
+					+ "MATCH (p:Player)-[:Use|:Used]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game)<-[:In]-(or:Result)<-[:Got]-(od:Deck)<-[:Use|:Used]-(op:Player)"
+					+ "WHERE p.id = ? "
+					+ "RETURN {"
+					+ "		created:g.created,"
+					+ "		draw:g.draw, "
+					+ "		place: r.place, "
+					+ "		deck:{"
+					+ "			black:d.black,"
+					+ "			white:d.white,"
+					+ "			red:d.red,"
+					+ "			green:d.green,"
+					+ "			blue:d.blue,"
+					+ "			colorless:d.colorless,"
+					+ "			format:d.format,"
+					+ "			active:d.active"
+					+ "		}, "
+					+ "		opponent:{"
+					+ "			name:op.name"
+					+ "		}, "
+					+ "		opponent_deck:{"
+					+ "			black:od.black,"
+					+ "			white:od.white,"
+					+ "			red:od.red,"
+					+ "			green:od.green,"
+					+ "			blue:od.blue,"
+					+ "			colorless:od.colorless,"
+					+ "			format:od.format,"
+					+ "			active:od.active"
+					+ "		}"
+					+ "} as game";
+			
+			List<Object> params = new ArrayList<>();
+			params.add(playerId);
+						
+			con = Database.getConnection();			
+			ps = con.prepareStatement(query);			
+			ps = Database.setStatementParams(ps, params);
+			rs = ps.executeQuery();
+			
+			JsonArray games = new JsonArray();
+			Gson gson = new Gson();
+						
+			while(rs.next()){
+				Map pMap = (Map) rs.getObject("game");
+				String pJson = new Gson().toJson(pMap, Map.class);
+				games.add(Json.parseJsonString(pJson));
+			}
+			
+			return games;
+			
+		} catch (Exception ex){
+			throw ex;
+		} finally {
+			if (con != null) con.close();
+			if (ps != null) ps.close();
+			if (rs != null) rs.close();
 		}
 	}
 
