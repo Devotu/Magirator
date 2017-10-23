@@ -1,9 +1,5 @@
 ratorApp.controller('viewStatsController', function ($scope, $http, $location, playerService, requestService, varStorage) {
 	
-	$scope.live_id = "";
-	
-	//If player logged in - else display message
-	
 	//Get Graph types
 	//Get Colors
 	//Get Formats
@@ -11,31 +7,49 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 	//Get Opponents
 	//Get Timespans
 	
-	
+	$scope.games = [];
+	$scope.selected_games = [];
+	$scope.winrate = 0;
 
 	playerService.getPlayer().then(function (data) {
 		if (data.result == "Success") {
 			
 			$scope.player = JSON.parse(data.player);
 			
-			// Get decks
-			var getDecksReq = requestService.buildRequest(
-					"GetDeckList", 
+			// Get games
+			var getGamesReq = requestService.buildRequest(
+					"GetPlayerGames", 
 					{}
 					);
 
-			$http(getDecksReq).then(function(response){
+			$http(getGamesReq).then(function(response){
 				$scope.result = response.data;
 				
 				if (response.data.result == "Success"){
 					$scope.result = 'Success';
-					$scope.decks = JSON.parse(response.data.decks);
+					$scope.games = response.data.games;
+					$scope.selected_games = $scope.games;
+					calculateWinrate();
 				}
 				
 				}, 
 				function(){
 					$scope.result = 'Failure';
 			});
+			
+			
+			var calculateWinrate = function(){
+				if($scope.selected_games.length > 0){
+					var wins = 0;
+					$scope.selected_games.forEach(function(game, i){
+						if(game.place == 1){
+							wins++;
+						}
+					});
+	
+					$scope.winrate = Math.round((wins/$scope.selected_games.length)*100);
+				}
+			}
 			
 
 

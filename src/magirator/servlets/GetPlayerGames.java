@@ -41,11 +41,10 @@ public class GetPlayerGames extends HttpServlet {
 		Player player = (Player)session.getAttribute("player");
 		
 		//Player is logged in
-		//if (player != null){
-		if (true){
+		if (player != null){
 			
 			try {
-				result.add("games", Games.getPlayerGamesAsJson(132));
+				result.add("games", Games.getPlayerGamesAsJson(player.getId()));
 								
 				result.addProperty(Constants.result, Constants.success);
 				

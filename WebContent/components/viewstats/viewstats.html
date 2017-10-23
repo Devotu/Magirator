@@ -1,20 +1,7 @@
-<div class="include-tiled w-full">
-	<div class="tile header w-11-12">
-		Graph
-	</div>
-
-	<div class="tile h-half w-1-12" ng-init="color_details = false" ng-click="color_details = !color_details">
-		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="!color_details">
-			<polygon points="50,200 200,200 200,50 300,50 300,200 300,200 450,200 450,300 300,300 300,450 200,450 200,300 50,300" /> Extend graph type
-		</svg>
-		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="color_details">
-			<polygon points="50,200 450,200 450,300 50,300" /> Fold graph type
-		</svg>
-	</div>
+<div class="inline-tile-wrapper w-full">
 	<div class="tile header w-11-12">
 		With
 	</div>
-
 	<div class="tile h-half w-1-12" ng-init="color_details = false" ng-click="color_details = !color_details">
 		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="!color_details">
 			<polygon points="50,200 200,200 200,50 300,50 300,200 300,200 450,200 450,300 300,300 300,450 200,450 200,300 50,300" /> Extend graph type
@@ -23,22 +10,10 @@
 			<polygon points="50,200 450,200 450,300 50,300" /> Fold graph type
 		</svg>
 	</div>
+	
 	<div class="tile header w-11-12">
 		Against
 	</div>
-
-	<div class="tile h-half w-1-12" ng-init="color_details = false" ng-click="color_details = !color_details">
-		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="!color_details">
-			<polygon points="50,200 200,200 200,50 300,50 300,200 300,200 450,200 450,300 300,300 300,450 200,450 200,300 50,300" /> Extend graph type
-		</svg>
-		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="color_details">
-			<polygon points="50,200 450,200 450,300 50,300" /> Fold graph type
-		</svg>
-	</div>
-	<div class="tile header w-11-12">
-		Within
-	</div>
-
 	<div class="tile h-half w-1-12" ng-init="color_details = false" ng-click="color_details = !color_details">
 		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="!color_details">
 			<polygon points="50,200 200,200 200,50 300,50 300,200 300,200 450,200 450,300 300,300 300,450 200,450 200,300 50,300" /> Extend graph type
@@ -48,8 +23,12 @@
 		</svg>
 	</div>
 </div>
-<div class="">
-<canvas id="graph" width="500" height="300" style="border:1px solid #d3d3d3;">
-Your browser does not support the HTML5 canvas tag.</canvas>
-
+<div class="inline-tile-wrapper w-full">
+	<div class="tile w-full giant">
+		{{winrate}}%
+	</div>
+	
+	<div ng-repeat="game in selected_games | orderBy:'game.created'" class="tile inner-tiled" ng-class="{'bg-positive': game.place == 1, 'bg-negative': game.place != 1}" ng-click="goGame(game.id)">
+		<span class="w-full sub-title">{{ game.place == 1 }}</span>
+	</div>
 </div>
