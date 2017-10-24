@@ -9,6 +9,8 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 	
 	$scope.games = [];
 	$scope.selected_games = [];
+	$scope.withs = [];
+	$scope.againsts = [];
 	$scope.winrate = 0;
 
 	playerService.getPlayer().then(function (data) {
@@ -37,8 +39,26 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 					$scope.result = 'Failure';
 			});
 			
+			var getFilter = function(game){
+				
+				switch(this.what) {
+			    case 'color':
+			    	return (game.deck[this.value] == 1);
+			    case 'format':
+			    	return game.deck.format == this.value;
+			    default:
+			    	throw new Error('Invalid filter.');
+				}
+			}
+			
+			$scope.withs.push({what:'format', value:'Modern'});
 			
 			var calculateWinrate = function(){
+				$scope.selected_games = $scope.games;
+				$scope.withs.forEach(function(w){
+					$scope.selected_games = $scope.selected_games.filter(getFilter, w);
+				});
+				
 				if($scope.selected_games.length > 0){
 					var wins = 0;
 					$scope.selected_games.forEach(function(game, i){
@@ -50,8 +70,6 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 					$scope.winrate = Math.round((wins/$scope.selected_games.length)*100);
 				}
 			}
-			
-
 
 		} else {
 			$scope.result = 'Not logged in, please log in and try again';
