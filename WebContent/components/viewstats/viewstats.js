@@ -16,6 +16,7 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 	playerService.getPlayer().then(function (data) {
 		if (data.result == "Success") {
 			
+			//Data
 			$scope.player = JSON.parse(data.player);
 			
 			// Get games
@@ -39,22 +40,45 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 					$scope.result = 'Failure';
 			});
 			
+			// Get withs
+			$scope.with_options = ["Color", "Format"];
+			$scope.with_option = $scope.with_options[0];
+			
+			// Get colors
+			$scope.colors = ["black", "white", "red", "green", "blue", "colorless"];
+			$scope.with_colors = $scope.colors[0];
+			
+			// Get formats
+			var getFormatsReq = requestService.buildRequest(
+				"GetFormats",
+				{}
+			);
+
+			$http(getFormatsReq).then(function (response) {
+				$scope.formats = response.data;
+				$scope.with_format = $scope.formats[0];
+			},
+			function () {
+				$scope.result += "Could not get formats";
+			});
+			
+			
+			//Logic
 			var getFilter = function(game){
 				
 				switch(this.what) {
-			    case 'color':
+			    case 'Color':
 			    	return (game.deck[this.value] == 1);
-			    case 'format':
+			    case 'Format':
 			    	return game.deck.format == this.value;
 			    default:
 			    	throw new Error('Invalid filter.');
 				}
 			}
 			
-			$scope.withs.push({what:'format', value:'Modern'});
-			
 			var calculateWinrate = function(){
 				$scope.selected_games = $scope.games;
+				
 				$scope.withs.forEach(function(w){
 					$scope.selected_games = $scope.selected_games.filter(getFilter, w);
 				});
@@ -68,7 +92,29 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 					});
 	
 					$scope.winrate = Math.round((wins/$scope.selected_games.length)*100);
+				} else {
+					$scope.winrate = 0;
 				}
+			}
+			
+			$scope.addWith = function(){
+				switch($scope.with_option) {
+			    case 'Color':
+			    	$scope.withs.push({what:'Color', value:$scope.with_color});
+			    	break;
+			    case 'Format':
+			    	$scope.withs.push({what:'Format', value:$scope.with_format});
+			    	break;
+			    default:
+			    	throw new Error('Invalid with.');
+				}
+				calculateWinrate();				
+			}
+			
+			$scope.removeWith = function(remove_with){
+				remove_index = $scope.withs.indexOf(remove_with);
+				$scope.withs.splice(remove_index,1);
+				calculateWinrate();	
 			}
 
 		} else {

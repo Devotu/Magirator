@@ -253,6 +253,10 @@ svg.prominent {
     stroke-width: 2vw;
 }
 
+.w-less-than-half {
+	width: 49%;
+}
+
 .svg-center-height {
 	margin: 30% 0;
 }
