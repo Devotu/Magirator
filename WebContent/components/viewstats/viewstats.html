@@ -1,55 +1,154 @@
-<div class="include-tiled w-full">
-	<div class="tile header w-11-12">
-		Graph
+<div class="inline-tile-wrapper w-full">
+	<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="help_initController(
+		'viewstats',
+		'This displays your winrate given the selected constrains.'
+		)" ng-if="settings.help" ng-show="settings.help.sections.viewstats" ng-click="settings.help.sections.viewstats=false" class="include-tiled helper animate-show-hide">
 	</div>
-
-	<div class="tile h-half w-1-12" ng-init="color_details = false" ng-click="color_details = !color_details">
-		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="!color_details">
-			<polygon points="50,200 200,200 200,50 300,50 300,200 300,200 450,200 450,300 300,300 300,450 200,450 200,300 50,300" /> Extend graph type
-		</svg>
-		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="color_details">
-			<polygon points="50,200 450,200 450,300 50,300" /> Fold graph type
-		</svg>
-	</div>
+	
 	<div class="tile header w-11-12">
 		With
 	</div>
-
-	<div class="tile h-half w-1-12" ng-init="color_details = false" ng-click="color_details = !color_details">
-		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="!color_details">
+	
+	<div class="tile h-half w-1-12" ng-init="color_details = false" ng-click="new_with = !new_with">
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="!new_with">
 			<polygon points="50,200 200,200 200,50 300,50 300,200 300,200 450,200 450,300 300,300 300,450 200,450 200,300 50,300" /> Extend graph type
 		</svg>
-		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="color_details">
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="new_with">
 			<polygon points="50,200 450,200 450,300 50,300" /> Fold graph type
 		</svg>
 	</div>
+	
+	<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="help_initController(
+		'viewstats_with',
+		'This will add a constrain on decks used by you. To remove just click on it.'
+		)" ng-if="settings.help" ng-show="settings.help.sections.viewstats_with && new_with" ng-click="settings.help.sections.viewstats_with=false" class="include-tiled helper animate-show-hide">
+	</div>
+	
+	<div ng-show="new_with" class="tile h-half w-11-12">
+		<select 
+			class="tile w-less-than-half" 
+			ng-options="option for option in with_options" 
+			ng-model="with_option"
+		>
+			<option value="" disabled selected>With</option>
+		</select>
+		<select 
+			class="tile w-less-than-half" 
+			ng-options="format for format in formats" 
+			ng-model="with_format"
+			ng-show="with_option == 'Format'"
+		>
+			<option value="" disabled selected>Format</option>
+		</select>
+		<select 
+			class="tile w-less-than-half" 
+			ng-options="color for color in colors" 
+			ng-model="with_color"
+			ng-show="with_option == 'Color'"
+		>
+			<option value="" disabled selected>Color</option>
+		</select>
+		<select 
+			class="tile w-less-than-half" 
+			ng-options="deck for deck in self_decks" 
+			ng-model="with_deck"
+			ng-show="with_option == 'Deck'"
+		>
+			<option value="" disabled selected>Deck</option>
+		</select>
+		<select 
+			class="tile w-less-than-half" 
+			ng-model="with_active"
+			ng-show="with_option == 'Active'"
+		>
+			<option value="true">Yes</option>
+			<option value="false">No</option>
+		</select>
+	</div>
+	<div class="tile h-half w-1-12"  ng-show="new_with" ng-click="addWith()">
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="new_with">
+			<polygon points="50,50 450,250 50,450" /> Fold graph type
+		</svg>
+	</div>
+	<div ng-repeat="with in withs" class="tile h-half" ng-click="removeWith(with)">
+		{{ with.what }}: {{ with.value }}
+	</div>
+	
 	<div class="tile header w-11-12">
 		Against
 	</div>
-
-	<div class="tile h-half w-1-12" ng-init="color_details = false" ng-click="color_details = !color_details">
-		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="!color_details">
+	<div class="tile h-half w-1-12" ng-init="color_details = false" ng-click="new_against = !new_against">
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="!new_against">
 			<polygon points="50,200 200,200 200,50 300,50 300,200 300,200 450,200 450,300 300,300 300,450 200,450 200,300 50,300" /> Extend graph type
 		</svg>
-		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="color_details">
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="new_against">
 			<polygon points="50,200 450,200 450,300 50,300" /> Fold graph type
 		</svg>
 	</div>
-	<div class="tile header w-11-12">
-		Within
+	
+	<div ng-include="'components/help/help.html'" ng-controller="helpController" ng-init="help_initController(
+		'viewstats_against',
+		'This will add a constrain on decks used by you. To remove just click on it.'
+		)" ng-if="settings.help" ng-show="settings.help.sections.viewstats_against && new_against" ng-click="settings.help.sections.viewstats_against=false" class="include-tiled helper animate-show-hide">
 	</div>
-
-	<div class="tile h-half w-1-12" ng-init="color_details = false" ng-click="color_details = !color_details">
-		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="!color_details">
-			<polygon points="50,200 200,200 200,50 300,50 300,200 300,200 450,200 450,300 300,300 300,450 200,450 200,300 50,300" /> Extend graph type
+	
+	<div ng-show="new_against" class="tile h-half w-11-12">
+		<select 
+			class="tile w-less-than-half" 
+			ng-options="against for against in against_options" 
+			ng-model="against_option"
+		>
+			<option value="" disabled selected>Against</option>
+		</select>
+		<select 
+			class="tile w-less-than-half" 
+			ng-options="opponent for opponent in opponents" 
+			ng-model="against_opponent"
+			ng-show="against_option == 'Opponent'"
+		>
+			<option value="" disabled selected>Opponent</option>
+		</select>
+		<select 
+			class="tile w-less-than-half" 
+			ng-options="format for format in formats" 
+			ng-model="against_format"
+			ng-show="against_option == 'Format'"
+		>
+			<option value="" disabled selected>Format</option>
+		</select>
+		<select 
+			class="tile w-less-than-half" 
+			ng-options="color for color in colors" 
+			ng-model="against_color"
+			ng-show="against_option == 'Color'"
+		>
+			<option value="" disabled selected>Color</option>
+		</select>
+		<select 
+			class="tile w-less-than-half" 
+			ng-options="deck for deck in opponents_decks" 
+			ng-model="against_deck"
+			ng-show="against_option == 'Deck'"
+		>
+			<option value="" disabled selected>Opponent</option>
+		</select>
+	</div>
+	<div class="tile h-half w-1-12"  ng-show="new_against" ng-click="addAgainst()">
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="new_against">
+			<polygon points="50,50 450,250 50,450" /> Fold graph type
 		</svg>
-		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="color_details">
-			<polygon points="50,200 450,200 450,300 50,300" /> Fold graph type
-		</svg>
+	</div>
+	<div ng-repeat="against in againsts" class="tile h-half" ng-click="removeAgainst(against)">
+		{{ against.what }}: {{ against.value }}
 	</div>
 </div>
-<div class="">
-<canvas id="graph" width="500" height="300" style="border:1px solid #d3d3d3;">
-Your browser does not support the HTML5 canvas tag.</canvas>
 
+<div class="inline-tile-wrapper w-full">
+	<div class="tile w-full giant">
+		{{winrate}}%
+	</div>
+	
+	<div ng-repeat="game in selected_games | orderBy:'game.created'" class="tile inner-tiled" ng-class="{'bg-positive': game.place == 1, 'bg-negative': game.place != 1}" ng-click="goGame(game.id)">
+		<span class="w-full sub-title"></span>
+	</div>
 </div>

@@ -1,12 +1,7 @@
 ratorApp.controller('addDeckController', function ($scope, $http, $location, playerService, requestService, settingsService) {
 
 	playerService.getPlayer().then(function (data) {
-		if (data.result == "Success") {			
-			
-/*			$scope.helps = {
-					adddeck_colors: {name: 'adddeck_colors', display: true},
-					adddeck_details: {name: 'adddeck_details', display: true}
-			}*/
+		if (data.result == "Success") {
 			
 			$scope.settings = settingsService.getSettings();
 
