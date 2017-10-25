@@ -71,7 +71,57 @@
 			<polygon points="50,200 450,200 450,300 50,300" /> Fold graph type
 		</svg>
 	</div>
+	<div ng-show="new_against" class="tile h-half w-11-12">
+		<select 
+			class="tile w-less-than-half" 
+			ng-options="against for against in against_options" 
+			ng-model="against_option"
+		>
+			<option value="" disabled selected>Against</option>
+		</select>
+		<select 
+			class="tile w-less-than-half" 
+			ng-options="opponent for opponent in opponents" 
+			ng-model="against_opponent"
+			ng-show="against_option == 'Opponent'"
+		>
+			<option value="" disabled selected>Opponent</option>
+		</select>
+		<select 
+			class="tile w-less-than-half" 
+			ng-options="format for format in formats" 
+			ng-model="against_format"
+			ng-show="against_option == 'Format'"
+		>
+			<option value="" disabled selected>Format</option>
+		</select>
+		<select 
+			class="tile w-less-than-half" 
+			ng-options="color for color in colors" 
+			ng-model="against_color"
+			ng-show="against_option == 'Color'"
+		>
+			<option value="" disabled selected>Color</option>
+		</select>
+		<select 
+			class="tile w-less-than-half" 
+			ng-options="deck for deck in opponents_decks" 
+			ng-model="against_deck"
+			ng-show="against_option == 'Deck'"
+		>
+			<option value="" disabled selected>Opponent</option>
+		</select>
+	</div>
+	<div class="tile h-half w-1-12"  ng-show="new_against" ng-click="addAgainst()">
+		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="new_against">
+			<polygon points="50,50 450,250 50,450" /> Fold graph type
+		</svg>
+	</div>
+	<div ng-repeat="against in againsts" class="tile h-half" ng-click="removeAgainst(against)">
+		{{ against.what }}: {{ against.value }}
+	</div>
 </div>
+
 <div class="inline-tile-wrapper w-full">
 	<div class="tile w-full giant">
 		{{winrate}}%

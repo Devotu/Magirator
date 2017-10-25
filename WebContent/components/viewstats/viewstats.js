@@ -13,7 +13,7 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 	$scope.againsts = [];
 	$scope.winrate = 0;
 	$scope.self_decks = [];
-	$scope.opponent_decks = [];
+	$scope.opponents_decks = [];
 	$scope.opponents = [];
 
 	playerService.getPlayer().then(function (data) {
@@ -47,6 +47,10 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 			// Get withs
 			$scope.with_options = ["Color", "Format", "Deck", "Active"];
 			$scope.with_option = $scope.with_options[0];
+
+			// Get aganists
+			$scope.against_options = ["Color", "Format", "Deck", "Opponent"];
+			$scope.against_option = $scope.against_options[0];
 			
 			// Get colors
 			$scope.colors = ["black", "white", "red", "green", "blue", "colorless"];
@@ -68,7 +72,7 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 			
 			
 			//Logic
-			var getFilter = function(game){
+			var getWithFilter = function(game){
 				
 				switch(this.what) {
 			    case 'Color':
@@ -83,7 +87,23 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 			    	}
 			    	return !game.deck.active;
 			    default:
-			    	throw new Error('Invalid filter.');
+			    	throw new Error('Invalid with filter.');
+				}
+			}
+
+			var getAgainstFilter = function(game){
+				
+				switch(this.what) {
+			    case 'Color':
+			    	return (game.opponent_deck[this.value] == 1);
+			    case 'Format':
+			    	return game.opponent_deck.format == this.value;
+			    case 'Deck':
+			    	return game.opponent_deck.name == this.value;
+			    case 'Opponent':
+			    	return game.opponent.name == this.value;
+			    default:
+			    	throw new Error('Invalid against filter.');
 				}
 			}
 			
@@ -91,7 +111,13 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 				$scope.selected_games = $scope.games;
 				
 				$scope.withs.forEach(function(w){
-					$scope.selected_games = $scope.selected_games.filter(getFilter, w);
+					$scope.selected_games = $scope.selected_games.filter(getWithFilter, w);
+				});
+
+				console.log($scope.selected_games);
+				
+				$scope.againsts.forEach(function(a){
+					$scope.selected_games = $scope.selected_games.filter(getAgainstFilter, a);
 				});
 				
 				console.log($scope.selected_games);
@@ -129,6 +155,29 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 				}
 				calculateWinrate();				
 			}
+
+			$scope.addAgainst = function(){
+				console.log($scope.against_option);
+				console.log($scope.againsts);
+				console.log($scope.against_color);
+				switch($scope.against_option) {
+			    case 'Color':
+			    	$scope.againsts.push({what:'Color', value:$scope.against_color});
+			    	break;
+			    case 'Format':
+			    	$scope.againsts.push({what:'Format', value:$scope.against_format});
+			    	break;
+			    case 'Deck':
+			    	$scope.againsts.push({what:'Deck', value:$scope.against_deck});
+			    	break;
+			    case 'Opponent':
+			    	$scope.againsts.push({what:'Opponent', value:$scope.against_opponent});
+			    	break;
+			    default:
+			    	throw new Error('Invalid with.');
+				}
+				calculateWinrate();				
+			}
 			
 			$scope.removeWith = function(remove_with){
 				remove_index = $scope.withs.indexOf(remove_with);
@@ -136,10 +185,16 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 				calculateWinrate();	
 			}
 			
+			$scope.removeAgainst = function(remove_against){
+				remove_index = $scope.againsts.indexOf(remove_against);
+				$scope.againsts.splice(remove_index,1);
+				calculateWinrate();	
+			}
+			
 			var populateOptions = function(){
 				$scope.games.forEach(function(game, i){
 					pushIfNotPresent($scope.self_decks, game.deck.name);
-					pushIfNotPresent($scope.opponent_decks, game.opponent_deck.name);
+					pushIfNotPresent($scope.opponents_decks, game.opponent_deck.name);
 					pushIfNotPresent($scope.opponents, game.opponent.name);
 				});
 			}
