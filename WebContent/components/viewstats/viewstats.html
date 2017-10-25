@@ -34,6 +34,22 @@
 		>
 			<option value="" disabled selected>Color</option>
 		</select>
+		<select 
+			class="tile w-less-than-half" 
+			ng-options="deck for deck in self_decks" 
+			ng-model="with_deck"
+			ng-show="with_option == 'Deck'"
+		>
+			<option value="" disabled selected>Deck</option>
+		</select>
+		<select 
+			class="tile w-less-than-half" 
+			ng-model="with_active"
+			ng-show="with_option == 'Active'"
+		>
+			<option value="true">Yes</option>
+			<option value="false">No</option>
+		</select>
 	</div>
 	<div class="tile h-half w-1-12"  ng-show="new_with" ng-click="addWith()">
 		<svg svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" ng-show="new_with">

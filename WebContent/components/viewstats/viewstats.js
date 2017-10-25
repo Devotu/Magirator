@@ -12,6 +12,9 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 	$scope.withs = [];
 	$scope.againsts = [];
 	$scope.winrate = 0;
+	$scope.self_decks = [];
+	$scope.opponent_decks = [];
+	$scope.opponents = [];
 
 	playerService.getPlayer().then(function (data) {
 		if (data.result == "Success") {
@@ -30,9 +33,10 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 				
 				if (response.data.result == "Success"){
 					$scope.result = 'Success';
-					$scope.games = response.data.games;
+					$scope.games = response.data.games; console.log($scope.games);
 					$scope.selected_games = $scope.games;
 					calculateWinrate();
+					populateOptions();
 				}
 				
 				}, 
@@ -41,7 +45,7 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 			});
 			
 			// Get withs
-			$scope.with_options = ["Color", "Format"];
+			$scope.with_options = ["Color", "Format", "Deck", "Active"];
 			$scope.with_option = $scope.with_options[0];
 			
 			// Get colors
@@ -71,6 +75,13 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 			    	return (game.deck[this.value] == 1);
 			    case 'Format':
 			    	return game.deck.format == this.value;
+			    case 'Deck':
+			    	return game.deck.name == this.value;
+			    case 'Active':
+			    	if(this.value == 'true'){
+			    		return game.deck.active;
+			    	}
+			    	return !game.deck.active;
 			    default:
 			    	throw new Error('Invalid filter.');
 				}
@@ -82,6 +93,8 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 				$scope.withs.forEach(function(w){
 					$scope.selected_games = $scope.selected_games.filter(getFilter, w);
 				});
+				
+				console.log($scope.selected_games);
 				
 				if($scope.selected_games.length > 0){
 					var wins = 0;
@@ -105,6 +118,12 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 			    case 'Format':
 			    	$scope.withs.push({what:'Format', value:$scope.with_format});
 			    	break;
+			    case 'Deck':
+			    	$scope.withs.push({what:'Deck', value:$scope.with_deck});
+			    	break;
+			    case 'Active':
+			    	$scope.withs.push({what:'Active', value:$scope.with_active});
+			    	break;
 			    default:
 			    	throw new Error('Invalid with.');
 				}
@@ -115,6 +134,20 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 				remove_index = $scope.withs.indexOf(remove_with);
 				$scope.withs.splice(remove_index,1);
 				calculateWinrate();	
+			}
+			
+			var populateOptions = function(){
+				$scope.games.forEach(function(game, i){
+					pushIfNotPresent($scope.self_decks, game.deck.name);
+					pushIfNotPresent($scope.opponent_decks, game.opponent_deck.name);
+					pushIfNotPresent($scope.opponents, game.opponent.name);
+				});
+			}
+			
+			var pushIfNotPresent = function(array, item){
+				if(array.indexOf(item) == -1){
+					array.push(item);
+				}
 			}
 
 		} else {
