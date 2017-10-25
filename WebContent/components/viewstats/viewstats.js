@@ -1,4 +1,4 @@
-ratorApp.controller('viewStatsController', function ($scope, $http, $location, playerService, requestService, varStorage) {
+ratorApp.controller('viewStatsController', function ($scope, $http, $location, playerService, requestService, varStorage, settingsService) {
 	
 	//Get Graph types
 	//Get Colors
@@ -21,6 +21,14 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 			
 			//Data
 			$scope.player = JSON.parse(data.player);
+			
+			$scope.settings = settingsService.getSettings();
+
+			if ($scope.settings == undefined) {
+				settingsService.loadSettings().then(function(data) {
+					$scope.settings = data;
+				});
+			}
 			
 			// Get games
 			var getGamesReq = requestService.buildRequest(
