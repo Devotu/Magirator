@@ -1,12 +1,5 @@
 ratorApp.controller('viewStatsController', function ($scope, $http, $location, playerService, requestService, varStorage, settingsService) {
-	
-	//Get Graph types
-	//Get Colors
-	//Get Formats
-	//Get Decks name,id
-	//Get Opponents
-	//Get Timespans
-	
+		
 	$scope.games = [];
 	$scope.selected_games = [];
 	$scope.withs = [];
@@ -19,7 +12,7 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 	playerService.getPlayer().then(function (data) {
 		if (data.result == "Success") {
 			
-			//Data
+			//Data//
 			$scope.player = JSON.parse(data.player);
 			
 			$scope.settings = settingsService.getSettings();
@@ -79,7 +72,7 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 			});
 			
 			
-			//Logic
+			//Logic//
 			var getWithFilter = function(game){
 				
 				switch(this.what) {
@@ -165,9 +158,6 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 			}
 
 			$scope.addAgainst = function(){
-				console.log($scope.against_option);
-				console.log($scope.againsts);
-				console.log($scope.against_color);
 				switch($scope.against_option) {
 			    case 'Color':
 			    	$scope.againsts.push({what:'Color', value:$scope.against_color});
