@@ -145,7 +145,7 @@
 
 <div class="inline-tile-wrapper w-full">
 	<div class="tile w-full giant">
-		{{winrate}}%
+		{{winrate}}% / {{recent_winrate}}%
 	</div>
 	
 	<div ng-repeat="game in selected_games | orderBy:'game.created'" class="tile inner-tiled" ng-class="{'bg-positive': game.place == 1, 'bg-negative': game.place != 1}" ng-click="goGame(game.id)">

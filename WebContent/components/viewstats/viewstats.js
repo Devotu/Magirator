@@ -2,6 +2,7 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 		
 	$scope.games = [];
 	$scope.selected_games = [];
+	$scope.recent_games = [];
 	$scope.withs = [];
 	$scope.againsts = [];
 	$scope.winrate = 0;
@@ -34,9 +35,9 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 				
 				if (response.data.result == "Success"){
 					$scope.result = 'Success';
-					$scope.games = response.data.games; console.log($scope.games);
+					$scope.games = response.data.games;
 					$scope.selected_games = $scope.games;
-					calculateWinrate();
+					updateWinrate($scope.selected_games);
 					populateOptions();
 				}
 				
@@ -73,7 +74,40 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 			
 			
 			//Logic//
-			var getWithFilter = function(game){
+			var updateWinrate = function(){
+				$scope.selected_games = $scope.games;
+				
+				$scope.withs.forEach(function(w){
+					$scope.selected_games = $scope.selected_games.filter(withFilter, w);
+				});
+				
+				$scope.againsts.forEach(function(a){
+					$scope.selected_games = $scope.selected_games.filter(againstFilter, a);
+				});
+				
+				var yesterday = new Date().getTime() - (24 * 60 * 60 * 1000);
+				$scope.recent_games = $scope.selected_games.filter(timeFilter, yesterday);
+				
+				$scope.winrate = calculateWinrate($scope.selected_games);
+				$scope.recent_winrate = calculateWinrate($scope.recent_games);				
+			}
+			
+			var calculateWinrate = function(games){
+				if(games.length > 0){
+					var wins = 0;
+					games.forEach(function(game, i){
+						if(game.place == 1){
+							wins++;
+						}
+					});
+	
+					return Math.round((wins/games.length)*100);
+				} else {
+					return 0;
+				}
+			}
+			
+			var withFilter = function(game){
 				
 				switch(this.what) {
 			    case 'Color':
@@ -92,7 +126,7 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 				}
 			}
 
-			var getAgainstFilter = function(game){
+			var againstFilter = function(game){
 				
 				switch(this.what) {
 			    case 'Color':
@@ -108,33 +142,8 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 				}
 			}
 			
-			var calculateWinrate = function(){
-				$scope.selected_games = $scope.games;
-				
-				$scope.withs.forEach(function(w){
-					$scope.selected_games = $scope.selected_games.filter(getWithFilter, w);
-				});
-
-				console.log($scope.selected_games);
-				
-				$scope.againsts.forEach(function(a){
-					$scope.selected_games = $scope.selected_games.filter(getAgainstFilter, a);
-				});
-				
-				console.log($scope.selected_games);
-				
-				if($scope.selected_games.length > 0){
-					var wins = 0;
-					$scope.selected_games.forEach(function(game, i){
-						if(game.place == 1){
-							wins++;
-						}
-					});
-	
-					$scope.winrate = Math.round((wins/$scope.selected_games.length)*100);
-				} else {
-					$scope.winrate = 0;
-				}
+			var timeFilter = function(game){
+				return game.played > this;
 			}
 			
 			$scope.addWith = function(){
@@ -154,7 +163,7 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 			    default:
 			    	throw new Error('Invalid with.');
 				}
-				calculateWinrate();				
+				updateWinrate($scope.selected_games);				
 			}
 
 			$scope.addAgainst = function(){
@@ -174,19 +183,19 @@ ratorApp.controller('viewStatsController', function ($scope, $http, $location, p
 			    default:
 			    	throw new Error('Invalid with.');
 				}
-				calculateWinrate();				
+				updateWinrate($scope.selected_games);				
 			}
 			
 			$scope.removeWith = function(remove_with){
 				remove_index = $scope.withs.indexOf(remove_with);
 				$scope.withs.splice(remove_index,1);
-				calculateWinrate();	
+				updateWinrate($scope.selected_games);	
 			}
 			
 			$scope.removeAgainst = function(remove_against){
 				remove_index = $scope.againsts.indexOf(remove_against);
 				$scope.againsts.splice(remove_index,1);
-				calculateWinrate();	
+				updateWinrate($scope.selected_games);	
 			}
 			
 			var populateOptions = function(){

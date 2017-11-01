@@ -988,7 +988,7 @@ public class Games {
 					+ "MATCH (p:Player)-[:Use|:Used]->(d:Deck)-[:Got]->(r:Result)-[:In]->(g:Game)<-[:In]-(or:Result)<-[:Got]-(od:Deck)<-[:Use|:Used]-(op:Player)"
 					+ "WHERE p.id = ? "
 					+ "RETURN {"
-					+ "		created:g.created,"
+					+ "		played:g.created,"
 					+ "		draw:g.draw, "
 					+ "		place: r.place, "
 					+ "		deck:{"
